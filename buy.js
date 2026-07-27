@@ -1,40 +1,41 @@
+const API_URL = "https://script.google.com/macros/s/AKfycbySgwsc4ewsPrkj0t-vIaGTwcHhetg0QFiIfuznfC5wW6SG0MWJufESCXEqR8hx0w6y/exec";
+
 const products = document.getElementById("products");
+const search = document.getElementById("search");
 
-const demoData = [
+let allData = [];
 
-{
-image:"https://via.placeholder.com/350x200?text=Free+Fire+ID",
-uid:"123456789",
-level:"80",
-rank:"Heroic",
-price:"Rs. 5000",
-status:"Available",
-whatsapp:"923001234567"
-},
+async function loadData() {
+  try {
 
-{
-image:"https://via.placeholder.com/350x200?text=Free+Fire+ID",
-uid:"987654321",
-level:"72",
-rank:"Master",
-price:"Rs. 3500",
-status:"Available",
-whatsapp:"923111111111"
+    const response = await fetch(API_URL);
+    const data = await response.json();
+
+    allData = data;
+
+    displayCards(allData);
+
+  } catch (err) {
+
+    products.innerHTML =
+      "<h2 style='text-align:center;color:red'>Failed to Load Data</h2>";
+
+  }
 }
 
-];
+function displayCards(data) {
 
-function showCards(data){
+  products.innerHTML = "";
 
-products.innerHTML="";
+  data.forEach(item => {
 
-data.forEach(item=>{
+    if (item.status !== "Available") return;
 
-products.innerHTML += `
+    products.innerHTML += `
 
 <div class="card">
 
-<img src="${item.image}" alt="Free Fire ID">
+<img src="${item.screenshot}" onerror="this.src='https://via.placeholder.com/400x220?text=No+Image'">
 
 <div class="info">
 
@@ -44,13 +45,15 @@ products.innerHTML += `
 
 <p>🏆 Rank : ${item.rank}</p>
 
+<p>🔐 Login : ${item.loginType}</p>
+
 <p>💰 ${item.price}</p>
 
-<p class="status">${item.status}</p>
+<p class="status">🟢 ${item.status}</p>
 
 <a class="buybtn"
-href="https://wa.me/${item.whatsapp}"
-target="_blank">
+target="_blank"
+href="https://wa.me/${item.whatsapp}?text=Hi, I want to buy your Free Fire ID (UID: ${item.uid})">
 
 💬 Buy Now
 
@@ -62,8 +65,22 @@ target="_blank">
 
 `;
 
-});
+  });
 
 }
 
-showCards(demoData);
+search.addEventListener("keyup", function () {
+
+  const value = this.value.toLowerCase();
+
+  const filter = allData.filter(item =>
+    item.uid.toLowerCase().includes(value) ||
+    item.rank.toLowerCase().includes(value) ||
+    item.level.toLowerCase().includes(value)
+  );
+
+  displayCards(filter);
+
+});
+
+loadData();
