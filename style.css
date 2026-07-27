@@ -1,0 +1,56 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#111;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    text-align:center;
+}
+
+h1{
+    color:#00ff66;
+    margin-bottom:20px;
+    font-size:40px;
+}
+
+p{
+    color:#ccc;
+    margin-bottom:30px;
+    font-size:18px;
+}
+
+a{
+    display:inline-block;
+    width:220px;
+    padding:15px;
+    margin:10px;
+    text-decoration:none;
+    color:white;
+    font-size:20px;
+    border-radius:8px;
+    transition:.3s;
+}
+
+.buy{
+    background:#00c853;
+}
+
+.sell{
+    background:#2962ff;
+}
+
+.buy:hover,
+.sell:hover{
+    transform:scale(1.05);
+}
