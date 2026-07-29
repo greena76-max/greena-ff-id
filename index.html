@@ -15,8 +15,7 @@
             --accent-hover: #e68a00;
             --text-main: #f0f0f5;
             --text-muted: #a0a0ab;
-            --green: #00d26a;
-            --red: #f8312f;
+            --green: #25D366;
         }
 
         * {
@@ -110,7 +109,7 @@
             font-size: 0.95rem;
         }
 
-        /* Product Cards Grid */
+        /* Product Grid */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -133,7 +132,6 @@
         }
 
         .card-img-wrap {
-            position: relative;
             width: 100%;
             height: 180px;
             background: #25252b;
@@ -173,21 +171,22 @@
         }
 
         .card-price {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            color: var(--green);
+            color: var(--accent-color);
         }
 
         .buy-btn {
             background: var(--green);
             color: #fff;
             border: none;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             font-weight: 600;
             text-decoration: none;
             text-align: center;
             margin-top: auto;
+            font-size: 0.95rem;
         }
 
         /* Form Styling */
@@ -323,9 +322,11 @@
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzsLu9ffslDBNI7T7Grxw3yyRGgh91xVPIvYRZl4s0RH47Tcyc_E6Ia6xjDVv9-AqiW/exec';
         
-        // APNI PUBLISHED GOOGLE SHEET KA CSV LINK YAHAN DAALAIN:
+        // APNI GOOGLE SHEET KA PUBLISHED LINK YAHAN PASTE KAREIN:
         const sheetCsvUrl = 'YOUR_PUBLISHED_CSV_LINK_HERE';
-        const adminWhatsApp = '923001234567'; // APNA WHATSAPP NUMBER
+        
+        // Aap ka WhatsApp Number auto-set ho chuka hai:
+        const adminWhatsApp = '92347836672';
 
         const form = document.getElementById('sellForm');
         const btn = document.getElementById('subBtn');
@@ -341,6 +342,7 @@
                     form.reset();
                     btn.innerText = 'Submit Account Details';
                     btn.disabled = false;
+                    loadIDs();
                 })
                 .catch(error => {
                     alert('Error! Data send nahi ho saka.');
@@ -349,7 +351,6 @@
                 });
         });
 
-        // Load Products from Sheet
         async function loadIDs() {
             const grid = document.getElementById('cards-grid');
             try {
@@ -358,9 +359,11 @@
                 const rows = text.split('\n').slice(1);
                 grid.innerHTML = '';
 
+                let count = 0;
                 rows.forEach(row => {
                     const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
-                    if (cols.length >= 8) {
+                    if (cols.length >= 8 && cols[2]) {
+                        count++;
                         const [name, phone, uid, level, rank, login, price, img] = cols;
                         const waMsg = `Hello! I want to buy this Free Fire ID:%0A- UID: ${uid}%0A- Level: ${level}%0A- Price: ${price}`;
                         const waUrl = `https://wa.me/${adminWhatsApp}?text=${waMsg}`;
@@ -374,15 +377,19 @@
                                     <div class="card-title">UID: ${uid}</div>
                                     <div class="card-meta">
                                         <span>Level: <strong>${level}</strong></span>
-                                        <span>Rank: <strong>${rank}</strong></span>
+                                        <span>Login: <strong>${login}</strong></span>
                                     </div>
                                     <div class="card-price">${price} PKR</div>
-                                    <a href="${waUrl}" target="_blank" class="buy-btn">Buy via WhatsApp</a>
+                                    <a href="${waUrl}" target="_blank" class="buy-btn">💬 Buy via WhatsApp</a>
                                 </div>
                             </div>
                         `;
                     }
                 });
+
+                if(count === 0) {
+                    grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No accounts listed yet.</p>';
+                }
             } catch (err) {
                 grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No accounts listed yet.</p>';
             }
