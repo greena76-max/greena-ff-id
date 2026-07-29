@@ -35,7 +35,6 @@
             align-items: center;
         }
 
-        /* Navigation Header */
         header {
             width: 100%;
             background: #141418;
@@ -82,7 +81,6 @@
             color: #000;
         }
 
-        /* Main Content */
         .main-container {
             width: 100%;
             max-width: 1100px;
@@ -112,6 +110,86 @@
             font-size: 0.95rem;
         }
 
+        /* Product Cards Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .id-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .id-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .card-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            background: #25252b;
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            background: var(--input-bg);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .card-meta span strong {
+            color: var(--text-main);
+        }
+
+        .card-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .buy-btn {
+            background: var(--green);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            margin-top: auto;
+        }
+
         /* Form Styling */
         .form-card {
             background: var(--card-bg);
@@ -136,11 +214,6 @@
             color: #ffffff;
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-control::placeholder {
-            color: #6c6c7d;
         }
 
         .form-control:focus {
@@ -165,12 +238,7 @@
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: background 0.3s ease;
             margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            background: var(--accent-hover);
         }
     </style>
 </head>
@@ -190,9 +258,8 @@
         <div id="buy-section" class="section active">
             <h2 class="section-title">Available Free Fire IDs</h2>
             <p class="section-subtitle">Select your account and buy directly via WhatsApp</p>
-            <div style="text-align:center; padding: 40px; color: var(--text-muted);">
-                <h3>No IDs uploaded yet!</h3>
-                <p>IDs added to Google Sheet will show here.</p>
+            <div class="grid-container" id="cards-grid">
+                <p style="text-align:center; grid-column: 1/-1;">Loading Accounts...</p>
             </div>
         </div>
 
@@ -255,6 +322,11 @@
         }
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzsLu9ffslDBNI7T7Grxw3yyRGgh91xVPIvYRZl4s0RH47Tcyc_E6Ia6xjDVv9-AqiW/exec';
+        
+        // APNI PUBLISHED GOOGLE SHEET KA CSV LINK YAHAN DAALAIN:
+        const sheetCsvUrl = 'YOUR_PUBLISHED_CSV_LINK_HERE';
+        const adminWhatsApp = '923001234567'; // APNA WHATSAPP NUMBER
+
         const form = document.getElementById('sellForm');
         const btn = document.getElementById('subBtn');
 
@@ -276,6 +348,47 @@
                     btn.disabled = false;
                 });
         });
+
+        // Load Products from Sheet
+        async function loadIDs() {
+            const grid = document.getElementById('cards-grid');
+            try {
+                const res = await fetch(sheetCsvUrl);
+                const text = await res.text();
+                const rows = text.split('\n').slice(1);
+                grid.innerHTML = '';
+
+                rows.forEach(row => {
+                    const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+                    if (cols.length >= 8) {
+                        const [name, phone, uid, level, rank, login, price, img] = cols;
+                        const waMsg = `Hello! I want to buy this Free Fire ID:%0A- UID: ${uid}%0A- Level: ${level}%0A- Price: ${price}`;
+                        const waUrl = `https://wa.me/${adminWhatsApp}?text=${waMsg}`;
+
+                        grid.innerHTML += `
+                            <div class="id-card">
+                                <div class="card-img-wrap">
+                                    <img src="${img || 'https://via.placeholder.com/300'}" alt="FF ID">
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title">UID: ${uid}</div>
+                                    <div class="card-meta">
+                                        <span>Level: <strong>${level}</strong></span>
+                                        <span>Rank: <strong>${rank}</strong></span>
+                                    </div>
+                                    <div class="card-price">${price} PKR</div>
+                                    <a href="${waUrl}" target="_blank" class="buy-btn">Buy via WhatsApp</a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            } catch (err) {
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No accounts listed yet.</p>';
+            }
+        }
+
+        loadIDs();
     </script>
 </body>
 </html>
