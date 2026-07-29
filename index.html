@@ -325,12 +325,12 @@
 
             <div class="form-card">
                 
-                <!-- Payment Instructions -->
+                <!-- Updated Payment Instructions -->
                 <div class="payment-box">
-                    <span class="fee-badge">Listing Fee: 100 PKR</span>
+                    <span class="fee-badge">Listing Fee: 150 PKR</span>
                     <h3>Send Payment To Listing:</h3>
-                    <p><strong>EasyPaisa / JazzCash:</strong> 03478306672</p>
-                    <p><strong>Account Title:</strong> Admin</p>
+                    <p><strong>EasyPaisa / JazzCash:</strong> 0347-836672</p>
+                    <p><strong>Account Title:</strong> MUHAMMAD IBRAHIM</p>
                     <p style="font-size:0.78rem; color:#aaa; margin-top:6px;">Payment bhejne ke baad screenshot link neeche daalein.</p>
                 </div>
 
@@ -367,7 +367,7 @@
                         <input type="url" name="screenshotLink" class="form-control" placeholder="https://i.postimg.cc/..." required>
                     </div>
                     <div class="form-group">
-                        <label>2. Fee Payment Screenshot Link (100 PKR):</label>
+                        <label>2. Fee Payment Screenshot Link (150 PKR):</label>
                         <input type="url" name="paymentProofLink" class="form-control" placeholder="https://i.postimg.cc/..." required>
                     </div>
                     <button type="submit" class="submit-btn" id="subBtn">Submit For Approval</button>
@@ -453,10 +453,8 @@
                 rows.forEach(row => {
                     const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
                     
-                    // Column Indexing: 0=Name, 1=Phone, 2=UID, 3=Level, 4=Rank, 5=Login, 6=Price, 7=Img, 8=PaymentProof, 9=Status
                     const status = cols[9] ? cols[9].trim().toLowerCase() : '';
 
-                    // ONLY SHOW IF STATUS IS APPROVED
                     if (cols.length >= 8 && cols[2] && status === 'approved') {
                         count++;
                         const [name, phone, uid, level, rank, login, price, img] = cols;
