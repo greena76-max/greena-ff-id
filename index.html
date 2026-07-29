@@ -118,7 +118,6 @@
             font-size: 0.95rem;
         }
 
-        /* Product Grid */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -205,7 +204,6 @@
             font-size: 0.95rem;
         }
 
-        /* Form Styling */
         .form-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -324,8 +322,6 @@
             <p class="section-subtitle">Pay listing fee and submit details for approval</p>
 
             <div class="form-card">
-                
-                <!-- Updated Payment Instructions -->
                 <div class="payment-box">
                     <span class="fee-badge">Listing Fee: 150 PKR</span>
                     <h3>Send Payment To Listing:</h3>
@@ -391,7 +387,10 @@
             }
         }
 
+        // APNA NAYA APPS SCRIPT WEB APP URL YAHAN REPLACE KAREIN
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzsLu9ffslDBNI7T7Grxw3yyRGgh91xVPIvYRZl4s0RH47Tcyc_E6Ia6xjDVv9-AqiW/exec';
+        
+        // PUBLISHED CSV URL
         const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRxTNb36wRmt9K47cqS2sUa-4TqSZdzr_LzINKDN14MdHRB7VON2-K4tOyfiUwMMQXMeNSr8hxe06SO/pub?output=csv';
         const adminWhatsApp = '923478306672';
 
@@ -453,6 +452,7 @@
                 rows.forEach(row => {
                     const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
                     
+                    // Column J is Status (Index 9)
                     const status = cols[9] ? cols[9].trim().toLowerCase() : '';
 
                     if (cols.length >= 8 && cols[2] && status === 'approved') {
