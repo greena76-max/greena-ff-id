@@ -140,8 +140,7 @@
     </div>
 
     <script>
-        // Aap ka Google Apps Script URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzXIOC5cYSdbPx4qz0dK-OJCPEfD9udSotcyEdW2nketmey6uigC75B5Kow6ktMRX4y/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzsLu9ffslDBNI7T7Grxw3yyRGgh91xVPIvYRZl4s0RH47Tcyc_E6Ia6xjDVv9-AqiW/exec';
         
         const form = document.getElementById('sellForm');
         const btn = document.getElementById('subBtn');
@@ -153,13 +152,13 @@
 
             fetch(scriptURL, { method: 'POST', body: new FormData(form) })
                 .then(response => {
-                    alert('Success! Account details Google Sheet me save ho gayi hain.');
+                    alert('Success! Data Google Sheet me save ho gaya hai.');
                     form.reset();
                     btn.innerText = 'Submit Account Details';
                     btn.disabled = false;
                 })
                 .catch(error => {
-                    alert('Error! Kuch masla aaya hai.');
+                    alert('Error! Data send nahi ho saka.');
                     btn.innerText = 'Submit Account Details';
                     btn.disabled = false;
                 });
