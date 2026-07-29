@@ -1,17 +1,18 @@
-function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var p = e.parameter;
-  
-  sheet.appendRow([
-    p.sellerName, 
-    p.whatsappNumber, 
-    p.freeFireUid, 
-    p.accountLevel, 
-    p.accountRank, 
-    p.loginType, 
-    p.accountPrice, 
-    p.screenshotLink
-  ]);
-  
-  return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
-}
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    btn.innerText = 'Submitting...';
+    btn.disabled = true;
+
+    fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => {
+            alert('Success! Your ID has been submitted. It will be live after admin verification.');
+            form.reset();
+            btn.innerText = 'Submit For Approval';
+            btn.disabled = false;
+        })
+        .catch(error => {
+            alert('Error! Something went wrong. Please try again.');
+            btn.innerText = 'Submit For Approval';
+            btn.disabled = false;
+        });
+});
