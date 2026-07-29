@@ -1,54 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sell Free Fire ID</title>
-<link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Free Fire ID</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f0f12;
+            --card-bg: #18181c;
+            --input-bg: #222227;
+            --border-color: #33333d;
+            --accent-color: #ff9900;
+            --accent-hover: #e68a00;
+            --text-main: #f0f0f5;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 450px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 16px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control::placeholder {
+            color: #6c6c7d;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0a0ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-hover);
+        }
+    </style>
+</head>
 <body>
 
-<div class="container">
+    <div class="form-card">
+        <h2>🔥 Sell Your Free Fire ID</h2>
+        <form id="sellForm">
+            <div class="form-group">
+                <input type="text" name="sellerName" class="form-control" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <input type="tel" name="whatsappNumber" class="form-control" placeholder="WhatsApp Number" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="freeFireUid" class="form-control" placeholder="Free Fire UID" required>
+            </div>
+            <div class="form-group">
+                <input type="number" name="accountLevel" class="form-control" placeholder="Level" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="accountRank" class="form-control" placeholder="Rank (e.g. Heroic, Grandmaster)" required>
+            </div>
+            <div class="form-group">
+                <select name="loginType" class="form-control" required>
+                    <option value="" disabled selected hidden>Google / Facebook</option>
+                    <option value="Google">Google</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="VK">VK</option>
+                    <option value="Twitter">Twitter</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" name="accountPrice" class="form-control" placeholder="Price (PKR)" required>
+            </div>
+            <div class="form-group">
+                <input type="url" name="screenshotLink" class="form-control" placeholder="Screenshot Link (Drive / Imgur)" required>
+            </div>
+            <button type="submit" class="submit-btn" id="subBtn">Submit Account Details</button>
+        </form>
+    </div>
 
-<h1>💰 Sell Your Free Fire ID</h1>
+    <script>
+        // Aap ka Google Apps Script URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzXIOC5cYSdbPx4qz0dK-OJCPEfD9udSotcyEdW2nketmey6uigC75B5Kow6ktMRX4y/exec';
+        
+        const form = document.getElementById('sellForm');
+        const btn = document.getElementById('subBtn');
 
-<form id="sellForm">
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            btn.innerText = 'Submitting...';
+            btn.disabled = true;
 
-<input type="text" id="sellerName" placeholder="Your Name" required>
-
-<input type="text" id="whatsapp" placeholder="WhatsApp Number" required>
-
-<input type="text" id="uid" placeholder="Free Fire UID" required>
-
-<input type="text" id="level" placeholder="Level" required>
-
-<input type="text" id="rank" placeholder="Rank" required>
-
-<select id="loginType">
-<option>Google</option>
-<option>Facebook</option>
-<option>VK</option>
-<option>Twitter</option>
-</select>
-
-<input type="text" id="price" placeholder="Price" required>
-
-<input type="text" id="screenshot" placeholder="Screenshot Link">
-
-<button type="submit" class="submit-btn">
-🚀 Submit Account
-</button>
-
-<a href="index.html" class="home-btn">
-🏠 Back to Home
-</a>
-
-</form>
-
-</div>
-
-<script src="script.js"></script>
-
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    alert('Success! Account details Google Sheet me save ho gayi hain.');
+                    form.reset();
+                    btn.innerText = 'Submit Account Details';
+                    btn.disabled = false;
+                })
+                .catch(error => {
+                    alert('Error! Kuch masla aaya hai.');
+                    btn.innerText = 'Submit Account Details';
+                    btn.disabled = false;
+                });
+        });
+    </script>
 </body>
 </html>
