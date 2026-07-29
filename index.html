@@ -297,7 +297,7 @@
                         <input type="text" name="accountPrice" class="form-control" placeholder="Price (PKR)" required>
                     </div>
                     <div class="form-group">
-                        <input type="url" name="screenshotLink" class="form-control" placeholder="Screenshot Link (Drive / Imgur)" required>
+                        <input type="url" name="screenshotLink" class="form-control" placeholder="Screenshot Link (Imgur / Drive / Postimages)" required>
                     </div>
                     <button type="submit" class="submit-btn" id="subBtn">Submit Account Details</button>
                 </form>
@@ -321,11 +321,9 @@
         }
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzsLu9ffslDBNI7T7Grxw3yyRGgh91xVPIvYRZl4s0RH47Tcyc_E6Ia6xjDVv9-AqiW/exec';
-        
-        // Published Google Sheet CSV Link
         const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRxTNb36wRmt9K47cqS2sUa-4TqSZdzr_LzINKDN14MdHRB7VON2-K4tOyfiUwMMQXMeNSr8hxe06SO/pub?output=csv';
         
-        // WhatsApp Admin Number
+        // Updated Correct WhatsApp Admin Number:
         const adminWhatsApp = '923478306672';
 
         const form = document.getElementById('sellForm');
@@ -351,6 +349,19 @@
                 });
         });
 
+        // Convert Drive/Imgur links to direct viewable image URLs
+        function formatImgUrl(url) {
+            if (!url) return 'https://via.placeholder.com/300?text=No+Image';
+            
+            if (url.includes('drive.google.com')) {
+                const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return `https://lh3.googleusercontent.com/d/${match[1]}`;
+                }
+            }
+            return url;
+        }
+
         async function loadIDs() {
             const grid = document.getElementById('cards-grid');
             try {
@@ -365,13 +376,14 @@
                     if (cols.length >= 8 && cols[2]) {
                         count++;
                         const [name, phone, uid, level, rank, login, price, img] = cols;
+                        const finalImg = formatImgUrl(img);
                         const waMsg = `Hello! I want to buy this Free Fire ID:%0A- UID: ${uid}%0A- Level: ${level}%0A- Price: ${price}`;
                         const waUrl = `https://wa.me/${adminWhatsApp}?text=${waMsg}`;
 
                         grid.innerHTML += `
                             <div class="id-card">
                                 <div class="card-img-wrap">
-                                    <img src="${img || 'https://via.placeholder.com/300'}" alt="FF ID">
+                                    <img src="${finalImg}" alt="FF ID" onerror="this.src='https://via.placeholder.com/300?text=Image+Error'">
                                 </div>
                                 <div class="card-body">
                                     <div class="card-title">UID: ${uid}</div>
