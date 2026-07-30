@@ -1,1 +1,23 @@
+/* WELCOME TO - Red Gradient Text with Extra Thick White Stroke */
+.welcome-char {
+    font-family: 'Anton', 'Impact', sans-serif;
+    font-size: 6.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(180deg, #ff3333 0%, #cc0000 60%, #800000 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 5px #ffffff; /* Extra Thick White Stroke */
+    filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.45));
+    opacity: 0;
+    transform: translateY(15px);
+    display: inline-block;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
 
+@media (max-width: 768px) {
+    .welcome-char {
+        font-size: 3.8rem;
+        -webkit-text-stroke: 3px #ffffff; /* Mobile White Stroke */
+    }
+}
