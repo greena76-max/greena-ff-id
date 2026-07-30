@@ -673,23 +673,7 @@
                         <button type="submit" class="submit-btn" id="revBtn">Submit 5-Star Review</button>
                     </form>
 
-                    <div class="review-list" id="reviewList">
-                        <!-- Default Sample Reviews -->
-                        <div class="review-card">
-                            <div class="review-header">
-                                <span class="review-name">Ali Raza</span>
-                                <span class="review-stars">★★★★★</span>
-                            </div>
-                            <p class="review-comment">Fast deal! UID mil gaya aur admin ne bohot jaldi transfer kar di. 100% trusted store.</p>
-                        </div>
-                        <div class="review-card">
-                            <div class="review-header">
-                                <span class="review-name">Hamza Malik</span>
-                                <span class="review-stars">★★★★★</span>
-                            </div>
-                            <p class="review-comment">Best experience! ID selling fee submit ki aur meri ID approve ho kar live ho gayi. Thanks Ibrahim bhai!</p>
-                        </div>
-                    </div>
+                    <div class="review-list" id="reviewList"></div>
                 </div>
 
             </div>
@@ -793,9 +777,10 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(revealLetters, 300);
+            loadSavedReviews();
         });
 
-        // 5-STAR RATING SYSTEM
+        // 5-STAR RATING SYSTEM WITH LOCALSTORAGE
         let selectedRating = 5;
         const stars = document.querySelectorAll('.star');
 
@@ -812,28 +797,52 @@
             });
         });
 
+        const defaultReviews = [
+            { name: "Ali Raza", rating: 5, comment: "Fast deal! UID mil gaya aur admin ne bohot jaldi transfer kar di. 100% trusted store." },
+            { name: "Hamza Malik", rating: 5, comment: "Best experience! ID selling fee submit ki aur meri ID approve ho kar live ho gayi. Thanks Ibrahim bhai!" }
+        ];
+
+        function loadSavedReviews() {
+            let saved = JSON.parse(localStorage.getItem('ff_store_reviews'));
+            if (!saved || saved.length === 0) {
+                saved = defaultReviews;
+                localStorage.setItem('ff_store_reviews', JSON.stringify(saved));
+            }
+            renderReviews(saved);
+        }
+
+        function renderReviews(reviews) {
+            const list = document.getElementById('reviewList');
+            list.innerHTML = '';
+            reviews.forEach(rev => {
+                const starStr = '★'.repeat(rev.rating) + '☆'.repeat(5 - rev.rating);
+                list.innerHTML += `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-name">${rev.name}</span>
+                            <span class="review-stars">${starStr}</span>
+                        </div>
+                        <p class="review-comment">${rev.comment}</p>
+                    </div>
+                `;
+            });
+        }
+
         const reviewForm = document.getElementById('reviewForm');
         reviewForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('reviewerName').value;
             const comment = document.getElementById('reviewerComment').value;
-            const starStr = '★'.repeat(selectedRating) + '☆'.repeat(5 - selectedRating);
 
-            const reviewCard = document.createElement('div');
-            reviewCard.className = 'review-card';
-            reviewCard.innerHTML = `
-                <div class="review-header">
-                    <span class="review-name">${name}</span>
-                    <span class="review-stars">${starStr}</span>
-                </div>
-                <p class="review-comment">${comment}</p>
-            `;
+            let currentReviews = JSON.parse(localStorage.getItem('ff_store_reviews')) || defaultReviews;
+            currentReviews.unshift({ name: name, rating: selectedRating, comment: comment });
 
-            document.getElementById('reviewList').prepend(reviewCard);
+            localStorage.setItem('ff_store_reviews', JSON.stringify(currentReviews));
+            renderReviews(currentReviews);
+
             alert('Thank you for your review!');
             reviewForm.reset();
             
-            // Reset to 5 stars default
             selectedRating = 5;
             stars.forEach(s => s.classList.add('active'));
         });
