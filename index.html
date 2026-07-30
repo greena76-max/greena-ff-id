@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@600;800;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f4f6f9;
+            --bg-color: #f0f2f5;
             --card-bg: #ffffff;
             --input-bg: #f8f9fa;
             --border-color: #e2e8f0;
@@ -28,8 +28,17 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        /* POORI WEBSITE KA BACKGROUND TEXTURE */
         body {
             background-color: var(--bg-color);
+            /* Agar aap ke paas image hai to 'bg-texture.png' yahan load ho gi */
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(220, 38, 38, 0.05) 0px, transparent 50%),
+                repeating-linear-gradient(60deg, rgba(0, 0, 0, 0.02) 0, rgba(0, 0, 0, 0.02) 15px, transparent 15px, transparent 30px),
+                repeating-linear-gradient(-60deg, rgba(0, 0, 0, 0.02) 0, rgba(0, 0, 0, 0.02) 15px, transparent 15px, transparent 30px);
+            background-attachment: fixed;
+            background-size: cover;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -40,7 +49,8 @@
 
         header {
             width: 100%;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
             border-bottom: 2px solid #e2e8f0;
             padding: 15px 24px;
             display: flex;
@@ -72,7 +82,7 @@
         }
 
         .visitor-count-badge {
-            background: #f1f5f9;
+            background: #ffffff;
             border: 1px solid #cbd5e1;
             padding: 4px 10px;
             border-radius: 20px;
@@ -82,13 +92,14 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
         }
 
         .nav-tabs {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: #eef2f6;
+            background: rgba(238, 242, 246, 0.8);
             padding: 4px;
             border-radius: 30px;
             border: 1px solid #dcdfe6;
@@ -152,26 +163,12 @@
             align-items: center;
         }
 
-        /* TEXTURED BACKGROUND CONTAINER FOR "WELCOME TO" */
         .welcome-badge-wrap {
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
-            padding: 12px 35px;
-            border-radius: 16px;
-            
-            /* Rough Paper / Wall Texture Effect */
-            background-color: #f7f7f7;
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.03) 0%, transparent 60%),
-                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8) 0%, transparent 40%),
-                repeating-radial-gradient(circle at 0 0, rgba(0,0,0,0.02) 0, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 3px);
-            
-            border: 1px solid #d1d5db;
-            box-shadow: 
-                0 8px 20px rgba(0, 0, 0, 0.06),
-                inset 0 0 10px rgba(0, 0, 0, 0.03);
+            margin-bottom: 10px;
+            padding: 5px 15px;
             position: relative;
         }
 
@@ -189,7 +186,7 @@
                 drop-shadow(-2px 0px 0px #ffffff) 
                 drop-shadow(0px 2px 0px #ffffff) 
                 drop-shadow(0px -2px 0px #ffffff)
-                drop-shadow(0px 6px 10px rgba(179, 0, 0, 0.3));
+                drop-shadow(0px 6px 12px rgba(179, 0, 0, 0.35));
 
             opacity: 0;
             transform: translateY(15px);
@@ -234,16 +231,8 @@
         }
 
         @media (max-width: 768px) {
-            .welcome-badge-wrap {
-                padding: 8px 20px;
-            }
             .welcome-char {
                 font-size: 3.5rem;
-                filter: 
-                    drop-shadow(2px 0px 0px #ffffff) 
-                    drop-shadow(-2px 0px 0px #ffffff) 
-                    drop-shadow(0px 2px 0px #ffffff) 
-                    drop-shadow(0px -2px 0px #ffffff);
             }
             .space-char {
                 width: 15px;
@@ -270,7 +259,7 @@
         }
 
         .trust-item {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid #e2e8f0;
             padding: 8px 16px;
             border-radius: 20px;
@@ -278,12 +267,12 @@
             font-weight: 600;
             color: #333;
             box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease;
         }
 
         .trust-item:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .filter-container {
@@ -299,7 +288,7 @@
             border-radius: 8px;
             outline: none;
             font-size: 0.9rem;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
@@ -327,7 +316,7 @@
             flex-direction: column;
             position: relative;
             transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .id-card:hover {
@@ -908,7 +897,6 @@
             }
         }
 
-        // SCRIPT URL WITH YOUR APPS SCRIPT WEB APP ENDPOINT
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxEhIk51Iwq811mWD3pujSxMNxMZhE8gATqYOyEI_9rxfQ99st168QkeCsv_fc41GhB/exec';
         const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRxTNb36wRmt9K47cqS2sUa-4TqSZdzr_LzINKDN14MdHRB7VON2-K4tOyfiUwMMQXMeNSr8hxe06SO/pub?output=csv';
         const adminWhatsApp = '923478306672';
@@ -916,13 +904,11 @@
         const form = document.getElementById('sellForm');
         const btn = document.getElementById('subBtn');
 
-        // FORM SUBMIT WITH AUTOMATIC TRACKING ID
         form.addEventListener('submit', e => {
             e.preventDefault();
             btn.innerText = 'Submitting...';
             btn.disabled = true;
 
-            // Random Tracking ID (e.g., TRK-84920)
             const randomTrackId = 'TRK-' + Math.floor(10000 + Math.random() * 90000);
 
             const formData = new FormData(form);
