@@ -86,7 +86,8 @@
 
         .nav-tabs {
             display: flex;
-            gap: 6px;
+            align-items: center;
+            gap: 8px;
             background: #eef2f6;
             padding: 4px;
             border-radius: 30px;
@@ -109,6 +110,22 @@
             background: var(--red-gradient);
             color: #ffffff;
             box-shadow: 0 4px 12px rgba(230, 0, 0, 0.35);
+            transform: scale(1.03);
+        }
+
+        .track-nav-btn {
+            text-decoration: none;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .track-nav-btn:hover {
+            background: var(--dark-red);
             transform: scale(1.03);
         }
 
@@ -142,7 +159,6 @@
             margin-bottom: 10px;
         }
 
-        /* HEAVY WHITE STROKE WORKING CSS */
         .welcome-char {
             font-family: 'Anton', 'Impact', sans-serif;
             font-size: 6.5rem;
@@ -152,7 +168,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             
-            /* WHITE OUTLINE EFFECTS */
             filter: 
                 drop-shadow(3px 0px 0px #ffffff) 
                 drop-shadow(-3px 0px 0px #ffffff) 
@@ -629,6 +644,7 @@
         <div class="nav-tabs">
             <button class="tab-btn active" onclick="switchTab('buy')">Buy ID</button>
             <button class="tab-btn" onclick="switchTab('sell')">Sell ID</button>
+            <a href="tracking.html" class="track-nav-btn">🔍 Track Order</a>
         </div>
     </header>
 
@@ -882,14 +898,21 @@
         const form = document.getElementById('sellForm');
         const btn = document.getElementById('subBtn');
 
+        // FORM SUBMIT WITH AUTOMATIC TRACKING ID
         form.addEventListener('submit', e => {
             e.preventDefault();
             btn.innerText = 'Submitting...';
             btn.disabled = true;
 
-            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+            // Generate Random Tracking ID
+            const randomTrackId = 'TRK-' + Math.floor(10000 + Math.random() * 90000);
+
+            const formData = new FormData(form);
+            formData.append('trackingId', randomTrackId);
+
+            fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
-                    alert('Success! Your ID has been submitted. It will be live after admin verification.');
+                    alert(`🎉 Success! Your ID Ad submitted successfully.\n\n🔑 YOUR TRACKING ID: ${randomTrackId}\n\nIs Tracking ID ko copy karke rakh lein! Aap "Track Order" page par ja kar live status check kar sakte hain.`);
                     form.reset();
                     btn.innerText = 'Submit For Approval';
                     btn.disabled = false;
