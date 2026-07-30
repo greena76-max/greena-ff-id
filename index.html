@@ -31,7 +31,6 @@
         /* POORI WEBSITE KA BACKGROUND TEXTURE */
         body {
             background-color: var(--bg-color);
-            /* Agar aap ke paas image hai to 'bg-texture.png' yahan load ho gi */
             background-image: 
                 radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(220, 38, 38, 0.05) 0px, transparent 50%),
@@ -250,6 +249,7 @@
             font-weight: 500;
         }
 
+        /* TRUST BAR - WHITE & RED BOXES */
         .trust-bar {
             display: flex;
             justify-content: center;
@@ -259,16 +259,24 @@
         }
 
         .trust-item {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border: 1px solid #e2e8f0;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #333;
             box-shadow: 0 2px 6px rgba(0,0,0,0.03);
             backdrop-filter: blur(5px);
             transition: transform 0.3s ease;
+        }
+
+        /* FAST TRANSFER WALA RED BOX */
+        .trust-item.red-box {
+            background: var(--red-gradient);
+            color: #ffffff;
+            border: 1px solid #cc0000;
+            box-shadow: 0 4px 12px rgba(230, 0, 0, 0.3);
         }
 
         .trust-item:hover {
@@ -666,9 +674,10 @@
             <div class="reveal-content" id="revealArea">
                 <p class="section-subtitle">Select your account and buy directly via WhatsApp</p>
 
+                <!-- TRUST BAR WITH FAST TRANSFER RED BOX -->
                 <div class="trust-bar">
                     <div class="trust-item">🔒 100% Safe Deals</div>
-                    <div class="trust-item">⚡ Fast Transfer</div>
+                    <div class="trust-item red-box">⚡ Fast Transfer</div>
                     <div class="trust-item">✔️ Admin Verified</div>
                 </div>
 
