@@ -142,6 +142,7 @@
             margin-bottom: 10px;
         }
 
+        /* WELCOME STROKE UPDATED HERE */
         .welcome-char {
             font-family: 'Anton', 'Impact', sans-serif;
             font-size: 6.5rem;
@@ -150,8 +151,8 @@
             background: linear-gradient(180deg, #ff3333 0%, #cc0000 60%, #800000 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            -webkit-text-stroke: 1.5px #ffffff;
-            filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.25));
+            -webkit-text-stroke: 3px #000000; /* Stroke badha kar 3px kar diya ha */
+            filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.35));
             opacity: 0;
             transform: translateY(15px);
             display: inline-block;
@@ -197,7 +198,7 @@
         @media (max-width: 768px) {
             .welcome-char {
                 font-size: 3.8rem;
-                -webkit-text-stroke: 1px #ffffff;
+                -webkit-text-stroke: 2px #000000; /* Mobile ke liye 2px stroke */
             }
             .space-char {
                 width: 15px;
