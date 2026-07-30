@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Track Order Status - FF STORE</title>
+    <title>Track Order Status - FF Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
             --accent-red: #e60000;
             --red-gradient: linear-gradient(135deg, #ff1a1a 0%, #990000 100%);
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
         }
 
         * {
@@ -21,7 +24,7 @@
 
         body {
             background-color: var(--bg-color);
-            color: #1a1a1a;
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -36,6 +39,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .logo {
@@ -48,17 +52,22 @@
             text-transform: uppercase;
         }
 
-        .back-link {
+        .back-btn {
             text-decoration: none;
-            color: #555;
-            font-weight: 600;
-            font-size: 0.9rem;
-            background: #eef2f6;
-            padding: 6px 14px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 8px 16px;
             border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: background 0.3s;
         }
 
-        .main-container {
+        .back-btn:hover {
+            background: #cc0000;
+        }
+
+        .container {
             width: 100%;
             max-width: 500px;
             padding: 40px 20px;
@@ -66,124 +75,147 @@
 
         .track-card {
             background: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 14px;
             padding: 30px 25px;
-            border: 1px solid #e2e8f0;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             text-align: center;
         }
 
-        .title {
+        .track-card h2 {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.5rem;
-            font-weight: 800;
             margin-bottom: 8px;
-            background: var(--red-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #111;
         }
 
-        .subtitle {
+        .track-card p {
+            color: var(--text-muted);
             font-size: 0.88rem;
-            color: #666;
             margin-bottom: 20px;
         }
 
-        .form-group {
+        .input-group {
             margin-bottom: 15px;
         }
 
         .form-control {
             width: 100%;
-            padding: 12px 14px;
+            background-color: #f8fafc;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
+            padding: 12px 14px;
+            color: #0f172a;
             font-size: 1rem;
-            outline: none;
             text-align: center;
             font-weight: 600;
-            letter-spacing: 1px;
+            outline: none;
+            transition: border-color 0.3s;
         }
 
         .form-control:focus {
-            border-color: var(--accent-red);
+            border-color: #ff3333;
         }
 
-        .track-btn {
+        .submit-btn {
             width: 100%;
             background: var(--red-gradient);
-            color: #fff;
+            color: #ffffff;
             border: none;
             padding: 12px;
             border-radius: 8px;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+            transition: transform 0.2s;
         }
 
-        /* Result Status Styles */
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
         .status-box {
+            display: none;
             margin-top: 25px;
             padding: 20px;
             border-radius: 10px;
-            display: none;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             text-align: left;
         }
 
-        .status-box.show { display: block; }
-
-        .status-pending { background: #fffbebfb; border: 1px solid #fef3c7; color: #b45309; }
-        .status-approved { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
-        .status-rejected { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
+        .status-box.show {
+            display: block;
+        }
 
         .status-badge {
             display: inline-block;
             padding: 4px 12px;
             border-radius: 15px;
-            font-size: 0.82rem;
             font-weight: 800;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
             text-transform: uppercase;
-            margin-bottom: 10px;
         }
 
-        .badge-pending { background: #f59e0b; color: #fff; }
-        .badge-approved { background: #22c55e; color: #fff; }
-        .badge-rejected { background: #ef4444; color: #fff; }
+        .badge-pending { background: #fef3c7; color: #b45309; }
+        .badge-approved { background: #dcfce7; color: #15803d; }
+        .badge-rejected { background: #fee2e2; color: #b91c1c; }
 
-        .info-item {
+        .info-row {
+            display: flex;
+            justify-content: space-between;
             font-size: 0.9rem;
-            margin-bottom: 6px;
-            color: #334155;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed #e2e8f0;
         }
 
-        .info-item strong { color: #0f172a; }
+        .info-row span:first-child { color: #64748b; }
+        .info-row span:last-child { font-weight: 600; color: #0f172a; }
+
+        .msg-text {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">🔥 FF STORE</div>
-        <a href="index.html" class="back-link">← Back to Shop</a>
+        <div class="logo">🔥 TRACK STATUS</div>
+        <a href="index.html" class="back-btn">⬅ Back to Home</a>
     </header>
 
-    <div class="main-container">
+    <div class="container">
         <div class="track-card">
-            <h1 class="title">TRACK YOUR AD</h1>
-            <p class="subtitle">Enter Tracking ID or Free Fire UID to check status</p>
+            <h2>Track Ad Submission</h2>
+            <p>Enter Tracking ID or Free Fire UID to check status</p>
 
-            <div class="form-group">
-                <input type="text" id="trackingInput" class="form-control" placeholder="e.g. TRK-84920 or UID" required>
+            <div class="input-group">
+                <input type="text" id="trackingInput" class="form-control" placeholder="e.g. TRK-45130 or UID">
             </div>
-            <button class="track-btn" onclick="checkStatus()" id="trackBtn">Track Status</button>
+            <button class="submit-btn" id="trackBtn" onclick="checkStatus()">Search Status</button>
 
-            <!-- STATUS DISPLAY BOX -->
+            <!-- RESULT DISPLAY -->
             <div id="statusBox" class="status-box">
-                <div id="statusBadge" class="status-badge">PENDING</div>
-                <div class="info-item"><strong>Tracking ID / UID:</strong> <span id="resTrackId">-</span></div>
-                <div class="info-item"><strong>FF UID:</strong> <span id="resUid">-</span></div>
-                <div class="info-item"><strong>Level:</strong> <span id="resLevel">-</span></div>
-                <div class="info-item"><strong>Status Msg:</strong> <span id="resMsg">-</span></div>
+                <span id="statusBadge" class="status-badge">PENDING</span>
+                <div class="info-row">
+                    <span>Tracking ID / UID:</span>
+                    <span id="resTrackId">-</span>
+                </div>
+                <div class="info-row">
+                    <span>UID:</span>
+                    <span id="resUid">-</span>
+                </div>
+                <div class="info-row">
+                    <span>Account Level:</span>
+                    <span id="resLevel">-</span>
+                </div>
+                <p id="resMsg" class="msg-text"></p>
             </div>
         </div>
     </div>
@@ -196,8 +228,8 @@
             const btn = document.getElementById('trackBtn');
             const box = document.getElementById('statusBox');
 
-            if(!inputVal) {
-                alert('Please enter your Tracking ID or UID!');
+            if (!inputVal) {
+                alert('Please enter Tracking ID or UID!');
                 return;
             }
 
@@ -205,60 +237,66 @@
             btn.disabled = true;
 
             try {
+                // Cache bypass: har baar fresh fetch karega
                 const res = await fetch(sheetCsvUrl + '&t=' + new Date().getTime());
                 const text = await res.text();
-                const rows = text.split('\n').slice(1);
                 
+                const rows = text.split(/\r?\n/).slice(1);
                 let found = false;
 
-                rows.forEach(row => {
-                    const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
-                    
-                    const uid = cols[2] ? cols[2].toUpperCase() : '';
-                    const level = cols[3];
-                    const trackingId = cols[10] ? cols[10].toUpperCase() : ''; // Column K (11th Column)
-                    const status = cols[9] ? cols[9].toLowerCase() : 'pending'; // Column J (10th Column)
+                for (let row of rows) {
+                    if (!row.trim()) continue;
 
-                    if ((trackingId && trackingId === inputVal) || (uid && uid === inputVal)) {
+                    // Parse CSV handling extra spaces
+                    const cols = row.split(/,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
+
+                    const uid = cols[2] ? cols[2].toUpperCase() : '';
+                    const level = cols[3] || 'N/A';
+                    const status = cols[9] ? cols[9].toLowerCase() : 'pending';
+                    const trackingId = cols[10] ? cols[10].toUpperCase() : '';
+
+                    const cleanInput = inputVal.replace(/\s+/g, '');
+                    const cleanTrack = trackingId.replace(/\s+/g, '');
+                    const cleanUid = uid.replace(/\s+/g, '');
+
+                    if ((cleanTrack && cleanTrack === cleanInput) || (cleanUid && cleanUid === cleanInput)) {
                         found = true;
                         box.className = 'status-box show';
-                        
-                        document.getElementById('resTrackId').innerText = trackingId || inputVal;
+
+                        document.getElementById('resTrackId').innerText = trackingId || uid;
                         document.getElementById('resUid').innerText = uid;
                         document.getElementById('resLevel').innerText = level;
 
                         const badge = document.getElementById('statusBadge');
                         const msg = document.getElementById('resMsg');
 
-                        if(status === 'approved') {
-                            box.className = 'status-box show status-approved';
+                        if (status === 'approved') {
                             badge.className = 'status-badge badge-approved';
                             badge.innerText = 'APPROVED & LIVE';
-                            msg.innerText = 'Aap ki ad verify ho kar live ho chuki hai!';
-                        } else if(status === 'rejected') {
-                            box.className = 'status-box show status-rejected';
+                            msg.innerText = '🎉 Congratulations! Your ad has been approved and is now live on the store.';
+                        } else if (status === 'rejected') {
                             badge.className = 'status-badge badge-rejected';
                             badge.innerText = 'REJECTED';
-                            msg.innerText = 'Payment proof ya details incorrect hain. Admin se WhatsApp par rabta karein.';
+                            msg.innerText = '❌ Your ad was rejected due to incorrect payment proof or details. Please contact admin on WhatsApp.';
                         } else {
-                            box.className = 'status-box show status-pending';
                             badge.className = 'status-badge badge-pending';
                             badge.innerText = 'PENDING';
-                            msg.innerText = 'Aap ki ad check ho rahi hai. 1-2 ghante mein approve ho jaye gi.';
+                            msg.innerText = '⏳ Your request is currently under review. It will be approved within 1-2 hours.';
                         }
+                        break;
                     }
-                });
+                }
 
-                if(!found) {
-                    alert('Tracking ID ya UID nahi mila! Code check karke dobara try karein.');
+                if (!found) {
+                    alert('Tracking ID or UID not found!\n\nNote: If you submitted just now, please allow 1-2 minutes for Google Sheets to update.');
                     box.className = 'status-box';
                 }
 
             } catch (err) {
-                alert('Error fetching status. Please try again.');
+                alert('Error fetching status. Please check your internet connection and try again.');
             }
 
-            btn.innerText = 'Track Status';
+            btn.innerText = 'Search Status';
             btn.disabled = false;
         }
     </script>
