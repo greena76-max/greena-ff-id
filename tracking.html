@@ -170,17 +170,17 @@
     <div class="main-container">
         <div class="track-card">
             <h1 class="title">TRACK YOUR AD</h1>
-            <p class="subtitle">Enter your Tracking ID to check status</p>
+            <p class="subtitle">Enter Tracking ID or Free Fire UID to check status</p>
 
             <div class="form-group">
-                <input type="text" id="trackingInput" class="form-control" placeholder="e.g. TRK-84920" required>
+                <input type="text" id="trackingInput" class="form-control" placeholder="e.g. TRK-84920 or UID" required>
             </div>
             <button class="track-btn" onclick="checkStatus()" id="trackBtn">Track Status</button>
 
             <!-- STATUS DISPLAY BOX -->
             <div id="statusBox" class="status-box">
                 <div id="statusBadge" class="status-badge">PENDING</div>
-                <div class="info-item"><strong>Tracking ID:</strong> <span id="resTrackId">-</span></div>
+                <div class="info-item"><strong>Tracking ID / UID:</strong> <span id="resTrackId">-</span></div>
                 <div class="info-item"><strong>FF UID:</strong> <span id="resUid">-</span></div>
                 <div class="info-item"><strong>Level:</strong> <span id="resLevel">-</span></div>
                 <div class="info-item"><strong>Status Msg:</strong> <span id="resMsg">-</span></div>
@@ -197,7 +197,7 @@
             const box = document.getElementById('statusBox');
 
             if(!inputVal) {
-                alert('Please enter your Tracking ID!');
+                alert('Please enter your Tracking ID or UID!');
                 return;
             }
 
@@ -214,13 +214,12 @@
                 rows.forEach(row => {
                     const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
                     
-                    // Assuming Tracking ID in Column 11 (index 10) or matching anywhere
-                    const trackingId = cols[10] ? cols[10].toUpperCase() : '';
-                    const uid = cols[2];
+                    const uid = cols[2] ? cols[2].toUpperCase() : '';
                     const level = cols[3];
-                    const status = cols[9] ? cols[9].toLowerCase() : 'pending';
+                    const trackingId = cols[10] ? cols[10].toUpperCase() : ''; // Column K (11th Column)
+                    const status = cols[9] ? cols[9].toLowerCase() : 'pending'; // Column J (10th Column)
 
-                    if (trackingId === inputVal || uid === inputVal) {
+                    if ((trackingId && trackingId === inputVal) || (uid && uid === inputVal)) {
                         found = true;
                         box.className = 'status-box show';
                         
@@ -232,17 +231,17 @@
                         const msg = document.getElementById('resMsg');
 
                         if(status === 'approved') {
-                            box.classList.add('status-approved');
+                            box.className = 'status-box show status-approved';
                             badge.className = 'status-badge badge-approved';
                             badge.innerText = 'APPROVED & LIVE';
-                            msg.innerText = 'Aap ki ad website par live ho chuki hai!';
+                            msg.innerText = 'Aap ki ad verify ho kar live ho chuki hai!';
                         } else if(status === 'rejected') {
-                            box.classList.add('status-rejected');
+                            box.className = 'status-box show status-rejected';
                             badge.className = 'status-badge badge-rejected';
                             badge.innerText = 'REJECTED';
-                            msg.innerText = 'Payment proof ya ID details incorrect hain. Admin se WhatsApp par rabta karein.';
+                            msg.innerText = 'Payment proof ya details incorrect hain. Admin se WhatsApp par rabta karein.';
                         } else {
-                            box.classList.add('status-pending');
+                            box.className = 'status-box show status-pending';
                             badge.className = 'status-badge badge-pending';
                             badge.innerText = 'PENDING';
                             msg.innerText = 'Aap ki ad check ho rahi hai. 1-2 ghante mein approve ho jaye gi.';
@@ -251,7 +250,7 @@
                 });
 
                 if(!found) {
-                    alert('Tracking ID nahi mili! Check karke dobara daalein.');
+                    alert('Tracking ID ya UID nahi mila! Code check karke dobara try karein.');
                     box.className = 'status-box';
                 }
 
