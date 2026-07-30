@@ -891,7 +891,8 @@
             }
         }
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzxag42YECTH-RFdwFH9Jca6tCEC_eiMascg-B1RiAzgH3lP6fmfqXhkpjmgLtjJnDB/exec';
+        // UPDATED SCRIPT URL WITH YOUR NEW APPS SCRIPT WEB APP ENDPOINT
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxEhIk51Iwq811mWD3pujSxMNxMZhE8gATqYOyEI_9rxfQ99st168QkeCsv_fc41GhB/exec';
         const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRxTNb36wRmt9K47cqS2sUa-4TqSZdzr_LzINKDN14MdHRB7VON2-K4tOyfiUwMMQXMeNSr8hxe06SO/pub?output=csv';
         const adminWhatsApp = '923478306672';
 
@@ -904,7 +905,7 @@
             btn.innerText = 'Submitting...';
             btn.disabled = true;
 
-            // Generate Random Tracking ID
+            // Random Tracking ID (e.g., TRK-84920)
             const randomTrackId = 'TRK-' + Math.floor(10000 + Math.random() * 90000);
 
             const formData = new FormData(form);
@@ -912,7 +913,7 @@
 
             fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
-                    alert(`🎉 Success! Your ID Ad submitted successfully.\n\n🔑 YOUR TRACKING ID: ${randomTrackId}\n\nIs Tracking ID ko copy karke rakh lein! Aap "Track Order" page par ja kar live status check kar sakte hain.`);
+                    alert(`🎉 Success! Your ID Ad submitted successfully.\n\n🔑 YOUR TRACKING ID: ${randomTrackId}\n\nIsSave the tracking ID! You can check the delivery status by visiting the "Track Order" page..`);
                     form.reset();
                     btn.innerText = 'Submit For Approval';
                     btn.disabled = false;
