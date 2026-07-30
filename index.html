@@ -18,6 +18,7 @@
             --text-main: #1a1a1a;
             --text-muted: #666666;
             --green: #25D366;
+            --gold: #ffc107;
         }
 
         * {
@@ -134,7 +135,6 @@
             align-items: center;
         }
 
-        /* NEW STYLED WELCOME TEXT WITH STROKE & SHADOW */
         .welcome-badge-wrap {
             display: flex;
             justify-content: center;
@@ -150,9 +150,7 @@
             background: linear-gradient(180deg, #ff3333 0%, #cc0000 60%, #800000 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* STROKE EFFECT */
             -webkit-text-stroke: 1.5px #ffffff;
-            /* SOFT BLACK SHADOW */
             filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.25));
             opacity: 0;
             transform: translateY(15px);
@@ -499,6 +497,74 @@
             box-shadow: 0 6px 20px rgba(220, 38, 38, 0.45);
         }
 
+        /* 5-STAR RATING & REVIEWS SECTION */
+        .reviews-section {
+            margin-top: 50px;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            margin-bottom: 15px;
+            direction: ltr;
+        }
+
+        .star {
+            color: #cbd5e1;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .star:hover, .star.active {
+            color: var(--gold);
+            transform: scale(1.15);
+        }
+
+        .review-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .review-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .review-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #0f172a;
+        }
+
+        .review-stars {
+            color: var(--gold);
+            font-size: 0.9rem;
+        }
+
+        .review-comment {
+            font-size: 0.88rem;
+            color: #475569;
+            line-height: 1.4;
+        }
+
         footer {
             width: 100%;
             background: #ffffff;
@@ -558,7 +624,6 @@
         <!-- BUY SECTION -->
         <div id="buy-section" class="section active">
             <div class="heading-wrap">
-                <!-- LETTER BY LETTER WELCOME TEXT WITH NO CURSOR LINE -->
                 <div class="welcome-badge-wrap" id="welcomeWrap"></div>
                 <h2 class="section-title">GARENA FREE FIRE ID BUY & SELL!</h2>
             </div>
@@ -584,6 +649,49 @@
                 <div class="grid-container" id="cards-grid">
                     <p style="text-align:center; grid-column: 1/-1; color: #666;">Loading Accounts...</p>
                 </div>
+
+                <!-- 5-STAR REVIEWS & FEEDBACK SECTION -->
+                <div class="reviews-section">
+                    <h2 class="section-title" style="text-align:center; font-size: 1.6rem;">Customer Reviews & Feedback</h2>
+                    <p class="section-subtitle">Give us 5 Stars and share your experience!</p>
+
+                    <form id="reviewForm" style="max-width: 500px; margin: 0 auto;">
+                        <div class="star-rating" id="starRating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star active" data-rating="5">★</span>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" id="reviewerName" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="reviewerComment" class="form-control" rows="3" placeholder="Write your review here..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn" id="revBtn">Submit 5-Star Review</button>
+                    </form>
+
+                    <div class="review-list" id="reviewList">
+                        <!-- Default Sample Reviews -->
+                        <div class="review-card">
+                            <div class="review-header">
+                                <span class="review-name">Ali Raza</span>
+                                <span class="review-stars">★★★★★</span>
+                            </div>
+                            <p class="review-comment">Fast deal! UID mil gaya aur admin ne bohot jaldi transfer kar di. 100% trusted store.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <span class="review-name">Hamza Malik</span>
+                                <span class="review-stars">★★★★★</span>
+                            </div>
+                            <p class="review-comment">Best experience! ID selling fee submit ki aur meri ID approve ho kar live ho gayi. Thanks Ibrahim bhai!</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -652,7 +760,7 @@
     </footer>
 
     <script>
-        // SMOOTH LETTER FADE-IN REVEAL
+        // SMOOTH LETTER REVEAL
         const welcomeText = "WELCOME TO";
         const welcomeWrap = document.getElementById('welcomeWrap');
         const revealAreaEl = document.getElementById('revealArea');
@@ -675,7 +783,7 @@
             if (charIdx < chars.length) {
                 chars[charIdx].classList.add('show');
                 charIdx++;
-                setTimeout(revealLetters, 140); // 140ms per letter delay
+                setTimeout(revealLetters, 140);
             } else {
                 setTimeout(() => {
                     revealAreaEl.classList.add('show');
@@ -685,6 +793,49 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(revealLetters, 300);
+        });
+
+        // 5-STAR RATING SYSTEM
+        let selectedRating = 5;
+        const stars = document.querySelectorAll('.star');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.getAttribute('data-rating'));
+                stars.forEach(s => {
+                    if (parseInt(s.getAttribute('data-rating')) <= selectedRating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        const reviewForm = document.getElementById('reviewForm');
+        reviewForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('reviewerName').value;
+            const comment = document.getElementById('reviewerComment').value;
+            const starStr = '★'.repeat(selectedRating) + '☆'.repeat(5 - selectedRating);
+
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'review-card';
+            reviewCard.innerHTML = `
+                <div class="review-header">
+                    <span class="review-name">${name}</span>
+                    <span class="review-stars">${starStr}</span>
+                </div>
+                <p class="review-comment">${comment}</p>
+            `;
+
+            document.getElementById('reviewList').prepend(reviewCard);
+            alert('Thank you for your review!');
+            reviewForm.reset();
+            
+            // Reset to 5 stars default
+            selectedRating = 5;
+            stars.forEach(s => s.classList.add('active'));
         });
 
         let allAccounts = [];
