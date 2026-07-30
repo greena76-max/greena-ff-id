@@ -142,7 +142,7 @@
             margin-bottom: 10px;
         }
 
-        /* WELCOME STROKE UPDATED HERE */
+        /* HEAVY WHITE STROKE WORKING CSS */
         .welcome-char {
             font-family: 'Anton', 'Impact', sans-serif;
             font-size: 6.5rem;
@@ -151,8 +151,17 @@
             background: linear-gradient(180deg, #ff3333 0%, #cc0000 60%, #800000 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            -webkit-text-stroke: 3px #000000; /* Stroke badha kar 3px kar diya ha */
-            filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.35));
+            
+            /* WHITE OUTLINE EFFECTS */
+            filter: 
+                drop-shadow(3px 0px 0px #ffffff) 
+                drop-shadow(-3px 0px 0px #ffffff) 
+                drop-shadow(0px 3px 0px #ffffff) 
+                drop-shadow(0px -3px 0px #ffffff) 
+                drop-shadow(2px 2px 0px #ffffff) 
+                drop-shadow(-2px -2px 0px #ffffff)
+                drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.4));
+
             opacity: 0;
             transform: translateY(15px);
             display: inline-block;
@@ -198,7 +207,11 @@
         @media (max-width: 768px) {
             .welcome-char {
                 font-size: 3.8rem;
-                -webkit-text-stroke: 2px #000000; /* Mobile ke liye 2px stroke */
+                filter: 
+                    drop-shadow(2px 0px 0px #ffffff) 
+                    drop-shadow(-2px 0px 0px #ffffff) 
+                    drop-shadow(0px 2px 0px #ffffff) 
+                    drop-shadow(0px -2px 0px #ffffff);
             }
             .space-char {
                 width: 15px;
@@ -498,7 +511,6 @@
             box-shadow: 0 6px 20px rgba(220, 38, 38, 0.45);
         }
 
-        /* 5-STAR RATING & REVIEWS SECTION */
         .reviews-section {
             margin-top: 50px;
             background: #ffffff;
