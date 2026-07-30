@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garena Free Fire ID Marketplace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@600;800;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>FF STORE - Garena Free Fire ID Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --bg-color: #f0f2f5;
-            --card-bg: #ffffff;
-            --input-bg: #f8f9fa;
-            --border-color: #e2e8f0;
+            --bg-color: #f4f6f8;
+            --dark-card: #0b0f19;
             --accent-red: #e60000;
-            --dark-red: #cc0000;
-            --light-red: #ff3333;
             --red-gradient: linear-gradient(135deg, #ff1a1a 0%, #990000 100%);
-            --text-main: #1a1a1a;
-            --text-muted: #666666;
-            --green: #25D366;
-            --gold: #ffc107;
+            --btn-red: #e10600;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
         }
 
         * {
@@ -28,623 +25,440 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* POORI WEBSITE KA BACKGROUND TEXTURE */
         body {
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(220, 38, 38, 0.05) 0px, transparent 50%),
-                repeating-linear-gradient(60deg, rgba(0, 0, 0, 0.02) 0, rgba(0, 0, 0, 0.02) 15px, transparent 15px, transparent 30px),
-                repeating-linear-gradient(-60deg, rgba(0, 0, 0, 0.02) 0, rgba(0, 0, 0, 0.02) 15px, transparent 15px, transparent 30px);
-            background-attachment: fixed;
-            background-size: cover;
-            color: var(--text-main);
+            color: var(--text-dark);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
         }
 
+        /* HEADER */
         header {
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            border-bottom: 2px solid #e2e8f0;
-            padding: 15px 24px;
+            max-width: 1100px;
+            padding: 20px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .logo-wrap {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .logo {
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--accent-red);
+        }
+
+        .logo-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             font-weight: 900;
-            background: var(--red-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
             letter-spacing: 1px;
+            color: #1e293b;
         }
 
-        .visitor-count-badge {
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .views-badge {
             background: #ffffff;
-            border: 1px solid #cbd5e1;
-            padding: 4px 10px;
+            border: 1px solid #e2e8f0;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: #475569;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #334155;
             box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-        }
-
-        .nav-tabs {
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(238, 242, 246, 0.8);
-            padding: 4px;
-            border-radius: 30px;
-            border: 1px solid #dcdfe6;
+            gap: 6px;
         }
 
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: #555555;
-            padding: 8px 18px;
-            border-radius: 20px;
+        .menu-btn {
+            font-size: 1.3rem;
+            color: #0f172a;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 0.88rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .tab-btn.active {
-            background: var(--red-gradient);
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(230, 0, 0, 0.35);
-            transform: scale(1.03);
-        }
-
-        .track-nav-btn {
-            text-decoration: none;
-            background: #0f172a;
-            color: #ffffff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.88rem;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        .track-nav-btn:hover {
-            background: var(--dark-red);
-            transform: scale(1.03);
-        }
-
-        .main-container {
+        /* MAIN WRAPPER */
+        .container {
             width: 100%;
             max-width: 1100px;
-            padding: 30px 20px;
-            flex-grow: 1;
+            padding: 0 15px 40px 15px;
         }
 
-        .section {
-            display: none;
+        /* TOP NAV TABS */
+        .top-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
-        .section.active {
+        .nav-btn {
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn.active-red {
+            background: var(--btn-red);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(225, 6, 0, 0.4);
+        }
+
+        .nav-btn.dark-tab {
+            background: #ffffff;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .nav-btn.dark-black {
+            background: var(--dark-card);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* HERO BANNER */
+        .hero-banner {
+            width: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #05070c 0%, #1a0203 50%, #4a0002 100%),
+                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000') center/cover;
+            background-blend-mode: overlay;
+            padding: 40px 30px;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-bottom: 35px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.3rem;
+            font-weight: 900;
+            line-height: 1.2;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .hero-title span {
+            color: #ff1a1a;
             display: block;
         }
 
-        .heading-wrap {
-            text-align: center;
-            margin-bottom: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .welcome-badge-wrap {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 5px 15px;
-            position: relative;
-        }
-
-        .welcome-char {
-            font-family: 'Anton', 'Impact', sans-serif;
-            font-size: 5.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(180deg, #ff1a1a 0%, #b30000 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            
-            filter: 
-                drop-shadow(2px 0px 0px #ffffff) 
-                drop-shadow(-2px 0px 0px #ffffff) 
-                drop-shadow(0px 2px 0px #ffffff) 
-                drop-shadow(0px -2px 0px #ffffff)
-                drop-shadow(0px 6px 12px rgba(179, 0, 0, 0.35));
-
-            opacity: 0;
-            transform: translateY(15px);
-            display: inline-block;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        .welcome-char.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .space-char {
-            width: 25px;
-        }
-
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 900;
-            margin-top: 10px;
-            margin-bottom: 12px;
-            background: var(--red-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            line-height: 1.3;
-        }
-
-        .reveal-content {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            pointer-events: none;
-        }
-
-        .reveal-content.show {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        @media (max-width: 768px) {
-            .welcome-char {
-                font-size: 3.5rem;
-            }
-            .space-char {
-                width: 15px;
-            }
-            .section-title {
-                font-size: 1.4rem;
-            }
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 20px;
+        .hero-subtitle {
+            color: #cbd5e1;
             font-size: 1rem;
-            font-weight: 500;
+            margin-bottom: 30px;
         }
 
-        /* TRUST BAR - WHITE & RED BOXES */
-        .trust-bar {
+        .trust-grid {
             display: flex;
-            justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-            margin-bottom: 25px;
         }
 
-        .trust-item {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid #e2e8f0;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #333;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-            backdrop-filter: blur(5px);
-            transition: transform 0.3s ease;
-        }
-
-        /* FAST TRANSFER WALA RED BOX */
-        .trust-item.red-box {
-            background: var(--red-gradient);
-            color: #ffffff;
-            border: 1px solid #cc0000;
-            box-shadow: 0 4px 12px rgba(230, 0, 0, 0.3);
-        }
-
-        .trust-item:hover {
-            transform: translateY(-2px);
-        }
-
-        .filter-container {
+        .trust-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 18px;
+            border-radius: 12px;
             display: flex;
+            align-items: center;
             gap: 12px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
         }
 
-        .search-input, .filter-select {
-            padding: 10px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            outline: none;
+        .trust-card i {
+            color: #ff1a1a;
+            font-size: 1.3rem;
+        }
+
+        .trust-info h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .trust-info p {
+            font-size: 0.72rem;
+            color: #94a3b8;
+        }
+
+        /* SECTION HEADING */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .view-all {
+            color: var(--accent-red);
             font-size: 0.9rem;
-            background: rgba(255, 255, 255, 0.95);
-            transition: border-color 0.3s, box-shadow 0.3s;
+            font-weight: 700;
+            text-decoration: none;
         }
 
-        .search-input:focus, .filter-select:focus {
-            border-color: var(--light-red);
-            box-shadow: 0 0 0 3px rgba(255, 51, 51, 0.15);
-        }
-
-        .search-input {
-            flex-grow: 1;
-        }
-
+        /* CARDS GRID */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 35px;
         }
 
         .id-card {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
-            position: relative;
-            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .id-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--light-red);
-            box-shadow: 0 12px 30px rgba(230, 0, 0, 0.2);
-        }
-
-        .badge-verified {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--red-gradient);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            z-index: 2;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(225, 6, 0, 0.15);
         }
 
         .card-img-wrap {
+            position: relative;
             width: 100%;
-            height: 200px;
-            background: #f8fafc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid #f1f5f9;
-            overflow: hidden;
+            height: 180px;
+            background: #000;
         }
 
         .card-img-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
         }
 
-        .id-card:hover .card-img-wrap img {
-            transform: scale(1.08);
+        .level-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--btn-red);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 6px;
         }
 
         .card-body {
-            padding: 18px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
             flex-grow: 1;
         }
 
-        .card-title-wrap {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
         .card-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #111111;
-        }
-
-        .copy-btn {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.2s, transform 0.1s;
-        }
-
-        .copy-btn:active {
-            transform: scale(0.92);
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            background: #f1f5f9;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 0.88rem;
-            color: #475569;
-            border: 1px solid #e2e8f0;
-        }
-
-        .card-meta span strong {
+            font-size: 0.95rem;
+            font-weight: 700;
             color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .card-sub {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .card-diamond {
+            font-size: 0.78rem;
+            color: #0284c7;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .card-price {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.35rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            color: #dc2626;
+            color: var(--btn-red);
+            margin-bottom: 12px;
         }
 
-        .buy-btn {
-            background: var(--green);
+        .buy-now-btn {
+            background: var(--btn-red);
             color: #ffffff;
             border: none;
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
             text-align: center;
-            margin-top: auto;
+            text-decoration: none;
+            display: block;
+            box-shadow: 0 4px 12px rgba(225, 6, 0, 0.25);
+            transition: background 0.2s;
+        }
+
+        .buy-now-btn:hover {
+            background: #cc0000;
+        }
+
+        /* WHY CHOOSE US */
+        .why-us-box {
+            background: var(--dark-card);
+            border-radius: 18px;
+            padding: 25px 20px;
+            color: #ffffff;
+            margin-bottom: 35px;
+        }
+
+        .why-us-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .why-us-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .why-us-item i {
+            font-size: 1.8rem;
+            color: var(--btn-red);
+            margin-bottom: 10px;
+        }
+
+        .why-us-item h5 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .why-us-item p {
+            font-size: 0.72rem;
+            color: #94a3b8;
+        }
+
+        /* SEARCH CONTAINER */
+        .search-box-card {
+            background: var(--dark-card);
+            border-radius: 18px;
+            padding: 25px;
+            color: #ffffff;
+        }
+
+        .search-box-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .search-inputs-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .dark-input, .dark-select {
+            background: #151c2c;
+            border: 1px solid #28354d;
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: #ffffff;
+            font-size: 0.88rem;
+            outline: none;
+            width: 100%;
+        }
+
+        .search-submit-btn {
+            background: var(--btn-red);
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
             font-size: 0.95rem;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-            transition: all 0.3s ease;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
         }
 
-        .buy-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
-        }
-
+        /* FORM STYLING FOR SELL SECTION */
         .form-card {
             background: #ffffff;
-            color: #1a1a1a;
-            border-radius: 14px;
-            max-width: 480px;
+            border-radius: 18px;
+            padding: 30px 20px;
+            max-width: 500px;
             margin: 0 auto;
-            padding: 30px 25px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            outline: none;
+            font-size: 0.9rem;
         }
 
         .payment-box {
             background: #fef2f2;
             border: 1px dashed #fca5a5;
-            border-radius: 10px;
             padding: 15px;
+            border-radius: 10px;
             margin-bottom: 20px;
             text-align: center;
         }
 
-        .payment-box h3 {
-            color: #991b1b;
-            font-size: 1.05rem;
-            margin-bottom: 8px;
-        }
-
-        .payment-box p {
-            font-size: 0.88rem;
-            color: #374151;
-            margin-bottom: 4px;
-        }
-
-        .fee-badge {
-            display: inline-block;
-            background: var(--dark-red);
-            color: #fff;
-            padding: 3px 12px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #4b5563;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .form-control {
-            width: 100%;
-            background-color: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 12px 14px;
-            color: #0f172a;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .form-control:focus {
-            border-color: var(--light-red);
-            box-shadow: 0 0 0 3px rgba(255, 51, 51, 0.15);
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--red-gradient);
-            color: #ffffff;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.45);
-        }
-
-        .reviews-section {
-            margin-top: 50px;
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 30px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-        }
-
-        .star-rating {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            font-size: 2rem;
-            cursor: pointer;
-            margin-bottom: 15px;
-            direction: ltr;
-        }
-
-        .star {
-            color: #cbd5e1;
-            transition: color 0.2s ease, transform 0.2s ease;
-        }
-
-        .star:hover, .star.active {
-            color: var(--gold);
-            transform: scale(1.15);
-        }
-
-        .review-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .review-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 15px;
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .review-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #0f172a;
-        }
-
-        .review-stars {
-            color: var(--gold);
-            font-size: 0.9rem;
-        }
-
-        .review-comment {
-            font-size: 0.88rem;
-            color: #475569;
-            line-height: 1.4;
-        }
-
-        footer {
-            width: 100%;
-            background: #ffffff;
-            border-top: 1px solid #e2e8f0;
-            padding: 25px 20px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 12px;
-        }
-
-        .social-btn {
-            color: #ffffff;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: transform 0.3s ease;
-        }
-
-        .social-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .wa-btn { background: #25D366; }
-
-        footer p {
-            color: #888;
-            font-size: 0.8rem;
+        @media (max-width: 768px) {
+            .hero-title { font-size: 1.5rem; }
+            .why-us-grid { grid-template-columns: repeat(2, 1fr); }
+            .search-inputs-grid { grid-template-columns: 1fr; }
+            .top-nav { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -652,385 +466,257 @@
 
     <header>
         <div class="logo-wrap">
-            <div class="logo">🔥 FF STORE</div>
-            <div class="visitor-count-badge">👁️ Views: <span id="visitorCount">...</span></div>
+            <i class="fa-solid fa-fire logo-icon"></i>
+            <span class="logo-text">FF STORE</span>
         </div>
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('buy')">Buy ID</button>
-            <button class="tab-btn" onclick="switchTab('sell')">Sell ID</button>
-            <a href="tracking.html" class="track-nav-btn">🔍 Track Order</a>
+        <div class="header-right">
+            <div class="views-badge">
+                <i class="fa-regular fa-eye"></i> Views: <span id="visitorCount">12.5K</span>
+            </div>
+            <div class="menu-btn"><i class="fa-solid fa-bars"></i></div>
         </div>
     </header>
 
-    <div class="main-container">
-        
+    <div class="container">
+
+        <!-- TOP NAVIGATION BUTTONS -->
+        <div class="top-nav">
+            <button class="nav-btn active-red" id="buyTabBtn" onclick="switchTab('buy')">
+                <i class="fa-solid fa-cart-shopping"></i> Buy ID
+            </button>
+            <button class="nav-btn dark-tab" id="sellTabBtn" onclick="switchTab('sell')">
+                <i class="fa-solid fa-tag"></i> Sell ID
+            </button>
+            <a href="tracking.html" class="nav-btn dark-black">
+                <i class="fa-solid fa-list-check"></i> Track Order
+            </a>
+        </div>
+
         <!-- BUY SECTION -->
-        <div id="buy-section" class="section active">
-            <div class="heading-wrap">
-                <div class="welcome-badge-wrap" id="welcomeWrap"></div>
-                <h2 class="section-title">GARENA FREE FIRE ID BUY & SELL!</h2>
+        <div id="buy-section">
+            <!-- HERO BANNER -->
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <h1 class="hero-title">WELCOME TO <span>GARENA FREE FIRE</span> ID BUY & SELL!</h1>
+                    <p class="hero-subtitle">Select your account and buy directly via WhatsApp</p>
+                    
+                    <div class="trust-grid">
+                        <div class="trust-card">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <div class="trust-info">
+                                <h4>100% Safe Deals</h4>
+                                <p>Secure & Trusted</p>
+                            </div>
+                        </div>
+                        <div class="trust-card">
+                            <i class="fa-solid fa-bolt"></i>
+                            <div class="trust-info">
+                                <h4>Fast Transfer</h4>
+                                <p>Instant Delivery</p>
+                            </div>
+                        </div>
+                        <div class="trust-card">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div class="trust-info">
+                                <h4>Admin Verified</h4>
+                                <p>Verified Accounts</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="reveal-content" id="revealArea">
-                <p class="section-subtitle">Select your account and buy directly via WhatsApp</p>
+            <!-- POPULAR ACCOUNTS LIST -->
+            <div class="section-header">
+                <h3>Popular Accounts</h3>
+                <a href="#" class="view-all">View All →</a>
+            </div>
 
-                <!-- TRUST BAR WITH FAST TRANSFER RED BOX -->
-                <div class="trust-bar">
-                    <div class="trust-item">🔒 100% Safe Deals</div>
-                    <div class="trust-item red-box">⚡ Fast Transfer</div>
-                    <div class="trust-item">✔️ Admin Verified</div>
+            <!-- CARDS GRID CONTAINER -->
+            <div class="grid-container" id="cards-grid">
+                <p style="text-align:center; grid-column:1/-1;">Loading Accounts...</p>
+            </div>
+
+            <!-- WHY CHOOSE US SECTION -->
+            <div class="why-us-box">
+                <div class="why-us-title">Why Choose Us?</div>
+                <div class="why-us-grid">
+                    <div class="why-us-item">
+                        <i class="fa-solid fa-shield-heart"></i>
+                        <h5>100% Secure</h5>
+                        <p>Your safety is our priority</p>
+                    </div>
+                    <div class="why-us-item">
+                        <i class="fa-solid fa-headset"></i>
+                        <h5>24/7 Support</h5>
+                        <p>We are here for you</p>
+                    </div>
+                    <div class="why-us-item">
+                        <i class="fa-solid fa-gift"></i>
+                        <h5>Best Prices</h5>
+                        <p>Get the best deals</p>
+                    </div>
+                    <div class="why-us-item">
+                        <i class="fa-solid fa-users"></i>
+                        <h5>Trusted by Thousands</h5>
+                        <p>Join our happy customers</p>
+                    </div>
                 </div>
+            </div>
 
-                <div class="filter-container">
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search by UID or Level..." onkeyup="filterCards()">
-                    <select id="sortSelect" class="filter-select" onchange="filterCards()">
-                        <option value="default">Sort by Price</option>
+            <!-- SEARCH SECTION -->
+            <div class="search-box-card">
+                <div class="search-box-title">Search Your Account</div>
+                <div class="search-inputs-grid">
+                    <input type="text" id="searchInput" class="dark-input" placeholder="Search by UID or Level...">
+                    <select id="sortSelect" class="dark-select">
+                        <option value="default">Sort by: Price</option>
                         <option value="low">Price: Low to High</option>
                         <option value="high">Price: High to Low</option>
                     </select>
+                    <select class="dark-select">
+                        <option>All Levels</option>
+                    </select>
                 </div>
-
-                <div class="grid-container" id="cards-grid">
-                    <p style="text-align:center; grid-column: 1/-1; color: #666;">Loading Accounts...</p>
-                </div>
-
-                <!-- 5-STAR REVIEWS & FEEDBACK SECTION -->
-                <div class="reviews-section">
-                    <h2 class="section-title" style="text-align:center; font-size: 1.6rem;">Customer Reviews & Feedback</h2>
-                    <p class="section-subtitle">Give us 5 Stars and share your experience!</p>
-
-                    <form id="reviewForm" style="max-width: 500px; margin: 0 auto;">
-                        <div class="star-rating" id="starRating">
-                            <span class="star" data-rating="1">★</span>
-                            <span class="star" data-rating="2">★</span>
-                            <span class="star" data-rating="3">★</span>
-                            <span class="star" data-rating="4">★</span>
-                            <span class="star active" data-rating="5">★</span>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="text" id="reviewerName" class="form-control" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="reviewerComment" class="form-control" rows="3" placeholder="Write your review here..." required></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn" id="revBtn">Submit 5-Star Review</button>
-                    </form>
-
-                    <div class="review-list" id="reviewList"></div>
-                </div>
-
+                <button class="search-submit-btn" onclick="filterCards()">
+                    <i class="fa-solid fa-magnifying-glass"></i> Search Accounts
+                </button>
             </div>
         </div>
 
         <!-- SELL SECTION -->
-        <div id="sell-section" class="section">
-            <h2 class="section-title" style="text-align:center;">Sell Your Account</h2>
-            <p class="section-subtitle">Pay listing fee and submit details for approval</p>
-
+        <div id="sell-section" style="display:none;">
             <div class="form-card">
+                <h2 style="text-align:center; margin-bottom:10px;">Sell Your Account</h2>
                 <div class="payment-box">
-                    <span class="fee-badge">Listing Fee: 150 PKR</span>
-                    <h3>Send Payment To Listing:</h3>
-                    <p><strong>EasyPaisa / JazzCash:</strong> 0347-8306672</p>
-                    <p><strong>Account Title:</strong> MUHAMMAD IBRAHIM</p>
-                    <p style="font-size:0.78rem; color:#6b7280; margin-top:6px;">After sending the payment, paste the screenshot link below..</p>
+                    <span style="background:#cc0000; color:#fff; padding:3px 10px; border-radius:10px; font-size:0.75rem;">Listing Fee: 150 PKR</span>
+                    <h4 style="margin-top:8px;">EasyPaisa / JazzCash: 0347-8306672</h4>
+                    <p style="font-size:0.85rem;">Title: MUHAMMAD IBRAHIM</p>
                 </div>
 
                 <form id="sellForm">
-                    <div class="form-group">
-                        <input type="text" name="sellerName" class="form-control" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" name="whatsappNumber" class="form-control" placeholder="WhatsApp Number" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="freeFireUid" class="form-control" placeholder="Free Fire UID" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="number" name="accountLevel" class="form-control" placeholder="Level" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="accountRank" class="form-control" placeholder="Rank (e.g. Heroic, Grandmaster)" required>
-                    </div>
+                    <div class="form-group"><input type="text" name="sellerName" class="form-control" placeholder="Your Name" required></div>
+                    <div class="form-group"><input type="tel" name="whatsappNumber" class="form-control" placeholder="WhatsApp Number" required></div>
+                    <div class="form-group"><input type="text" name="freeFireUid" class="form-control" placeholder="Free Fire UID" required></div>
+                    <div class="form-group"><input type="number" name="accountLevel" class="form-control" placeholder="Level" required></div>
+                    <div class="form-group"><input type="text" name="accountRank" class="form-control" placeholder="Rank (e.g. Heroic)" required></div>
                     <div class="form-group">
                         <select name="loginType" class="form-control" required>
-                            <option value="" disabled selected hidden>Google / Facebook</option>
                             <option value="Google">Google</option>
                             <option value="Facebook">Facebook</option>
-                            <option value="VK">VK</option>
-                            <option value="Twitter">Twitter</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <input type="text" name="accountPrice" class="form-control" placeholder="Selling Price (PKR)" required>
-                    </div>
-                    <div class="form-group">
-                        <label>1. ID Screenshot Direct Link:</label>
-                        <input type="url" name="screenshotLink" class="form-control" placeholder="https://i.postimg.cc/..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>2. Fee Payment Screenshot Link (150 PKR):</label>
-                        <input type="url" name="paymentProofLink" class="form-control" placeholder="https://i.postimg.cc/..." required>
-                    </div>
-                    <button type="submit" class="submit-btn" id="subBtn">Submit For Approval</button>
+                    <div class="form-group"><input type="text" name="accountPrice" class="form-control" placeholder="Price (PKR)" required></div>
+                    <div class="form-group"><input type="url" name="screenshotLink" class="form-control" placeholder="ID Screenshot Direct Link" required></div>
+                    <div class="form-group"><input type="url" name="paymentProofLink" class="form-control" placeholder="Payment Proof Screenshot Link" required></div>
+                    <button type="submit" class="buy-now-btn" style="width:100%; border:none;" id="subBtn">Submit For Approval</button>
                 </form>
             </div>
         </div>
 
     </div>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://whatsapp.com/channel/0029Vb7sFqe3bbV3MfmIDt45" target="_blank" class="social-btn wa-btn">📢 Join WhatsApp Channel</a>
-        </div>
-        <p>© 2026 FF STORE. All Rights Reserved.</p>
-    </footer>
-
     <script>
-        // SMOOTH LETTER REVEAL
-        const welcomeText = "WELCOME TO";
-        const welcomeWrap = document.getElementById('welcomeWrap');
-        const revealAreaEl = document.getElementById('revealArea');
-
-        welcomeText.split('').forEach(char => {
-            const span = document.createElement('span');
-            if(char === ' ') {
-                span.className = 'space-char';
-            } else {
-                span.className = 'welcome-char';
-                span.innerText = char;
-            }
-            welcomeWrap.appendChild(span);
-        });
-
-        const chars = document.querySelectorAll('.welcome-char');
-        let charIdx = 0;
-
-        function revealLetters() {
-            if (charIdx < chars.length) {
-                chars[charIdx].classList.add('show');
-                charIdx++;
-                setTimeout(revealLetters, 140);
-            } else {
-                setTimeout(() => {
-                    revealAreaEl.classList.add('show');
-                }, 200);
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(revealLetters, 300);
-            loadSavedReviews();
-        });
-
-        // 5-STAR RATING SYSTEM WITH LOCALSTORAGE
-        let selectedRating = 5;
-        const stars = document.querySelectorAll('.star');
-
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                selectedRating = parseInt(this.getAttribute('data-rating'));
-                stars.forEach(s => {
-                    if (parseInt(s.getAttribute('data-rating')) <= selectedRating) {
-                        s.classList.add('active');
-                    } else {
-                        s.classList.remove('active');
-                    }
-                });
-            });
-        });
-
-        const defaultReviews = [
-            { name: "Ali Raza", rating: 5, comment: "Fast deal! UID mil gaya aur admin ne bohot jaldi transfer kar di. 100% trusted store." },
-            { name: "Hamza Malik", rating: 5, comment: "Best experience! ID selling fee submit ki aur meri ID approve ho kar live ho gayi. Thanks Ibrahim bhai!" }
-        ];
-
-        function loadSavedReviews() {
-            let saved = JSON.parse(localStorage.getItem('ff_store_reviews'));
-            if (!saved || saved.length === 0) {
-                saved = defaultReviews;
-                localStorage.setItem('ff_store_reviews', JSON.stringify(saved));
-            }
-            renderReviews(saved);
-        }
-
-        function renderReviews(reviews) {
-            const list = document.getElementById('reviewList');
-            list.innerHTML = '';
-            reviews.forEach(rev => {
-                const starStr = '★'.repeat(rev.rating) + '☆'.repeat(5 - rev.rating);
-                list.innerHTML += `
-                    <div class="review-card">
-                        <div class="review-header">
-                            <span class="review-name">${rev.name}</span>
-                            <span class="review-stars">${starStr}</span>
-                        </div>
-                        <p class="review-comment">${rev.comment}</p>
-                    </div>
-                `;
-            });
-        }
-
-        const reviewForm = document.getElementById('reviewForm');
-        reviewForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('reviewerName').value;
-            const comment = document.getElementById('reviewerComment').value;
-
-            let currentReviews = JSON.parse(localStorage.getItem('ff_store_reviews')) || defaultReviews;
-            currentReviews.unshift({ name: name, rating: selectedRating, comment: comment });
-
-            localStorage.setItem('ff_store_reviews', JSON.stringify(currentReviews));
-            renderReviews(currentReviews);
-
-            alert('Thank you for your review!');
-            reviewForm.reset();
-            
-            selectedRating = 5;
-            stars.forEach(s => s.classList.add('active'));
-        });
-
-        let allAccounts = [];
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-
-            if(tab === 'buy') {
-                document.querySelectorAll('.tab-btn')[0].classList.add('active');
-                document.getElementById('buy-section').classList.add('active');
-            } else {
-                document.querySelectorAll('.tab-btn')[1].classList.add('active');
-                document.getElementById('sell-section').classList.add('active');
-            }
-        }
-
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxEhIk51Iwq811mWD3pujSxMNxMZhE8gATqYOyEI_9rxfQ99st168QkeCsv_fc41GhB/exec';
         const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRxTNb36wRmt9K47cqS2sUa-4TqSZdzr_LzINKDN14MdHRB7VON2-K4tOyfiUwMMQXMeNSr8hxe06SO/pub?output=csv';
         const adminWhatsApp = '923478306672';
+        let allAccounts = [];
 
-        const form = document.getElementById('sellForm');
-        const btn = document.getElementById('subBtn');
-
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            btn.innerText = 'Submitting...';
-            btn.disabled = true;
-
-            const randomTrackId = 'TRK-' + Math.floor(10000 + Math.random() * 90000);
-
-            const formData = new FormData(form);
-            formData.append('trackingId', randomTrackId);
-
-            fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => {
-                    alert(`🎉 Success! Your ID Ad submitted successfully.\n\n🔑 YOUR TRACKING ID: ${randomTrackId}\n\nIs Tracking ID ko copy karke rakh lein! Aap "Track Order" page par ja kar live status check kar sakte hain.`);
-                    form.reset();
-                    btn.innerText = 'Submit For Approval';
-                    btn.disabled = false;
-                })
-                .catch(error => {
-                    alert('Error! Something went wrong. Please try again.');
-                    btn.innerText = 'Submit For Approval';
-                    btn.disabled = false;
-                });
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchAccounts();
+            initVisitorCount();
         });
 
-        function copyUid(uid) {
-            navigator.clipboard.writeText(uid);
-            alert('UID Copied: ' + uid);
+        function switchTab(tab) {
+            const buySec = document.getElementById('buy-section');
+            const sellSec = document.getElementById('sell-section');
+            const buyBtn = document.getElementById('buyTabBtn');
+            const sellBtn = document.getElementById('sellTabBtn');
+
+            if(tab === 'buy') {
+                buySec.style.display = 'block';
+                sellSec.style.display = 'none';
+                buyBtn.className = 'nav-btn active-red';
+                sellBtn.className = 'nav-btn dark-tab';
+            } else {
+                buySec.style.display = 'none';
+                sellSec.style.display = 'block';
+                buyBtn.className = 'nav-btn dark-tab';
+                sellBtn.className = 'nav-btn active-red';
+            }
         }
 
         function fixImageUrl(url) {
-            if (!url) return 'https://placehold.co/600x400/ffffff/e60000?text=No+Image';
+            if (!url) return 'https://placehold.co/600x400/000000/ffffff?text=No+Image';
             url = url.trim();
-
             if (url.includes('drive.google.com')) {
                 const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-                if (match && match[1]) {
-                    return `https://lh3.googleusercontent.com/d/${match[1]}`;
-                }
+                if (match && match[1]) return `https://lh3.googleusercontent.com/d/${match[1]}`;
             }
-
-            if (url.includes('imgur.com') && !url.match(/\.(jpg|jpeg|png|gif)$/i)) {
-                const id = url.split('/').pop();
-                return `https://i.imgur.com/${id}.jpg`;
-            }
-
-            if (url.includes('postimg.cc') && !url.includes('i.postimg.cc')) {
-                const id = url.split('/').pop();
-                return `https://i.postimg.cc/${id}/image.jpg`;
-            }
-
+            if (url.includes('imgur.com') && !url.match(/\.(jpg|jpeg|png|gif)$/i)) return url + '.jpg';
             return url;
         }
 
-        async function loadIDs() {
-            try {
-                const res = await fetch(sheetCsvUrl + '&t=' + new Date().getTime());
-                const text = await res.text();
-                const rows = text.split('\n').slice(1);
-                
-                allAccounts = [];
-                rows.forEach(row => {
-                    const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
-                    const status = cols[9] ? cols[9].trim().toLowerCase() : '';
-
-                    if (cols.length >= 8 && cols[2] && status === 'approved') {
-                        allAccounts.push({
-                            name: cols[0],
-                            phone: cols[1],
-                            uid: cols[2],
-                            level: cols[3],
-                            rank: cols[4],
-                            login: cols[5],
-                            price: parseFloat(cols[6]) || 0,
-                            img: fixImageUrl(cols[7])
-                        });
-                    }
-                });
-
-                renderCards(allAccounts);
-            } catch (err) {
-                document.getElementById('cards-grid').innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #666;">Error loading data.</p>';
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n');
+            const result = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                const cols = lines[i].split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim());
+                if (cols.length >= 7) {
+                    result.push({
+                        uid: cols[2] || 'N/A',
+                        level: cols[3] || 'N/A',
+                        rank: cols[4] || 'N/A',
+                        price: parseFloat(cols[6]) || 0,
+                        image: fixImageUrl(cols[7] || ''),
+                        status: cols[9] || 'Pending'
+                    });
+                }
             }
+            return result;
+        }
+
+        function fetchAccounts() {
+            fetch(sheetCsvUrl)
+                .then(res => res.text())
+                .then(csv => {
+                    const rawAccounts = parseCSV(csv);
+                    // Sirf Approved status wale hi buy page pe dikhenge
+                    allAccounts = rawAccounts.filter(acc => acc.status.toLowerCase() === 'approved');
+                    renderCards(allAccounts);
+                })
+                .catch(err => {
+                    document.getElementById('cards-grid').innerHTML = '<p style="text-align:center; grid-column:1/-1;">Error loading items.</p>';
+                });
         }
 
         function renderCards(accounts) {
             const grid = document.getElementById('cards-grid');
-            grid.innerHTML = '';
-
             if (accounts.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #666;">No accounts found.</p>';
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No Approved Accounts Available.</p>';
                 return;
             }
 
-            accounts.forEach((acc) => {
-                const waMsg = `Hello! I want to buy this Free Fire ID:%0A- UID: ${acc.uid}%0A- Level: ${acc.level}%0A- Price: ${acc.price} PKR`;
-                const waUrl = `https://wa.me/${adminWhatsApp}?text=${waMsg}`;
-
-                grid.innerHTML += `
+            grid.innerHTML = accounts.map(acc => {
+                const waMessage = encodeURIComponent(`Hello Admin, I want to buy Free Fire ID:\nUID: ${acc.uid}\nLevel: ${acc.level}\nPrice: ${acc.price} PKR`);
+                return `
                     <div class="id-card">
-                        <span class="badge-verified">Verified Deal</span>
                         <div class="card-img-wrap">
-                            <img src="${acc.img}" alt="FF ID" onerror="this.onerror=null; this.src='https://placehold.co/600x400/ffffff/e60000?text=Invalid+Image';">
+                            <span class="level-badge">Lv. ${acc.level}</span>
+                            <img src="${acc.image}" alt="ID ${acc.uid}" onerror="this.src='https://placehold.co/600x400/000000/ffffff?text=No+Image'">
                         </div>
                         <div class="card-body">
-                            <div class="card-title-wrap">
-                                <div class="card-title">UID: ${acc.uid}</div>
-                                <button class="copy-btn" onclick="copyUid('${acc.uid}')">📋 Copy</button>
-                            </div>
-                            <div class="card-meta">
-                                <span>Level: <strong>${acc.level}</strong></span>
-                                <span>Login: <strong>${acc.login}</strong></span>
-                            </div>
-                            <div class="card-price">${acc.price} PKR</div>
-                            <a href="${waUrl}" target="_blank" class="buy-btn">💬 Buy via WhatsApp</a>
+                            <div class="card-title">UID: ${acc.uid}</div>
+                            <div class="card-sub">Rank: ${acc.rank}</div>
+                            <div class="card-diamond"><i class="fa-solid fa-gem"></i> Verified Account</div>
+                            <div class="card-price">Rs. ${acc.price.toLocaleString()} PKR</div>
+                            <a href="https://wa.me/${adminWhatsApp}?text=${waMessage}" target="_blank" class="buy-now-btn">
+                                <i class="fa-solid fa-cart-shopping"></i> Buy Now
+                            </a>
                         </div>
                     </div>
                 `;
-            });
+            }).join('');
         }
 
         function filterCards() {
@@ -1042,27 +728,18 @@
                 acc.level.toString().includes(searchVal)
             );
 
-            if (sortVal === 'low') {
-                filtered.sort((a, b) => a.price - b.price);
-            } else if (sortVal === 'high') {
-                filtered.sort((a, b) => b.price - a.price);
-            }
+            if (sortVal === 'low') filtered.sort((a, b) => a.price - b.price);
+            if (sortVal === 'high') filtered.sort((a, b) => b.price - a.price);
 
             renderCards(filtered);
         }
 
-        async function updateVisitorCount() {
-            try {
-                const res = await fetch('https://api.counterapi.dev/v1/ffstore_pakistan_marketplace/visits/up');
-                const data = await res.json();
-                document.getElementById('visitorCount').innerText = data.count;
-            } catch (e) {
-                document.getElementById('visitorCount').innerText = '100+';
-            }
+        function initVisitorCount() {
+            let count = localStorage.getItem('ff_store_views') || 12500;
+            count = parseInt(count) + 1;
+            localStorage.setItem('ff_store_views', count);
+            document.getElementById('visitorCount').innerText = count.toLocaleString();
         }
-
-        updateVisitorCount();
-        loadIDs();
     </script>
 </body>
 </html>
