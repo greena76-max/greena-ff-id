@@ -230,6 +230,12 @@
             font-size: 0.9rem;
             font-weight: 700;
             text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .view-all:hover {
+            color: #b30000;
         }
 
         /* CARDS GRID */
@@ -529,7 +535,7 @@
             <!-- POPULAR ACCOUNTS LIST -->
             <div class="section-header">
                 <h3>Popular Accounts</h3>
-                <a href="#" class="view-all">View All →</a>
+                <a href="javascript:void(0)" class="view-all" onclick="showAllAccounts()">View All →</a>
             </div>
 
             <!-- CARDS GRID CONTAINER -->
@@ -565,7 +571,7 @@
             </div>
 
             <!-- SEARCH SECTION -->
-            <div class="search-box-card">
+            <div class="search-box-card" id="searchSection">
                 <div class="search-box-title">Search Your Account</div>
                 <div class="search-inputs-grid">
                     <input type="text" id="searchInput" class="dark-input" placeholder="Search by UID or Level...">
@@ -621,125 +627,4 @@
         const adminWhatsApp = '923478306672';
         let allAccounts = [];
 
-        window.addEventListener('DOMContentLoaded', () => {
-            fetchAccounts();
-            initVisitorCount();
-        });
-
-        function switchTab(tab) {
-            const buySec = document.getElementById('buy-section');
-            const sellSec = document.getElementById('sell-section');
-            const buyBtn = document.getElementById('buyTabBtn');
-            const sellBtn = document.getElementById('sellTabBtn');
-
-            if(tab === 'buy') {
-                buySec.style.display = 'block';
-                sellSec.style.display = 'none';
-                buyBtn.className = 'nav-btn active-red';
-                sellBtn.className = 'nav-btn dark-tab';
-            } else {
-                buySec.style.display = 'none';
-                sellSec.style.display = 'block';
-                buyBtn.className = 'nav-btn dark-tab';
-                sellBtn.className = 'nav-btn active-red';
-            }
-        }
-
-        function fixImageUrl(url) {
-            if (!url) return 'https://placehold.co/600x400/000000/ffffff?text=No+Image';
-            url = url.trim();
-            if (url.includes('drive.google.com')) {
-                const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-                if (match && match[1]) return `https://lh3.googleusercontent.com/d/${match[1]}`;
-            }
-            if (url.includes('imgur.com') && !url.match(/\.(jpg|jpeg|png|gif)$/i)) return url + '.jpg';
-            return url;
-        }
-
-        function parseCSV(csvText) {
-            const lines = csvText.split('\n');
-            const result = [];
-            for (let i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-                const cols = lines[i].split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim());
-                if (cols.length >= 7) {
-                    result.push({
-                        uid: cols[2] || 'N/A',
-                        level: cols[3] || 'N/A',
-                        rank: cols[4] || 'N/A',
-                        price: parseFloat(cols[6]) || 0,
-                        image: fixImageUrl(cols[7] || ''),
-                        status: cols[9] || 'Pending'
-                    });
-                }
-            }
-            return result;
-        }
-
-        function fetchAccounts() {
-            fetch(sheetCsvUrl)
-                .then(res => res.text())
-                .then(csv => {
-                    const rawAccounts = parseCSV(csv);
-                    // Sirf Approved status wale hi buy page pe dikhenge
-                    allAccounts = rawAccounts.filter(acc => acc.status.toLowerCase() === 'approved');
-                    renderCards(allAccounts);
-                })
-                .catch(err => {
-                    document.getElementById('cards-grid').innerHTML = '<p style="text-align:center; grid-column:1/-1;">Error loading items.</p>';
-                });
-        }
-
-        function renderCards(accounts) {
-            const grid = document.getElementById('cards-grid');
-            if (accounts.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No Approved Accounts Available.</p>';
-                return;
-            }
-
-            grid.innerHTML = accounts.map(acc => {
-                const waMessage = encodeURIComponent(`Hello Admin, I want to buy Free Fire ID:\nUID: ${acc.uid}\nLevel: ${acc.level}\nPrice: ${acc.price} PKR`);
-                return `
-                    <div class="id-card">
-                        <div class="card-img-wrap">
-                            <span class="level-badge">Lv. ${acc.level}</span>
-                            <img src="${acc.image}" alt="ID ${acc.uid}" onerror="this.src='https://placehold.co/600x400/000000/ffffff?text=No+Image'">
-                        </div>
-                        <div class="card-body">
-                            <div class="card-title">UID: ${acc.uid}</div>
-                            <div class="card-sub">Rank: ${acc.rank}</div>
-                            <div class="card-diamond"><i class="fa-solid fa-gem"></i> Verified Account</div>
-                            <div class="card-price">Rs. ${acc.price.toLocaleString()} PKR</div>
-                            <a href="https://wa.me/${adminWhatsApp}?text=${waMessage}" target="_blank" class="buy-now-btn">
-                                <i class="fa-solid fa-cart-shopping"></i> Buy Now
-                            </a>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function filterCards() {
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
-            const sortVal = document.getElementById('sortSelect').value;
-
-            let filtered = allAccounts.filter(acc => 
-                acc.uid.toLowerCase().includes(searchVal) || 
-                acc.level.toString().includes(searchVal)
-            );
-
-            if (sortVal === 'low') filtered.sort((a, b) => a.price - b.price);
-            if (sortVal === 'high') filtered.sort((a, b) => b.price - a.price);
-
-            renderCards(filtered);
-        }
-
-        function initVisitorCount() {
-            let count = localStorage.getItem('ff_store_views') || 12500;
-            count = parseInt(count) + 1;
-            localStorage.setItem('ff_store_views', count);
-            document.getElementById('visitorCount').innerText = count.toLocaleString();
-        }
-    </script>
-</body>
-</html>
+        window.addEventListe
