@@ -138,17 +138,17 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        /* HERO BANNER - PERFECT FREE FIRE CHARACTER FIXED */
+        /* HERO BANNER - ORION BACKGROUND */
         .hero-banner {
             width: 100%;
             border-radius: 20px;
             background-color: #05070c;
             background-image: 
-                linear-gradient(90deg, rgba(5,7,12,0.95) 0%, rgba(20,2,3,0.75) 50%, rgba(0,0,0,0.2) 100%),
-                url('https://images2.alphacoders.com/100/1003442.png');
-            background-position: right center;
+                linear-gradient(90deg, rgba(5,7,12,0.95) 0%, rgba(20,2,3,0.7) 50%, rgba(0,0,0,0.1) 100%),
+                url('orion.png');
+            background-position: center right;
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size: cover;
             padding: 40px 30px;
             color: #ffffff;
             position: relative;
@@ -637,7 +637,9 @@
     </div>
 
     <script>
-        const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRxTNb36wRmt9K47cqS2sUa-4TqSZdzr_LzINKDN14MdHRB7VON2-K4tOyfiUwMMQXMeNSr8hxe06SO/pub?output=csv';
+        // Updated with Proxy URL to bypass local CORS restrictions
+        const originalUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRxTNb36wRmt9K47cqS2sUa-4TqSZdzr_LzINKDN14MdHRB7VON2-K4tOyfiUwMMQXMeNSr8hxe06SO/pub?output=csv';
+        const sheetCsvUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(originalUrl);
         const adminWhatsApp = '923478306672';
         let allAccounts = [];
 
