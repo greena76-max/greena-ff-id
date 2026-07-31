@@ -927,7 +927,8 @@
 
             fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
-                    alert(`🎉 Success! Your ID Ad submitted successfully.\n\n🔑 YOUR TRACKING ID: ${randomTrackId}\n\nIs Tracking ID ko copy karke rakh lein! Aap "Track Order" page par ja kar live status check kar sakte hain.`);
+                    alert(`🎉 Success! Your ID Ad submitted successfully.\n\n🔑 YOUR TRACKING ID: ${randomTrackId}\n\nIs **Copy and save your Tracking ID. Use the "Track Order" page to check your live order status.**
+.`);
                     form.reset();
                     btn.innerText = 'Submit For Approval';
                     btn.disabled = false;
