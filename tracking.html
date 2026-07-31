@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0f19;
+            --bg-color: #080c14;
             --accent-red: #ff003c;
             --dark-red: #990022;
             --neon-green: #00ff88;
@@ -25,10 +25,10 @@
         }
 
         body {
-            background-color: #0d1117;
+            background-color: var(--bg-color);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(255, 0, 60, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 255, 136, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 0%, rgba(255, 0, 60, 0.18) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 255, 136, 0.12) 0px, transparent 50%),
                 repeating-linear-gradient(60deg, rgba(255, 255, 255, 0.01) 0, rgba(255, 255, 255, 0.01) 15px, transparent 15px, transparent 30px);
             background-attachment: fixed;
             color: var(--text-main);
@@ -40,14 +40,14 @@
 
         header {
             width: 100%;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding: 16px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
         }
 
         .logo {
@@ -55,7 +55,7 @@
             font-size: 1.4rem;
             font-weight: 900;
             color: #fff;
-            text-shadow: 0 0 10px rgba(255, 0, 60, 0.6);
+            text-shadow: 0 0 12px rgba(255, 0, 60, 0.7);
             text-decoration: none;
             letter-spacing: 1.5px;
         }
@@ -63,9 +63,9 @@
         .back-home-btn {
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             text-decoration: none;
             font-weight: 600;
             font-size: 0.85rem;
@@ -75,23 +75,23 @@
         .back-home-btn:hover {
             background: var(--accent-red);
             border-color: var(--accent-red);
-            box-shadow: 0 0 15px var(--red-glow);
+            box-shadow: 0 0 18px var(--red-glow);
         }
 
         .track-container {
             width: 100%;
-            max-width: 480px;
-            margin: 40px auto 30px;
+            max-width: 490px;
+            margin: 50px auto 30px;
             padding: 0 20px;
         }
 
         .track-card {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 32px 24px;
+            padding: 36px 26px;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
             position: relative;
             overflow: hidden;
             text-align: center;
@@ -109,7 +109,7 @@
 
         .track-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.65rem;
             font-weight: 900;
             color: #ffffff;
             text-transform: uppercase;
@@ -120,15 +120,15 @@
         .track-subtitle {
             font-size: 0.88rem;
             color: var(--text-muted);
-            margin-bottom: 22px;
+            margin-bottom: 24px;
         }
 
         .track-input {
             width: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border: 1.5px solid rgba(255, 255, 255, 0.15);
             border-radius: 14px;
-            padding: 14px 18px;
+            padding: 15px 18px;
             font-size: 1rem;
             color: #ffffff;
             outline: none;
@@ -136,13 +136,13 @@
             font-weight: 700;
             letter-spacing: 1px;
             transition: all 0.3s;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .track-input:focus {
             border-color: var(--accent-red);
-            box-shadow: 0 0 15px var(--red-glow);
-            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 18px var(--red-glow);
+            background: rgba(0, 0, 0, 0.7);
         }
 
         .search-btn {
@@ -150,7 +150,7 @@
             background: linear-gradient(135deg, #ff003c 0%, #990022 100%);
             color: #ffffff;
             border: none;
-            padding: 14px;
+            padding: 15px;
             border-radius: 14px;
             font-size: 1rem;
             font-family: 'Orbitron', sans-serif;
@@ -169,13 +169,13 @@
         /* NEXT-LEVEL RESULT CARD */
         .result-box {
             margin-top: 25px;
-            padding: 22px;
+            padding: 24px;
             border-radius: 20px;
-            background: rgba(10, 15, 26, 0.85);
-            border: 1px solid rgba(0, 255, 136, 0.25);
+            background: rgba(10, 15, 26, 0.9);
+            border: 1px solid rgba(0, 255, 136, 0.3);
             display: none;
             text-align: left;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 35px rgba(0, 0, 0, 0.85);
             animation: cyberPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -185,7 +185,7 @@
         }
 
         .status-badge-wrap {
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
 
         .status-badge {
@@ -205,7 +205,7 @@
             background: rgba(0, 255, 136, 0.12);
             color: var(--neon-green);
             border: 1px solid var(--neon-green);
-            box-shadow: 0 0 15px var(--green-glow);
+            box-shadow: 0 0 18px var(--green-glow);
         }
 
         .badge-pending {
@@ -265,30 +265,30 @@
         .tracking-code-highlight {
             font-family: 'Orbitron', sans-serif;
             color: var(--accent-red);
-            background: rgba(255, 0, 60, 0.12);
+            background: rgba(255, 0, 60, 0.15);
             padding: 4px 12px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 0, 60, 0.3);
+            border: 1px solid rgba(255, 0, 60, 0.35);
             letter-spacing: 1.5px;
-            box-shadow: 0 0 10px rgba(255, 0, 60, 0.2);
+            box-shadow: 0 0 12px rgba(255, 0, 60, 0.25);
         }
 
         .price-highlight {
             font-family: 'Orbitron', sans-serif;
             color: var(--neon-green);
             font-size: 1.05rem;
-            text-shadow: 0 0 8px var(--green-glow);
+            text-shadow: 0 0 10px var(--green-glow);
         }
 
         .status-msg-success {
-            margin-top: 16px;
+            margin-top: 18px;
             padding: 12px;
             background: rgba(0, 255, 136, 0.06);
-            border: 1px solid rgba(0, 255, 136, 0.2);
+            border: 1px solid rgba(0, 255, 136, 0.25);
             border-radius: 12px;
             color: var(--neon-green);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             text-align: center;
             display: flex;
             align-items: center;
@@ -301,11 +301,11 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-top: 15px;
+            margin-top: 16px;
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             color: #ffffff;
             text-decoration: none;
-            padding: 12px;
+            padding: 13px;
             border-radius: 12px;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
@@ -325,7 +325,7 @@
 
         footer {
             width: 100%;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.85);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             padding: 18px;
             text-align: center;
