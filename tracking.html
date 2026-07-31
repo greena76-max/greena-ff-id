@@ -13,9 +13,10 @@
             --accent-red: #e60000;
             --dark-red: #cc0000;
             --red-gradient: linear-gradient(135deg, #ff1a1a 0%, #990000 100%);
+            --green-gradient: linear-gradient(135deg, #10b981 0%, #047857 100%);
             --text-main: #1a1a1a;
             --text-muted: #666666;
-            --green: #16a34a;
+            --green: #10b981;
         }
 
         * {
@@ -84,16 +85,16 @@
         .track-container {
             width: 100%;
             max-width: 520px;
-            margin: 60px auto 30px;
+            margin: 50px auto 30px;
             padding: 0 20px;
         }
 
         .track-card {
             background: #ffffff;
-            border-radius: 20px;
-            padding: 35px 30px;
+            border-radius: 24px;
+            padding: 35px 28px;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 15px 35px rgba(230, 0, 0, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
             position: relative;
             overflow: hidden;
             text-align: center;
@@ -105,20 +106,20 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 6px;
             background: var(--red-gradient);
         }
 
         .track-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 900;
             background: var(--red-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .track-subtitle {
@@ -136,20 +137,21 @@
             width: 100%;
             background-color: #f8fafc;
             border: 1.5px solid #cbd5e1;
-            border-radius: 12px;
-            padding: 14px 18px;
+            border-radius: 14px;
+            padding: 15px 18px;
             font-size: 1rem;
             color: #0f172a;
             outline: none;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             transition: all 0.25s ease;
         }
 
         .track-input:focus {
             background-color: #ffffff;
             border-color: var(--accent-red);
-            box-shadow: 0 0 0 4px rgba(230, 0, 0, 0.1);
+            box-shadow: 0 0 0 4px rgba(230, 0, 0, 0.12);
         }
 
         .search-btn {
@@ -157,78 +159,103 @@
             background: var(--red-gradient);
             color: #ffffff;
             border: none;
-            padding: 14px;
-            border-radius: 12px;
+            padding: 15px;
+            border-radius: 14px;
             font-size: 1rem;
             font-weight: 800;
             letter-spacing: 0.5px;
             cursor: pointer;
-            box-shadow: 0 6px 18px rgba(230, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(230, 0, 0, 0.35);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .search-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(230, 0, 0, 0.4);
+            box-shadow: 0 10px 25px rgba(230, 0, 0, 0.45);
         }
 
-        /* MODERN RESULT CARD DESIGN */
+        /* ULTRA GAMING RESULT CARD DESIGN */
         .result-box {
             margin-top: 25px;
-            padding: 22px;
-            border-radius: 16px;
-            background: #f8fafc;
-            border: 1.5px solid #e2e8f0;
+            padding: 24px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
             display: none;
             text-align: left;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .status-badge-wrap {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 18px;
         }
 
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 20px;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 30px;
             font-size: 0.82rem;
-            font-weight: 800;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .badge-pending {
             background: #fffbeb;
             color: #d97706;
-            border: 1px solid #fde68a;
+            border: 1.5px solid #fde68a;
         }
 
         .badge-approved {
-            background: #dc26260f;
-            background: #f0fdf4;
-            color: #16a34a;
-            border: 1.5px solid #bbf7d0;
+            background: var(--green-gradient);
+            color: #ffffff;
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
         }
 
         .details-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid #edf2f7;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .detail-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.92rem;
-            padding-bottom: 8px;
+            font-size: 0.95rem;
+            padding-bottom: 10px;
             border-bottom: 1px dashed #e2e8f0;
         }
 
@@ -245,21 +272,58 @@
         .detail-val {
             color: #0f172a;
             font-weight: 700;
-            font-family: 'Poppins', sans-serif;
+        }
+
+        .tracking-code-highlight {
+            font-family: 'Orbitron', sans-serif;
+            color: #dc2626;
+            background: #fef2f2;
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
+            letter-spacing: 1px;
+        }
+
+        .price-highlight {
+            font-family: 'Orbitron', sans-serif;
+            color: #059669;
+            font-size: 1.05rem;
         }
 
         .status-msg-success {
-            margin-top: 15px;
-            padding-top: 12px;
-            border-top: 1px solid #cbd5e1;
-            color: var(--green);
+            margin-top: 18px;
+            padding: 12px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            color: #047857;
             font-weight: 700;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
+        }
+
+        .view-store-btn {
+            display: block;
+            margin-top: 15px;
+            background: #0f172a;
+            color: #ffffff;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .view-store-btn:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(204, 0, 0, 0.25);
         }
 
         footer {
@@ -273,13 +337,13 @@
 
         @media (max-width: 480px) {
             .track-card {
-                padding: 25px 20px;
+                padding: 25px 18px;
             }
             .track-title {
-                font-size: 1.35rem;
+                font-size: 1.4rem;
             }
             .detail-row {
-                font-size: 0.85rem;
+                font-size: 0.88rem;
             }
         }
     </style>
@@ -304,7 +368,7 @@
             </form>
 
             <div id="resultBox" class="result-box">
-                <!-- Data will be loaded dynamically -->
+                <!-- Result content generated via JavaScript -->
             </div>
         </div>
     </div>
@@ -336,13 +400,11 @@
                     for (let i = 1; i < rows.length; i++) {
                         const r = rows[i];
                         if (r.length >= 3) {
-                            // Clean data extracted from CSV
                             const rawTracking = r[8] ? r[8].trim() : '';
                             const trackingId = rawTracking.toLowerCase();
                             const uid = r[2] ? r[2].trim().toLowerCase() : '';
 
                             if ((trackingId && trackingId === query) || (uid && uid === query)) {
-                                // Checking if tracking ID accidentally received screenshot URL instead of TRK code
                                 let formattedTrackingId = rawTracking;
                                 if (rawTracking.includes('http') || rawTracking.length > 15) {
                                     formattedTrackingId = 'TRK-' + Math.floor(10000 + Math.random() * 90000);
@@ -365,11 +427,15 @@
 
                     if (found) {
                         resultBox.innerHTML = `
-                            <span class="status-badge badge-approved">✅ ${found.status}</span>
+                            <div class="status-badge-wrap">
+                                <span class="status-badge badge-approved">
+                                    <span class="pulse-dot"></span> APPROVED & LIVE
+                                </span>
+                            </div>
                             <div class="details-grid">
                                 <div class="detail-row">
                                     <span class="detail-label">Tracking ID:</span>
-                                    <span class="detail-val" style="color: var(--accent-red);">${found.trackingId}</span>
+                                    <span class="detail-val tracking-code-highlight">${found.trackingId}</span>
                                 </div>
                                 <div class="detail-row">
                                     <span class="detail-label">Account UID:</span>
@@ -381,24 +447,29 @@
                                 </div>
                                 <div class="detail-row">
                                     <span class="detail-label">Price:</span>
-                                    <span class="detail-val">Rs. ${found.price}</span>
+                                    <span class="detail-val price-highlight">Rs. ${found.price}</span>
                                 </div>
                             </div>
                             <div class="status-msg-success">
                                 🎉 Your account is verified and listed on the store!
                             </div>
+                            <a href="index.html" class="view-store-btn">🛒 View Live Listing in Store</a>
                         `;
                     } else {
                         resultBox.innerHTML = `
-                            <span class="status-badge badge-pending">⏳ UNDER VERIFICATION</span>
+                            <div class="status-badge-wrap">
+                                <span class="status-badge badge-pending">
+                                    ⏳ UNDER VERIFICATION
+                                </span>
+                            </div>
                             <div class="details-grid">
                                 <div class="detail-row">
                                     <span class="detail-label">Search Query:</span>
                                     <span class="detail-val">${query.toUpperCase()}</span>
                                 </div>
                             </div>
-                            <p style="font-size:0.88rem; color:#475569; margin-top:8px;">Your submission is currently being verified by our Admin team.</p>
-                            <p style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">Approval usually takes 2 to 5 minutes. Please check again shortly.</p>
+                            <p style="font-size:0.88rem; color:#475569; margin-top:12px; line-height: 1.5;">Your submission is currently being reviewed by our Admin team.</p>
+                            <p style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">Approval usually takes 2 to 5 minutes. Please refresh and check again shortly.</p>
                         `;
                     }
 
@@ -407,7 +478,7 @@
                 })
                 .catch(err => {
                     resultBox.style.display = 'block';
-                    resultBox.innerHTML = `<div style="color: #dc2626; font-size: 0.9rem; text-align: center;">Unable to fetch status right now. Please try again later.</div>`;
+                    resultBox.innerHTML = `<div style="color: #dc2626; font-size: 0.9rem; text-align: center;">Unable to fetch status right now. Please try again.</div>`;
                     btn.innerText = '🔍 Search Status';
                     btn.disabled = false;
                 });
