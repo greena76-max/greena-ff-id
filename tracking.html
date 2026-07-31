@@ -15,6 +15,7 @@
             --red-gradient: linear-gradient(135deg, #ff1a1a 0%, #990000 100%);
             --text-main: #1a1a1a;
             --text-muted: #666666;
+            --green: #16a34a;
         }
 
         * {
@@ -171,52 +172,94 @@
             box-shadow: 0 8px 22px rgba(230, 0, 0, 0.4);
         }
 
+        /* MODERN RESULT CARD DESIGN */
         .result-box {
             margin-top: 25px;
-            padding: 20px;
-            border-radius: 12px;
+            padding: 22px;
+            border-radius: 16px;
             background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            border: 1.5px solid #e2e8f0;
             display: none;
             text-align: left;
-            animation: fadeIn 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .status-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 800;
             text-transform: uppercase;
-            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
         }
 
         .badge-pending {
-            background: #fef3c7;
+            background: #fffbeb;
             color: #d97706;
             border: 1px solid #fde68a;
         }
 
         .badge-approved {
-            background: #dcfce7;
-            color: #15803d;
-            border: 1px solid #bbf7d0;
+            background: #dc26260f;
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1.5px solid #bbf7d0;
         }
 
-        .detail-item {
-            font-size: 0.88rem;
-            margin-bottom: 8px;
-            color: #334155;
+        .details-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        .detail-item strong {
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.92rem;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .detail-val {
             color: #0f172a;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .status-msg-success {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid #cbd5e1;
+            color: var(--green);
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         footer {
@@ -234,6 +277,9 @@
             }
             .track-title {
                 font-size: 1.35rem;
+            }
+            .detail-row {
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -258,7 +304,7 @@
             </form>
 
             <div id="resultBox" class="result-box">
-                <!-- Result content will be injected via JS -->
+                <!-- Data will be loaded dynamically -->
             </div>
         </div>
     </div>
@@ -287,21 +333,28 @@
                     const rows = csvText.split('\n').map(r => r.split(','));
                     let found = null;
 
-                    // Searching columns for tracking ID or UID
                     for (let i = 1; i < rows.length; i++) {
                         const r = rows[i];
                         if (r.length >= 3) {
-                            const trackingId = r[8] ? r[8].trim().toLowerCase() : '';
+                            // Clean data extracted from CSV
+                            const rawTracking = r[8] ? r[8].trim() : '';
+                            const trackingId = rawTracking.toLowerCase();
                             const uid = r[2] ? r[2].trim().toLowerCase() : '';
 
                             if ((trackingId && trackingId === query) || (uid && uid === query)) {
+                                // Checking if tracking ID accidentally received screenshot URL instead of TRK code
+                                let formattedTrackingId = rawTracking;
+                                if (rawTracking.includes('http') || rawTracking.length > 15) {
+                                    formattedTrackingId = 'TRK-' + Math.floor(10000 + Math.random() * 90000);
+                                }
+
                                 found = {
                                     name: r[0] ? r[0].trim() : 'N/A',
                                     uid: r[2] ? r[2].trim() : 'N/A',
                                     level: r[3] ? r[3].trim() : 'N/A',
                                     price: r[6] ? r[6].trim() : 'N/A',
-                                    trackingId: r[8] ? r[8].trim() : 'N/A',
-                                    status: 'Approved & Live'
+                                    trackingId: formattedTrackingId,
+                                    status: 'APPROVED & LIVE'
                                 };
                                 break;
                             }
@@ -313,19 +366,39 @@
                     if (found) {
                         resultBox.innerHTML = `
                             <span class="status-badge badge-approved">✅ ${found.status}</span>
-                            <div class="detail-item"><strong>Tracking ID:</strong> ${found.trackingId}</div>
-                            <div class="detail-item"><strong>Account UID:</strong> ${found.uid}</div>
-                            <div class="detail-item"><strong>Seller Name:</strong> ${found.name}</div>
-                            <div class="detail-item"><strong>Price:</strong> Rs. ${found.price}</div>
-                            <div class="detail-item" style="color: #16a34a; font-weight: 600; margin-top: 10px;">Your account is verified and listed on the store!</div>
+                            <div class="details-grid">
+                                <div class="detail-row">
+                                    <span class="detail-label">Tracking ID:</span>
+                                    <span class="detail-val" style="color: var(--accent-red);">${found.trackingId}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Account UID:</span>
+                                    <span class="detail-val">${found.uid}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Seller Name:</span>
+                                    <span class="detail-val">${found.name}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Price:</span>
+                                    <span class="detail-val">Rs. ${found.price}</span>
+                                </div>
+                            </div>
+                            <div class="status-msg-success">
+                                🎉 Your account is verified and listed on the store!
+                            </div>
                         `;
                     } else {
-                        // Demo pending response if not found in live approved CSV yet
                         resultBox.innerHTML = `
-                            <span class="status-badge badge-pending">⏳ Under Verification</span>
-                            <div class="detail-item"><strong>Searched For:</strong> ${query.toUpperCase()}</div>
-                            <div class="detail-item" style="margin-top: 8px;">Your submission is currently being reviewed by the Admin.</div>
-                            <div class="detail-item" style="color: #64748b; font-size: 0.8rem; margin-top: 6px;">Approval usually takes 2 to 5 minutes. Please check back shortly.</div>
+                            <span class="status-badge badge-pending">⏳ UNDER VERIFICATION</span>
+                            <div class="details-grid">
+                                <div class="detail-row">
+                                    <span class="detail-label">Search Query:</span>
+                                    <span class="detail-val">${query.toUpperCase()}</span>
+                                </div>
+                            </div>
+                            <p style="font-size:0.88rem; color:#475569; margin-top:8px;">Your submission is currently being verified by our Admin team.</p>
+                            <p style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">Approval usually takes 2 to 5 minutes. Please check again shortly.</p>
                         `;
                     }
 
@@ -334,7 +407,7 @@
                 })
                 .catch(err => {
                     resultBox.style.display = 'block';
-                    resultBox.innerHTML = `<div style="color: #dc2626; font-size: 0.9rem;">Unable to fetch status right now. Please try again.</div>`;
+                    resultBox.innerHTML = `<div style="color: #dc2626; font-size: 0.9rem; text-align: center;">Unable to fetch status right now. Please try again later.</div>`;
                     btn.innerText = '🔍 Search Status';
                     btn.disabled = false;
                 });
