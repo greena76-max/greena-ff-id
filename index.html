@@ -138,19 +138,19 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        /* HERO BANNER */
+        /* HERO BANNER - UPDATED FOR CHARACTER BACKGROUND */
         .hero-banner {
             width: 100%;
             border-radius: 20px;
-            background: linear-gradient(90deg, #05070c 0%, #1a0203 50%, #4a0002 100%),
-                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000') center/cover;
-            background-blend-mode: overlay;
+            background: linear-gradient(90deg, rgba(5,7,12,0.95) 0%, rgba(20,2,3,0.85) 50%, rgba(0,0,0,0.3) 100%),
+                        url('https://i.ibb.co/L8v1YqG/free-fire-character.jpg') center right / cover no-repeat;
             padding: 40px 30px;
             color: #ffffff;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 35px;
+            border: 1px solid rgba(255, 26, 26, 0.2);
         }
 
         .hero-content {
@@ -230,6 +230,7 @@
             font-size: 0.9rem;
             font-weight: 700;
             text-decoration: none;
+            cursor: pointer;
         }
 
         /* CARDS GRID */
@@ -529,7 +530,7 @@
             <!-- POPULAR ACCOUNTS LIST -->
             <div class="section-header">
                 <h3>Popular Accounts</h3>
-                <a href="#" class="view-all">View All →</a>
+                <a href="javascript:void(0)" class="view-all" onclick="showAllAccounts()">View All →</a>
             </div>
 
             <!-- CARDS GRID CONTAINER -->
@@ -732,6 +733,14 @@
             if (sortVal === 'high') filtered.sort((a, b) => b.price - a.price);
 
             renderCards(filtered);
+        }
+
+        // View All button handling
+        function showAllAccounts() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('sortSelect').value = 'default';
+            renderCards(allAccounts);
+            document.getElementById('cards-grid').scrollIntoView({ behavior: 'smooth' });
         }
 
         function initVisitorCount() {
