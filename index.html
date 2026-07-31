@@ -152,12 +152,12 @@
             display: block;
         }
 
-        /* --- HERO & CHARACTERS SECTION --- */
+        /* --- HERO & CHARACTERS SECTION (FIXED) --- */
         .heading-wrap {
             position: relative;
             text-align: center;
             margin-bottom: 25px;
-            padding: 10px 0;
+            padding: 20px 180px;
             min-height: 180px;
             display: flex;
             flex-direction: column;
@@ -169,20 +169,27 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            height: 200px;
+            height: 210px;
             width: auto;
             object-fit: contain;
-            z-index: 2;
+            z-index: 1;
             pointer-events: none;
-            filter: drop-shadow(0px 8px 15px rgba(0, 0, 0, 0.2));
+            filter: drop-shadow(0px 8px 15px rgba(0, 0, 0, 0.15));
         }
 
         .char-left {
-            left: -10px;
+            left: -15px;
         }
 
         .char-right {
-            right: -10px;
+            right: -15px;
+            transform: translateY(-50%) scaleX(-1); /* Right Image Mirror / Flip */
+        }
+
+        .welcome-badge-wrap, 
+        .section-title {
+            position: relative;
+            z-index: 2;
         }
 
         .welcome-badge-wrap {
@@ -559,14 +566,37 @@
             margin-bottom: 10px;
         }
 
-        @media (max-width: 900px) {
-            .hero-char { height: 140px; }
+        /* RESPONSIVE DESIGN FOR TABLETS & MOBILE */
+        @media (max-width: 1024px) {
+            .heading-wrap {
+                padding: 20px 120px;
+            }
+            .hero-char {
+                height: 150px;
+            }
         }
 
         @media (max-width: 768px) {
-            .hero-char { display: none; }
-            .welcome-char { font-size: 3rem; }
-            .section-title { font-size: 1.3rem; }
+            .heading-wrap {
+                padding: 10px 55px;
+                min-height: 130px;
+            }
+            .hero-char { 
+                display: block !important;
+                height: 85px;
+            }
+            .char-left {
+                left: -10px;
+            }
+            .char-right {
+                right: -10px;
+            }
+            .welcome-char { 
+                font-size: 2.2rem; 
+            }
+            .section-title { 
+                font-size: 1.1rem; 
+            }
         }
     </style>
 </head>
@@ -589,13 +619,13 @@
         <!-- BUY SECTION -->
         <div id="buy-section" class="section active">
             <div class="heading-wrap">
-                <!-- APKI IMAGE LINK LEFT CHARACTER -->
+                <!-- LEFT CHARACTER -->
                 <img src="https://i.postimg.cc/PJd0cSn0/Chat-GPT-Image-Jul-31-2026-06-25-08-AM.png" class="hero-char char-left" alt="FF Left Character">
                 
                 <div class="welcome-badge-wrap" id="welcomeWrap"></div>
                 <h2 class="section-title">GARENA FREE FIRE ID BUY & SELL!</h2>
 
-                <!-- APKI IMAGE LINK RIGHT CHARACTER -->
+                <!-- RIGHT CHARACTER (FLIPPED VIA CSS) -->
                 <img src="https://i.postimg.cc/PJd0cSn0/Chat-GPT-Image-Jul-31-2026-06-25-08-AM.png" class="hero-char char-right" alt="FF Right Character">
             </div>
 
