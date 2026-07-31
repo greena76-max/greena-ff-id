@@ -174,15 +174,15 @@
             object-fit: contain;
             z-index: 2;
             pointer-events: none;
-            filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.15));
+            filter: drop-shadow(0px 8px 15px rgba(0, 0, 0, 0.2));
         }
 
         .char-left {
-            left: 0px;
+            left: -10px;
         }
 
         .char-right {
-            right: 0px;
+            right: -10px;
         }
 
         .welcome-badge-wrap {
@@ -560,7 +560,7 @@
         }
 
         @media (max-width: 900px) {
-            .hero-char { height: 130px; }
+            .hero-char { height: 140px; }
         }
 
         @media (max-width: 768px) {
@@ -589,14 +589,14 @@
         <!-- BUY SECTION -->
         <div id="buy-section" class="section active">
             <div class="heading-wrap">
-                <!-- LEFT CHARACTER IMAGE WITH DIRECT WORKING LINK -->
-                <img src="https://i.ibb.co/L5Bvf9N/ff-character-left.png" class="hero-char char-left" alt="FF Character Left" onerror="this.style.display='none'">
+                <!-- APKI IMAGE LINK LEFT CHARACTER -->
+                <img src="https://i.postimg.cc/PJd0cSn0/Chat-GPT-Image-Jul-31-2026-06-25-08-AM.png" class="hero-char char-left" alt="FF Left Character">
                 
                 <div class="welcome-badge-wrap" id="welcomeWrap"></div>
                 <h2 class="section-title">GARENA FREE FIRE ID BUY & SELL!</h2>
 
-                <!-- RIGHT CHARACTER IMAGE WITH DIRECT WORKING LINK -->
-                <img src="https://i.ibb.co/3d2X4r7/ff-character-right.png" class="hero-char char-right" alt="FF Character Right" onerror="this.style.display='none'">
+                <!-- APKI IMAGE LINK RIGHT CHARACTER -->
+                <img src="https://i.postimg.cc/PJd0cSn0/Chat-GPT-Image-Jul-31-2026-06-25-08-AM.png" class="hero-char char-right" alt="FF Right Character">
             </div>
 
             <p class="section-subtitle">Select your account and buy directly via WhatsApp</p>
@@ -692,11 +692,11 @@
                     </div>
                     <div class="form-group">
                         <label>1. ID Screenshot Direct Link:</label>
-                        <input type="url" name="screenshotLink" class="form-control" placeholder="https://i.ibb.co/..." required>
+                        <input type="url" name="screenshotLink" class="form-control" placeholder="Direct Image URL..." required>
                     </div>
                     <div class="form-group">
                         <label>2. Fee Payment Screenshot Link (150 PKR):</label>
-                        <input type="url" name="paymentProofLink" class="form-control" placeholder="https://i.ibb.co/..." required>
+                        <input type="url" name="paymentProofLink" class="form-control" placeholder="Direct Image URL..." required>
                     </div>
                     <button type="submit" class="submit-btn" id="subBtn">Submit For Approval</button>
                 </form>
@@ -851,6 +851,19 @@
             alert('UID Copied: ' + uid);
         }
 
+        function fixImageUrl(url) {
+            if (!url) return 'https://placehold.co/600x400/ffffff/e60000?text=No+Image';
+            url = url.trim();
+
+            if (url.includes('drive.google.com')) {
+                const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return `https://lh3.googleusercontent.com/d/${match[1]}`;
+                }
+            }
+            return url;
+        }
+
         function fetchAccounts() {
             fetch(sheetCsvUrl)
                 .then(res => res.text())
@@ -863,7 +876,7 @@
                             allAccounts.push({
                                 name: r[0], whatsapp: r[1], uid: r[2],
                                 level: r[3], rank: r[4], login: r[5],
-                                price: r[6], img: r[7]
+                                price: r[6], img: fixImageUrl(r[7])
                             });
                         }
                     }
