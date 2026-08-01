@@ -7,15 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@600;800;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0b0e;
-            --card-bg: #141419;
-            --border-color: #2a2a35;
-            --accent-red: #ff0033;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --accent-red: #e60000;
             --dark-red: #cc0000;
-            --light-red: #ff3355;
+            --light-red: #ff3333;
             --red-gradient: linear-gradient(135deg, #ff1a1a 0%, #990000 100%);
-            --text-main: #ffffff;
-            --text-muted: #a0a0ab;
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
             --green: #25D366;
             --gold: #ffc107;
         }
@@ -30,11 +30,12 @@
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(255, 0, 51, 0.15) 0%, transparent 70%),
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(220, 38, 38, 0.05) 0px, transparent 50%),
+                repeating-linear-gradient(60deg, rgba(0, 0, 0, 0.02) 0, rgba(0, 0, 0, 0.02) 15px, transparent 15px, transparent 30px),
+                repeating-linear-gradient(-60deg, rgba(0, 0, 0, 0.02) 0, rgba(0, 0, 0, 0.02) 15px, transparent 15px, transparent 30px);
             background-attachment: fixed;
+            background-size: cover;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -45,9 +46,9 @@
 
         header {
             width: 100%;
-            background: rgba(15, 15, 20, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 0, 51, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 2px solid #e2e8f0;
             padding: 15px 24px;
             display: flex;
             justify-content: space-between;
@@ -55,7 +56,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -75,36 +76,36 @@
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             letter-spacing: 1px;
-            filter: drop-shadow(0 0 8px rgba(255,0,51,0.5));
         }
 
         .visitor-count-badge {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 0.78rem;
             font-weight: 600;
-            color: #d1d5db;
+            color: #475569;
             display: flex;
             align-items: center;
             gap: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
         }
 
         .nav-tabs {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(238, 242, 246, 0.8);
             padding: 4px;
             border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid #dcdfe6;
         }
 
         .tab-btn {
             background: transparent;
             border: none;
-            color: #a0a0ab;
+            color: #555555;
             padding: 8px 18px;
             border-radius: 20px;
             cursor: pointer;
@@ -116,20 +117,19 @@
         .tab-btn.active {
             background: var(--red-gradient);
             color: #ffffff;
-            box-shadow: 0 0 15px rgba(230, 0, 0, 0.6);
+            box-shadow: 0 4px 12px rgba(230, 0, 0, 0.35);
             transform: scale(1.03);
         }
 
         .track-nav-btn {
             text-decoration: none;
-            background: #1e293b;
+            background: #0f172a;
             color: #ffffff;
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: 600;
             font-size: 0.88rem;
             transition: background 0.3s, transform 0.2s;
-            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .track-nav-btn:hover {
@@ -168,10 +168,9 @@
         .hero-char-center {
             height: 220px;
             width: auto;
-            max-width: 100%;
             object-fit: contain;
             margin-bottom: 15px;
-            filter: drop-shadow(0px 0px 25px rgba(255, 0, 51, 0.7));
+            filter: drop-shadow(0px 8px 18px rgba(230, 0, 0, 0.25));
         }
 
         .welcome-badge-wrap {
@@ -187,12 +186,15 @@
             font-size: 4.5rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            background: linear-gradient(180deg, #ff3355 0%, #b30000 100%);
+            background: linear-gradient(180deg, #ff1a1a 0%, #b30000 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: 
-                drop-shadow(0px 0px 10px rgba(255, 0, 51, 0.8))
-                drop-shadow(0px 6px 15px rgba(0, 0, 0, 0.9));
+                drop-shadow(2px 0px 0px #ffffff) 
+                drop-shadow(-2px 0px 0px #ffffff) 
+                drop-shadow(0px 2px 0px #ffffff) 
+                drop-shadow(0px -2px 0px #ffffff)
+                drop-shadow(0px 6px 12px rgba(179, 0, 0, 0.35));
 
             opacity: 0;
             transform: translateY(15px);
@@ -221,7 +223,6 @@
             line-height: 1.2;
             width: 100%;
             text-align: center;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 51, 0.4));
         }
 
         .section-subtitle {
@@ -242,23 +243,24 @@
         }
 
         .trust-item {
-            background: rgba(20, 20, 25, 0.8);
-            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #cbd5e1;
             padding: 8px 18px;
             border-radius: 25px;
             font-size: 0.9rem;
             font-weight: 700;
-            color: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
         }
 
         .trust-item.red-box {
             background: var(--red-gradient);
             color: #ffffff;
-            border: 1px solid #ff0033;
-            box-shadow: 0 0 15px rgba(230, 0, 0, 0.5);
+            border: 1px solid #cc0000;
+            box-shadow: 0 4px 15px rgba(230, 0, 0, 0.35);
         }
 
+        /* DESKTOP STYLES (Screen > 768px) */
         @media (min-width: 769px) {
             .welcome-char {
                 font-size: 7rem !important;
@@ -294,17 +296,16 @@
 
         .search-input, .filter-select {
             padding: 12px 16px;
-            border: 1px solid var(--border-color);
+            border: 1px solid #cbd5e1;
             border-radius: 8px;
             outline: none;
             font-size: 0.95rem;
-            background: var(--card-bg);
-            color: #fff;
+            background: #ffffff;
         }
 
         .search-input:focus, .filter-select:focus {
-            border-color: var(--accent-red);
-            box-shadow: 0 0 10px rgba(255, 0, 51, 0.3);
+            border-color: var(--light-red);
+            box-shadow: 0 0 0 3px rgba(255, 51, 51, 0.15);
         }
 
         .search-input {
@@ -318,21 +319,20 @@
         }
 
         .id-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 14px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .id-card:hover {
             transform: translateY(-5px);
-            border-color: var(--accent-red);
-            box-shadow: 0 8px 25px rgba(230, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(230, 0, 0, 0.15);
         }
 
         .badge-verified {
@@ -351,7 +351,7 @@
         .card-img-wrap {
             width: 100%;
             height: 180px;
-            background: #0f0f13;
+            background: #f8fafc;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -385,9 +385,8 @@
         }
 
         .copy-btn {
-            background: #2a2a35;
-            border: 1px solid #3f3f4e;
-            color: #fff;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
             padding: 2px 8px;
             border-radius: 6px;
             font-size: 0.75rem;
@@ -397,18 +396,18 @@
         .card-meta {
             display: flex;
             justify-content: space-between;
-            background: #1c1c24;
+            background: #f8fafc;
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 0.85rem;
-            color: var(--text-muted);
+            color: #475569;
         }
 
         .card-price {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.25rem;
             font-weight: 800;
-            color: var(--accent-red);
+            color: #dc2626;
         }
 
         .buy-btn {
@@ -431,11 +430,11 @@
         }
 
         .form-card {
-            background: var(--card-bg);
+            background: #ffffff;
             border-radius: 18px;
             padding: 35px 30px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 15px 35px rgba(230, 0, 0, 0.08);
             position: relative;
             overflow: hidden;
         }
@@ -451,8 +450,8 @@
         }
 
         .payment-box {
-            background: rgba(255, 0, 51, 0.05);
-            border: 2px dashed rgba(255, 0, 51, 0.4);
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+            border: 2px dashed #ff9999;
             border-radius: 14px;
             padding: 20px;
             margin-bottom: 25px;
@@ -470,23 +469,24 @@
             font-weight: 800;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            box-shadow: 0 0 10px rgba(230, 0, 0, 0.4);
+            box-shadow: 0 4px 10px rgba(230, 0, 0, 0.25);
             margin-bottom: 10px;
         }
 
         .payment-details {
-            background: #1c1c24;
+            background: #ffffff;
             padding: 12px 18px;
             border-radius: 10px;
-            border: 1px solid rgba(255,0,51,0.2);
+            border: 1px solid #fecaca;
             display: inline-flex;
             align-items: center;
             gap: 12px;
             margin: 10px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
 
         .copy-num-btn {
-            background: var(--red-gradient);
+            background: #0f172a;
             color: #ffffff;
             border: none;
             padding: 6px 14px;
@@ -495,6 +495,10 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
+        }
+
+        .copy-num-btn:hover {
+            background: var(--dark-red);
         }
 
         .form-grid {
@@ -510,27 +514,27 @@
         .form-group label {
             display: block;
             font-size: 0.85rem;
-            color: var(--text-muted);
+            color: #334155;
             margin-bottom: 6px;
             font-weight: 700;
         }
 
         .form-control {
             width: 100%;
-            background-color: #1c1c24;
-            border: 1.5px solid var(--border-color);
+            background-color: #f8fafc;
+            border: 1.5px solid #cbd5e1;
             border-radius: 10px;
             padding: 12px 14px;
             font-size: 0.92rem;
-            color: #ffffff;
+            color: #0f172a;
             outline: none;
             transition: all 0.25s ease;
         }
 
         .form-control:focus {
-            background-color: #141419;
+            background-color: #ffffff;
             border-color: var(--accent-red);
-            box-shadow: 0 0 10px rgba(230, 0, 0, 0.3);
+            box-shadow: 0 0 0 4px rgba(230, 0, 0, 0.1);
         }
 
         .submit-btn {
@@ -545,21 +549,21 @@
             letter-spacing: 0.5px;
             cursor: pointer;
             margin-top: 15px;
-            box-shadow: 0 6px 18px rgba(230, 0, 0, 0.4);
+            box-shadow: 0 6px 18px rgba(230, 0, 0, 0.3);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(230, 0, 0, 0.6);
+            box-shadow: 0 8px 22px rgba(230, 0, 0, 0.4);
         }
 
         .reviews-section {
             margin-top: 40px;
-            background: var(--card-bg);
+            background: #ffffff;
             border-radius: 14px;
             padding: 25px;
-            border: 1px solid var(--border-color);
+            border: 1px solid #e2e8f0;
         }
 
         .star-rating {
@@ -572,7 +576,7 @@
         }
 
         .star {
-            color: #3f3f4e;
+            color: #cbd5e1;
         }
 
         .star.active {
@@ -587,8 +591,8 @@
         }
 
         .review-card {
-            background: #1c1c24;
-            border: 1px solid var(--border-color);
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 10px;
             padding: 12px;
         }
@@ -611,13 +615,13 @@
 
         .review-comment {
             font-size: 0.85rem;
-            color: var(--text-muted);
+            color: #475569;
         }
 
         footer {
             width: 100%;
-            background: #0f0f13;
-            border-top: 1px solid var(--border-color);
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
             padding: 20px;
             text-align: center;
             margin-top: 40px;
@@ -688,9 +692,9 @@
         <!-- BUY SECTION -->
         <div id="buy-section" class="section active">
             <div class="heading-wrap">
-                <img src="https://i.postimg.cc/PJd0cSn0/Chat-GPT-Image-Jul-31-2026-06-25-08-AM.png" onerror="this.src='https://via.placeholder.com/400x200/ff0033/ffffff?text=FREE+FIRE'" class="hero-char-center" alt="Free Fire Character">
+                <img src="https://i.postimg.cc/PJd0cSn0/Chat-GPT-Image-Jul-31-2026-06-25-08-AM.png" class="hero-char-center" alt="Free Fire Character">
                 <div class="welcome-badge-wrap" id="welcomeWrap"></div>
-                <h2 class="section-title">GREENA FREE FIRE ID BUY & SELL</h2>
+                <h2 class="section-title">GARENA FREE FIRE ID BUY & SELL</h2>
             </div>
 
             <p class="section-subtitle">Select your account and buy directly via WhatsApp</p>
@@ -711,7 +715,7 @@
             </div>
 
             <div class="grid-container" id="cards-grid">
-                <p style="text-align:center; grid-column: 1/-1; color: var(--text-muted);">Loading Accounts...</p>
+                <p style="text-align:center; grid-column: 1/-1; color: #666;">Loading Accounts...</p>
             </div>
 
             <!-- REVIEWS SECTION -->
@@ -728,10 +732,10 @@
                         <span class="star active" data-rating="5">★</span>
                     </div>
 
-                    <div class="form-group" style="margin-bottom: 12px;">
+                    <div class="form-group">
                         <input type="text" id="reviewerName" class="form-control" placeholder="Your Name" required>
                     </div>
-                    <div class="form-group" style="margin-bottom: 12px;">
+                    <div class="form-group">
                         <textarea id="reviewerComment" class="form-control" rows="3" placeholder="Write your review here..." required></textarea>
                     </div>
                     <button type="submit" class="submit-btn">Submit 5-Star Review</button>
@@ -747,10 +751,10 @@
             <p class="section-subtitle">Pay listing fee and submit details for approval</p>
 
             <div class="form-card">
-                <!-- PAYMENT BOX -->
+                <!-- PAYMENT BOX (ENGLISH) -->
                 <div class="payment-box">
                     <span class="fee-badge">💳 Listing Fee: 150 PKR</span>
-                    <h3 style="color: #ff3355; font-size: 1.1rem; font-weight: 700;">Send Payment To Listing:</h3>
+                    <h3 style="color: #991b1b; font-size: 1.1rem; font-weight: 700;">Send Payment To Listing:</h3>
                     
                     <div class="payment-details">
                         <div>
@@ -758,8 +762,8 @@
                         </div>
                         <button type="button" class="copy-num-btn" onclick="copyNumber()">📋 Copy</button>
                     </div>
-                    <p style="font-size:0.88rem; color:var(--text-muted);"><strong>Account Title:</strong> MUHAMMAD IBRAHIM</p>
-                    <p style="font-size:0.82rem; color:#ff3355; margin-top:8px; font-weight: 600;">⚠️ Please paste the payment receipt screenshot link below after sending the payment.</p>
+                    <p style="font-size:0.88rem; color:#475569;"><strong>Account Title:</strong> MUHAMMAD IBRAHIM</p>
+                    <p style="font-size:0.82rem; color:#dc2626; margin-top:8px; font-weight: 600;">⚠️ Please paste the payment receipt screenshot link below after sending the payment.</p>
                 </div>
 
                 <!-- FORM -->
@@ -918,6 +922,21 @@
             this.reset();
         });
 
+        let allAccounts = [];
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+
+            if(tab === 'buy') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('buy-section').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('sell-section').classList.add('active');
+            }
+        }
+
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxEhIk51Iwq811mWD3pujSxMNxMZhE8gATqYOyEI_9rxfQ99st168QkeCsv_fc41GhB/exec';
         const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRxTNb36wRmt9K47cqS2sUa-4TqSZdzr_LzINKDN14MdHRB7VON2-K4tOyfiUwMMQXMeNSr8hxe06SO/pub?output=csv';
         const adminWhatsApp = '923478306672';
@@ -934,98 +953,125 @@
 
             fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
-                    alert('Submitted Successfully! Your Tracking ID is: ' + randomTrackId);
+                    alert(`🎉 Details Submitted Successfully!\n\nYour Tracking ID: ${randomTrackId}\n\n⏱️ Please wait 2 to 5 minutes while the Admin verifies your payment and listing details.`);
                     e.target.reset();
                     btn.innerText = '🚀 SUBMIT FOR APPROVAL';
                     btn.disabled = false;
                 })
                 .catch(error => {
-                    alert('Error submitting form!');
+                    alert('Error submitting form. Please try again.');
                     btn.innerText = '🚀 SUBMIT FOR APPROVAL';
                     btn.disabled = false;
                 });
         });
 
+        function copyUid(uid) {
+            navigator.clipboard.writeText(uid);
+            alert('UID Copied: ' + uid);
+        }
+
+        function fixImageUrl(url) {
+            if (!url) return 'https://placehold.co/600x400/ffffff/e60000?text=No+Image';
+            url = url.trim();
+
+            if (url.includes('drive.google.com')) {
+                const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return `https://lh3.googleusercontent.com/d/${match[1]}`;
+                }
+            }
+            return url;
+        }
+
         function fetchAccounts() {
             fetch(sheetCsvUrl)
                 .then(res => res.text())
                 .then(csvText => {
-                    const lines = csvText.split('\n');
-                    const grid = document.getElementById('cards-grid');
-                    grid.innerHTML = '';
-
-                    if(lines.length <= 1) {
-                        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted);">No accounts available at the moment.</p>';
-                        return;
-                    }
-
-                    for(let i = 1; i < lines.length; i++) {
-                        const cols = lines[i].split(',');
-                        if(cols.length >= 5) {
-                            const title = cols[0] ? cols[0].trim() : 'Free Fire ID';
-                            const uid = cols[1] ? cols[1].trim() : 'N/A';
-                            const level = cols[2] ? cols[2].trim() : 'N/A';
-                            const price = cols[3] ? cols[3].trim() : 'N/A';
-                            let img = cols[4] ? cols[4].trim() : '';
-
-                            if(!img || !img.startsWith('http')) {
-                                img = 'https://via.placeholder.com/300x180/141419/ff0033?text=FF+ACCOUNT';
-                            }
-
-                            grid.innerHTML += `
-                                <div class="id-card">
-                                    <span class="badge-verified">VERIFIED</span>
-                                    <div class="card-img-wrap">
-                                        <img src="${img}" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x180/141419/ff0033?text=FF+ACCOUNT';" alt="Account Image">
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="card-title-wrap">
-                                            <div class="card-title">${title}</div>
-                                            <button class="copy-btn" onclick="navigator.clipboard.writeText('${uid}'); alert('UID Copied!');">Copy UID</button>
-                                        </div>
-                                        <div class="card-meta">
-                                            <span>Level: ${level}</span>
-                                            <span>UID: ${uid}</span>
-                                        </div>
-                                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
-                                            <span class="card-price">PKR ${price}</span>
-                                        </div>
-                                        <a href="https://wa.me/${adminWhatsApp}?text=I%20want%20to%20buy%20this%20ID%20UID:${uid}" target="_blank" class="buy-btn">Buy via WhatsApp</a>
-                                    </div>
-                                </div>
-                            `;
+                    const rows = csvText.split('\n').map(r => r.split(','));
+                    allAccounts = [];
+                    for (let i = 1; i < rows.length; i++) {
+                        const r = rows[i];
+                        if (r.length >= 8 && r[0].trim() !== '') {
+                            allAccounts.push({
+                                name: r[0].trim(), 
+                                whatsapp: r[1].trim(), 
+                                uid: r[2].trim(),
+                                level: r[3].trim(), 
+                                rank: r[4].trim(), 
+                                login: r[5].trim(),
+                                price: r[6].trim(), 
+                                img: fixImageUrl(r[7].trim())
+                            });
                         }
                     }
+                    renderGrid(allAccounts);
+                })
+                .catch(err => {
+                    document.getElementById('cards-grid').innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #666;">No accounts available right now.</p>';
                 });
         }
 
-        function initVisitorCount() {
-            let count = localStorage.getItem('visitor_count') || 1024;
-            count = parseInt(count) + 1;
-            localStorage.setItem('visitor_count', count);
-            document.getElementById('visitorCount').innerText = count;
-        }
+        function renderGrid(accounts) {
+            const grid = document.getElementById('cards-grid');
+            grid.innerHTML = '';
 
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-
-            if(tab === 'buy') {
-                document.querySelectorAll('.tab-btn')[0].classList.add('active');
-                document.getElementById('buy-section').classList.add('active');
-            } else {
-                document.querySelectorAll('.tab-btn')[1].classList.add('active');
-                document.getElementById('sell-section').classList.add('active');
+            if (accounts.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #666;">No accounts available right now.</p>';
+                return;
             }
+
+            accounts.forEach(acc => {
+                const card = document.createElement('div');
+                card.className = 'id-card';
+                card.innerHTML = `
+                    <span class="badge-verified">VERIFIED</span>
+                    <div class="card-img-wrap">
+                        <img src="${acc.img}" alt="ID Screenshot" onerror="this.src='https://placehold.co/600x400/ffffff/e60000?text=No+Image'">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title-wrap">
+                            <span class="card-title">UID: ${acc.uid}</span>
+                            <button class="copy-btn" onclick="copyUid('${acc.uid}')">Copy</button>
+                        </div>
+                        <div class="card-meta">
+                            <span>Level: <strong>${acc.level}</strong></span>
+                            <span>Rank: <strong>${acc.rank}</strong></span>
+                        </div>
+                        <div class="card-meta">
+                            <span>Login: <strong>${acc.login}</strong></span>
+                        </div>
+                        <div class="card-price">Rs. ${acc.price}</div>
+                        <a href="https://wa.me/${adminWhatsApp}?text=Hi%20Admin,%20I%20want%20to%20buy%20this%20Free%20Fire%20ID:%0A-%20UID:%20${acc.uid}%0A-%20Price:%20Rs.${acc.price}" target="_blank" class="buy-btn">Buy Now via WhatsApp</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
         }
 
         function filterCards() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.id-card');
-            cards.forEach(card => {
-                const text = card.innerText.toLowerCase();
-                card.style.display = text.includes(query) ? 'flex' : 'none';
-            });
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+            const sortVal = document.getElementById('sortSelect').value;
+
+            let filtered = allAccounts.filter(acc => 
+                acc.uid.toLowerCase().includes(searchVal) || 
+                acc.level.toString().includes(searchVal) ||
+                acc.rank.toLowerCase().includes(searchVal)
+            );
+
+            if (sortVal === 'low') {
+                filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+            } else if (sortVal === 'high') {
+                filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+            }
+
+            renderGrid(filtered);
+        }
+
+        function initVisitorCount() {
+            let count = localStorage.getItem('ff_visitor_count') || 1024;
+            count = parseInt(count) + 1;
+            localStorage.setItem('ff_visitor_count', count);
+            document.getElementById('visitorCount').innerText = count.toLocaleString();
         }
     </script>
 </body>
