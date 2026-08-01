@@ -168,6 +168,7 @@
         .hero-char-center {
             height: 220px;
             width: auto;
+            max-width: 100%;
             object-fit: contain;
             margin-bottom: 15px;
             filter: drop-shadow(0px 0px 25px rgba(255, 0, 51, 0.7));
@@ -258,7 +259,6 @@
             box-shadow: 0 0 15px rgba(230, 0, 0, 0.5);
         }
 
-        /* DESKTOP STYLES (Screen > 768px) */
         @media (min-width: 769px) {
             .welcome-char {
                 font-size: 7rem !important;
@@ -688,7 +688,7 @@
         <!-- BUY SECTION -->
         <div id="buy-section" class="section active">
             <div class="heading-wrap">
-                <img src="https://i.postimg.cc/PJd0cSn0/Chat-GPT-Image-Jul-31-2026-06-25-08-AM.png" class="hero-char-center" alt="Free Fire Character">
+                <img src="https://i.postimg.cc/PJd0cSn0/Chat-GPT-Image-Jul-31-2026-06-25-08-AM.png" onerror="this.src='https://via.placeholder.com/400x200/ff0033/ffffff?text=FREE+FIRE'" class="hero-char-center" alt="Free Fire Character">
                 <div class="welcome-badge-wrap" id="welcomeWrap"></div>
                 <h2 class="section-title">GREENA FREE FIRE ID BUY & SELL</h2>
             </div>
@@ -918,21 +918,6 @@
             this.reset();
         });
 
-        let allAccounts = [];
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-
-            if(tab === 'buy') {
-                document.querySelectorAll('.tab-btn')[0].classList.add('active');
-                document.getElementById('buy-section').classList.add('active');
-            } else {
-                document.querySelectorAll('.tab-btn')[1].classList.add('active');
-                document.getElementById('sell-section').classList.add('active');
-            }
-        }
-
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxEhIk51Iwq811mWD3pujSxMNxMZhE8gATqYOyEI_9rxfQ99st168QkeCsv_fc41GhB/exec';
         const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRxTNb36wRmt9K47cqS2sUa-4TqSZdzr_LzINKDN14MdHRB7VON2-K4tOyfiUwMMQXMeNSr8hxe06SO/pub?output=csv';
         const adminWhatsApp = '923478306672';
@@ -976,18 +961,22 @@
 
                     for(let i = 1; i < lines.length; i++) {
                         const cols = lines[i].split(',');
-                        if(cols.length >= 7) {
-                            const title = cols[0] || 'Free Fire ID';
-                            const uid = cols[1] || 'N/A';
-                            const level = cols[2] || 'N/A';
-                            const price = cols[3] || 'N/A';
-                            const img = cols[4] || 'https://via.placeholder.com/300';
+                        if(cols.length >= 5) {
+                            const title = cols[0] ? cols[0].trim() : 'Free Fire ID';
+                            const uid = cols[1] ? cols[1].trim() : 'N/A';
+                            const level = cols[2] ? cols[2].trim() : 'N/A';
+                            const price = cols[3] ? cols[3].trim() : 'N/A';
+                            let img = cols[4] ? cols[4].trim() : '';
+
+                            if(!img || !img.startsWith('http')) {
+                                img = 'https://via.placeholder.com/300x180/141419/ff0033?text=FF+ACCOUNT';
+                            }
 
                             grid.innerHTML += `
                                 <div class="id-card">
                                     <span class="badge-verified">VERIFIED</span>
                                     <div class="card-img-wrap">
-                                        <img src="${img}" alt="Account Image">
+                                        <img src="${img}" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x180/141419/ff0033?text=FF+ACCOUNT';" alt="Account Image">
                                     </div>
                                     <div class="card-body">
                                         <div class="card-title-wrap">
@@ -1015,6 +1004,19 @@
             count = parseInt(count) + 1;
             localStorage.setItem('visitor_count', count);
             document.getElementById('visitorCount').innerText = count;
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+
+            if(tab === 'buy') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('buy-section').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('sell-section').classList.add('active');
+            }
         }
 
         function filterCards() {
