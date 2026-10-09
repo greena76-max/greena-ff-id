@@ -1,78 +1,369 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111111"><meta name="description" content="Shop with confidence at HY Store Official.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HY Store Official</title>
+
 <style>
-:root{--ink:#171717;--muted:#707070;--orange:#ff6b1a;--pink:#fff0f3;--line:#ececec;--bg:#fff;--radius:18px}
-*{box-sizing:border-box}body{margin:0;color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:#fafafa}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}a{color:inherit;text-decoration:none}.wrap{width:min(1240px,94%);margin:auto}.announcement{background:#111;color:#fff;text-align:center;padding:8px 12px;font-size:12px}.header{background:white;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}.headrow{display:flex;align-items:center;gap:16px;padding:14px 0}.brand{font-weight:950;letter-spacing:-1.2px;font-size:21px;white-space:nowrap}.brand b{color:var(--orange)}.search{display:flex;flex:1;background:#f5f5f5;border:1px solid #eee;border-radius:99px;padding:5px 6px 5px 15px;min-width:80px}.search input{border:0;outline:0;background:transparent;width:100%;min-width:40px}.search button,.primary{background:var(--orange);color:white;border-radius:99px;padding:10px 17px;font-weight:750}.head-actions{display:flex;gap:8px}.pillbtn{background:white;border:1px solid var(--line);border-radius:99px;padding:9px 12px}.nav{display:flex;gap:22px;overflow:auto;padding:0 0 12px;font-size:13px;color:#555;white-space:nowrap}.hero{margin:22px auto 26px;border-radius:26px;background:linear-gradient(115deg,#171717 0%,#272020 58%,#ff6b1a 150%);color:white;min-height:245px;display:flex;align-items:center;padding:clamp(24px,5vw,56px);position:relative;overflow:hidden}.hero:after{content:"HY";position:absolute;right:5%;font-size:clamp(110px,24vw,260px);font-weight:950;color:#ffffff0b;line-height:1}.hero-content{position:relative;z-index:1;max-width:560px}.eyebrow{color:#ffb18a;text-transform:uppercase;font-size:11px;font-weight:800;letter-spacing:2px}.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.05;margin:10px 0}.hero p{color:#e9e9e9;max-width:440px}.hero .primary{display:inline-block;margin-top:8px}.section{margin:28px auto}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:15px}.section h2{font-size:22px;letter-spacing:-.5px;margin:0}.section-head p{color:var(--muted);font-size:13px;margin:3px 0 0}.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.benefit{background:white;border:1px solid var(--line);border-radius:15px;padding:15px}.benefit strong{display:block;font-size:13px}.benefit span{color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:0;transition:transform .18s,box-shadow .18s}.product:hover{transform:translateY(-2px);box-shadow:0 8px 24px #0000000a}.pimg{width:100%;aspect-ratio:1/1;background:#f5f5f5;object-fit:cover;display:block;cursor:pointer}.pbody{padding:11px}.pname{font-size:13px;font-weight:700;line-height:1.35;min-height:35px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}.rating{color:#e69a00;font-size:12px;margin:5px 0}.price{font-weight:850;font-size:17px}.old{font-size:12px;color:#999;text-decoration:line-through;margin-left:5px;font-weight:400}.discount{background:var(--pink);color:#c33c54;border-radius:5px;padding:3px 5px;font-size:10px;font-weight:800;margin-left:5px}.pfoot{display:flex;gap:6px;margin-top:10px}.pfoot button{flex:1;padding:9px 7px;border-radius:9px;font-size:12px;font-weight:750}.detailbtn{background:#f4f4f4}.addbtn{background:var(--orange);color:white}.state{background:#fff;border:1px dashed #ddd;border-radius:16px;padding:30px 18px;text-align:center;color:#666}.state strong{display:block;color:#222;font-size:16px;margin-bottom:5px}.banner-grid{display:grid;grid-template-columns:1fr;gap:12px}.promo{background:var(--pink);border-radius:16px;padding:18px;display:flex;align-items:center;gap:14px;min-height:95px}.promo img{width:70px;height:70px;object-fit:cover;border-radius:10px}.promo strong{display:block}.promo p{margin:3px 0;color:#666;font-size:12px}.footer{background:#151515;color:white;margin-top:45px;padding:30px 0}.footergrid{display:grid;grid-template-columns:1fr;gap:22px}.footer p,.footer a{color:#bbb;font-size:13px}.wa{position:fixed;right:16px;bottom:16px;z-index:9;background:#159b5a;color:white;padding:12px 16px;border-radius:99px;box-shadow:0 6px 20px #0002;font-weight:800}.modalback{position:fixed;inset:0;background:#0008;z-index:30;display:none;align-items:center;justify-content:center;padding:14px}.modalback.open{display:flex}.modal{background:white;border-radius:20px;width:min(680px,100%);max-height:92vh;overflow:auto;padding:20px;position:relative}.close{position:absolute;right:12px;top:12px;border-radius:50%;width:36px;height:36px;background:#f3f3f3}.detail-layout{display:grid;grid-template-columns:1fr;gap:18px}.detail-layout img{width:100%;max-height:340px;object-fit:contain;background:#f7f7f7;border-radius:14px}.field{display:grid;gap:5px;margin:10px 0}.field label{font-size:12px;font-weight:750}.field input,.field select,.field textarea{width:100%;border:1px solid #ddd;border-radius:10px;padding:11px;background:white}.formgrid{display:grid;grid-template-columns:1fr;gap:0}.cartrow{display:grid;grid-template-columns:64px 1fr auto;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}.cartrow img{width:64px;height:64px;object-fit:cover;border-radius:10px}.qty{display:flex;align-items:center;gap:10px}.qty button{background:#f1f1f1;border-radius:7px;padding:4px 10px}.notice{padding:10px;border-radius:10px;background:#fff3e8;color:#85420e;font-size:13px}.hidden{display:none!important}.small{font-size:12px;color:#777}.totalrow{display:flex;justify-content:space-between;padding:7px 0}.totalrow.grand{font-size:19px;font-weight:850;border-top:1px solid var(--line);margin-top:8px;padding-top:14px}
-@media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.banner-grid{grid-template-columns:repeat(2,1fr)}.footergrid{grid-template-columns:2fr 1fr 1fr}.formgrid{grid-template-columns:1fr 1fr;gap:0 14px}.detail-layout{grid-template-columns:1fr 1fr}.benefits{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:950px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}.hero{min-height:300px}.pbody{padding:13px}.pname{font-size:14px}.footergrid{grid-template-columns:2fr 1fr 1fr 1fr}}
-@media(max-width:420px){.brand{font-size:17px}.headrow{gap:8px}.pillbtn{padding:8px}.head-actions .account-label{display:none}.hero{min-height:220px}.benefit{padding:11px}.benefit strong{font-size:12px}.benefit span{font-size:11px}}
+:root {
+  --orange: #ff6500;
+  --black: #171717;
+  --bg: #f5f5f5;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--black);
+}
+header {
+  background: white;
+  padding: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 10px #0001;
+}
+.brand { font-size: 24px; font-weight: 900; }
+.brand span { color: var(--orange); }
+.tagline { font-size: 10px; letter-spacing: 2px; color: #777; }
+.search { display: flex; gap: 0; margin-top: 13px; }
+.search input {
+  width: 100%; min-width: 0; padding: 12px;
+  border: 1px solid #ddd; border-radius: 9px 0 0 9px;
+}
+.search button {
+  border: 0; background: var(--orange); color: white;
+  padding: 12px 17px; border-radius: 0 9px 9px 0;
+}
+nav { display: flex; gap: 8px; overflow-x: auto; padding-top: 12px; }
+nav button {
+  flex-shrink: 0; background: white; border: 1px solid #eee;
+  border-radius: 20px; padding: 8px 13px;
+}
+.hero {
+  margin: 15px; padding: 30px 22px; color: white;
+  border-radius: 16px;
+  background: linear-gradient(120deg,#171717,#432517,#793500);
+}
+.hero small { color: #ffb17a; letter-spacing: 2px; }
+.hero h1 { font-size: 36px; margin: 13px 0; }
+.hero p { color: #eee; font-size: 14px; line-height: 1.7; }
+.btn {
+  background: var(--orange); color: white; border: 0;
+  border-radius: 9px; padding: 12px 16px; font-weight: bold;
+}
+.hero .btn { background: white; color: #171717; }
+h2 { font-size: 22px; margin: 25px 15px 13px; }
+#status {
+  background: white; border: 1px dashed #ddd; border-radius: 12px;
+  padding: 30px 18px; margin: 15px; text-align: center;
+  color: #777; line-height: 1.7;
+}
+#products {
+  display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 11px; padding: 0 12px;
+}
+.card {
+  background: white; border: 1px solid #eee;
+  border-radius: 12px; overflow: hidden; padding-bottom: 12px;
+}
+.card img {
+  width: 100%; aspect-ratio: 1/1; object-fit: contain;
+  background: #f0f0f0;
+}
+.card h3 {
+  font-size: 13px; line-height: 1.4; margin: 10px;
+  height: 36px; overflow: hidden;
+}
+.price { font-size: 16px; font-weight: bold; margin: 10px; }
+.old { color: #999; text-decoration: line-through; font-size: 11px; }
+.card .add {
+  display: block; width: calc(100% - 20px); margin: 12px 10px 0;
+  background: #fff2e8; border: 1px solid #ffd0b2; color: #d95000;
+  padding: 10px 4px; border-radius: 8px; font-weight: bold;
+}
+#cart {
+  margin: 15px; padding: 15px; background: white;
+  border-radius: 12px;
+}
+.cart-item { padding: 12px 0; border-bottom: 1px solid #eee; }
+.cart-item button { margin: 5px; }
+footer {
+  margin-top: 30px; background: #171717; color: white;
+  padding: 28px 18px; text-align: center; line-height: 1.8;
+}
+footer a { color: #ff9854; }
+@media(min-width:700px) {
+  header { padding: 18px 5%; }
+  .hero { margin: 25px 5%; padding: 45px; }
+  #products { grid-template-columns: repeat(4,minmax(0,1fr)); padding: 0 5%; gap: 18px; }
+  h2 { margin-left: 5%; }
+  #status,#cart { margin-left: 5%; margin-right: 5%; }
+}
 </style>
 </head>
+
 <body>
-<div class="announcement" id="announcement">Welcome to HY Store Official</div>
-<header class="header"><div class="wrap">
- <div class="headrow"><a class="brand" href="#" aria-label="HY Store Official home">HY <b>STORE</b></a>
- <form class="search" id="searchForm" role="search"><input id="searchInput" aria-label="Search products" placeholder="Search products..." autocomplete="off"><button aria-label="Search">⌕</button></form>
- <div class="head-actions"><button class="pillbtn" id="accountBtn" aria-label="Account">♙ <span class="account-label">Account</span></button><button class="pillbtn" id="cartBtn" aria-label="Shopping cart">🛒 <span id="cartCount">0</span></button></div></div>
- <nav class="nav" id="categoryNav" aria-label="Product categories"><a href="#products">All products</a></nav>
-</div></header>
-<main class="wrap">
-<section class="hero"><div class="hero-content"><div class="eyebrow">Welcome to HY Store Official</div><h1>Good finds.<br>Better everyday.</h1><p>Discover your next favourite with a smooth, secure shopping experience across Pakistan.</p><a class="primary" href="#products">Explore products →</a></div></section>
-<section class="section" id="promotions"><div class="section-head"><div><h2>Featured offers</h2><p>Promotions from our store</p></div></div><div id="bannerArea" class="banner-grid"><div class="state"><strong>Offers are being prepared</strong>Store promotions will appear here when connected.</div></div></section>
-<section class="section" id="products"><div class="section-head"><div><h2 id="productHeading">Shop products</h2><p id="productSub">Browse the current catalogue</p></div><button class="pillbtn" id="clearSearch">Clear search</button></div><div id="productGrid" class="grid"><div class="state" style="grid-column:1/-1"><strong>Connecting to the catalogue…</strong>Products will appear here after the Google Sheets catalogue is connected.</div></div></section>
-<section class="section"><div class="benefits"><div class="benefit"><strong>✓ Clear pricing</strong><span>See item prices before checkout</span></div><div class="benefit"><strong>📦 Delivery information</strong><span>Store delivery details at checkout</span></div><div class="benefit"><strong>💬 Helpful support</strong><span>Contact our team on WhatsApp</span></div></div></section>
-</main>
-<footer class="footer"><div class="wrap footergrid"><div><div class="brand">HY <b>STORE</b> OFFICIAL</div><p>Your online shopping destination. Product listings and offers are managed through our store catalogue.</p><p id="deliveryText"></p></div><div><strong>Customer care</strong><p><a id="footerWhatsApp" href="https://wa.me/923209306672" target="_blank" rel="noopener">WhatsApp support</a></p><p><a href="#products">Shop products</a></p></div><div><strong>Shopping</strong><p><a href="#promotions">Offers</a></p><p><a href="#products">Catalogue</a></p></div><div><strong>Information</strong><p id="paymentText">Payment options are confirmed at checkout.</p></div></div></footer>
-<a class="wa" id="waButton" href="https://wa.me/923209306672" target="_blank" rel="noopener">WhatsApp</a>
-<div class="modalback" id="modalBack" role="dialog" aria-modal="true" aria-label="Store dialog"><div class="modal"><button class="close" id="modalClose" aria-label="Close">✕</button><div id="modalContent"></div></div></div>
+<header>
+  <div class="brand"><span>HY</span> STORE</div>
+  <div class="tagline">OFFICIAL STORE</div>
+
+  <form class="search" id="searchForm">
+    <input id="search" type="search" placeholder="Search products...">
+    <button type="submit">Search</button>
+  </form>
+
+  <nav>
+    <button onclick="setCategory('all')">All Products</button>
+    <button onclick="setCategory('Electronics')">Electronics</button>
+    <button onclick="setCategory('Accessories')">Accessories</button>
+    <button onclick="document.getElementById('cart').scrollIntoView()">🛒 Cart (<span id="cartCount">0</span>)</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <small>WELCOME TO HY STORE OFFICIAL</small>
+  <h1>Good Finds.<br>Better Everyday.</h1>
+  <p>Discover products for your everyday needs with a simple shopping experience.</p>
+  <button class="btn" onclick="document.getElementById('productsTitle').scrollIntoView({behavior:'smooth'})">
+    Explore Products ↓
+  </button>
+</section>
+
+<h2 id="productsTitle">Shop Products</h2>
+<div id="status">
+  <div style="font-size:32px">🛍️</div>
+  <b>Your product catalogue will appear here.</b>
+  <p>Google Sheets connect hone par sirf aapke real products dikhaye jayenge. Demo products nahi hain.</p>
+</div>
+<div id="products"></div>
+
+<h2>Shopping Cart</h2>
+<section id="cart">
+  <div id="cartItems">Your cart is empty.</div>
+  <p><b>Subtotal: <span id="total">Rs 0</span></b></p>
+  <button class="btn" onclick="checkout()">Order on WhatsApp</button>
+</section>
+
+<footer>
+  <b>HY STORE OFFICIAL</b><br>
+  Smart shopping, simple ordering.<br>
+  WhatsApp: 0320 9306672<br>
+  <a href="https://wa.me/923209306672" target="_blank">Contact Us on WhatsApp</a><br><br>
+  © <span id="year"></span> HY Store Official
+</footer>
+
 <script>
-/* Set API_URL after deploying Code.gs. Authentication requires Firebase Authentication. */
-const API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
-const FIREBASE_CONFIG = null; // Paste your Firebase web config here to enable real accounts.
-const STORE_WA = "923209306672";
-let products=[], banners=[], settings={}, cart=loadCart(), user=null, firebaseAuth=null, searchTerm="";
-const $=id=>document.getElementById(id);
-const money=n=>"Rs. "+Number(n||0).toLocaleString("en-PK",{maximumFractionDigits:2});
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-function loadCart(){try{return JSON.parse(localStorage.getItem("hyso_cart")||"[]")}catch{return []}}
-function saveCart(){localStorage.setItem("hyso_cart",JSON.stringify(cart));updateCartCount()}
-function updateCartCount(){$("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0)}
-function active(v){return v===true||String(v).toLowerCase()==="true"||String(v)==="1"||String(v).toLowerCase()==="yes"}
-function placeholder(){return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="#f3f3f3"/><text x="50%" y="50%" text-anchor="middle" font-family="Arial" font-size="18" fill="#999">HY Store Official</text></svg>')}
-async function api(action,payload={}){
- if(!API_URL.startsWith("https://script.google.com/")) throw new Error("Store backend is not connected yet. Add the Apps Script Web App URL in index.html.");
- const url=API_URL+"?action="+encodeURIComponent(action);
- if(action==="catalog"){
-   return await new Promise((resolve,reject)=>{const cb="hycb_"+Math.random().toString(36).slice(2);const s=document.createElement("script");const timer=setTimeout(()=>{cleanup();reject(new Error("Could not load catalogue. Check the Apps Script deployment and URL."))},12000);function cleanup(){clearTimeout(timer);delete window[cb];s.remove()}window[cb]=data=>{cleanup();resolve(data)};s.onerror=()=>{cleanup();reject(new Error("Catalogue connection failed."))};s.src=url+"&callback="+cb;document.head.appendChild(s)})
- }
- const response=await fetch(url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload),redirect:"follow"});
- if(!response.ok)throw new Error("Backend request failed. Please try again.");
- const data=await response.json();if(!data.ok)throw new Error(data.error||"Request failed.");return data;
+/*
+  GOOGLE SHEETS CONNECTION:
+  1. Deploy your Google Apps Script as a Web App.
+  2. Paste its /exec URL below.
+  3. The API should return JSON containing a "products" array.
+*/
+const API_URL = "";
+
+const WHATSAPP = "923209306672";
+let products = [];
+let cart = [];
+let category = "all";
+
+const $ = id => document.getElementById(id);
+
+function money(n) {
+  return "Rs " + Number(n).toLocaleString("en-PK");
 }
-function renderCategories(){const cats=[...new Set(products.map(p=>p.category).filter(Boolean))];$("categoryNav").innerHTML='<a href="#products" data-cat="">All products</a>'+cats.map(c=>`<a href="#products" data-cat="${esc(c)}">${esc(c)}</a>`).join("");$("categoryNav").querySelectorAll("a").forEach(a=>a.onclick=e=>{e.preventDefault();searchTerm="";$("searchInput").value="";renderProducts(a.dataset.cat||"")})}
-function renderProducts(category=""){let list=products.filter(p=>(!category||p.category===category)&&(`${p.name} ${p.description||""} ${p.category||""}`).toLowerCase().includes(searchTerm.toLowerCase()));$("productHeading").textContent=searchTerm?`Results for “${searchTerm}”`:category||"Shop products";$("productSub").textContent=`${list.length} item${list.length===1?"":"s"} available`;
- if(!list.length){$("productGrid").innerHTML=`<div class="state" style="grid-column:1/-1"><strong>${products.length?"No matching products":"Catalogue not connected yet"}</strong>${products.length?"Try another search or category.":"Products will appear here after the Google Sheets catalogue is connected and contains active products."}</div>`;return}
- $("productGrid").innerHTML=list.map(p=>`<article class="product"><img class="pimg" data-detail="${esc(p.id)}" src="${esc(p.image||placeholder())}" alt="${esc(p.name)}" loading="lazy" onerror="this.onerror=null;this.src=placeholder()"><div class="pbody"><div class="pname" data-detail="${esc(p.id)}">${esc(p.name)}</div><div class="rating">★ ${Number(p.rating||0).toFixed(1)} <span style="color:#999">rating</span></div><div><span class="price">${money(p.price)}</span>${Number(p.oldPrice)>Number(p.price)?`<span class="old">${money(p.oldPrice)}</span>`:""}${Number(p.discount)>0?`<span class="discount">-${Number(p.discount)}%</span>`:""}</div><div class="pfoot"><button class="detailbtn" data-detail="${esc(p.id)}">Details</button><button class="addbtn" data-add="${esc(p.id)}" ${Number(p.stock)<=0?"disabled":""}>${Number(p.stock)<=0?"Sold out":"Add +"}</button></div></div></article>`).join("");
- $("productGrid").querySelectorAll("[data-detail]").forEach(el=>el.onclick=()=>showDetail(el.dataset.detail));$("productGrid").querySelectorAll("[data-add]").forEach(el=>el.onclick=()=>addToCart(el.dataset.add,1))
+
+function safe(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  }[c]));
 }
-function renderBanners(){const list=banners.filter(b=>active(b.active));$("bannerArea").innerHTML=list.length?list.map(b=>`<a class="promo" href="${esc(b.link||"#products")}">${b.image?`<img src="${esc(b.image)}" alt="" loading="lazy" onerror="this.style.display='none'">`:""}<div><strong>${esc(b.title||"Special offer")}</strong><p>${esc(b.subtitle||"Discover more in our catalogue.")}</p></div></a>`).join(""):`<div class="state" style="grid-column:1/-1"><strong>No active promotions</strong>New promotions will appear here when added to Google Sheets.</div>`}
-async function init(){updateCartCount();try{const d=await api("catalog");if(!d.ok)throw new Error(d.error||"Catalogue unavailable");products=(d.products||[]).filter(p=>active(p.active)).map(p=>({...p,price:Number(p.price),oldPrice:Number(p.oldPrice),discount:Number(p.discount),rating:Number(p.rating),stock:Number(p.stock)}));banners=d.banners||[];settings=d.settings||{};if(settings.storeName)document.title=settings.storeName;$("announcement").textContent=settings.announcementText||"Welcome to HY Store Official";$("deliveryText").textContent=settings.deliveryInformation||"";$("paymentText").textContent=settings.paymentInstructions||"Payment options are confirmed at checkout.";const wa=(settings.WhatsAppNumber||STORE_WA).replace(/\D/g,"");$("waButton").href=$("footerWhatsApp").href="https://wa.me/"+wa;renderCategories();renderBanners();renderProducts()}catch(e){$("productGrid").innerHTML=`<div class="state" style="grid-column:1/-1"><strong>Catalogue not connected</strong>${esc(e.message)}<br><span class="small">No demo products are shown. Your real catalogue will load from Google Sheets.</span></div>`;$("bannerArea").innerHTML='<div class="state" style="grid-column:1/-1"><strong>Promotions unavailable</strong>Connect the store backend to load banners.</div>'}}
-function addToCart(id,qty=1){const p=products.find(x=>String(x.id)===String(id));if(!p||p.stock<=0)return alert("This item is currently unavailable.");const found=cart.find(x=>String(x.id)===String(id));if((found?.qty||0)+qty>p.stock)return alert("The requested quantity is not available in stock.");if(found)found.qty+=qty;else cart.push({id:p.id,qty});saveCart();showToast("Added to cart")}
-function showToast(msg){const n=document.createElement("div");n.textContent=msg;n.style="position:fixed;bottom:75px;left:50%;transform:translateX(-50%);background:#171717;color:#fff;padding:11px 18px;border-radius:99px;z-index:99";document.body.appendChild(n);setTimeout(()=>n.remove(),1800)}
-function openModal(html){$("modalContent").innerHTML=html;$("modalBack").classList.add("open");document.body.style.overflow="hidden"}
-function closeModal(){$("modalBack").classList.remove("open");document.body.style.overflow=""}
-$("modalClose").onclick=closeModal;$("modalBack").onclick=e=>{if(e.target===$("modalBack"))closeModal()};
-function showDetail(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;openModal(`<div class="detail-layout"><img src="${esc(p.image||placeholder())}" alt="${esc(p.name)}" onerror="this.src=placeholder()"><div><div class="eyebrow">HY Store Official</div><h2>${esc(p.name)}</h2><div class="rating">★ ${Number(p.rating||0).toFixed(1)} customer rating</div><div class="price">${money(p.price)} ${Number(p.oldPrice)>p.price?`<span class="old">${money(p.oldPrice)}</span>`:""}</div><p>${esc(p.description||"No additional description provided.")}</p><p class="small">${p.stock>0?`${p.stock} in stock`:"Currently out of stock"}</p><div class="field"><label for="detailQty">Quantity</label><input id="detailQty" type="number" min="1" max="${Math.max(1,p.stock)}" value="1"></div><button class="primary" id="detailAdd" ${p.stock<=0?"disabled":""}>Add to cart</button> <button class="pillbtn" id="detailBuy" ${p.stock<=0?"disabled":""}>Buy now</button></div></div>`);$("detailAdd").onclick=()=>{const q=Number($("detailQty").value);if(!Number.isInteger(q)||q<1||q>p.stock)return alert("Enter a valid quantity available in stock.");addToCart(id,q);closeModal()};$("detailBuy").onclick=()=>{const q=Number($("detailQty").value);if(!Number.isInteger(q)||q<1||q>p.stock)return alert("Enter a valid quantity available in stock.");addToCart(id,q);showCart();}}
-function cartTotal(){return cart.reduce((s,x)=>{const p=products.find(p=>String(p.id)===String(x.id));return s+(p?p.price*x.qty:0)},0)}
-function showCart(){const lines=cart.map(x=>({...x,p:products.find(p=>String(p.id)===String(x.id))})).filter(x=>x.p);if(!lines.length){openModal('<h2>Your cart</h2><div class="state"><strong>Your cart is empty</strong>Add products from the catalogue to get started.</div>');return}openModal(`<h2>Your cart</h2><div>${lines.map(x=>`<div class="cartrow"><img src="${esc(x.p.image||placeholder())}" alt=""><div><strong>${esc(x.p.name)}</strong><div class="small">${money(x.p.price)} each</div><div class="qty"><button data-dec="${esc(x.id)}" aria-label="Decrease quantity">−</button><span>${x.qty}</span><button data-inc="${esc(x.id)}" aria-label="Increase quantity">+</button></div></div><div><strong>${money(x.p.price*x.qty)}</strong><br><button class="small" data-remove="${esc(x.id)}">Remove</button></div></div>`).join("")}</div><div class="totalrow"><span>Subtotal</span><strong>${money(cartTotal())}</strong></div><div class="totalrow"><span>Delivery</span><span>Confirmed by store</span></div><button class="primary" id="checkoutBtn" style="width:100%;margin-top:10px">Continue to checkout</button><p class="small">Final price and stock are rechecked by the server when the order is submitted.</p>`);$("modalContent").querySelectorAll("[data-dec]").forEach(b=>b.onclick=()=>changeQty(b.dataset.dec,-1));$("modalContent").querySelectorAll("[data-inc]").forEach(b=>b.onclick=()=>changeQty(b.dataset.inc,1));$("modalContent").querySelectorAll("[data-remove]").forEach(b=>b.onclick=()=>{cart=cart.filter(x=>String(x.id)!==String(b.dataset.remove));saveCart();showCart()});$("checkoutBtn").onclick=showCheckout}
-function changeQty(id,delta){const x=cart.find(x=>String(x.id)===String(id)),p=products.find(p=>String(p.id)===String(id));if(!x)return;if(delta>0&&x.qty>=p.stock)return alert("No more stock available.");x.qty+=delta;if(x.qty<=0)cart=cart.filter(y=>String(y.id)!==String(id));saveCart();showCart()}
-function showAccount(){if(!FIREBASE_CONFIG){openModal(`<h2>Customer account</h2><div class="notice">Secure customer accounts are not enabled yet. The store owner must configure Firebase Authentication before account-required checkout can be used.</div><p>Passwords are never saved in this website or Google Sheets.</p><p class="small">Setup: create a Firebase project, enable Email/Password sign-in, then add the web config and Firebase SDK integration as described in SETUP.md.</p>`);return}openModal(`<h2>Customer account</h2><div class="notice">Firebase configuration is present, but account sign-in integration must be completed in the Firebase module before checkout is enabled.</div>`)}
-function showCheckout(){if(!cart.length)return showCart();if(!user){openModal(`<h2>Sign in required</h2><div class="notice">Please sign in to a verified customer account before checkout. Secure account sign-in is not enabled until Firebase is configured.</div><button class="primary" id="goAccount">Account setup</button>`);$("goAccount").onclick=showAccount;return}openModal(`<h2>Checkout</h2><div class="notice">Order totals and stock are checked by the backend before saving. Do not submit payment card details here.</div><form id="checkoutForm"><div class="formgrid"><div class="field"><label>Full name *</label><input name="customerName" required maxlength="100" value="${esc(user.displayName||"")}"></div><div class="field"><label>Phone number *</label><input name="phone" required pattern="^[+0-9 ()-]{10,18}$" maxlength="18" placeholder="03xx xxxxxxx"></div><div class="field"><label>Email *</label><input name="email" type="email" required value="${esc(user.email||"")}"></div><div class="field"><label>City *</label><input name="city" required maxlength="80"></div><div class="field"><label>District / area *</label><input name="district" required maxlength="80"></div><div class="field"><label>Payment method *</label><select name="paymentMethod" required><option value="">Select method</option><option value="Cash on Delivery">Cash on Delivery</option><option value="Bank / Wallet (confirm with store)">Bank / Wallet (confirm with store)</option></select></div></div><div class="field"><label>Full delivery address *</label><textarea name="address" required maxlength="500" rows="3"></textarea></div><div class="field"><label>Order notes (optional)</label><textarea name="orderNote" maxlength="500" rows="2"></textarea></div><h3>Order summary</h3>${cart.map(x=>{const p=products.find(p=>String(p.id)===String(x.id));return p?`<div class="totalrow"><span>${esc(p.name)} × ${x.qty}</span><strong>${money(p.price*x.qty)}</strong></div>`:""}).join("")}<div class="totalrow grand"><span>Items total</span><span>${money(cartTotal())}</span></div><button class="primary" type="submit" style="width:100%">Place order</button><div id="checkoutStatus" role="status"></div></form>`);$("checkoutForm").onsubmit=submitOrder}
-async function submitOrder(e){e.preventDefault();const f=e.currentTarget,btn=f.querySelector('[type="submit"]'),status=$("checkoutStatus");btn.disabled=true;btn.textContent="Submitting…";status.textContent="";const v=Object.fromEntries(new FormData(f).entries());try{const data=await api("createOrder",{...v,uid:user.uid,items:cart.map(x=>({id:x.id,qty:x.qty}))});if(!data.orderId)throw new Error("The server did not confirm an order ID.");cart=[];saveCart();openModal(`<h2>Order received</h2><div class="state"><strong>Thank you for your order.</strong>Your order ID is <b>${esc(data.orderId)}</b>. Save this ID for store support.</div><p class="small">Keep your order ID private. You can ask the store about your order on WhatsApp.</p><a class="primary" href="https://wa.me/${STORE_WA}?text=${encodeURIComponent("Hello HY Store Official, please help me with order "+data.orderId)}" target="_blank" rel="noopener">Ask about this order</a>`)}catch(err){status.className="notice";status.textContent="Order was not confirmed: "+err.message+" Please try again or contact the store. Do not assume an order was placed.";btn.disabled=false;btn.textContent="Place order"}}
-$("cartBtn").onclick=showCart;$("accountBtn").onclick=showAccount;$("searchForm").onsubmit=e=>{e.preventDefault();searchTerm=$("searchInput").value.trim();renderProducts()};$("searchInput").oninput=()=>{searchTerm=$("searchInput").value.trim();renderProducts()};$("clearSearch").onclick=()=>{$("searchInput").value="";searchTerm="";renderProducts()};init();
+
+async function loadProducts() {
+  if (!API_URL) {
+    $("status").innerHTML =
+      '<div style="font-size:32px">🛍️</div>' +
+      '<b>Google Sheets catalogue is not connected yet.</b>' +
+      '<p>Add your Google Apps Script Web App URL in API_URL to display your real products.</p>';
+    return;
+  }
+
+  $("status").textContent = "Loading products...";
+
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error("Connection failed");
+
+    const data = await response.json();
+    const rows = Array.isArray(data) ? data : data.products || [];
+
+    products = rows.filter(p =>
+      p &&
+      p.active !== false &&
+      p.active !== "false" &&
+      p.name &&
+      Number.isFinite(Number(p.price)) &&
+      Number(p.price) >= 0
+    ).map((p, i) => ({
+      id: String(p.id ?? i),
+      name: String(p.name),
+      price: Number(p.price),
+      oldPrice: Number(p.oldPrice) || 0,
+      image: String(p.image || ""),
+      category: String(p.category || "Other"),
+      description: String(p.description || ""),
+      stock: p.stock == null ? null : Number(p.stock)
+    }));
+
+    $("status").hidden = products.length > 0;
+    renderProducts();
+  } catch (error) {
+    $("status").hidden = false;
+    $("status").textContent =
+      "Products load nahi huay. Google Apps Script URL aur permissions check karein.";
+  }
+}
+
+function renderProducts() {
+  const query = $("search").value.trim().toLowerCase();
+
+  const list = products.filter(p =>
+    (category === "all" || p.category === category) &&
+    (p.name.toLowerCase().includes(query) ||
+     p.category.toLowerCase().includes(query))
+  );
+
+  $("products").innerHTML = list.map(p => `
+    <article class="card">
+      ${p.image.startsWith("https://") || p.image.startsWith("http://")
+        ? `<img src="${safe(p.image)}" alt="${safe(p.name)}" loading="lazy">`
+        : `<div style="aspect-ratio:1;background:#eee;display:grid;place-items:center;font-size:35px">📦</div>`}
+      <h3>${safe(p.name)}</h3>
+      <div class="price">${money(p.price)}
+        ${p.oldPrice > p.price
+          ? `<span class="old">${money(p.oldPrice)}</span>` : ""}
+      </div>
+      <button class="add" onclick="addToCart('${safe(p.id)}')"
+        ${p.stock === 0 ? "disabled" : ""}>
+        ${p.stock === 0 ? "Out of stock" : "+ Add to Cart"}
+      </button>
+    </article>
+  `).join("");
+
+  if (!list.length && products.length) {
+    $("products").innerHTML =
+      '<p style="padding:15px;color:#777">No products found.</p>';
+  }
+}
+
+function setCategory(value) {
+  category = value;
+  renderProducts();
+}
+
+function addToCart(id) {
+  const p = products.find(item => item.id === id);
+  if (!p) return;
+
+  const item = cart.find(i => i.id === id);
+
+  if (item) {
+    if (p.stock != null && item.qty >= p.stock) {
+      alert("Stock limit reached.");
+      return;
+    }
+    item.qty++;
+  } else {
+    cart.push({id:id, qty:1});
+  }
+
+  renderCart();
+}
+
+function renderCart() {
+  $("cartCount").textContent =
+    cart.reduce((sum, item) => sum + item.qty, 0);
+
+  let total = 0;
+
+  $("cartItems").innerHTML = cart.map(item => {
+    const p = products.find(x => x.id === item.id);
+    if (!p) return "";
+
+    total += p.price * item.qty;
+
+    return `<div class="cart-item">
+      <b>${safe(p.name)}</b><br>
+      ${money(p.price)} × ${item.qty}
+      <button onclick="changeQty('${safe(item.id)}',-1)">−</button>
+      <button onclick="changeQty('${safe(item.id)}',1)">+</button>
+      <button onclick="removeItem('${safe(item.id)}')">Remove</button>
+    </div>`;
+  }).join("") || "Your cart is empty.";
+
+  $("total").textContent = money(total);
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  const p = products.find(i => i.id === id);
+  if (!item || !p) return;
+
+  if (delta > 0 && p.stock != null && item.qty >= p.stock) {
+    alert("Stock limit reached.");
+    return;
+  }
+
+  item.qty += delta;
+  if (item.qty <= 0) removeItem(id);
+  else renderCart();
+}
+
+function removeItem(id) {
+  cart = cart.filter(i => i.id !== id);
+  renderCart();
+}
+
+function checkout() {
+  if (!cart.length) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+  let total = 0;
+  const lines = cart.map(item => {
+    const p = products.find(x => x.id === item.id);
+    if (!p) return "";
+    total += p.price * item.qty;
+    return `${p.name} x ${item.qty} = ${money(p.price * item.qty)}`;
+  }).filter(Boolean);
+
+  const message =
+    "Assalam-o-alaikum, HY Store Official!\n\n" +
+    "I want to order:\n" + lines.join("\n") +
+    "\n\nEstimated subtotal: " + money(total) +
+    "\nPlease confirm availability and delivery charges.";
+
+  window.open(
+    "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(message),
+    "_blank"
+  );
+}
+
+$("searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+  renderProducts();
+});
+
+$("search").addEventListener("input", renderProducts);
+$("year").textContent = new Date().getFullYear();
+
+loadProducts();
 </script>
-</body></html>
+</body>
+</html>
