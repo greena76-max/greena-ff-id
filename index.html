@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HY STORE OFFICIAL | Modern Red & Black E-Commerce</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HY STORE OFFICIAL | Modern Mobile-First E-Commerce</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -24,6 +24,7 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
                     }
                 }
             }
@@ -34,25 +35,36 @@
             background-color: #0B0B0B;
             color: #FFFFFF;
             font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
+        .skeleton-box {
+            background: linear-gradient(90deg, #1c1c1c 25%, #2a2a2a 50%, #1c1c1c 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
         }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .nav-link.active {
+            color: #E50914 !important;
+            font-weight: 700;
+        }
+        .mob-bottom-btn.active {
+            color: #E50914 !important;
+            font-weight: 700;
         }
     </style>
 </head>
-<body class="bg-brandDark text-white min-h-screen flex flex-col justify-between">
+<body class="bg-brandDark text-white min-h-screen flex flex-col justify-between pb-16 lg:pb-0">
 
     <!-- TOP ANNOUNCEMENT BAR -->
-    <div class="bg-brandRed text-white text-xs text-center py-2 px-4 font-medium flex justify-between items-center max-w-7xl mx-auto w-full md:px-8">
+    <div class="bg-brandRed text-white text-[10px] sm:text-xs text-center py-2 px-2 font-medium flex justify-between items-center max-w-7xl mx-auto w-full md:px-8">
         <div class="hidden sm:flex items-center space-x-4">
             <span><i class="fa-solid fa-phone mr-1"></i> +92 320 9306672</span>
             <span><i class="fa-solid fa-envelope mr-1"></i> hybusinessprint@gmail.com</span>
         </div>
-        <div class="mx-auto sm:mx-0 font-semibold tracking-wide">
+        <div class="mx-auto sm:mx-0 font-semibold tracking-wide truncate">
             🎁 FREE DELIVERY ACROSS PAKISTAN ON ORDERS OVER PKR 3,000!
         </div>
         <div class="hidden md:flex items-center space-x-3 text-xs">
@@ -63,17 +75,17 @@
     </div>
 
     <!-- MAIN NAVIGATION HEADER -->
-    <header class="sticky top-0 z-50 bg-brandDark/95 backdrop-blur-md border-b border-brandBorder">
+    <header class="sticky top-0 z-40 bg-brandDark/95 backdrop-blur-md border-b border-brandBorder">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
+            <div class="flex items-center justify-between h-16 sm:h-20">
                 <!-- LOGO -->
-                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
-                    <div class="bg-brandRed text-white p-2.5 rounded-xl shadow-lg shadow-brandRed/30">
-                        <i class="fa-solid fa-gift text-2xl"></i>
+                <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchTab('home')">
+                    <div class="bg-brandRed text-white p-2 rounded-xl shadow-lg shadow-brandRed/30">
+                        <i class="fa-solid fa-gift text-lg sm:text-2xl"></i>
                     </div>
                     <div>
-                        <span class="text-xl md:text-2xl font-extrabold tracking-wider text-white block leading-none">HY STORE</span>
-                        <span class="text-[10px] tracking-[0.2em] text-brandRed font-bold uppercase block mt-1">O F F I C I A L</span>
+                        <span class="text-lg sm:text-2xl font-extrabold tracking-wider text-white block leading-none">HY STORE</span>
+                        <span class="text-[8px] sm:text-[10px] tracking-[0.2em] text-brandRed font-bold uppercase block mt-1">O F F I C I A L</span>
                     </div>
                 </div>
 
@@ -88,62 +100,57 @@
                     </div>
                 </div>
 
-                <!-- NAV LINKS & CART ICON -->
-                <div class="flex items-center space-x-6">
+                <!-- DESKTOP NAV LINKS & CART ICON -->
+                <div class="flex items-center space-x-4 sm:space-x-6">
                     <nav class="hidden lg:flex items-center space-x-8 font-medium text-sm">
-                        <button onclick="switchTab('home')" class="hover:text-brandRed transition text-brandRed font-semibold" id="nav-home">Home</button>
-                        <button onclick="switchTab('shop')" class="hover:text-brandRed transition text-gray-300" id="nav-shop">Shop</button>
-                        <button onclick="switchTab('track')" class="hover:text-brandRed transition text-gray-300" id="nav-track">Track Order</button>
-                        <button onclick="switchTab('contact')" class="hover:text-brandRed transition text-gray-300" id="nav-contact">Contact Us</button>
+                        <button onclick="switchTab('home')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-home">Home</button>
+                        <button onclick="switchTab('shop')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-shop">Shop</button>
+                        <button onclick="switchTab('track')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-track">Track Order</button>
+                        <button onclick="switchTab('contact')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-contact">Contact Us</button>
                     </nav>
 
                     <!-- CART BUTTON -->
-                    <button onclick="toggleCartModal()" class="relative bg-brandGray p-3 rounded-xl border border-brandBorder hover:border-brandRed transition group">
-                        <i class="fa-solid fa-bag-shopping text-xl text-gray-200 group-hover:text-brandRed transition"></i>
-                        <span id="cartCountBadge" class="absolute -top-2 -right-2 bg-brandRed text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-brandDark">0</span>
+                    <button onclick="toggleCartModal()" class="relative bg-brandGray p-2.5 sm:p-3 rounded-xl border border-brandBorder hover:border-brandRed transition group">
+                        <i class="fa-solid fa-bag-shopping text-lg sm:text-xl text-gray-200 group-hover:text-brandRed transition"></i>
+                        <span id="cartCountBadge" class="absolute -top-2 -right-2 bg-brandRed text-white text-[10px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center border-2 border-brandDark">0</span>
                     </button>
+                </div>
+            </div>
 
-                    <!-- MOBILE MENU BUTTON -->
-                    <button onclick="toggleMobileNav()" class="lg:hidden text-2xl text-white">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
+            <!-- MOBILE SEARCH INPUT BAR -->
+            <div class="pb-3 md:hidden">
+                <div class="relative w-full">
+                    <input type="text" id="mobileSearchInput" oninput="filterProductsMobile()" placeholder="Search products..." 
+                           class="w-full bg-brandGray text-xs text-white placeholder-gray-400 rounded-xl py-2 pl-4 pr-10 border border-brandBorder focus:outline-none focus:border-brandRed transition">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- MOBILE MENU NAV -->
-    <div id="mobileNav" class="hidden lg:hidden bg-brandGray border-b border-brandBorder px-6 py-4 space-y-3">
-        <button onclick="switchTab('home')" class="block w-full text-left py-2 text-gray-200 font-medium">Home</button>
-        <button onclick="switchTab('shop')" class="block w-full text-left py-2 text-gray-200 font-medium">Shop All Products</button>
-        <button onclick="switchTab('track')" class="block w-full text-left py-2 text-gray-200 font-medium">Track Order</button>
-        <button onclick="switchTab('contact')" class="block w-full text-left py-2 text-gray-200 font-medium">Contact Us</button>
-        <button onclick="switchTab('admin')" class="block w-full text-left py-2 text-yellow-400 font-bold">Admin Dashboard</button>
-    </div>
-
     <!-- CONTENT WRAPPER -->
     <main class="mb-auto">
 
         <!-- ================= PAGE 1: HOME PAGE ================= -->
-        <div id="page-home" class="space-y-12 pb-16">
+        <div id="page-home" class="space-y-8 sm:space-y-12 pb-12">
             <!-- HERO BANNER SECTION -->
-            <section class="relative bg-gradient-to-r from-brandDark via-brandGray to-brandDark py-16 md:py-24 border-b border-brandBorder overflow-hidden">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div class="space-y-6 z-10 text-center md:text-left">
-                        <span class="inline-block bg-brandRed/20 text-brandRed border border-brandRed/30 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+            <section class="relative bg-gradient-to-r from-brandDark via-brandGray to-brandDark py-10 md:py-24 border-b border-brandBorder overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="space-y-4 md:space-y-6 z-10 text-center md:text-left">
+                        <span class="inline-block bg-brandRed/20 text-brandRed border border-brandRed/30 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider">
                             Welcome to HY Store Official
                         </span>
-                        <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white leading-tight">
+                        <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
                             Your Style, <br><span class="text-brandRed">Your Choice.</span>
                         </h1>
-                        <p class="text-gray-400 text-sm md:text-base max-w-lg mx-auto md:mx-0">
+                        <p class="text-gray-400 text-xs sm:text-sm md:text-base max-w-lg mx-auto md:mx-0">
                             Discover our premium curated collection of luxury gift sets, customized accessories, tech gadgets, and everyday lifestyle essentials.
                         </p>
-                        <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-2">
-                            <button onclick="switchTab('shop')" class="w-full sm:w-auto bg-brandRed hover:bg-red-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-brandRed/40 transition transform hover:-translate-y-0.5">
+                        <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 pt-2">
+                            <button onclick="switchTab('shop')" class="w-full sm:w-auto bg-brandRed hover:bg-red-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-brandRed/40 transition uppercase text-xs sm:text-sm">
                                 SHOP NOW <i class="fa-solid fa-arrow-right ml-2"></i>
                             </button>
-                            <button onclick="switchTab('track')" class="w-full sm:w-auto bg-brandGray hover:bg-brandCard text-white border border-brandBorder font-semibold px-8 py-4 rounded-xl transition">
+                            <button onclick="switchTab('track')" class="w-full sm:w-auto bg-brandGray hover:bg-brandCard text-white border border-brandBorder font-semibold px-6 py-3.5 rounded-xl transition text-xs sm:text-sm">
                                 TRACK ORDER
                             </button>
                         </div>
@@ -153,72 +160,82 @@
                         <div class="absolute -inset-1 bg-gradient-to-r from-brandRed to-red-900 rounded-3xl blur-2xl opacity-30"></div>
                         <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" 
                              alt="Premium Gift Box HY Store" 
-                             class="relative rounded-2xl shadow-2xl border border-brandBorder object-cover max-h-[420px] w-full">
+                             class="relative rounded-2xl shadow-2xl border border-brandBorder object-cover max-h-[280px] sm:max-h-[420px] w-full">
                     </div>
                 </div>
             </section>
 
             <!-- CATEGORIES SECTION -->
             <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center justify-between mb-6">
                     <div>
-                        <h2 class="text-2xl md:text-3xl font-bold">Product Categories</h2>
-                        <p class="text-xs text-gray-400 mt-1">Browse by your favorite categories</p>
+                        <h2 class="text-xl sm:text-3xl font-bold">Product Categories</h2>
+                        <p class="text-[10px] sm:text-xs text-gray-400 mt-0.5">Browse by your favorite categories</p>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                    <div onclick="filterByCategory('Gifts')" class="bg-brandCard hover:bg-brandRed p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-box-open text-3xl text-brandRed group-hover:text-white mb-3"></i>
-                        <h3 class="text-sm font-semibold">Luxury Gifts</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4">
+                    <div onclick="filterByCategory('Gifts')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
+                        <i class="fa-solid fa-box-open text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
+                        <h3 class="text-xs sm:text-sm font-semibold">Luxury Gifts</h3>
                     </div>
-                    <div onclick="filterByCategory('Mugs')" class="bg-brandCard hover:bg-brandRed p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-mug-hot text-3xl text-brandRed group-hover:text-white mb-3"></i>
-                        <h3 class="text-sm font-semibold">Mugs & Drinkware</h3>
+                    <div onclick="filterByCategory('Mugs')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
+                        <i class="fa-solid fa-mug-hot text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
+                        <h3 class="text-xs sm:text-sm font-semibold">Mugs & Drinkware</h3>
                     </div>
-                    <div onclick="filterByCategory('Decor')" class="bg-brandCard hover:bg-brandRed p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-house text-3xl text-brandRed group-hover:text-white mb-3"></i>
-                        <h3 class="text-sm font-semibold">Home Decor</h3>
+                    <div onclick="filterByCategory('Decor')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
+                        <i class="fa-solid fa-house text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
+                        <h3 class="text-xs sm:text-sm font-semibold">Home Decor</h3>
                     </div>
-                    <div onclick="filterByCategory('Photo')" class="bg-brandCard hover:bg-brandRed p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-camera text-3xl text-brandRed group-hover:text-white mb-3"></i>
-                        <h3 class="text-sm font-semibold">Photo Keepsakes</h3>
+                    <div onclick="filterByCategory('Photo')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
+                        <i class="fa-solid fa-camera text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
+                        <h3 class="text-xs sm:text-sm font-semibold">Photo Keepsakes</h3>
                     </div>
-                    <div onclick="filterByCategory('Leather')" class="bg-brandCard hover:bg-brandRed p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-wallet text-3xl text-brandRed group-hover:text-white mb-3"></i>
-                        <h3 class="text-sm font-semibold">Leather Goods</h3>
+                    <div onclick="filterByCategory('Leather')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
+                        <i class="fa-solid fa-wallet text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
+                        <h3 class="text-xs sm:text-sm font-semibold">Leather Goods</h3>
                     </div>
-                    <div onclick="filterByCategory('Customized')" class="bg-brandCard hover:bg-brandRed p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-pen-nib text-3xl text-brandRed group-hover:text-white mb-3"></i>
-                        <h3 class="text-sm font-semibold">Customized</h3>
+                    <div onclick="openAiStudioModal()" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandRed/60 cursor-pointer transition text-center group shadow-lg shadow-brandRed/10">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2 animate-pulse"></i>
+                        <h3 class="text-xs sm:text-sm font-bold text-brandRed group-hover:text-white">Customized AI</h3>
                     </div>
                 </div>
             </section>
 
             <!-- FEATURED PRODUCTS GRID -->
             <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center justify-between mb-6">
                     <div>
-                        <h2 class="text-2xl md:text-3xl font-bold">Featured Products</h2>
-                        <p class="text-xs text-gray-400 mt-1">Live data directly connected to Google Script</p>
+                        <h2 class="text-xl sm:text-3xl font-bold">Featured Products</h2>
+                        <p class="text-[10px] sm:text-xs text-gray-400 mt-0.5">Handpicked premium items just for you</p>
                     </div>
-                    <button onclick="switchTab('shop')" class="text-brandRed text-sm font-bold hover:underline">View All <i class="fa-solid fa-chevron-right ml-1"></i></button>
+                    <button onclick="switchTab('shop')" class="text-brandRed text-xs sm:text-sm font-bold hover:underline">View All <i class="fa-solid fa-chevron-right ml-1"></i></button>
                 </div>
                 
-                <div id="featuredProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <p class="col-span-full text-center text-gray-400 py-10"><i class="fa-solid fa-spinner animate-spin text-brandRed mr-2"></i> Loading products from Google Sheet...</p>
+                <div id="featuredProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+                    <!-- Skeleton Loading Cards -->
+                    <div class="bg-brandCard rounded-2xl p-3 space-y-3 border border-brandBorder">
+                        <div class="skeleton-box aspect-square w-full rounded-xl"></div>
+                        <div class="skeleton-box h-3 w-3/4 rounded"></div>
+                        <div class="skeleton-box h-5 w-1/2 rounded"></div>
+                    </div>
+                    <div class="bg-brandCard rounded-2xl p-3 space-y-3 border border-brandBorder">
+                        <div class="skeleton-box aspect-square w-full rounded-xl"></div>
+                        <div class="skeleton-box h-3 w-3/4 rounded"></div>
+                        <div class="skeleton-box h-5 w-1/2 rounded"></div>
+                    </div>
                 </div>
             </section>
         </div>
 
         <!-- ================= PAGE 2: SHOP LISTING PAGE ================= -->
-        <div id="page-shop" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-6 border-b border-brandBorder">
+        <div id="page-shop" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-brandBorder">
                 <div>
-                    <h1 class="text-3xl font-extrabold">Shop Collection</h1>
-                    <p class="text-xs text-gray-400 mt-1">Explore all live items from your backup sheet</p>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold">Shop Collection</h1>
+                    <p class="text-[10px] sm:text-xs text-gray-400 mt-0.5">Explore all products at HY Store Official</p>
                 </div>
-                <div class="flex flex-wrap items-center gap-4 w-full md:w-auto">
-                    <select id="categoryFilter" onchange="filterProducts()" class="bg-brandGray border border-brandBorder rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brandRed">
+                <div class="w-full md:w-auto">
+                    <select id="categoryFilter" onchange="filterProducts()" class="w-full md:w-auto bg-brandGray border border-brandBorder rounded-xl px-4 py-2.5 text-xs sm:text-sm focus:outline-none focus:border-brandRed">
                         <option value="All">All Categories</option>
                         <option value="Gifts">Gifts</option>
                         <option value="Mugs">Mugs & Drinkware</option>
@@ -230,66 +247,68 @@
                 </div>
             </div>
 
-            <div id="shopProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <!-- Dynamic Javascript Population -->
+            <div id="shopProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+                <div class="bg-brandCard rounded-2xl p-3 space-y-3 border border-brandBorder">
+                    <div class="skeleton-box aspect-square w-full rounded-xl"></div>
+                    <div class="skeleton-box h-3 w-3/4 rounded"></div>
+                    <div class="skeleton-box h-5 w-1/2 rounded"></div>
+                </div>
             </div>
         </div>
 
         <!-- ================= PAGE 3: PRODUCT DETAIL PAGE ================= -->
-        <div id="page-detail" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <button onclick="switchTab('shop')" class="text-gray-400 hover:text-brandRed mb-8 inline-flex items-center text-sm font-semibold">
+        <div id="page-detail" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
+            <button onclick="switchTab('shop')" class="text-gray-400 hover:text-brandRed mb-6 inline-flex items-center text-xs sm:text-sm font-semibold">
                 <i class="fa-solid fa-arrow-left mr-2"></i> Back to Shop
             </button>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12" id="productDetailContainer">
-                <!-- Dynamic Javascript Insertion -->
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12" id="productDetailContainer"></div>
         </div>
 
         <!-- ================= PAGE 4: CHECKOUT PAGE ================= -->
-        <div id="page-checkout" class="hidden max-w-4xl mx-auto px-4 py-12">
-            <h1 class="text-3xl font-extrabold mb-2">Checkout Order</h1>
-            <p class="text-sm text-gray-400 mb-8">Enter your delivery information to submit your order to Google Sheet.</p>
+        <div id="page-checkout" class="hidden max-w-4xl mx-auto px-4 py-6 sm:py-12">
+            <h1 class="text-2xl sm:text-3xl font-extrabold mb-1">Checkout Order</h1>
+            <p class="text-xs text-gray-400 mb-6">Enter your delivery information below to confirm your order.</p>
 
-            <form id="checkoutForm" onsubmit="processOrder(event)" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="md:col-span-2 space-y-4 bg-brandCard p-6 rounded-2xl border border-brandBorder">
-                    <h2 class="text-lg font-bold border-b border-brandBorder pb-3 text-brandRed">Shipping Information</h2>
+            <form id="checkoutForm" onsubmit="processOrder(event)" class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                <div class="md:col-span-2 space-y-3.5 bg-brandCard p-4 sm:p-6 rounded-2xl border border-brandBorder">
+                    <h2 class="text-base sm:text-lg font-bold border-b border-brandBorder pb-2.5 text-brandRed">Shipping Information</h2>
                     <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Full Name</label>
-                        <input type="text" required id="custName" class="w-full bg-brandGray border border-brandBorder rounded-xl p-3 text-sm focus:outline-none focus:border-brandRed" placeholder="e.g. Ali Ahmed">
+                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Full Name</label>
+                        <input type="text" required id="custName" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="e.g. Ali Ahmed">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Phone Number (Required)</label>
-                        <input type="tel" required id="custPhone" class="w-full bg-brandGray border border-brandBorder rounded-xl p-3 text-sm focus:outline-none focus:border-brandRed" placeholder="03001234567">
+                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Phone Number</label>
+                        <input type="tel" required id="custPhone" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="03001234567">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Email Address</label>
-                        <input type="email" required id="custEmail" class="w-full bg-brandGray border border-brandBorder rounded-xl p-3 text-sm focus:outline-none focus:border-brandRed" placeholder="your@email.com">
+                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Email Address</label>
+                        <input type="email" required id="custEmail" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="your@email.com">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Complete Delivery Address</label>
-                        <textarea required id="custAddress" rows="3" class="w-full bg-brandGray border border-brandBorder rounded-xl p-3 text-sm focus:outline-none focus:border-brandRed" placeholder="House/Street #, Sector, Area"></textarea>
+                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Complete Delivery Address</label>
+                        <textarea required id="custAddress" rows="2" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="House/Street #, Sector, Area"></textarea>
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">City</label>
-                            <input type="text" required id="custCity" class="w-full bg-brandGray border border-brandBorder rounded-xl p-3 text-sm focus:outline-none focus:border-brandRed" placeholder="e.g. Mandi Bahauddin">
+                            <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">City</label>
+                            <input type="text" required id="custCity" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="e.g. Mandi Bahauddin">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Payment Method</label>
-                            <input type="text" readonly value="Cash on Delivery (COD)" class="w-full bg-brandDark text-brandRed font-bold border border-brandBorder rounded-xl p-3 text-sm cursor-not-allowed">
+                            <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Payment</label>
+                            <input type="text" readonly value="COD" class="w-full bg-brandDark text-brandRed font-bold border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm cursor-not-allowed">
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-brandCard p-6 rounded-2xl border border-brandBorder h-fit space-y-4">
-                    <h2 class="text-lg font-bold border-b border-brandBorder pb-3 text-brandRed">Order Summary</h2>
-                    <div id="checkoutItemsList" class="space-y-3 max-h-60 overflow-y-auto pr-1 text-xs"></div>
-                    <div class="border-t border-brandBorder pt-3 space-y-2 text-sm">
+                <div class="bg-brandCard p-4 sm:p-6 rounded-2xl border border-brandBorder h-fit space-y-4">
+                    <h2 class="text-base sm:text-lg font-bold border-b border-brandBorder pb-2.5 text-brandRed">Order Summary</h2>
+                    <div id="checkoutItemsList" class="space-y-3 max-h-52 overflow-y-auto pr-1 text-xs"></div>
+                    <div class="border-t border-brandBorder pt-3 space-y-2 text-xs sm:text-sm">
                         <div class="flex justify-between text-gray-400"><span>Subtotal:</span> <span id="coSubtotal">PKR 0</span></div>
                         <div class="flex justify-between text-gray-400"><span>Delivery Fee:</span> <span>FREE</span></div>
-                        <div class="flex justify-between font-bold text-base text-white border-t border-brandBorder pt-2"><span>Total Amount:</span> <span id="coTotal" class="text-brandRed">PKR 0</span></div>
+                        <div class="flex justify-between font-bold text-sm sm:text-base text-white border-t border-brandBorder pt-2"><span>Total Amount:</span> <span id="coTotal" class="text-brandRed">PKR 0</span></div>
                     </div>
-                    <button type="submit" id="placeOrderBtn" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brandRed/30 transition uppercase text-sm mt-4">
+                    <button type="submit" id="placeOrderBtn" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brandRed/30 transition uppercase text-xs sm:text-sm mt-4">
                         Place Order (COD)
                     </button>
                 </div>
@@ -297,93 +316,164 @@
         </div>
 
         <!-- ================= PAGE 5: DEDICATED TRACK ORDER PAGE ================= -->
-        <div id="page-track" class="hidden max-w-3xl mx-auto px-4 py-12">
-            <div class="text-center space-y-3 mb-10">
-                <div class="w-16 h-16 bg-brandRed/20 text-brandRed rounded-full flex items-center justify-center mx-auto text-2xl border border-brandRed/40">
+        <div id="page-track" class="hidden max-w-3xl mx-auto px-4 py-6 sm:py-12">
+            <div class="text-center space-y-2 mb-8">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-brandRed/20 text-brandRed rounded-full flex items-center justify-center mx-auto text-xl sm:text-2xl border border-brandRed/40">
                     <i class="fa-solid fa-truck-fast"></i>
                 </div>
-                <h1 class="text-3xl font-extrabold">Track Your Order</h1>
-                <p class="text-sm text-gray-400">Enter your HY Order ID to retrieve live shipment details from Google Sheet.</p>
+                <h1 class="text-2xl sm:text-3xl font-extrabold">Track Your Order</h1>
+                <p class="text-xs sm:text-sm text-gray-400">Enter your HY Order ID to retrieve live shipment details.</p>
             </div>
 
-            <form onsubmit="verifyAndTrackOrder(event)" class="bg-brandCard p-6 md:p-8 rounded-2xl border border-brandBorder space-y-4 mb-8">
+            <form onsubmit="verifyAndTrackOrder(event)" class="bg-brandCard p-4 sm:p-8 rounded-2xl border border-brandBorder space-y-4 mb-8">
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Order Number</label>
-                    <input type="text" id="trackOrderId" required placeholder="e.g. HY-1024" class="w-full bg-brandGray border border-brandBorder rounded-xl p-3.5 text-sm focus:outline-none focus:border-brandRed uppercase">
+                    <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Order Number</label>
+                    <input type="text" id="trackOrderId" required placeholder="e.g. HY-1024" class="w-full bg-brandGray border border-brandBorder rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed uppercase">
                 </div>
-                <button type="submit" id="trackBtn" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-brandRed/30">
+                <button type="submit" id="trackBtn" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3 sm:py-3.5 rounded-xl transition uppercase text-xs sm:text-sm shadow-lg shadow-brandRed/30">
                     TRACK MY ORDER
                 </button>
             </form>
 
-            <div id="trackResult" class="hidden bg-brandCard p-6 md:p-8 rounded-2xl border border-brandBorder space-y-8"></div>
+            <div id="trackResult" class="hidden bg-brandCard p-4 sm:p-8 rounded-2xl border border-brandBorder space-y-6"></div>
         </div>
 
         <!-- ================= PAGE 6: ADMIN DASHBOARD ================= -->
-        <div id="page-admin" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-brandBorder pb-6">
-                <div>
-                    <span class="bg-yellow-400/20 text-yellow-400 text-xs px-3 py-1 rounded-full border border-yellow-400/30 font-bold">Store Admin Panel</span>
-                    <h1 class="text-3xl font-extrabold mt-2">HY STORE OFFICIAL Management</h1>
-                </div>
+        <div id="page-admin" class="hidden max-w-7xl mx-auto px-4 py-8 space-y-6">
+            <div class="border-b border-brandBorder pb-4">
+                <span class="bg-yellow-400/20 text-yellow-400 text-xs px-3 py-1 rounded-full border border-yellow-400/30 font-bold">Store Admin Panel</span>
+                <h1 class="text-2xl font-extrabold mt-2">HY STORE OFFICIAL Management</h1>
             </div>
-            <div class="bg-brandCard p-6 rounded-2xl border border-brandBorder">
-                <p class="text-sm text-gray-300">All order backups are directly synchronized with your Google Sheet script URL:</p>
-                <code class="block bg-brandGray p-3 rounded-lg text-xs text-brandRed mt-2 break-all font-mono">https://script.google.com/macros/s/AKfycbySltlwYRrlxHigPeWoZnmuNKgyaUyktoCKPWPDHKK5AXVRgIqVr1UgnNMcb7s4SFjT3Q/exec</code>
+            <div class="bg-brandCard p-6 rounded-2xl border border-brandBorder space-y-4 text-center">
+                <p class="text-xs sm:text-sm text-gray-300">Access the staff portal directly below:</p>
+                <a href="https://hystoreofficial.com/staff.html" target="_blank" class="inline-flex items-center justify-center bg-brandRed hover:bg-red-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition text-xs sm:text-sm">
+                    <i class="fa-solid fa-user-gear mr-2"></i> Open Staff Portal
+                </a>
             </div>
         </div>
 
         <!-- ================= PAGE 7: CONTACT PAGE ================= -->
-        <div id="page-contact" class="hidden max-w-4xl mx-auto px-4 py-12 text-center space-y-6">
-            <h1 class="text-3xl font-extrabold">Contact HY STORE OFFICIAL</h1>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 text-left">
-                <div class="bg-brandCard p-6 rounded-2xl border border-brandBorder space-y-2">
-                    <i class="fa-solid fa-phone text-2xl text-brandRed mb-2"></i>
-                    <h3 class="font-bold text-sm">Phone / WhatsApp</h3>
+        <div id="page-contact" class="hidden max-w-4xl mx-auto px-4 py-8 text-center space-y-6">
+            <h1 class="text-2xl sm:text-3xl font-extrabold">Contact HY STORE OFFICIAL</h1>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-left">
+                <div class="bg-brandCard p-5 rounded-2xl border border-brandBorder space-y-2">
+                    <i class="fa-solid fa-phone text-xl text-brandRed mb-1"></i>
+                    <h3 class="font-bold text-xs sm:text-sm">Phone / WhatsApp</h3>
                     <p class="text-xs text-gray-400">+92 320 9306672</p>
                 </div>
-                <div class="bg-brandCard p-6 rounded-2xl border border-brandBorder space-y-2">
-                    <i class="fa-solid fa-envelope text-2xl text-brandRed mb-2"></i>
-                    <h3 class="font-bold text-sm">Email Address</h3>
+                <div class="bg-brandCard p-5 rounded-2xl border border-brandBorder space-y-2">
+                    <i class="fa-solid fa-envelope text-xl text-brandRed mb-1"></i>
+                    <h3 class="font-bold text-xs sm:text-sm">Email Address</h3>
                     <p class="text-xs text-gray-400">hybusinessprint@gmail.com</p>
                 </div>
-                <div class="bg-brandCard p-6 rounded-2xl border border-brandBorder space-y-2">
-                    <i class="fa-solid fa-location-dot text-2xl text-brandRed mb-2"></i>
-                    <h3 class="font-bold text-sm">Main Office</h3>
-                    <p class="text-xs text-gray-400">Mandi Bahauddin / Lahore, Punjab, Pakistan</p>
+                <div class="bg-brandCard p-5 rounded-2xl border border-brandBorder space-y-2">
+                    <i class="fa-solid fa-location-dot text-xl text-brandRed mb-1"></i>
+                    <h3 class="font-bold text-xs sm:text-sm">Main Office</h3>
+                    <p class="text-xs text-gray-400">Mandi Bahauddin / Lahore</p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- POLICY MODAL -->
-    <div id="policyModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-brandCard max-w-xl w-full p-6 rounded-2xl border border-brandBorder relative space-y-4 max-h-[80vh] overflow-y-auto">
-            <button onclick="closePolicyModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">&times;</button>
-            <h2 id="policyTitle" class="text-xl font-bold text-brandRed">Policy</h2>
-            <div id="policyContent" class="text-xs text-gray-300 leading-relaxed space-y-2"></div>
+    <!-- FIXED MOBILE BOTTOM APP NAVIGATION BAR -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-brandDark/95 backdrop-blur-md border-t border-brandBorder px-2 py-2 flex justify-around items-center text-[10px]">
+        <button onclick="switchTab('home')" id="mob-home" class="mob-bottom-btn flex flex-col items-center text-gray-400 space-y-1">
+            <i class="fa-solid fa-house text-base"></i>
+            <span>Home</span>
+        </button>
+        <button onclick="switchTab('shop')" id="mob-shop" class="mob-bottom-btn flex flex-col items-center text-gray-400 space-y-1">
+            <i class="fa-solid fa-store text-base"></i>
+            <span>Shop</span>
+        </button>
+        <button onclick="openAiStudioModal()" class="flex flex-col items-center text-brandRed font-bold space-y-1">
+            <i class="fa-solid fa-wand-magic-sparkles text-base animate-pulse"></i>
+            <span>AI Studio</span>
+        </button>
+        <button onclick="switchTab('track')" id="mob-track" class="mob-bottom-btn flex flex-col items-center text-gray-400 space-y-1">
+            <i class="fa-solid fa-location-dot text-base"></i>
+            <span>Track</span>
+        </button>
+        <button onclick="toggleCartModal()" class="flex flex-col items-center text-gray-400 space-y-1 relative">
+            <i class="fa-solid fa-bag-shopping text-base"></i>
+            <span>Cart</span>
+        </button>
+    </div>
+
+    <!-- AI CARD DESIGN STUDIO MODAL -->
+    <div id="aiStudioModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-brandCard max-w-4xl w-full p-4 sm:p-6 rounded-2xl border border-brandBorder relative space-y-4 max-h-[92vh] overflow-y-auto">
+            <button onclick="closeAiStudioModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl">&times;</button>
+            
+            <div class="text-center space-y-1 border-b border-brandBorder pb-3">
+                <span class="bg-brandRed/20 text-brandRed border border-brandRed/30 text-[9px] font-bold uppercase px-2.5 py-0.5 rounded-full">AI Design Studio</span>
+                <h2 class="text-lg sm:text-2xl font-extrabold text-white">Create Custom Gift Card</h2>
+                <p class="text-[10px] sm:text-xs text-gray-400">Upload photo and generate custom card design.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- INPUT FORM -->
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-bold uppercase text-gray-400 mb-1">Template</label>
+                        <select id="aiOccasion" onchange="renderAiCardPreview()" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed">
+                            <option value="birthday">🎉 Happy Birthday</option>
+                            <option value="teacher">📚 Teacher's Day</option>
+                            <option value="mom">❤️ Mother's Day / Love Mom</option>
+                            <option value="anniversary">💍 Happy Anniversary</option>
+                            <option value="valentine">💘 Valentine's Special</option>
+                            <option value="bestie">⭐ Best Friend Forever</option>
+                            <option value="congrats">🏆 Congratulations</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold uppercase text-gray-400 mb-1">Recipient Name</label>
+                        <input type="text" id="aiName" oninput="renderAiCardPreview()" placeholder="e.g. Ayesha" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed">
+                    </div>
+
+                    <div>
+                        <label class="block font-bold uppercase text-gray-400 mb-1">Custom Message</label>
+                        <textarea id="aiMessage" oninput="renderAiCardPreview()" rows="2" placeholder="Wishing you endless happiness!" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold uppercase text-gray-400 mb-1">Upload Photo</label>
+                        <input type="file" id="aiPhoto" accept="image/*" onchange="handleAiPhotoUpload(event)" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2 text-gray-300">
+                    </div>
+                </div>
+
+                <!-- LIVE CANVAS PREVIEW & DOWNLOAD -->
+                <div class="space-y-4 flex flex-col items-center justify-between">
+                    <div class="w-full bg-brandDark border border-brandBorder rounded-2xl p-2 flex justify-center items-center">
+                        <canvas id="aiCardCanvas" width="400" height="500" class="w-full max-w-[280px] sm:max-w-[320px] rounded-xl border border-brandBorder shadow-xl"></canvas>
+                    </div>
+                    <button onclick="downloadAiCardDesign()" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3 rounded-xl transition uppercase text-xs flex items-center justify-center">
+                        <i class="fa-solid fa-download mr-2"></i> Download Design
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- SHOPPING CART SLIDE-OUT MODAL -->
     <div id="cartModal" class="fixed inset-0 bg-black/80 z-50 hidden flex justify-end transition-opacity">
-        <div class="bg-brandCard w-full max-w-md h-full flex flex-col justify-between border-l border-brandBorder p-6">
-            <div class="space-y-6">
-                <div class="flex items-center justify-between border-b border-brandBorder pb-4">
-                    <h2 class="text-lg font-bold flex items-center">
+        <div class="bg-brandCard w-full max-w-md h-full flex flex-col justify-between border-l border-brandBorder p-4 sm:p-6">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-brandBorder pb-3">
+                    <h2 class="text-base sm:text-lg font-bold flex items-center">
                         <i class="fa-solid fa-bag-shopping text-brandRed mr-2"></i> Shopping Cart
                     </h2>
                     <button onclick="toggleCartModal()" class="text-gray-400 hover:text-white text-xl">&times;</button>
                 </div>
-                <div id="cartItemsContainer" class="space-y-4 max-h-[60vh] overflow-y-auto pr-1"></div>
+                <div id="cartItemsContainer" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1"></div>
             </div>
             <div class="border-t border-brandBorder pt-4 space-y-4">
-                <div class="flex justify-between font-bold text-lg">
+                <div class="flex justify-between font-bold text-base sm:text-lg">
                     <span>Subtotal:</span>
                     <span id="cartModalSubtotal" class="text-brandRed">PKR 0</span>
                 </div>
-                <button onclick="goToCheckout()" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3.5 rounded-xl transition uppercase text-sm shadow-lg shadow-brandRed/30">
+                <button onclick="goToCheckout()" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3 sm:py-3.5 rounded-xl transition uppercase text-xs sm:text-sm shadow-lg shadow-brandRed/30">
                     Proceed to Checkout
                 </button>
             </div>
@@ -391,59 +481,25 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="bg-brandGray border-t border-brandBorder pt-12 pb-6 text-xs text-gray-400">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 text-left">
-            <div class="space-y-3">
-                <div class="flex items-center space-x-2">
-                    <i class="fa-solid fa-gift text-brandRed text-xl"></i>
-                    <span class="text-lg font-extrabold text-white">HY STORE</span>
-                </div>
-                <p>Your premier destination for luxury gift boxes, accessories, and curated lifestyle essentials in Pakistan.</p>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Quick Links</h4>
-                <ul class="space-y-2">
-                    <li><button onclick="switchTab('home')" class="hover:text-brandRed">Home</button></li>
-                    <li><button onclick="switchTab('shop')" class="hover:text-brandRed">Shop All</button></li>
-                    <li><button onclick="switchTab('track')" class="hover:text-brandRed">Track Order</button></li>
-                    <li><button onclick="switchTab('contact')" class="hover:text-brandRed">Contact Us</button></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Customer Care</h4>
-                <ul class="space-y-2">
-                    <li><button onclick="openPolicy('shipping')" class="hover:text-brandRed">Shipping Policy</button></li>
-                    <li><button onclick="openPolicy('return')" class="hover:text-brandRed">Return & Refund Policy</button></li>
-                    <li><button onclick="openPolicy('cod')" class="hover:text-brandRed">Cash on Delivery</button></li>
-                    <li><button onclick="openPolicy('privacy')" class="hover:text-brandRed">Privacy Policy</button></li>
-                </ul>
-            </div>
-            <div class="space-y-3">
-                <h4 class="text-white font-bold uppercase tracking-wider">Payments Accepted</h4>
-                <div class="flex items-center space-x-2 text-xl text-gray-300">
-                    <i class="fa-solid fa-money-bill-wave text-green-500"></i>
-                    <span class="font-bold text-white text-sm">Cash on Delivery</span>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-4 text-center border-t border-brandBorder pt-6">
-            © 2026 HY STORE OFFICIAL. All Rights Reserved. Connected to Google Script Backend.
+    <footer class="bg-brandGray border-t border-brandBorder pt-8 pb-16 lg:pb-6 text-xs text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            © 2026 HY STORE OFFICIAL. All Rights Reserved.
         </div>
     </footer>
 
-    <!-- JAVASCRIPT SCRIPT ENGINE WITH PERSISTENCE & CENTER ALIGNMENT FIX -->
+    <!-- JAVASCRIPT ENGINE -->
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbySltlwYRrlxHigPeWoZnmuNKgyaUyktoCKPWPDHKK5AXVRgIqVr1UgnNMcb7s4SFjT3Q/exec";
 
         let allProducts = [];
         let cart = [];
         let selectedProduct = null;
+        let userUploadedImg = null;
 
         window.onload = function() {
-            // Restore active tab on page refresh
             let initialTab = location.hash.replace('#', '') || localStorage.getItem('activeTab') || 'home';
             switchTab(initialTab, false);
-            fetchProductsFromSheet();
+            fetchProductsFromBackend();
         };
 
         window.onhashchange = function() {
@@ -458,6 +514,9 @@
                 if(el) el.classList.add('hidden');
             });
 
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.mob-bottom-btn').forEach(btn => btn.classList.remove('active'));
+
             const target = document.getElementById(`page-${tabName}`);
             if(target) {
                 target.classList.remove('hidden');
@@ -466,15 +525,18 @@
                 tabName = 'home';
             }
 
+            const activeNav = document.getElementById(`nav-${tabName}`);
+            if(activeNav) activeNav.classList.add('active');
+
+            const activeMob = document.getElementById(`mob-${tabName}`);
+            if(activeMob) activeMob.classList.add('active');
+
             localStorage.setItem('activeTab', tabName);
-            if (updateHash) {
-                location.hash = tabName;
-            }
+            if (updateHash) location.hash = tabName;
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // FETCH PRODUCTS FROM GOOGLE SCRIPT
-        function fetchProductsFromSheet() {
+        function fetchProductsFromBackend() {
             fetch(SCRIPT_URL + '?action=getProducts')
                 .then(res => res.json())
                 .then(data => {
@@ -483,7 +545,6 @@
                 })
                 .catch(err => {
                     console.log('Error fetching products:', err);
-                    document.getElementById('featuredProductsGrid').innerHTML = '<p class="col-span-full text-center text-red-500 py-8">Unable to load products from Google Sheet right now.</p>';
                 });
         }
 
@@ -499,12 +560,13 @@
             return str;
         }
 
+        // PERFECT MOBILE ASPECT-SQUARE PRODUCT IMAGE CONTAINER
         function renderProducts(productsList) {
             const featuredGrid = document.getElementById('featuredProductsGrid');
             const shopGrid = document.getElementById('shopProductsGrid');
 
             if (!productsList || productsList.length === 0) {
-                const emptyHtml = '<p class="col-span-full text-center text-gray-400 py-8">No products found in Google Sheet.</p>';
+                const emptyHtml = '<p class="col-span-full text-center text-gray-400 py-8">No products found.</p>';
                 if(featuredGrid) featuredGrid.innerHTML = emptyHtml;
                 if(shopGrid) shopGrid.innerHTML = emptyHtml;
                 return;
@@ -514,17 +576,17 @@
             productsList.forEach((p, idx) => {
                 let imgUrl = formatImageUrl(p.image);
                 html += `
-                    <div class="bg-brandCard rounded-2xl overflow-hidden border border-brandBorder hover:border-brandRed transition group flex flex-col justify-between">
-                        <div class="cursor-pointer overflow-hidden relative" onclick="openProductDetail(${idx})">
-                            <img src="${imgUrl}" alt="${p.title}" class="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://via.placeholder.com/250x200?text=Image+Not+Found'">
+                    <div class="bg-brandCard rounded-2xl overflow-hidden border border-brandBorder hover:border-brandRed transition group flex flex-col justify-between p-2.5 sm:p-4">
+                        <div class="cursor-pointer overflow-hidden relative aspect-square rounded-xl bg-brandDark p-2 flex items-center justify-center" onclick="openProductDetail(${idx})">
+                            <img src="${imgUrl}" alt="${p.title}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300" onerror="this.src='https://via.placeholder.com/250x200?text=Image+Not+Found'">
                         </div>
-                        <div class="p-4 space-y-3 flex-1 flex flex-col justify-between">
+                        <div class="pt-2.5 space-y-2 flex-1 flex flex-col justify-between">
                             <div>
-                                <h3 class="font-bold text-sm text-white line-clamp-1 cursor-pointer hover:text-brandRed" onclick="openProductDetail(${idx})">${p.title}</h3>
-                                <p class="text-brandRed font-black text-base mt-1">PKR ${Number(p.price).toLocaleString()}</p>
+                                <h3 class="font-bold text-xs sm:text-sm text-white line-clamp-1 cursor-pointer hover:text-brandRed" onclick="openProductDetail(${idx})">${p.title}</h3>
+                                <p class="text-brandRed font-black text-xs sm:text-base mt-0.5">PKR ${Number(p.price).toLocaleString()}</p>
                             </div>
-                            <button onclick="addToCartByIndex(${idx})" class="w-full bg-brandRed hover:bg-red-700 text-white text-xs font-bold py-2.5 rounded-xl transition shadow-md shadow-brandRed/20 flex items-center justify-center">
-                                <i class="fa-solid fa-cart-plus mr-2"></i> Add To Cart
+                            <button onclick="addToCartByIndex(${idx})" class="w-full bg-brandRed hover:bg-red-700 text-white text-[11px] sm:text-xs font-bold py-2 sm:py-2.5 rounded-xl transition shadow-md shadow-brandRed/20 flex items-center justify-center">
+                                <i class="fa-solid fa-cart-plus mr-1"></i> Add To Cart
                             </button>
                         </div>
                     </div>
@@ -533,10 +595,6 @@
 
             if(featuredGrid) featuredGrid.innerHTML = html;
             if(shopGrid) shopGrid.innerHTML = html;
-        }
-
-        function toggleMobileNav() {
-            document.getElementById('mobileNav').classList.toggle('hidden');
         }
 
         function filterByCategory(cat) {
@@ -559,6 +617,13 @@
             renderProducts(filtered);
         }
 
+        function filterProductsMobile() {
+            switchTab('shop');
+            const search = document.getElementById('mobileSearchInput').value.toLowerCase();
+            let filtered = allProducts.filter(p => p.title.toLowerCase().includes(search));
+            renderProducts(filtered);
+        }
+
         function openProductDetail(idx) {
             selectedProduct = allProducts[idx];
             if(!selectedProduct) return;
@@ -568,26 +633,26 @@
 
             const container = document.getElementById('productDetailContainer');
             container.innerHTML = `
-                <div>
-                    <img src="${imgUrl}" class="w-full h-96 object-cover rounded-2xl border border-brandBorder shadow-xl">
+                <div class="aspect-square bg-brandDark p-4 rounded-2xl border border-brandBorder flex items-center justify-center">
+                    <img src="${imgUrl}" class="max-h-full max-w-full object-contain rounded-xl">
                 </div>
-                <div class="space-y-6">
-                    <span class="bg-brandRed/20 text-brandRed px-3 py-1 rounded-full text-xs font-bold uppercase border border-brandRed/30">${selectedProduct.category || 'General'}</span>
-                    <h1 class="text-3xl font-extrabold text-white">${selectedProduct.title}</h1>
-                    <p class="text-3xl font-black text-brandRed">PKR ${Number(selectedProduct.price).toLocaleString()}</p>
-                    <p class="text-gray-300 text-sm leading-relaxed">${desc}</p>
+                <div class="space-y-4 sm:space-y-6">
+                    <span class="bg-brandRed/20 text-brandRed px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase border border-brandRed/30">${selectedProduct.category || 'General'}</span>
+                    <h1 class="text-xl sm:text-3xl font-extrabold text-white">${selectedProduct.title}</h1>
+                    <p class="text-2xl sm:text-3xl font-black text-brandRed">PKR ${Number(selectedProduct.price).toLocaleString()}</p>
+                    <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">${desc}</p>
                     
-                    <div class="space-y-3 pt-4 border-t border-brandBorder">
+                    <div class="space-y-2 pt-2 border-t border-brandBorder">
                         <label class="block text-xs font-bold uppercase text-gray-400">Quantity</label>
                         <div class="flex items-center space-x-3">
-                            <button onclick="changeQty('detailQty', -1)" class="w-10 h-10 bg-brandGray border border-brandBorder rounded-xl font-bold text-lg">-</button>
-                            <input id="detailQty" type="number" value="1" min="1" readonly class="w-12 text-center bg-transparent font-bold text-lg">
-                            <button onclick="changeQty('detailQty', 1)" class="w-10 h-10 bg-brandGray border border-brandBorder rounded-xl font-bold text-lg">+</button>
+                            <button onclick="changeQty('detailQty', -1)" class="w-9 h-9 bg-brandGray border border-brandBorder rounded-xl font-bold text-base">-</button>
+                            <input id="detailQty" type="number" value="1" min="1" readonly class="w-10 text-center bg-transparent font-bold text-base">
+                            <button onclick="changeQty('detailQty', 1)" class="w-9 h-9 bg-brandGray border border-brandBorder rounded-xl font-bold text-base">+</button>
                         </div>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                        <button onclick="addToCartCurrentProduct()" class="flex-1 bg-brandRed hover:bg-red-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-brandRed/30 transition uppercase text-sm">
+                    <div class="pt-4">
+                        <button onclick="addToCartCurrentProduct()" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brandRed/30 transition uppercase text-xs sm:text-sm">
                             <i class="fa-solid fa-cart-plus mr-2"></i> Add To Cart
                         </button>
                     </div>
@@ -642,18 +707,18 @@
                 totalQty += item.qty;
                 subtotal += (item.price * item.qty);
                 html += `
-                    <div class="flex items-center justify-between bg-brandGray p-3 rounded-xl border border-brandBorder">
-                        <img src="${item.image}" class="w-14 h-14 object-cover rounded-lg">
-                        <div class="flex-1 mx-3">
+                    <div class="flex items-center justify-between bg-brandGray p-2.5 rounded-xl border border-brandBorder">
+                        <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg">
+                        <div class="flex-1 mx-2.5">
                             <h4 class="font-bold text-xs line-clamp-1">${item.title}</h4>
-                            <p class="text-brandRed font-bold text-xs mt-1">PKR ${item.price.toLocaleString()}</p>
+                            <p class="text-brandRed font-bold text-xs mt-0.5">PKR ${item.price.toLocaleString()}</p>
                             <div class="flex items-center space-x-2 mt-1">
-                                <button onclick="updateCartItemQty(${index}, -1)" class="text-xs bg-brandCard px-2 rounded">-</button>
+                                <button onclick="updateCartItemQty(${index}, -1)" class="text-xs bg-brandCard px-1.5 rounded">-</button>
                                 <span class="text-xs font-bold">${item.qty}</span>
-                                <button onclick="updateCartItemQty(${index}, 1)" class="text-xs bg-brandCard px-2 rounded">+</button>
+                                <button onclick="updateCartItemQty(${index}, 1)" class="text-xs bg-brandCard px-1.5 rounded">+</button>
                             </div>
                         </div>
-                        <button onclick="removeFromCart(${index})" class="text-gray-400 hover:text-brandRed text-sm">
+                        <button onclick="removeFromCart(${index})" class="text-gray-400 hover:text-brandRed text-xs p-1">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -662,7 +727,7 @@
 
             countBadge.innerText = totalQty;
             subtotalEl.innerText = `PKR ${subtotal.toLocaleString()}`;
-            container.innerHTML = cart.length ? html : '<p class="text-xs text-gray-400 text-center py-8">Your cart is empty.</p>';
+            container.innerHTML = cart.length ? html : '<p class="text-xs text-gray-400 text-center py-6">Your cart is empty.</p>';
         }
 
         function updateCartItemQty(index, delta) {
@@ -772,10 +837,10 @@
 
             const btn = document.getElementById('trackBtn');
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Fetching Status...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Fetching...`;
 
             resultBox.classList.remove('hidden');
-            resultBox.innerHTML = '<p class="text-center font-semibold text-gray-300 py-4"><i class="fa-solid fa-spinner animate-spin text-brandRed mr-2"></i> Fetching live shipment details from Google Sheet...</p>';
+            resultBox.innerHTML = '<p class="text-center font-semibold text-gray-300 py-4"><i class="fa-solid fa-spinner animate-spin text-brandRed mr-2"></i> Fetching live shipment details...</p>';
 
             fetch(SCRIPT_URL + '?action=trackOrder&orderId=' + encodeURIComponent(orderIdInput))
                 .then(res => res.json())
@@ -795,114 +860,209 @@
                 });
         }
 
-        // PERFECTLY CENTER ALIGNED TIMELINE RENDERER
         function displayTrackingResult(o, resultBox) {
             let statusLower = (o.status || 'Confirmed').toLowerCase();
             let widthPct = 0;
             let s1 = true, s2 = false, s3 = false, s4 = false;
 
             if (statusLower.includes('processing') || statusLower.includes('confirmed') || statusLower.includes('placed')) {
-                widthPct = 0;
-                s1 = true;
+                widthPct = 0; s1 = true;
             } else if (statusLower.includes('dispatched') || statusLower.includes('shipped')) {
-                widthPct = 33;
-                s1 = true; s2 = true;
+                widthPct = 33; s1 = true; s2 = true;
             } else if (statusLower.includes('out for delivery') || statusLower.includes('transit') || statusLower.includes('way')) {
-                widthPct = 66;
-                s1 = true; s2 = true; s3 = true;
+                widthPct = 66; s1 = true; s2 = true; s3 = true;
             } else if (statusLower.includes('delivered')) {
-                widthPct = 100;
-                s1 = true; s2 = true; s3 = true; s4 = true;
+                widthPct = 100; s1 = true; s2 = true; s3 = true; s4 = true;
             }
 
             resultBox.innerHTML = `
-                <div class="flex flex-col md:flex-row justify-between border-b border-brandBorder pb-4 gap-2">
+                <div class="flex flex-col sm:flex-row justify-between border-b border-brandBorder pb-3 gap-1.5">
                     <div>
-                        <span class="text-xs text-gray-400">Order ID:</span>
-                        <h3 class="text-xl font-extrabold text-brandRed">${o.orderId}</h3>
+                        <span class="text-[10px] text-gray-400">Order ID:</span>
+                        <h3 class="text-lg font-extrabold text-brandRed">${o.orderId}</h3>
                     </div>
-                    <div class="text-left md:text-right">
-                        <span class="text-xs text-gray-400">Customer:</span>
-                        <p class="text-sm font-semibold">${o.customerName || 'Valued Customer'}</p>
+                    <div>
+                        <span class="text-[10px] text-gray-400">Customer:</span>
+                        <p class="text-xs font-semibold">${o.customerName || 'Valued Customer'}</p>
                     </div>
                 </div>
 
-                <div class="py-6 px-2">
-                    <h4 class="text-sm font-bold uppercase text-gray-400 mb-8 text-center">Delivery Progress</h4>
+                <div class="py-4 px-1">
+                    <h4 class="text-xs font-bold uppercase text-gray-400 mb-6 text-center">Delivery Progress</h4>
                     
-                    <div class="relative w-full max-w-2xl mx-auto flex items-center justify-between">
-                        <!-- Background Gray Line -->
-                        <div class="absolute top-4 left-0 right-0 h-1 bg-brandBorder -translate-y-1/2 z-0"></div>
-                        
-                        <!-- Active Red Progress Line -->
-                        <div class="absolute top-4 left-0 h-1 bg-brandRed -translate-y-1/2 z-0 transition-all duration-500" style="width: ${widthPct}%;"></div>
+                    <div class="relative w-full max-w-xl mx-auto flex items-center justify-between">
+                        <div class="absolute top-3.5 left-0 right-0 h-1 bg-brandBorder -translate-y-1/2 z-0"></div>
+                        <div class="absolute top-3.5 left-0 h-1 bg-brandRed -translate-y-1/2 z-0 transition-all duration-500" style="width: ${widthPct}%;"></div>
 
-                        <!-- Step 1: Placed -->
                         <div class="relative z-10 flex flex-col items-center">
-                            <div class="w-8 h-8 rounded-full ${s1 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-xs font-bold transition-all">
+                            <div class="w-7 h-7 rounded-full ${s1 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-[10px] font-bold">
                                 <i class="fa-solid fa-check"></i>
                             </div>
-                            <span class="text-xs font-bold ${s1 ? 'text-white' : 'text-gray-500'} mt-3 text-center">Placed</span>
+                            <span class="text-[10px] font-bold ${s1 ? 'text-white' : 'text-gray-500'} mt-2 text-center">Placed</span>
                         </div>
 
-                        <!-- Step 2: Dispatched -->
                         <div class="relative z-10 flex flex-col items-center">
-                            <div class="w-8 h-8 rounded-full ${s2 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-xs font-bold transition-all">
+                            <div class="w-7 h-7 rounded-full ${s2 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-[10px] font-bold">
                                 2
                             </div>
-                            <span class="text-xs font-bold ${s2 ? 'text-white' : 'text-gray-500'} mt-3 text-center">Dispatched</span>
+                            <span class="text-[10px] font-bold ${s2 ? 'text-white' : 'text-gray-500'} mt-2 text-center">Dispatched</span>
                         </div>
 
-                        <!-- Step 3: On The Way -->
                         <div class="relative z-10 flex flex-col items-center">
-                            <div class="w-8 h-8 rounded-full ${s3 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-xs font-bold transition-all">
+                            <div class="w-7 h-7 rounded-full ${s3 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-[10px] font-bold">
                                 3
                             </div>
-                            <span class="text-xs font-bold ${s3 ? 'text-white' : 'text-gray-500'} mt-3 text-center">On The Way</span>
+                            <span class="text-[10px] font-bold ${s3 ? 'text-white' : 'text-gray-500'} mt-2 text-center">On The Way</span>
                         </div>
 
-                        <!-- Step 4: Delivered -->
                         <div class="relative z-10 flex flex-col items-center">
-                            <div class="w-8 h-8 rounded-full ${s4 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-xs font-bold transition-all">
+                            <div class="w-7 h-7 rounded-full ${s4 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-[10px] font-bold">
                                 4
                             </div>
-                            <span class="text-xs font-bold ${s4 ? 'text-white' : 'text-gray-500'} mt-3 text-center">Delivered</span>
+                            <span class="text-[10px] font-bold ${s4 ? 'text-white' : 'text-gray-500'} mt-2 text-center">Delivered</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-brandGray p-4 rounded-xl border border-brandBorder space-y-2 text-xs mt-6">
+                <div class="bg-brandGray p-3.5 rounded-xl border border-brandBorder space-y-1.5 text-xs mt-4">
                     <p class="flex justify-between"><span>Current Status:</span> <strong class="text-brandRed uppercase font-bold">${o.status || 'Confirmed'}</strong></p>
-                    <p class="flex justify-between"><span>Items Ordered:</span> <strong class="text-gray-200">${o.items}</strong></p>
+                    <p class="flex justify-between"><span>Items Ordered:</span> <strong class="text-gray-200 truncate max-w-[180px]">${o.items}</strong></p>
                     <p class="flex justify-between"><span>Total Amount:</span> <strong class="text-white font-bold">PKR ${Number(o.totalAmount).toLocaleString()}</strong></p>
                 </div>
             `;
         }
 
-        // FOOTER POLICY MODALS
-        function openPolicy(type) {
-            const modal = document.getElementById('policyModal');
-            const title = document.getElementById('policyTitle');
-            const content = document.getElementById('policyContent');
-
-            if(type === 'shipping') {
-                title.innerText = "Shipping Policy";
-                content.innerHTML = "<p>• Free shipping across Pakistan on orders over PKR 3,000.</p><p>• Standard delivery time is 3 to 5 business days.</p><p>• Tracking numbers are generated upon order placement.</p>";
-            } else if(type === 'return') {
-                title.innerText = "Return & Refund Policy";
-                content.innerHTML = "<p>• 7-day hassle-free replacement for damaged or incorrect items.</p><p>• Personalized / Customized items cannot be returned unless manufacturing defect occurs.</p>";
-            } else if(type === 'cod') {
-                title.innerText = "Cash on Delivery (COD)";
-                content.innerHTML = "<p>• COD service available all over Pakistan.</p><p>• Pay in cash to courier rider upon receiving your package.</p>";
-            } else if(type === 'privacy') {
-                title.innerText = "Privacy Policy";
-                content.innerHTML = "<p>• Your personal data (name, phone number, address) is encrypted and strictly used for order fulfillment.</p><p>• We never share customer data with third parties.</p>";
-            }
-            modal.classList.remove('hidden');
+        // AI STUDIO
+        function openAiStudioModal() {
+            document.getElementById('aiStudioModal').classList.remove('hidden');
+            renderAiCardPreview();
         }
 
-        function closePolicyModal() {
-            document.getElementById('policyModal').classList.add('hidden');
+        function closeAiStudioModal() {
+            document.getElementById('aiStudioModal').classList.add('hidden');
+        }
+
+        function handleAiPhotoUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        userUploadedImg = img;
+                        renderAiCardPreview();
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderAiCardPreview() {
+            const canvas = document.getElementById('aiCardCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const occasion = document.getElementById('aiOccasion').value;
+            const name = document.getElementById('aiName').value.trim() || "Dear Friend";
+            const message = document.getElementById('aiMessage').value.trim() || "Wishing you endless happiness!";
+
+            let bgGrad = ctx.createLinearGradient(0, 0, 0, 500);
+            let accentColor = "#E50914";
+            let titleText = "HAPPY BIRTHDAY!";
+
+            if (occasion === 'birthday') {
+                bgGrad.addColorStop(0, '#1a0505'); bgGrad.addColorStop(1, '#0b0b0b');
+                accentColor = "#E50914"; titleText = "HAPPY BIRTHDAY!";
+            } else if (occasion === 'teacher') {
+                bgGrad.addColorStop(0, '#0f172a'); bgGrad.addColorStop(1, '#020617');
+                accentColor = "#38bdf8"; titleText = "TEACHER'S DAY";
+            } else if (occasion === 'mom') {
+                bgGrad.addColorStop(0, '#2e1065'); bgGrad.addColorStop(1, '#0b0b0b');
+                accentColor = "#f472b6"; titleText = "BEST MOM EVER";
+            } else if (occasion === 'anniversary') {
+                bgGrad.addColorStop(0, '#451a03'); bgGrad.addColorStop(1, '#0b0b0b');
+                accentColor = "#fbbf24"; titleText = "HAPPY ANNIVERSARY";
+            } else if (occasion === 'valentine') {
+                bgGrad.addColorStop(0, '#881337'); bgGrad.addColorStop(1, '#0b0b0b');
+                accentColor = "#f43f5e"; titleText = "MY VALENTINE";
+            } else if (occasion === 'bestie') {
+                bgGrad.addColorStop(0, '#064e3b'); bgGrad.addColorStop(1, '#0b0b0b');
+                accentColor = "#34d399"; titleText = "BEST FRIEND FOREVER";
+            } else if (occasion === 'congrats') {
+                bgGrad.addColorStop(0, '#312e81'); bgGrad.addColorStop(1, '#0b0b0b');
+                accentColor = "#818cf8"; titleText = "CONGRATULATIONS!";
+            }
+
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, 400, 500);
+
+            ctx.strokeStyle = accentColor;
+            ctx.lineWidth = 4;
+            ctx.strokeRect(15, 15, 370, 470);
+
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 12px Inter";
+            ctx.textAlign = "center";
+            ctx.fillText("HY STORE OFFICIAL", 200, 40);
+
+            ctx.fillStyle = accentColor;
+            ctx.font = "bold 20px Inter";
+            ctx.fillText(titleText, 200, 75);
+
+            if (userUploadedImg) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(200, 185, 70, 0, Math.PI * 2, true);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(userUploadedImg, 130, 115, 140, 140);
+                ctx.restore();
+                ctx.strokeStyle = accentColor;
+                ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.arc(200, 185, 70, 0, Math.PI * 2, true); ctx.stroke();
+            } else {
+                ctx.fillStyle = "#1c1c1c";
+                ctx.beginPath(); ctx.arc(200, 185, 65, 0, Math.PI * 2, true); ctx.fill();
+                ctx.fillStyle = "#666666"; ctx.font = "12px Inter";
+                ctx.fillText("Photo Preview", 200, 190);
+            }
+
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 18px Playfair Display";
+            ctx.fillText(name, 200, 300);
+
+            ctx.fillStyle = "#cccccc";
+            ctx.font = "12px Inter";
+            wrapText(ctx, message, 200, 330, 310, 18);
+
+            ctx.fillStyle = accentColor;
+            ctx.font = "bold 10px Inter";
+            ctx.fillText("CREATED WITH HY AI CARD STUDIO", 200, 460);
+        }
+
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            for (let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + ' ';
+                let metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && n > 0) {
+                    ctx.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, y);
+        }
+
+        function downloadAiCardDesign() {
+            const canvas = document.getElementById('aiCardCanvas');
+            const link = document.createElement('a');
+            link.download = 'HY_Store_Custom_Card.png';
+            link.href = canvas.toDataURL();
+            link.click();
         }
     </script>
 </body>
