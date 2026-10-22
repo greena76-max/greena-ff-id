@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HY STORE OFFICIAL | Modern Mobile-First E-Commerce</title>
+    <title>HY STORE OFFICIAL | Modern Red & Black E-Commerce</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&family=Cinzel:wght@700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -24,35 +24,45 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif']
+                        serif: ['Playfair Display', 'serif'],
+                        cursive: ['Great Vibes', 'cursive'],
+                        cinzel: ['Cinzel', 'serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        body {
-            background-color: #0B0B0B;
-            color: #FFFFFF;
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        body { background-color: #0B0B0B; color: #FFFFFF; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .skeleton-box { background: linear-gradient(90deg, #1c1c1c 25%, #2a2a2a 50%, #1c1c1c 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .nav-link.active, .mob-bottom-btn.active { color: #E50914 !important; font-weight: 700; }
+        
+        /* 3D Mug Visualizer CSS Effect */
+        .mug-visualizer-container {
+            perspective: 1000px;
         }
-        .skeleton-box {
-            background: linear-gradient(90deg, #1c1c1c 25%, #2a2a2a 50%, #1c1c1c 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
+        .mug-3d-body {
+            position: relative;
+            width: 220px;
+            height: 240px;
+            background: #ffffff;
+            border-radius: 12px 12px 28px 28px;
+            box-shadow: inset -25px 0 30px rgba(0,0,0,0.25), inset 15px 0 20px rgba(255,255,255,0.8), 0 15px 35px rgba(0,0,0,0.7);
+            overflow: hidden;
+            transition: transform 0.4s ease;
         }
-        @keyframes skeleton-loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        .nav-link.active {
-            color: #E50914 !important;
-            font-weight: 700;
-        }
-        .mob-bottom-btn.active {
-            color: #E50914 !important;
-            font-weight: 700;
+        .mug-handle {
+            position: absolute;
+            right: -38px;
+            top: 45px;
+            width: 50px;
+            height: 140px;
+            border: 16px solid #ffffff;
+            border-left: 0;
+            border-radius: 0 40px 40px 0;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+            z-index: -1;
         }
     </style>
 </head>
@@ -78,7 +88,6 @@
     <header class="sticky top-0 z-40 bg-brandDark/95 backdrop-blur-md border-b border-brandBorder">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
-                <!-- LOGO -->
                 <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchTab('home')">
                     <div class="bg-brandRed text-white p-2 rounded-xl shadow-lg shadow-brandRed/30">
                         <i class="fa-solid fa-gift text-lg sm:text-2xl"></i>
@@ -89,10 +98,9 @@
                     </div>
                 </div>
 
-                <!-- DESKTOP SEARCH BAR -->
                 <div class="hidden md:flex flex-1 max-w-md mx-8">
                     <div class="relative w-full">
-                        <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search gifts, watches, accessories..." 
+                        <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search gifts, watches, mugs..." 
                                class="w-full bg-brandGray text-sm text-white placeholder-gray-400 rounded-full py-2.5 pl-5 pr-12 border border-brandBorder focus:outline-none focus:border-brandRed transition">
                         <button class="absolute right-1 top-1/2 -translate-y-1/2 bg-brandRed text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-700 transition">
                             <i class="fa-solid fa-magnifying-glass text-xs"></i>
@@ -100,7 +108,6 @@
                     </div>
                 </div>
 
-                <!-- DESKTOP NAV LINKS & CART ICON -->
                 <div class="flex items-center space-x-4 sm:space-x-6">
                     <nav class="hidden lg:flex items-center space-x-8 font-medium text-sm">
                         <button onclick="switchTab('home')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-home">Home</button>
@@ -109,7 +116,6 @@
                         <button onclick="switchTab('contact')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-contact">Contact Us</button>
                     </nav>
 
-                    <!-- CART BUTTON -->
                     <button onclick="toggleCartModal()" class="relative bg-brandGray p-2.5 sm:p-3 rounded-xl border border-brandBorder hover:border-brandRed transition group">
                         <i class="fa-solid fa-bag-shopping text-lg sm:text-xl text-gray-200 group-hover:text-brandRed transition"></i>
                         <span id="cartCountBadge" class="absolute -top-2 -right-2 bg-brandRed text-white text-[10px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center border-2 border-brandDark">0</span>
@@ -117,7 +123,6 @@
                 </div>
             </div>
 
-            <!-- MOBILE SEARCH INPUT BAR -->
             <div class="pb-3 md:hidden">
                 <div class="relative w-full">
                     <input type="text" id="mobileSearchInput" oninput="filterProductsMobile()" placeholder="Search products..." 
@@ -133,7 +138,6 @@
 
         <!-- ================= PAGE 1: HOME PAGE ================= -->
         <div id="page-home" class="space-y-8 sm:space-y-12 pb-12">
-            <!-- HERO BANNER SECTION -->
             <section class="relative bg-gradient-to-r from-brandDark via-brandGray to-brandDark py-10 md:py-24 border-b border-brandBorder overflow-hidden">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
                     <div class="space-y-4 md:space-y-6 z-10 text-center md:text-left">
@@ -150,8 +154,8 @@
                             <button onclick="switchTab('shop')" class="w-full sm:w-auto bg-brandRed hover:bg-red-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-brandRed/40 transition uppercase text-xs sm:text-sm">
                                 SHOP NOW <i class="fa-solid fa-arrow-right ml-2"></i>
                             </button>
-                            <button onclick="switchTab('track')" class="w-full sm:w-auto bg-brandGray hover:bg-brandCard text-white border border-brandBorder font-semibold px-6 py-3.5 rounded-xl transition text-xs sm:text-sm">
-                                TRACK ORDER
+                            <button onclick="openStudioSelectionModal()" class="w-full sm:w-auto bg-brandGray hover:bg-brandCard text-brandRed border border-brandRed/50 font-bold px-6 py-3.5 rounded-xl transition text-xs sm:text-sm flex items-center justify-center">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-2 animate-pulse"></i> DESIGN CUSTOM MUG
                             </button>
                         </div>
                     </div>
@@ -194,9 +198,9 @@
                         <i class="fa-solid fa-wallet text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
                         <h3 class="text-xs sm:text-sm font-semibold">Leather Goods</h3>
                     </div>
-                    <div onclick="openAiStudioModal()" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandRed/60 cursor-pointer transition text-center group shadow-lg shadow-brandRed/10">
+                    <div onclick="openStudioSelectionModal()" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandRed/60 cursor-pointer transition text-center group shadow-lg shadow-brandRed/10">
                         <i class="fa-solid fa-wand-magic-sparkles text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2 animate-pulse"></i>
-                        <h3 class="text-xs sm:text-sm font-bold text-brandRed group-hover:text-white">Customized AI</h3>
+                        <h3 class="text-xs sm:text-sm font-bold text-brandRed group-hover:text-white">Customized Studio</h3>
                     </div>
                 </div>
             </section>
@@ -212,7 +216,6 @@
                 </div>
                 
                 <div id="featuredProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-                    <!-- Skeleton Loading Cards -->
                     <div class="bg-brandCard rounded-2xl p-3 space-y-3 border border-brandBorder">
                         <div class="skeleton-box aspect-square w-full rounded-xl"></div>
                         <div class="skeleton-box h-3 w-3/4 rounded"></div>
@@ -386,9 +389,9 @@
             <i class="fa-solid fa-store text-base"></i>
             <span>Shop</span>
         </button>
-        <button onclick="openAiStudioModal()" class="flex flex-col items-center text-brandRed font-bold space-y-1">
+        <button onclick="openStudioSelectionModal()" class="flex flex-col items-center text-brandRed font-bold space-y-1">
             <i class="fa-solid fa-wand-magic-sparkles text-base animate-pulse"></i>
-            <span>AI Studio</span>
+            <span>Studio</span>
         </button>
         <button onclick="switchTab('track')" id="mob-track" class="mob-bottom-btn flex flex-col items-center text-gray-400 space-y-1">
             <i class="fa-solid fa-location-dot text-base"></i>
@@ -400,57 +403,120 @@
         </button>
     </div>
 
-    <!-- AI CARD DESIGN STUDIO MODAL -->
-    <div id="aiStudioModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-3 sm:p-4">
-        <div class="bg-brandCard max-w-4xl w-full p-4 sm:p-6 rounded-2xl border border-brandBorder relative space-y-4 max-h-[92vh] overflow-y-auto">
-            <button onclick="closeAiStudioModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl">&times;</button>
-            
-            <div class="text-center space-y-1 border-b border-brandBorder pb-3">
-                <span class="bg-brandRed/20 text-brandRed border border-brandRed/30 text-[9px] font-bold uppercase px-2.5 py-0.5 rounded-full">AI Design Studio</span>
-                <h2 class="text-lg sm:text-2xl font-extrabold text-white">Create Custom Gift Card</h2>
-                <p class="text-[10px] sm:text-xs text-gray-400">Upload photo and generate custom card design.</p>
+    <!-- STUDIO MODE SELECTION MODAL (MUG VS CARD) -->
+    <div id="studioSelectModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brandCard max-w-md w-full p-6 rounded-2xl border border-brandBorder relative text-center space-y-6">
+            <button onclick="closeStudioSelectModal()" class="absolute top-4 right-4 text-gray-400 text-xl">&times;</button>
+            <div>
+                <span class="bg-brandRed/20 text-brandRed border border-brandRed/30 text-[10px] font-bold uppercase px-3 py-1 rounded-full">HY Custom Studio</span>
+                <h2 class="text-2xl font-extrabold text-white mt-2">What Do You Want To Design?</h2>
+                <p class="text-xs text-gray-400 mt-1">Select product category to launch interactive generator studio.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- INPUT FORM -->
-                <div class="space-y-3 text-xs">
+            <div class="grid grid-cols-2 gap-4 pt-2">
+                <div onclick="launchMugStudio()" class="bg-brandGray hover:bg-brandRed p-6 rounded-2xl border border-brandBorder cursor-pointer transition flex flex-col items-center group">
+                    <i class="fa-solid fa-mug-hot text-4xl text-brandRed group-hover:text-white mb-3"></i>
+                    <h3 class="font-bold text-sm text-white">Sublimation Mug</h3>
+                    <p class="text-[9px] text-gray-400 group-hover:text-white mt-1">210mm x 95mm Wrap</p>
+                </div>
+                <div onclick="launchCardStudio()" class="bg-brandGray hover:bg-brandRed p-6 rounded-2xl border border-brandBorder cursor-pointer transition flex flex-col items-center group">
+                    <i class="fa-solid fa-wand-magic-sparkles text-4xl text-brandRed group-hover:text-white mb-3"></i>
+                    <h3 class="font-bold text-sm text-white">Greeting Card</h3>
+                    <p class="text-[9px] text-gray-400 group-hover:text-white mt-1">Custom Photo Card</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MUG DESIGN STUDIO MODAL (WITH 3D CERMIC MUG MOCKUP & 10 TEMPLATES) -->
+    <div id="mugStudioModal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-2 sm:p-4">
+        <div class="bg-brandCard max-w-5xl w-full p-4 sm:p-6 rounded-2xl border border-brandBorder relative space-y-4 max-h-[95vh] overflow-y-auto">
+            <button onclick="closeMugStudioModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl">&times;</button>
+            
+            <div class="text-center space-y-1 border-b border-brandBorder pb-3">
+                <span class="bg-brandRed/20 text-brandRed border border-brandRed/30 text-[9px] font-bold uppercase px-2.5 py-0.5 rounded-full">Standard 11oz Mug (210mm x 95mm)</span>
+                <h2 class="text-lg sm:text-2xl font-extrabold text-white">Custom Mug Sublimation Studio</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- LEFT FORM INPUTS (5 Cols) -->
+                <div class="lg:col-span-5 space-y-3.5 text-xs max-h-[70vh] overflow-y-auto pr-1">
                     <div>
-                        <label class="block font-bold uppercase text-gray-400 mb-1">Template</label>
-                        <select id="aiOccasion" onchange="renderAiCardPreview()" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed">
-                            <option value="birthday">🎉 Happy Birthday</option>
-                            <option value="teacher">📚 Teacher's Day</option>
-                            <option value="mom">❤️ Mother's Day / Love Mom</option>
-                            <option value="anniversary">💍 Happy Anniversary</option>
-                            <option value="valentine">💘 Valentine's Special</option>
-                            <option value="bestie">⭐ Best Friend Forever</option>
-                            <option value="congrats">🏆 Congratulations</option>
+                        <label class="block font-bold uppercase text-gray-400 mb-1">Choose Mug Template (10 Designs)</label>
+                        <select id="mugTemplateSelect" onchange="onMugTemplateChange()" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed font-semibold">
+                            <option value="t1">1. Couple Heart & Calendar Date (1 Photo)</option>
+                            <option value="t2">2. Blue Hearts Polaroid Frames (3 Photos)</option>
+                            <option value="t3">3. Multi-Photo Collage Wrap (7 Photos)</option>
+                            <option value="t4">4. Cursive Calligraphy Name Only (No Photo)</option>
+                            <option value="t5">5. Bold Monogram Initial + Name (No Photo)</option>
+                            <option value="t6">6. Royal Golden Luxury Calligraphy (No Photo)</option>
+                            <option value="t7">7. Happy Birthday Party Grid (4 Photos)</option>
+                            <option value="t8">8. Teacher's Day Tribute (2 Photos)</option>
+                            <option value="t9">9. Romantic Double Hearts (2 Photos)</option>
+                            <option value="t10">10. Minimalist Quote & Name (1 Photo)</option>
+                        </select>
+                    </div>
+
+                    <!-- FONT FAMILY SELECTOR FOR NAME TEMPLATES -->
+                    <div id="fontSelectContainer" class="hidden">
+                        <label class="block font-bold uppercase text-gray-400 mb-1">Font Family Style</label>
+                        <select id="mugFontSelect" onchange="renderMugCanvas()" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed font-semibold">
+                            <option value="cursive">Cursive Elegant Script</option>
+                            <option value="serif">Playfair Luxury Serif</option>
+                            <option value="cinzel">Cinzel Royal Monogram</option>
+                            <option value="sans">Modern Inter Sans</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block font-bold uppercase text-gray-400 mb-1">Recipient Name</label>
-                        <input type="text" id="aiName" oninput="renderAiCardPreview()" placeholder="e.g. Ayesha" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed">
+                        <label class="block font-bold uppercase text-gray-400 mb-1">Names / Header Text</label>
+                        <input type="text" id="mugNameInput" oninput="renderMugCanvas()" placeholder="e.g. Vicky ❤️ Priti" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed">
                     </div>
 
                     <div>
-                        <label class="block font-bold uppercase text-gray-400 mb-1">Custom Message</label>
-                        <textarea id="aiMessage" oninput="renderAiCardPreview()" rows="2" placeholder="Wishing you endless happiness!" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed"></textarea>
+                        <label class="block font-bold uppercase text-gray-400 mb-1">Date / Calendar Highlight (e.g. 16 Jan 2026)</label>
+                        <input type="text" id="mugDateInput" oninput="renderMugCanvas()" placeholder="e.g. 16 January 2026" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed">
                     </div>
 
-                    <div>
-                        <label class="block font-bold uppercase text-gray-400 mb-1">Upload Photo</label>
-                        <input type="file" id="aiPhoto" accept="image/*" onchange="handleAiPhotoUpload(event)" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2 text-gray-300">
-                    </div>
+                    <!-- DYNAMIC PHOTO UPLOAD INPUTS CONTAINER -->
+                    <div id="mugPhotoInputsContainer" class="space-y-2"></div>
                 </div>
 
-                <!-- LIVE CANVAS PREVIEW & DOWNLOAD -->
-                <div class="space-y-4 flex flex-col items-center justify-between">
-                    <div class="w-full bg-brandDark border border-brandBorder rounded-2xl p-2 flex justify-center items-center">
-                        <canvas id="aiCardCanvas" width="400" height="500" class="w-full max-w-[280px] sm:max-w-[320px] rounded-xl border border-brandBorder shadow-xl"></canvas>
+                <!-- RIGHT PREVIEW (7 Cols) -->
+                <div class="lg:col-span-7 space-y-4 flex flex-col items-center">
+                    <!-- 3D CERAMIC MUG REALTIME MOCKUP VISUALIZER -->
+                    <div class="w-full bg-brandDark border border-brandBorder rounded-2xl p-4 flex flex-col items-center justify-center space-y-3">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"><i class="fa-solid fa-eye mr-1 text-brandRed"></i> Realtime Ceramic Mug Mockup</span>
+                        
+                        <div class="mug-visualizer-container flex justify-center py-2">
+                            <div class="mug-3d-body flex items-center justify-center">
+                                <canvas id="mugMockupTextureCanvas" width="220" height="240" class="w-full h-full object-cover"></canvas>
+                                <div class="mug-handle"></div>
+                            </div>
+                        </div>
+
+                        <!-- ROTATION BUTTONS -->
+                        <div class="flex items-center space-x-2 text-xs">
+                            <button onclick="setMugAngle('left')" class="bg-brandGray hover:bg-brandRed px-3 py-1.5 rounded-lg border border-brandBorder transition"><i class="fa-solid fa-rotate-left mr-1"></i> Left Side</button>
+                            <button onclick="setMugAngle('center')" class="bg-brandRed px-3 py-1.5 rounded-lg border border-brandRed font-bold">Front Center</button>
+                            <button onclick="setMugAngle('right')" class="bg-brandGray hover:bg-brandRed px-3 py-1.5 rounded-lg border border-brandBorder transition">Right Side <i class="fa-solid fa-rotate-right ml-1"></i></button>
+                        </div>
                     </div>
-                    <button onclick="downloadAiCardDesign()" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3 rounded-xl transition uppercase text-xs flex items-center justify-center">
-                        <i class="fa-solid fa-download mr-2"></i> Download Design
-                    </button>
+
+                    <!-- 210mm x 95mm FULL PRINT WRAP CANVAS PREVIEW -->
+                    <div class="w-full bg-brandDark border border-brandBorder rounded-2xl p-2 space-y-2">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider block text-center">Flat Sublimation Print File (210mm x 95mm)</span>
+                        <canvas id="mugPrintCanvas" width="2100" height="950" class="w-full rounded-lg border border-brandBorder shadow-xl"></canvas>
+                    </div>
+
+                    <div class="flex gap-3 w-full">
+                        <button onclick="downloadMugPrintDesign()" class="flex-1 bg-brandRed hover:bg-red-700 text-white font-bold py-3 rounded-xl transition uppercase text-xs flex items-center justify-center shadow-lg shadow-brandRed/30">
+                            <i class="fa-solid fa-download mr-2"></i> Download High-Res Print PNG
+                        </button>
+                        <button onclick="addCustomMugToCart()" class="flex-1 bg-white hover:bg-gray-200 text-black font-bold py-3 rounded-xl transition uppercase text-xs flex items-center justify-center">
+                            <i class="fa-solid fa-cart-plus mr-2"></i> Order This Custom Mug
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -494,7 +560,10 @@
         let allProducts = [];
         let cart = [];
         let selectedProduct = null;
-        let userUploadedImg = null;
+
+        // Mug Studio State
+        let mugUploadedImages = [];
+        let currentMugAngle = 'center';
 
         window.onload = function() {
             let initialTab = location.hash.replace('#', '') || localStorage.getItem('activeTab') || 'home';
@@ -543,9 +612,7 @@
                     allProducts = data;
                     renderProducts(allProducts);
                 })
-                .catch(err => {
-                    console.log('Error fetching products:', err);
-                });
+                .catch(err => console.log('Error fetching products:', err));
         }
 
         function formatImageUrl(url) {
@@ -560,7 +627,6 @@
             return str;
         }
 
-        // PERFECT MOBILE ASPECT-SQUARE PRODUCT IMAGE CONTAINER
         function renderProducts(productsList) {
             const featuredGrid = document.getElementById('featuredProductsGrid');
             const shopGrid = document.getElementById('shopProductsGrid');
@@ -614,13 +680,6 @@
                 return matchCat && matchSearch;
             });
 
-            renderProducts(filtered);
-        }
-
-        function filterProductsMobile() {
-            switchTab('shop');
-            const search = document.getElementById('mobileSearchInput').value.toLowerCase();
-            let filtered = allProducts.filter(p => p.title.toLowerCase().includes(search));
             renderProducts(filtered);
         }
 
@@ -932,25 +991,80 @@
             `;
         }
 
-        // AI STUDIO
-        function openAiStudioModal() {
-            document.getElementById('aiStudioModal').classList.remove('hidden');
-            renderAiCardPreview();
+        // ==========================================
+        // CUSTOM MUG STUDIO & 10 TEMPLATES ENGINE
+        // ==========================================
+
+        function openStudioSelectionModal() {
+            document.getElementById('studioSelectModal').classList.remove('hidden');
         }
 
-        function closeAiStudioModal() {
-            document.getElementById('aiStudioModal').classList.add('hidden');
+        function closeStudioSelectModal() {
+            document.getElementById('studioSelectModal').classList.add('hidden');
         }
 
-        function handleAiPhotoUpload(e) {
+        function launchMugStudio() {
+            closeStudioSelectModal();
+            document.getElementById('mugStudioModal').classList.remove('hidden');
+            onMugTemplateChange();
+        }
+
+        function closeMugStudioModal() {
+            document.getElementById('mugStudioModal').classList.add('hidden');
+        }
+
+        function launchCardStudio() {
+            closeStudioSelectModal();
+            alert('Opening Custom Card Studio...');
+        }
+
+        // TEMPLATE CHANGE HANDLER & PHOTO SLOTS GENERATOR
+        function onMugTemplateChange() {
+            const template = document.getElementById('mugTemplateSelect').value;
+            const photoContainer = document.getElementById('mugPhotoInputsContainer');
+            const fontContainer = document.getElementById('fontSelectContainer');
+
+            mugUploadedImages = [];
+            photoContainer.innerHTML = '';
+
+            let photoCount = 0;
+            if (template === 't1' || template === 't10') photoCount = 1;
+            else if (template === 't2') photoCount = 3;
+            else if (template === 't3') photoCount = 7;
+            else if (template === 't7') photoCount = 4;
+            else if (template === 't8' || template === 't9') photoCount = 2;
+
+            if (template === 't4' || template === 't5' || template === 't6') {
+                fontContainer.classList.remove('hidden');
+            } else {
+                fontContainer.classList.add('hidden');
+            }
+
+            if (photoCount > 0) {
+                let html = `<label class="block font-bold uppercase text-gray-400 mb-1">Upload ${photoCount} Photo(s)</label>`;
+                for (let i = 0; i < photoCount; i++) {
+                    html += `
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] text-brandRed font-bold">Photo ${i + 1}:</span>
+                            <input type="file" accept="image/*" onchange="handleMugPhotoUpload(event, ${i})" class="w-full bg-brandGray border border-brandBorder rounded-lg p-1.5 text-xs text-gray-300">
+                        </div>
+                    `;
+                }
+                photoContainer.innerHTML = html;
+            }
+
+            renderMugCanvas();
+        }
+
+        function handleMugPhotoUpload(e, index) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     const img = new Image();
                     img.onload = function() {
-                        userUploadedImg = img;
-                        renderAiCardPreview();
+                        mugUploadedImages[index] = img;
+                        renderMugCanvas();
                     };
                     img.src = event.target.result;
                 };
@@ -958,111 +1072,235 @@
             }
         }
 
-        function renderAiCardPreview() {
-            const canvas = document.getElementById('aiCardCanvas');
-            const ctx = canvas.getContext('2d');
-
-            const occasion = document.getElementById('aiOccasion').value;
-            const name = document.getElementById('aiName').value.trim() || "Dear Friend";
-            const message = document.getElementById('aiMessage').value.trim() || "Wishing you endless happiness!";
-
-            let bgGrad = ctx.createLinearGradient(0, 0, 0, 500);
-            let accentColor = "#E50914";
-            let titleText = "HAPPY BIRTHDAY!";
-
-            if (occasion === 'birthday') {
-                bgGrad.addColorStop(0, '#1a0505'); bgGrad.addColorStop(1, '#0b0b0b');
-                accentColor = "#E50914"; titleText = "HAPPY BIRTHDAY!";
-            } else if (occasion === 'teacher') {
-                bgGrad.addColorStop(0, '#0f172a'); bgGrad.addColorStop(1, '#020617');
-                accentColor = "#38bdf8"; titleText = "TEACHER'S DAY";
-            } else if (occasion === 'mom') {
-                bgGrad.addColorStop(0, '#2e1065'); bgGrad.addColorStop(1, '#0b0b0b');
-                accentColor = "#f472b6"; titleText = "BEST MOM EVER";
-            } else if (occasion === 'anniversary') {
-                bgGrad.addColorStop(0, '#451a03'); bgGrad.addColorStop(1, '#0b0b0b');
-                accentColor = "#fbbf24"; titleText = "HAPPY ANNIVERSARY";
-            } else if (occasion === 'valentine') {
-                bgGrad.addColorStop(0, '#881337'); bgGrad.addColorStop(1, '#0b0b0b');
-                accentColor = "#f43f5e"; titleText = "MY VALENTINE";
-            } else if (occasion === 'bestie') {
-                bgGrad.addColorStop(0, '#064e3b'); bgGrad.addColorStop(1, '#0b0b0b');
-                accentColor = "#34d399"; titleText = "BEST FRIEND FOREVER";
-            } else if (occasion === 'congrats') {
-                bgGrad.addColorStop(0, '#312e81'); bgGrad.addColorStop(1, '#0b0b0b');
-                accentColor = "#818cf8"; titleText = "CONGRATULATIONS!";
-            }
-
-            ctx.fillStyle = bgGrad;
-            ctx.fillRect(0, 0, 400, 500);
-
-            ctx.strokeStyle = accentColor;
-            ctx.lineWidth = 4;
-            ctx.strokeRect(15, 15, 370, 470);
-
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 12px Inter";
-            ctx.textAlign = "center";
-            ctx.fillText("HY STORE OFFICIAL", 200, 40);
-
-            ctx.fillStyle = accentColor;
-            ctx.font = "bold 20px Inter";
-            ctx.fillText(titleText, 200, 75);
-
-            if (userUploadedImg) {
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(200, 185, 70, 0, Math.PI * 2, true);
-                ctx.closePath();
-                ctx.clip();
-                ctx.drawImage(userUploadedImg, 130, 115, 140, 140);
-                ctx.restore();
-                ctx.strokeStyle = accentColor;
-                ctx.lineWidth = 3;
-                ctx.beginPath(); ctx.arc(200, 185, 70, 0, Math.PI * 2, true); ctx.stroke();
-            } else {
-                ctx.fillStyle = "#1c1c1c";
-                ctx.beginPath(); ctx.arc(200, 185, 65, 0, Math.PI * 2, true); ctx.fill();
-                ctx.fillStyle = "#666666"; ctx.font = "12px Inter";
-                ctx.fillText("Photo Preview", 200, 190);
-            }
-
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 18px Playfair Display";
-            ctx.fillText(name, 200, 300);
-
-            ctx.fillStyle = "#cccccc";
-            ctx.font = "12px Inter";
-            wrapText(ctx, message, 200, 330, 310, 18);
-
-            ctx.fillStyle = accentColor;
-            ctx.font = "bold 10px Inter";
-            ctx.fillText("CREATED WITH HY AI CARD STUDIO", 200, 460);
+        function setMugAngle(angle) {
+            currentMugAngle = angle;
+            renderMugCanvas();
         }
 
-        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-            const words = text.split(' ');
-            let line = '';
-            for (let n = 0; n < words.length; n++) {
-                let testLine = line + words[n] + ' ';
-                let metrics = ctx.measureText(testLine);
-                if (metrics.width > maxWidth && n > 0) {
-                    ctx.fillText(line, x, y);
-                    line = words[n] + ' ';
-                    y += lineHeight;
-                } else {
-                    line = testLine;
+        // CANVAS RENDERING ENGINE FOR MUGS (2100px x 950px Sublimation Ratio)
+        function renderMugCanvas() {
+            const printCanvas = document.getElementById('mugPrintCanvas');
+            const ctx = printCanvas.getContext('2d');
+
+            const template = document.getElementById('mugTemplateSelect').value;
+            const namesText = document.getElementById('mugNameInput').value.trim() || "Vicky ❤️ Priti";
+            const dateText = document.getElementById('mugDateInput').value.trim() || "16 January 2026";
+            const selectedFont = document.getElementById('mugFontSelect').value;
+
+            // RESET CANVAS
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, 2100, 950);
+
+            // -------------------------------------------------------------
+            // TEMPLATE 1: HEART COUPLE & CALENDAR DATE (1 PHOTO)
+            // -------------------------------------------------------------
+            if (template === 't1') {
+                // Left Side Calendar Layout
+                ctx.fillStyle = "#111111";
+                ctx.font = "bold 60px Inter";
+                ctx.fillText("January", 250, 250);
+                ctx.font = "bold 60px Inter";
+                ctx.fillText("2026", 700, 250);
+
+                ctx.font = "bold 35px Inter"; ctx.fillStyle = "#E50914"; ctx.fillText("SUN", 150, 340);
+                ctx.fillStyle = "#333333";
+                const days = ["MON","TUE","WED","THU","FRI","SAT"];
+                days.forEach((d, i) => ctx.fillText(d, 270 + (i*100), 340));
+
+                // Render Calendar Numbers
+                let dayNum = 1;
+                for(let r=0; r<5; r++){
+                    for(let c=0; c<7; c++){
+                        if(dayNum <= 31){
+                            let x = 150 + (c*100);
+                            let y = 420 + (r*80);
+                            if(dayNum === 16){
+                                // Heart Highlight
+                                ctx.fillStyle = "#E50914";
+                                ctx.beginPath(); ctx.arc(x+20, y-10, 30, 0, Math.PI*2); ctx.fill();
+                                ctx.fillStyle = "#ffffff"; ctx.font = "bold 32px Inter";
+                            } else {
+                                ctx.fillStyle = "#222222"; ctx.font = "32px Inter";
+                            }
+                            ctx.fillText(dayNum.toString(), x, y);
+                            dayNum++;
+                        }
+                    }
                 }
+
+                // Right Side Heart Photo Frame
+                let photoX = 1500, photoY = 400, radius = 220;
+                if(mugUploadedImages[0]) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.moveTo(photoX, photoY - radius + 50);
+                    ctx.bezierCurveTo(photoX + radius, photoY - radius - 50, photoX + radius + 100, photoY + radius - 50, photoX, photoY + radius + 120);
+                    ctx.bezierCurveTo(photoX - radius - 100, photoY + radius - 50, photoX - radius, photoY - radius - 50, photoX, photoY - radius + 50);
+                    ctx.closePath();
+                    ctx.clip();
+                    ctx.drawImage(mugUploadedImages[0], photoX - 280, photoY - 260, 560, 560);
+                    ctx.restore();
+                } else {
+                    ctx.fillStyle = "#eeeeee";
+                    ctx.beginPath(); ctx.arc(photoX, photoY, 180, 0, Math.PI*2); ctx.fill();
+                    ctx.fillStyle = "#888888"; ctx.font = "35px Inter"; ctx.textAlign = "center";
+                    ctx.fillText("Upload Couple Photo", photoX, photoY);
+                }
+
+                // Couple Names Typography Below Heart
+                ctx.fillStyle = "#111111";
+                ctx.font = "italic bold 70px Great Vibes";
+                ctx.textAlign = "center";
+                ctx.fillText(namesText, photoX, 820);
             }
-            ctx.fillText(line, x, y);
+
+            // -------------------------------------------------------------
+            // TEMPLATE 2: BLUE HEARTS POLAROID FRAMES (3 PHOTOS)
+            // -------------------------------------------------------------
+            else if (template === 't2') {
+                // Background Pattern
+                ctx.fillStyle = "#f0f9ff"; ctx.fillRect(0,0,2100,950);
+                ctx.fillStyle = "#38bdf8";
+                for(let i=0; i<40; i++){
+                    let bx = (i*90)%2100, by = (i*110)%950;
+                    ctx.beginPath(); ctx.arc(bx, by, 8, 0, Math.PI*2); ctx.fill();
+                }
+
+                // 3 Polaroid Frames
+                const frameX = [350, 1050, 1750];
+                for(let i=0; i<3; i++){
+                    ctx.fillStyle = "#ffffff";
+                    ctx.shadowColor = "rgba(0,0,0,0.15)"; ctx.shadowBlur = 20;
+                    ctx.fillRect(frameX[i] - 220, 150, 440, 580);
+                    ctx.shadowBlur = 0;
+
+                    if(mugUploadedImages[i]){
+                        ctx.drawImage(mugUploadedImages[i], frameX[i] - 190, 180, 380, 420);
+                    } else {
+                        ctx.fillStyle = "#e2e8f0";
+                        ctx.fillRect(frameX[i] - 190, 180, 380, 420);
+                        ctx.fillStyle = "#64748b"; ctx.font = "30px Inter"; ctx.textAlign = "center";
+                        ctx.fillText(`Photo ${i+1}`, frameX[i], 390);
+                    }
+                }
+
+                ctx.fillStyle = "#0284c7"; ctx.font = "bold 60px Great Vibes"; ctx.textAlign = "center";
+                ctx.fillText(namesText, 1050, 830);
+            }
+
+            // -------------------------------------------------------------
+            // TEMPLATE 3: 7-PHOTO COLLAGE WRAP (7 PHOTOS)
+            // -------------------------------------------------------------
+            else if (template === 't3') {
+                ctx.fillStyle = "#000000"; ctx.fillRect(0,0,2100,950);
+                const slots = [
+                    {x:50, y:50, w:480, h:400}, {x:550, y:50, w:480, h:400}, {x:1070, y:50, w:480, h:400}, {x:1570, y:50, w:480, h:400},
+                    {x:50, y:480, w:480, h:400}, {x:1070, y:480, w:480, h:400}, {x:1570, y:480, w:480, h:400}
+                ];
+
+                for(let i=0; i<7; i++){
+                    if(mugUploadedImages[i]){
+                        ctx.drawImage(mugUploadedImages[i], slots[i].x, slots[i].y, slots[i].w, slots[i].h);
+                    } else {
+                        ctx.fillStyle = "#222222"; ctx.fillRect(slots[i].x, slots[i].y, slots[i].w, slots[i].h);
+                        ctx.fillStyle = "#ffffff"; ctx.font = "30px Inter"; ctx.textAlign = "center";
+                        ctx.fillText(`Photo ${i+1}`, slots[i].x + 240, slots[i].y + 200);
+                    }
+                }
+
+                // Center Black Text Box
+                ctx.fillStyle = "#000000"; ctx.fillRect(550, 480, 480, 400);
+                ctx.fillStyle = "#ffffff"; ctx.font = "bold 50px Great Vibes"; ctx.textAlign = "center";
+                ctx.fillText(namesText, 790, 680);
+            }
+
+            // -------------------------------------------------------------
+            // TEMPLATE 4, 5, 6: TYPOGRAPHY NAME ONLY
+            // -------------------------------------------------------------
+            else if (template === 't4' || template === 't5' || template === 't6') {
+                if (template === 't6') {
+                    ctx.fillStyle = "#0b0b0b"; ctx.fillRect(0,0,2100,950);
+                    ctx.strokeStyle = "#fbbf24"; ctx.lineWidth = 10; ctx.strokeRect(50,50,2000,850);
+                    ctx.fillStyle = "#fbbf24";
+                } else {
+                    ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,2100,950);
+                    ctx.fillStyle = "#111111";
+                }
+
+                let fontStyle = "bold 110px Great Vibes";
+                if(selectedFont === 'serif') fontStyle = "bold 100px Playfair Display";
+                else if(selectedFont === 'cinzel') fontStyle = "bold 110px Cinzel";
+                else if(selectedFont === 'sans') fontStyle = "bold 90px Inter";
+
+                ctx.font = fontStyle; ctx.textAlign = "center";
+                ctx.fillText(namesText, 1050, 480);
+
+                ctx.font = "35px Inter";
+                ctx.fillText(dateText, 1050, 580);
+            }
+
+            // DEFAULT / FALLBACK (Other templates render name + date)
+            else {
+                ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,2100,950);
+                ctx.fillStyle = "#E50914"; ctx.font = "bold 80px Inter"; ctx.textAlign = "center";
+                ctx.fillText(namesText, 1050, 450);
+                ctx.fillStyle = "#333333"; ctx.font = "40px Inter";
+                ctx.fillText(dateText, 1050, 550);
+            }
+
+            // UPDATE 3D CERAMIC MUG MOCKUP TEXTURE
+            updateMugMockupTexture();
         }
 
-        function downloadAiCardDesign() {
-            const canvas = document.getElementById('aiCardCanvas');
+        // 3D CERAMIC MUG REALTIME MOCKUP RENDERER
+        function updateMugMockupTexture() {
+            const printCanvas = document.getElementById('mugPrintCanvas');
+            const mockupCanvas = document.getElementById('mugMockupTextureCanvas');
+            const mCtx = mockupCanvas.getContext('2d');
+
+            mCtx.fillStyle = "#ffffff"; mCtx.fillRect(0, 0, 220, 240);
+
+            let sourceX = 700; // Center
+            if (currentMugAngle === 'left') sourceX = 100;
+            if (currentMugAngle === 'right') sourceX = 1300;
+
+            // Slice and map flat wrap onto cylinder surface
+            mCtx.drawImage(printCanvas, sourceX, 0, 700, 950, 0, 20, 220, 200);
+
+            // Cylinder Light Shading Overlay
+            let grad = mCtx.createLinearGradient(0, 0, 220, 0);
+            grad.addColorStop(0, 'rgba(0,0,0,0.35)');
+            grad.addColorStop(0.2, 'rgba(255,255,255,0.4)');
+            grad.addColorStop(0.8, 'rgba(255,255,255,0)');
+            grad.addColorStop(1, 'rgba(0,0,0,0.4)');
+
+            mCtx.fillStyle = grad;
+            mCtx.fillRect(0, 0, 220, 240);
+        }
+
+        function downloadMugPrintDesign() {
+            const canvas = document.getElementById('mugPrintCanvas');
             const link = document.createElement('a');
-            link.download = 'HY_Store_Custom_Card.png';
+            link.download = 'HY_Store_Mug_Sublimation_Wrap.png';
             link.href = canvas.toDataURL();
             link.click();
+        }
+
+        function addCustomMugToCart() {
+            const printCanvas = document.getElementById('mugPrintCanvas');
+            const dataUrl = printCanvas.toDataURL();
+            const namesText = document.getElementById('mugNameInput').value.trim() || "Custom Design Mug";
+
+            cart.push({
+                title: `Custom Mug - ${namesText}`,
+                price: 1299,
+                image: dataUrl,
+                qty: 1
+            });
+
+            updateCartUI();
+            closeMugStudioModal();
+            toggleCartModal(true);
         }
     </script>
 </body>
