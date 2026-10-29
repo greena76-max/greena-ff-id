@@ -1,1306 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HY STORE OFFICIAL | Modern Red & Black E-Commerce</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&family=Cinzel:wght@700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brandRed: '#E50914',
-                        brandDark: '#0B0B0B',
-                        brandGray: '#161616',
-                        brandCard: '#1C1C1C',
-                        brandBorder: '#2A2A2A'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                        cursive: ['Great Vibes', 'cursive'],
-                        cinzel: ['Cinzel', 'serif']
-                    }
-                }
-            }
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube MP4 Downloader</title>
     <style>
-        body { background-color: #0B0B0B; color: #FFFFFF; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .skeleton-box { background: linear-gradient(90deg, #1c1c1c 25%, #2a2a2a 50%, #1c1c1c 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
-        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .nav-link.active, .mob-bottom-btn.active { color: #E50914 !important; font-weight: 700; }
-        
-        /* 3D Mug Visualizer CSS Effect */
-        .mug-visualizer-container {
-            perspective: 1000px;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .mug-3d-body {
-            position: relative;
-            width: 220px;
-            height: 240px;
-            background: #ffffff;
-            border-radius: 12px 12px 28px 28px;
-            box-shadow: inset -25px 0 30px rgba(0,0,0,0.25), inset 15px 0 20px rgba(255,255,255,0.8), 0 15px 35px rgba(0,0,0,0.7);
-            overflow: hidden;
-            transition: transform 0.4s ease;
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-        .mug-handle {
-            position: absolute;
-            right: -38px;
-            top: 45px;
-            width: 50px;
-            height: 140px;
-            border: 16px solid #ffffff;
-            border-left: 0;
-            border-radius: 0 40px 40px 0;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
-            z-index: -1;
+
+        .container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .logo-box {
+            margin-bottom: 20px;
+        }
+
+        .logo-box svg {
+            width: 60px;
+            height: 60px;
+            fill: #ff0000;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        button.btn-fetch {
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #ff0000;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button.btn-fetch:hover {
+            background: #cc0000;
+        }
+
+        .preview-card {
+            display: none;
+            margin-top: 20px;
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid #334155;
+        }
+
+        .preview-card img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: #22c55e;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #16a34a;
+        }
+
+        .error-msg {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
         }
     </style>
 </head>
-<body class="bg-brandDark text-white min-h-screen flex flex-col justify-between pb-16 lg:pb-0">
+<body>
 
-    <!-- TOP ANNOUNCEMENT BAR -->
-    <div class="bg-brandRed text-white text-[10px] sm:text-xs text-center py-2 px-2 font-medium flex justify-between items-center max-w-7xl mx-auto w-full md:px-8">
-        <div class="hidden sm:flex items-center space-x-4">
-            <span><i class="fa-solid fa-phone mr-1"></i> +92 320 9306672</span>
-            <span><i class="fa-solid fa-envelope mr-1"></i> hybusinessprint@gmail.com</span>
-        </div>
-        <div class="mx-auto sm:mx-0 font-semibold tracking-wide truncate">
-            🎁 FREE DELIVERY ACROSS PAKISTAN ON ORDERS OVER PKR 3,000!
-        </div>
-        <div class="hidden md:flex items-center space-x-3 text-xs">
-            <button onclick="switchTab('track')" class="hover:underline"><i class="fa-solid fa-truck-fast mr-1"></i> Track Order</button>
-            <span>|</span>
-            <button onclick="switchTab('admin')" class="hover:underline text-yellow-300 font-bold"><i class="fa-solid fa-user-shield mr-1"></i> Admin Panel</button>
-        </div>
-    </div>
-
-    <!-- MAIN NAVIGATION HEADER -->
-    <header class="sticky top-0 z-40 bg-brandDark/95 backdrop-blur-md border-b border-brandBorder">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-                <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchTab('home')">
-                    <div class="bg-brandRed text-white p-2 rounded-xl shadow-lg shadow-brandRed/30">
-                        <i class="fa-solid fa-gift text-lg sm:text-2xl"></i>
-                    </div>
-                    <div>
-                        <span class="text-lg sm:text-2xl font-extrabold tracking-wider text-white block leading-none">HY STORE</span>
-                        <span class="text-[8px] sm:text-[10px] tracking-[0.2em] text-brandRed font-bold uppercase block mt-1">O F F I C I A L</span>
-                    </div>
-                </div>
-
-                <div class="hidden md:flex flex-1 max-w-md mx-8">
-                    <div class="relative w-full">
-                        <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search gifts, watches, mugs..." 
-                               class="w-full bg-brandGray text-sm text-white placeholder-gray-400 rounded-full py-2.5 pl-5 pr-12 border border-brandBorder focus:outline-none focus:border-brandRed transition">
-                        <button class="absolute right-1 top-1/2 -translate-y-1/2 bg-brandRed text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-700 transition">
-                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex items-center space-x-4 sm:space-x-6">
-                    <nav class="hidden lg:flex items-center space-x-8 font-medium text-sm">
-                        <button onclick="switchTab('home')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-home">Home</button>
-                        <button onclick="switchTab('shop')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-shop">Shop</button>
-                        <button onclick="switchTab('track')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-track">Track Order</button>
-                        <button onclick="switchTab('contact')" class="nav-link py-1 hover:text-brandRed transition text-gray-300" id="nav-contact">Contact Us</button>
-                    </nav>
-
-                    <button onclick="toggleCartModal()" class="relative bg-brandGray p-2.5 sm:p-3 rounded-xl border border-brandBorder hover:border-brandRed transition group">
-                        <i class="fa-solid fa-bag-shopping text-lg sm:text-xl text-gray-200 group-hover:text-brandRed transition"></i>
-                        <span id="cartCountBadge" class="absolute -top-2 -right-2 bg-brandRed text-white text-[10px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center border-2 border-brandDark">0</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="pb-3 md:hidden">
-                <div class="relative w-full">
-                    <input type="text" id="mobileSearchInput" oninput="filterProductsMobile()" placeholder="Search products..." 
-                           class="w-full bg-brandGray text-xs text-white placeholder-gray-400 rounded-xl py-2 pl-4 pr-10 border border-brandBorder focus:outline-none focus:border-brandRed transition">
-                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- CONTENT WRAPPER -->
-    <main class="mb-auto">
-
-        <!-- ================= PAGE 1: HOME PAGE ================= -->
-        <div id="page-home" class="space-y-8 sm:space-y-12 pb-12">
-            <section class="relative bg-gradient-to-r from-brandDark via-brandGray to-brandDark py-10 md:py-24 border-b border-brandBorder overflow-hidden">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-                    <div class="space-y-4 md:space-y-6 z-10 text-center md:text-left">
-                        <span class="inline-block bg-brandRed/20 text-brandRed border border-brandRed/30 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider">
-                            Welcome to HY Store Official
-                        </span>
-                        <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
-                            Your Style, <br><span class="text-brandRed">Your Choice.</span>
-                        </h1>
-                        <p class="text-gray-400 text-xs sm:text-sm md:text-base max-w-lg mx-auto md:mx-0">
-                            Discover our premium curated collection of luxury gift sets, customized accessories, tech gadgets, and everyday lifestyle essentials.
-                        </p>
-                        <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 pt-2">
-                            <button onclick="switchTab('shop')" class="w-full sm:w-auto bg-brandRed hover:bg-red-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-brandRed/40 transition uppercase text-xs sm:text-sm">
-                                SHOP NOW <i class="fa-solid fa-arrow-right ml-2"></i>
-                            </button>
-                            <button onclick="openStudioSelectionModal()" class="w-full sm:w-auto bg-brandGray hover:bg-brandCard text-brandRed border border-brandRed/50 font-bold px-6 py-3.5 rounded-xl transition text-xs sm:text-sm flex items-center justify-center">
-                                <i class="fa-solid fa-wand-magic-sparkles mr-2 animate-pulse"></i> DESIGN CUSTOM MUG
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="relative flex justify-center">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-brandRed to-red-900 rounded-3xl blur-2xl opacity-30"></div>
-                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" 
-                             alt="Premium Gift Box HY Store" 
-                             class="relative rounded-2xl shadow-2xl border border-brandBorder object-cover max-h-[280px] sm:max-h-[420px] w-full">
-                    </div>
-                </div>
-            </section>
-
-            <!-- CATEGORIES SECTION -->
-            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-xl sm:text-3xl font-bold">Product Categories</h2>
-                        <p class="text-[10px] sm:text-xs text-gray-400 mt-0.5">Browse by your favorite categories</p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4">
-                    <div onclick="filterByCategory('Gifts')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-box-open text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
-                        <h3 class="text-xs sm:text-sm font-semibold">Luxury Gifts</h3>
-                    </div>
-                    <div onclick="filterByCategory('Mugs')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-mug-hot text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
-                        <h3 class="text-xs sm:text-sm font-semibold">Mugs & Drinkware</h3>
-                    </div>
-                    <div onclick="filterByCategory('Decor')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-house text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
-                        <h3 class="text-xs sm:text-sm font-semibold">Home Decor</h3>
-                    </div>
-                    <div onclick="filterByCategory('Photo')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-camera text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
-                        <h3 class="text-xs sm:text-sm font-semibold">Photo Keepsakes</h3>
-                    </div>
-                    <div onclick="filterByCategory('Leather')" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandBorder cursor-pointer transition text-center group">
-                        <i class="fa-solid fa-wallet text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2"></i>
-                        <h3 class="text-xs sm:text-sm font-semibold">Leather Goods</h3>
-                    </div>
-                    <div onclick="openStudioSelectionModal()" class="bg-brandCard hover:bg-brandRed p-4 sm:p-5 rounded-2xl border border-brandRed/60 cursor-pointer transition text-center group shadow-lg shadow-brandRed/10">
-                        <i class="fa-solid fa-wand-magic-sparkles text-2xl sm:text-3xl text-brandRed group-hover:text-white mb-2 animate-pulse"></i>
-                        <h3 class="text-xs sm:text-sm font-bold text-brandRed group-hover:text-white">Customized Studio</h3>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FEATURED PRODUCTS GRID -->
-            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-xl sm:text-3xl font-bold">Featured Products</h2>
-                        <p class="text-[10px] sm:text-xs text-gray-400 mt-0.5">Handpicked premium items just for you</p>
-                    </div>
-                    <button onclick="switchTab('shop')" class="text-brandRed text-xs sm:text-sm font-bold hover:underline">View All <i class="fa-solid fa-chevron-right ml-1"></i></button>
-                </div>
-                
-                <div id="featuredProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-                    <div class="bg-brandCard rounded-2xl p-3 space-y-3 border border-brandBorder">
-                        <div class="skeleton-box aspect-square w-full rounded-xl"></div>
-                        <div class="skeleton-box h-3 w-3/4 rounded"></div>
-                        <div class="skeleton-box h-5 w-1/2 rounded"></div>
-                    </div>
-                    <div class="bg-brandCard rounded-2xl p-3 space-y-3 border border-brandBorder">
-                        <div class="skeleton-box aspect-square w-full rounded-xl"></div>
-                        <div class="skeleton-box h-3 w-3/4 rounded"></div>
-                        <div class="skeleton-box h-5 w-1/2 rounded"></div>
-                    </div>
-                </div>
-            </section>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo-box">
+            <svg viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
         </div>
 
-        <!-- ================= PAGE 2: SHOP LISTING PAGE ================= -->
-        <div id="page-shop" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-brandBorder">
-                <div>
-                    <h1 class="text-2xl sm:text-3xl font-extrabold">Shop Collection</h1>
-                    <p class="text-[10px] sm:text-xs text-gray-400 mt-0.5">Explore all products at HY Store Official</p>
-                </div>
-                <div class="w-full md:w-auto">
-                    <select id="categoryFilter" onchange="filterProducts()" class="w-full md:w-auto bg-brandGray border border-brandBorder rounded-xl px-4 py-2.5 text-xs sm:text-sm focus:outline-none focus:border-brandRed">
-                        <option value="All">All Categories</option>
-                        <option value="Gifts">Gifts</option>
-                        <option value="Mugs">Mugs & Drinkware</option>
-                        <option value="Decor">Home Decor</option>
-                        <option value="Photo">Photo Keepsakes</option>
-                        <option value="Leather">Leather Goods</option>
-                        <option value="Customized">Customized</option>
-                    </select>
-                </div>
-            </div>
+        <h1>YouTube Video Downloader</h1>
+        <p class="subtitle">یوٹیوب ویڈیو کا لنک پیسٹ کریں اور MP4 میں ڈاؤن لوڈ کریں</p>
 
-            <div id="shopProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-                <div class="bg-brandCard rounded-2xl p-3 space-y-3 border border-brandBorder">
-                    <div class="skeleton-box aspect-square w-full rounded-xl"></div>
-                    <div class="skeleton-box h-3 w-3/4 rounded"></div>
-                    <div class="skeleton-box h-5 w-1/2 rounded"></div>
-                </div>
-            </div>
+        <!-- Input Box -->
+        <div class="input-group">
+            <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
+            <button class="btn-fetch" onclick="processDownload()">Download Video</button>
         </div>
 
-        <!-- ================= PAGE 3: PRODUCT DETAIL PAGE ================= -->
-        <div id="page-detail" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
-            <button onclick="switchTab('shop')" class="text-gray-400 hover:text-brandRed mb-6 inline-flex items-center text-xs sm:text-sm font-semibold">
-                <i class="fa-solid fa-arrow-left mr-2"></i> Back to Shop
-            </button>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12" id="productDetailContainer"></div>
-        </div>
+        <div id="errorMsg" class="error-msg">براہِ کرم صحیح YouTube کا لنک درج کریں۔</div>
 
-        <!-- ================= PAGE 4: CHECKOUT PAGE ================= -->
-        <div id="page-checkout" class="hidden max-w-4xl mx-auto px-4 py-6 sm:py-12">
-            <h1 class="text-2xl sm:text-3xl font-extrabold mb-1">Checkout Order</h1>
-            <p class="text-xs text-gray-400 mb-6">Enter your delivery information below to confirm your order.</p>
-
-            <form id="checkoutForm" onsubmit="processOrder(event)" class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                <div class="md:col-span-2 space-y-3.5 bg-brandCard p-4 sm:p-6 rounded-2xl border border-brandBorder">
-                    <h2 class="text-base sm:text-lg font-bold border-b border-brandBorder pb-2.5 text-brandRed">Shipping Information</h2>
-                    <div>
-                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Full Name</label>
-                        <input type="text" required id="custName" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="e.g. Ali Ahmed">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Phone Number</label>
-                        <input type="tel" required id="custPhone" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="03001234567">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Email Address</label>
-                        <input type="email" required id="custEmail" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="your@email.com">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Complete Delivery Address</label>
-                        <textarea required id="custAddress" rows="2" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="House/Street #, Sector, Area"></textarea>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">City</label>
-                            <input type="text" required id="custCity" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed" placeholder="e.g. Mandi Bahauddin">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Payment</label>
-                            <input type="text" readonly value="COD" class="w-full bg-brandDark text-brandRed font-bold border border-brandBorder rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm cursor-not-allowed">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-brandCard p-4 sm:p-6 rounded-2xl border border-brandBorder h-fit space-y-4">
-                    <h2 class="text-base sm:text-lg font-bold border-b border-brandBorder pb-2.5 text-brandRed">Order Summary</h2>
-                    <div id="checkoutItemsList" class="space-y-3 max-h-52 overflow-y-auto pr-1 text-xs"></div>
-                    <div class="border-t border-brandBorder pt-3 space-y-2 text-xs sm:text-sm">
-                        <div class="flex justify-between text-gray-400"><span>Subtotal:</span> <span id="coSubtotal">PKR 0</span></div>
-                        <div class="flex justify-between text-gray-400"><span>Delivery Fee:</span> <span>FREE</span></div>
-                        <div class="flex justify-between font-bold text-sm sm:text-base text-white border-t border-brandBorder pt-2"><span>Total Amount:</span> <span id="coTotal" class="text-brandRed">PKR 0</span></div>
-                    </div>
-                    <button type="submit" id="placeOrderBtn" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brandRed/30 transition uppercase text-xs sm:text-sm mt-4">
-                        Place Order (COD)
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- ================= PAGE 5: DEDICATED TRACK ORDER PAGE ================= -->
-        <div id="page-track" class="hidden max-w-3xl mx-auto px-4 py-6 sm:py-12">
-            <div class="text-center space-y-2 mb-8">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-brandRed/20 text-brandRed rounded-full flex items-center justify-center mx-auto text-xl sm:text-2xl border border-brandRed/40">
-                    <i class="fa-solid fa-truck-fast"></i>
-                </div>
-                <h1 class="text-2xl sm:text-3xl font-extrabold">Track Your Order</h1>
-                <p class="text-xs sm:text-sm text-gray-400">Enter your HY Order ID to retrieve live shipment details.</p>
-            </div>
-
-            <form onsubmit="verifyAndTrackOrder(event)" class="bg-brandCard p-4 sm:p-8 rounded-2xl border border-brandBorder space-y-4 mb-8">
-                <div>
-                    <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gray-400 mb-1">Order Number</label>
-                    <input type="text" id="trackOrderId" required placeholder="e.g. HY-1024" class="w-full bg-brandGray border border-brandBorder rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-brandRed uppercase">
-                </div>
-                <button type="submit" id="trackBtn" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3 sm:py-3.5 rounded-xl transition uppercase text-xs sm:text-sm shadow-lg shadow-brandRed/30">
-                    TRACK MY ORDER
-                </button>
-            </form>
-
-            <div id="trackResult" class="hidden bg-brandCard p-4 sm:p-8 rounded-2xl border border-brandBorder space-y-6"></div>
-        </div>
-
-        <!-- ================= PAGE 6: ADMIN DASHBOARD ================= -->
-        <div id="page-admin" class="hidden max-w-7xl mx-auto px-4 py-8 space-y-6">
-            <div class="border-b border-brandBorder pb-4">
-                <span class="bg-yellow-400/20 text-yellow-400 text-xs px-3 py-1 rounded-full border border-yellow-400/30 font-bold">Store Admin Panel</span>
-                <h1 class="text-2xl font-extrabold mt-2">HY STORE OFFICIAL Management</h1>
-            </div>
-            <div class="bg-brandCard p-6 rounded-2xl border border-brandBorder space-y-4 text-center">
-                <p class="text-xs sm:text-sm text-gray-300">Access the staff portal directly below:</p>
-                <a href="https://hystoreofficial.com/staff.html" target="_blank" class="inline-flex items-center justify-center bg-brandRed hover:bg-red-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition text-xs sm:text-sm">
-                    <i class="fa-solid fa-user-gear mr-2"></i> Open Staff Portal
-                </a>
-            </div>
-        </div>
-
-        <!-- ================= PAGE 7: CONTACT PAGE ================= -->
-        <div id="page-contact" class="hidden max-w-4xl mx-auto px-4 py-8 text-center space-y-6">
-            <h1 class="text-2xl sm:text-3xl font-extrabold">Contact HY STORE OFFICIAL</h1>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-left">
-                <div class="bg-brandCard p-5 rounded-2xl border border-brandBorder space-y-2">
-                    <i class="fa-solid fa-phone text-xl text-brandRed mb-1"></i>
-                    <h3 class="font-bold text-xs sm:text-sm">Phone / WhatsApp</h3>
-                    <p class="text-xs text-gray-400">+92 320 9306672</p>
-                </div>
-                <div class="bg-brandCard p-5 rounded-2xl border border-brandBorder space-y-2">
-                    <i class="fa-solid fa-envelope text-xl text-brandRed mb-1"></i>
-                    <h3 class="font-bold text-xs sm:text-sm">Email Address</h3>
-                    <p class="text-xs text-gray-400">hybusinessprint@gmail.com</p>
-                </div>
-                <div class="bg-brandCard p-5 rounded-2xl border border-brandBorder space-y-2">
-                    <i class="fa-solid fa-location-dot text-xl text-brandRed mb-1"></i>
-                    <h3 class="font-bold text-xs sm:text-sm">Main Office</h3>
-                    <p class="text-xs text-gray-400">Mandi Bahauddin / Lahore</p>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- FIXED MOBILE BOTTOM APP NAVIGATION BAR -->
-    <div class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-brandDark/95 backdrop-blur-md border-t border-brandBorder px-2 py-2 flex justify-around items-center text-[10px]">
-        <button onclick="switchTab('home')" id="mob-home" class="mob-bottom-btn flex flex-col items-center text-gray-400 space-y-1">
-            <i class="fa-solid fa-house text-base"></i>
-            <span>Home</span>
-        </button>
-        <button onclick="switchTab('shop')" id="mob-shop" class="mob-bottom-btn flex flex-col items-center text-gray-400 space-y-1">
-            <i class="fa-solid fa-store text-base"></i>
-            <span>Shop</span>
-        </button>
-        <button onclick="openStudioSelectionModal()" class="flex flex-col items-center text-brandRed font-bold space-y-1">
-            <i class="fa-solid fa-wand-magic-sparkles text-base animate-pulse"></i>
-            <span>Studio</span>
-        </button>
-        <button onclick="switchTab('track')" id="mob-track" class="mob-bottom-btn flex flex-col items-center text-gray-400 space-y-1">
-            <i class="fa-solid fa-location-dot text-base"></i>
-            <span>Track</span>
-        </button>
-        <button onclick="toggleCartModal()" class="flex flex-col items-center text-gray-400 space-y-1 relative">
-            <i class="fa-solid fa-bag-shopping text-base"></i>
-            <span>Cart</span>
-        </button>
-    </div>
-
-    <!-- STUDIO MODE SELECTION MODAL (MUG VS CARD) -->
-    <div id="studioSelectModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-brandCard max-w-md w-full p-6 rounded-2xl border border-brandBorder relative text-center space-y-6">
-            <button onclick="closeStudioSelectModal()" class="absolute top-4 right-4 text-gray-400 text-xl">&times;</button>
-            <div>
-                <span class="bg-brandRed/20 text-brandRed border border-brandRed/30 text-[10px] font-bold uppercase px-3 py-1 rounded-full">HY Custom Studio</span>
-                <h2 class="text-2xl font-extrabold text-white mt-2">What Do You Want To Design?</h2>
-                <p class="text-xs text-gray-400 mt-1">Select product category to launch interactive generator studio.</p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 pt-2">
-                <div onclick="launchMugStudio()" class="bg-brandGray hover:bg-brandRed p-6 rounded-2xl border border-brandBorder cursor-pointer transition flex flex-col items-center group">
-                    <i class="fa-solid fa-mug-hot text-4xl text-brandRed group-hover:text-white mb-3"></i>
-                    <h3 class="font-bold text-sm text-white">Sublimation Mug</h3>
-                    <p class="text-[9px] text-gray-400 group-hover:text-white mt-1">210mm x 95mm Wrap</p>
-                </div>
-                <div onclick="launchCardStudio()" class="bg-brandGray hover:bg-brandRed p-6 rounded-2xl border border-brandBorder cursor-pointer transition flex flex-col items-center group">
-                    <i class="fa-solid fa-wand-magic-sparkles text-4xl text-brandRed group-hover:text-white mb-3"></i>
-                    <h3 class="font-bold text-sm text-white">Greeting Card</h3>
-                    <p class="text-[9px] text-gray-400 group-hover:text-white mt-1">Custom Photo Card</p>
-                </div>
-            </div>
+        <!-- Preview & Download Section -->
+        <div class="preview-card" id="previewCard">
+            <img id="thumbnail" src="" alt="Thumbnail">
+            <a id="downloadLink" href="#" target="_blank" class="download-btn">📥 MP4 ڈاؤن لوڈ کریں</a>
         </div>
     </div>
 
-    <!-- MUG DESIGN STUDIO MODAL (WITH 3D CERMIC MUG MOCKUP & 10 TEMPLATES) -->
-    <div id="mugStudioModal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-2 sm:p-4">
-        <div class="bg-brandCard max-w-5xl w-full p-4 sm:p-6 rounded-2xl border border-brandBorder relative space-y-4 max-h-[95vh] overflow-y-auto">
-            <button onclick="closeMugStudioModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl">&times;</button>
-            
-            <div class="text-center space-y-1 border-b border-brandBorder pb-3">
-                <span class="bg-brandRed/20 text-brandRed border border-brandRed/30 text-[9px] font-bold uppercase px-2.5 py-0.5 rounded-full">Standard 11oz Mug (210mm x 95mm)</span>
-                <h2 class="text-lg sm:text-2xl font-extrabold text-white">Custom Mug Sublimation Studio</h2>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <!-- LEFT FORM INPUTS (5 Cols) -->
-                <div class="lg:col-span-5 space-y-3.5 text-xs max-h-[70vh] overflow-y-auto pr-1">
-                    <div>
-                        <label class="block font-bold uppercase text-gray-400 mb-1">Choose Mug Template (10 Designs)</label>
-                        <select id="mugTemplateSelect" onchange="onMugTemplateChange()" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed font-semibold">
-                            <option value="t1">1. Couple Heart & Calendar Date (1 Photo)</option>
-                            <option value="t2">2. Blue Hearts Polaroid Frames (3 Photos)</option>
-                            <option value="t3">3. Multi-Photo Collage Wrap (7 Photos)</option>
-                            <option value="t4">4. Cursive Calligraphy Name Only (No Photo)</option>
-                            <option value="t5">5. Bold Monogram Initial + Name (No Photo)</option>
-                            <option value="t6">6. Royal Golden Luxury Calligraphy (No Photo)</option>
-                            <option value="t7">7. Happy Birthday Party Grid (4 Photos)</option>
-                            <option value="t8">8. Teacher's Day Tribute (2 Photos)</option>
-                            <option value="t9">9. Romantic Double Hearts (2 Photos)</option>
-                            <option value="t10">10. Minimalist Quote & Name (1 Photo)</option>
-                        </select>
-                    </div>
-
-                    <!-- FONT FAMILY SELECTOR FOR NAME TEMPLATES -->
-                    <div id="fontSelectContainer" class="hidden">
-                        <label class="block font-bold uppercase text-gray-400 mb-1">Font Family Style</label>
-                        <select id="mugFontSelect" onchange="renderMugCanvas()" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed font-semibold">
-                            <option value="cursive">Cursive Elegant Script</option>
-                            <option value="serif">Playfair Luxury Serif</option>
-                            <option value="cinzel">Cinzel Royal Monogram</option>
-                            <option value="sans">Modern Inter Sans</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block font-bold uppercase text-gray-400 mb-1">Names / Header Text</label>
-                        <input type="text" id="mugNameInput" oninput="renderMugCanvas()" placeholder="e.g. Vicky ❤️ Priti" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed">
-                    </div>
-
-                    <div>
-                        <label class="block font-bold uppercase text-gray-400 mb-1">Date / Calendar Highlight (e.g. 16 Jan 2026)</label>
-                        <input type="text" id="mugDateInput" oninput="renderMugCanvas()" placeholder="e.g. 16 January 2026" class="w-full bg-brandGray border border-brandBorder rounded-xl p-2.5 text-white focus:outline-none focus:border-brandRed">
-                    </div>
-
-                    <!-- DYNAMIC PHOTO UPLOAD INPUTS CONTAINER -->
-                    <div id="mugPhotoInputsContainer" class="space-y-2"></div>
-                </div>
-
-                <!-- RIGHT PREVIEW (7 Cols) -->
-                <div class="lg:col-span-7 space-y-4 flex flex-col items-center">
-                    <!-- 3D CERAMIC MUG REALTIME MOCKUP VISUALIZER -->
-                    <div class="w-full bg-brandDark border border-brandBorder rounded-2xl p-4 flex flex-col items-center justify-center space-y-3">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"><i class="fa-solid fa-eye mr-1 text-brandRed"></i> Realtime Ceramic Mug Mockup</span>
-                        
-                        <div class="mug-visualizer-container flex justify-center py-2">
-                            <div class="mug-3d-body flex items-center justify-center">
-                                <canvas id="mugMockupTextureCanvas" width="220" height="240" class="w-full h-full object-cover"></canvas>
-                                <div class="mug-handle"></div>
-                            </div>
-                        </div>
-
-                        <!-- ROTATION BUTTONS -->
-                        <div class="flex items-center space-x-2 text-xs">
-                            <button onclick="setMugAngle('left')" class="bg-brandGray hover:bg-brandRed px-3 py-1.5 rounded-lg border border-brandBorder transition"><i class="fa-solid fa-rotate-left mr-1"></i> Left Side</button>
-                            <button onclick="setMugAngle('center')" class="bg-brandRed px-3 py-1.5 rounded-lg border border-brandRed font-bold">Front Center</button>
-                            <button onclick="setMugAngle('right')" class="bg-brandGray hover:bg-brandRed px-3 py-1.5 rounded-lg border border-brandBorder transition">Right Side <i class="fa-solid fa-rotate-right ml-1"></i></button>
-                        </div>
-                    </div>
-
-                    <!-- 210mm x 95mm FULL PRINT WRAP CANVAS PREVIEW -->
-                    <div class="w-full bg-brandDark border border-brandBorder rounded-2xl p-2 space-y-2">
-                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider block text-center">Flat Sublimation Print File (210mm x 95mm)</span>
-                        <canvas id="mugPrintCanvas" width="2100" height="950" class="w-full rounded-lg border border-brandBorder shadow-xl"></canvas>
-                    </div>
-
-                    <div class="flex gap-3 w-full">
-                        <button onclick="downloadMugPrintDesign()" class="flex-1 bg-brandRed hover:bg-red-700 text-white font-bold py-3 rounded-xl transition uppercase text-xs flex items-center justify-center shadow-lg shadow-brandRed/30">
-                            <i class="fa-solid fa-download mr-2"></i> Download High-Res Print PNG
-                        </button>
-                        <button onclick="addCustomMugToCart()" class="flex-1 bg-white hover:bg-gray-200 text-black font-bold py-3 rounded-xl transition uppercase text-xs flex items-center justify-center">
-                            <i class="fa-solid fa-cart-plus mr-2"></i> Order This Custom Mug
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SHOPPING CART SLIDE-OUT MODAL -->
-    <div id="cartModal" class="fixed inset-0 bg-black/80 z-50 hidden flex justify-end transition-opacity">
-        <div class="bg-brandCard w-full max-w-md h-full flex flex-col justify-between border-l border-brandBorder p-4 sm:p-6">
-            <div class="space-y-4">
-                <div class="flex items-center justify-between border-b border-brandBorder pb-3">
-                    <h2 class="text-base sm:text-lg font-bold flex items-center">
-                        <i class="fa-solid fa-bag-shopping text-brandRed mr-2"></i> Shopping Cart
-                    </h2>
-                    <button onclick="toggleCartModal()" class="text-gray-400 hover:text-white text-xl">&times;</button>
-                </div>
-                <div id="cartItemsContainer" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1"></div>
-            </div>
-            <div class="border-t border-brandBorder pt-4 space-y-4">
-                <div class="flex justify-between font-bold text-base sm:text-lg">
-                    <span>Subtotal:</span>
-                    <span id="cartModalSubtotal" class="text-brandRed">PKR 0</span>
-                </div>
-                <button onclick="goToCheckout()" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3 sm:py-3.5 rounded-xl transition uppercase text-xs sm:text-sm shadow-lg shadow-brandRed/30">
-                    Proceed to Checkout
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer class="bg-brandGray border-t border-brandBorder pt-8 pb-16 lg:pb-6 text-xs text-gray-400">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            © 2026 HY STORE OFFICIAL. All Rights Reserved.
-        </div>
-    </footer>
-
-    <!-- JAVASCRIPT ENGINE -->
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbySltlwYRrlxHigPeWoZnmuNKgyaUyktoCKPWPDHKK5AXVRgIqVr1UgnNMcb7s4SFjT3Q/exec";
-
-        let allProducts = [];
-        let cart = [];
-        let selectedProduct = null;
-
-        // Mug Studio State
-        let mugUploadedImages = [];
-        let currentMugAngle = 'center';
-
-        window.onload = function() {
-            let initialTab = location.hash.replace('#', '') || localStorage.getItem('activeTab') || 'home';
-            switchTab(initialTab, false);
-            fetchProductsFromBackend();
-        };
-
-        window.onhashchange = function() {
-            let currentTab = location.hash.replace('#', '') || 'home';
-            switchTab(currentTab, false);
-        };
-
-        function switchTab(tabName, updateHash = true) {
-            const pages = ['home', 'shop', 'detail', 'checkout', 'track', 'admin', 'contact'];
-            pages.forEach(p => {
-                const el = document.getElementById(`page-${p}`);
-                if(el) el.classList.add('hidden');
-            });
-
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            document.querySelectorAll('.mob-bottom-btn').forEach(btn => btn.classList.remove('active'));
-
-            const target = document.getElementById(`page-${tabName}`);
-            if(target) {
-                target.classList.remove('hidden');
-            } else {
-                document.getElementById('page-home').classList.remove('hidden');
-                tabName = 'home';
-            }
-
-            const activeNav = document.getElementById(`nav-${tabName}`);
-            if(activeNav) activeNav.classList.add('active');
-
-            const activeMob = document.getElementById(`mob-${tabName}`);
-            if(activeMob) activeMob.classList.add('active');
-
-            localStorage.setItem('activeTab', tabName);
-            if (updateHash) location.hash = tabName;
-            window.scrollTo({top: 0, behavior: 'smooth'});
+        function getYouTubeID(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
         }
 
-        function fetchProductsFromBackend() {
-            fetch(SCRIPT_URL + '?action=getProducts')
-                .then(res => res.json())
-                .then(data => {
-                    allProducts = data;
-                    renderProducts(allProducts);
-                })
-                .catch(err => console.log('Error fetching products:', err));
-        }
+        function processDownload() {
+            const urlInput = document.getElementById('videoUrl').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            const previewCard = document.getElementById('previewCard');
+            const thumbnail = document.getElementById('thumbnail');
+            const downloadLink = document.getElementById('downloadLink');
 
-        function formatImageUrl(url) {
-            if (!url) return 'https://via.placeholder.com/250x200?text=Product+Image';
-            let str = url.toString().trim();
-            if (str.includes('drive.google.com')) {
-                let match = str.match(/\/d\/([^\/]+)/) || str.match(/id=([^&]+)/);
-                if (match && match[1]) {
-                    return 'https://drive.google.com/uc?export=view&id=' + match[1];
-                }
-            }
-            return str;
-        }
+            const videoId = getYouTubeID(urlInput);
 
-        function renderProducts(productsList) {
-            const featuredGrid = document.getElementById('featuredProductsGrid');
-            const shopGrid = document.getElementById('shopProductsGrid');
-
-            if (!productsList || productsList.length === 0) {
-                const emptyHtml = '<p class="col-span-full text-center text-gray-400 py-8">No products found.</p>';
-                if(featuredGrid) featuredGrid.innerHTML = emptyHtml;
-                if(shopGrid) shopGrid.innerHTML = emptyHtml;
+            if (!videoId) {
+                errorMsg.style.display = 'block';
+                previewCard.style.display = 'none';
                 return;
             }
 
-            let html = '';
-            productsList.forEach((p, idx) => {
-                let imgUrl = formatImageUrl(p.image);
-                html += `
-                    <div class="bg-brandCard rounded-2xl overflow-hidden border border-brandBorder hover:border-brandRed transition group flex flex-col justify-between p-2.5 sm:p-4">
-                        <div class="cursor-pointer overflow-hidden relative aspect-square rounded-xl bg-brandDark p-2 flex items-center justify-center" onclick="openProductDetail(${idx})">
-                            <img src="${imgUrl}" alt="${p.title}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300" onerror="this.src='https://via.placeholder.com/250x200?text=Image+Not+Found'">
-                        </div>
-                        <div class="pt-2.5 space-y-2 flex-1 flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-xs sm:text-sm text-white line-clamp-1 cursor-pointer hover:text-brandRed" onclick="openProductDetail(${idx})">${p.title}</h3>
-                                <p class="text-brandRed font-black text-xs sm:text-base mt-0.5">PKR ${Number(p.price).toLocaleString()}</p>
-                            </div>
-                            <button onclick="addToCartByIndex(${idx})" class="w-full bg-brandRed hover:bg-red-700 text-white text-[11px] sm:text-xs font-bold py-2 sm:py-2.5 rounded-xl transition shadow-md shadow-brandRed/20 flex items-center justify-center">
-                                <i class="fa-solid fa-cart-plus mr-1"></i> Add To Cart
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            if(featuredGrid) featuredGrid.innerHTML = html;
-            if(shopGrid) shopGrid.innerHTML = html;
-        }
-
-        function filterByCategory(cat) {
-            switchTab('shop');
-            document.getElementById('categoryFilter').value = cat;
-            filterProducts();
-        }
-
-        function filterProducts() {
-            switchTab('shop');
-            const cat = document.getElementById('categoryFilter').value;
-            const search = document.getElementById('searchInput').value.toLowerCase();
-
-            let filtered = allProducts.filter(p => {
-                const matchCat = (cat === 'All' || (p.category && p.category.toLowerCase().includes(cat.toLowerCase())));
-                const matchSearch = p.title.toLowerCase().includes(search);
-                return matchCat && matchSearch;
-            });
-
-            renderProducts(filtered);
-        }
-
-        function openProductDetail(idx) {
-            selectedProduct = allProducts[idx];
-            if(!selectedProduct) return;
-
-            let imgUrl = formatImageUrl(selectedProduct.image);
-            let desc = selectedProduct.description || selectedProduct.dis || 'No detailed description provided.';
-
-            const container = document.getElementById('productDetailContainer');
-            container.innerHTML = `
-                <div class="aspect-square bg-brandDark p-4 rounded-2xl border border-brandBorder flex items-center justify-center">
-                    <img src="${imgUrl}" class="max-h-full max-w-full object-contain rounded-xl">
-                </div>
-                <div class="space-y-4 sm:space-y-6">
-                    <span class="bg-brandRed/20 text-brandRed px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase border border-brandRed/30">${selectedProduct.category || 'General'}</span>
-                    <h1 class="text-xl sm:text-3xl font-extrabold text-white">${selectedProduct.title}</h1>
-                    <p class="text-2xl sm:text-3xl font-black text-brandRed">PKR ${Number(selectedProduct.price).toLocaleString()}</p>
-                    <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">${desc}</p>
-                    
-                    <div class="space-y-2 pt-2 border-t border-brandBorder">
-                        <label class="block text-xs font-bold uppercase text-gray-400">Quantity</label>
-                        <div class="flex items-center space-x-3">
-                            <button onclick="changeQty('detailQty', -1)" class="w-9 h-9 bg-brandGray border border-brandBorder rounded-xl font-bold text-base">-</button>
-                            <input id="detailQty" type="number" value="1" min="1" readonly class="w-10 text-center bg-transparent font-bold text-base">
-                            <button onclick="changeQty('detailQty', 1)" class="w-9 h-9 bg-brandGray border border-brandBorder rounded-xl font-bold text-base">+</button>
-                        </div>
-                    </div>
-
-                    <div class="pt-4">
-                        <button onclick="addToCartCurrentProduct()" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brandRed/30 transition uppercase text-xs sm:text-sm">
-                            <i class="fa-solid fa-cart-plus mr-2"></i> Add To Cart
-                        </button>
-                    </div>
-                </div>
-            `;
-            switchTab('detail');
-        }
-
-        function changeQty(elementId, delta) {
-            const input = document.getElementById(elementId);
-            let val = parseInt(input.value) + delta;
-            if(val < 1) val = 1;
-            input.value = val;
-        }
-
-        function addToCartByIndex(idx) {
-            const p = allProducts[idx];
-            if(!p) return;
-            const existing = cart.find(x => x.title === p.title);
-            if(existing) {
-                existing.qty += 1;
-            } else {
-                cart.push({ title: p.title, price: Number(p.price), image: formatImageUrl(p.image), qty: 1 });
-            }
-            updateCartUI();
-            toggleCartModal(true);
-        }
-
-        function addToCartCurrentProduct() {
-            if(!selectedProduct) return;
-            const qty = parseInt(document.getElementById('detailQty').value) || 1;
-            const existing = cart.find(x => x.title === selectedProduct.title);
-            if(existing) {
-                existing.qty += qty;
-            } else {
-                cart.push({ title: selectedProduct.title, price: Number(selectedProduct.price), image: formatImageUrl(selectedProduct.image), qty: qty });
-            }
-            updateCartUI();
-            toggleCartModal(true);
-        }
-
-        function updateCartUI() {
-            const container = document.getElementById('cartItemsContainer');
-            const countBadge = document.getElementById('cartCountBadge');
-            const subtotalEl = document.getElementById('cartModalSubtotal');
-
-            let totalQty = 0;
-            let subtotal = 0;
-            let html = '';
-
-            cart.forEach((item, index) => {
-                totalQty += item.qty;
-                subtotal += (item.price * item.qty);
-                html += `
-                    <div class="flex items-center justify-between bg-brandGray p-2.5 rounded-xl border border-brandBorder">
-                        <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg">
-                        <div class="flex-1 mx-2.5">
-                            <h4 class="font-bold text-xs line-clamp-1">${item.title}</h4>
-                            <p class="text-brandRed font-bold text-xs mt-0.5">PKR ${item.price.toLocaleString()}</p>
-                            <div class="flex items-center space-x-2 mt-1">
-                                <button onclick="updateCartItemQty(${index}, -1)" class="text-xs bg-brandCard px-1.5 rounded">-</button>
-                                <span class="text-xs font-bold">${item.qty}</span>
-                                <button onclick="updateCartItemQty(${index}, 1)" class="text-xs bg-brandCard px-1.5 rounded">+</button>
-                            </div>
-                        </div>
-                        <button onclick="removeFromCart(${index})" class="text-gray-400 hover:text-brandRed text-xs p-1">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-            });
-
-            countBadge.innerText = totalQty;
-            subtotalEl.innerText = `PKR ${subtotal.toLocaleString()}`;
-            container.innerHTML = cart.length ? html : '<p class="text-xs text-gray-400 text-center py-6">Your cart is empty.</p>';
-        }
-
-        function updateCartItemQty(index, delta) {
-            if(!cart[index]) return;
-            cart[index].qty += delta;
-            if(cart[index].qty <= 0) {
-                cart.splice(index, 1);
-            }
-            updateCartUI();
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function toggleCartModal(open) {
-            const modal = document.getElementById('cartModal');
-            if(open === true) {
-                modal.classList.remove('hidden');
-            } else if(open === false) {
-                modal.classList.add('hidden');
-            } else {
-                modal.classList.toggle('hidden');
-            }
-        }
-
-        function goToCheckout() {
-            if(!cart.length) {
-                alert('Your cart is empty!');
-                return;
-            }
-            toggleCartModal(false);
+            errorMsg.style.display = 'none';
             
-            const itemsList = document.getElementById('checkoutItemsList');
-            let subtotal = 0;
-            let html = '';
-            cart.forEach(i => {
-                subtotal += (i.price * i.qty);
-                html += `
-                    <div class="flex justify-between items-center text-gray-300">
-                        <span>${i.title} x${i.qty}</span>
-                        <span class="font-bold">PKR ${(i.price * i.qty).toLocaleString()}</span>
-                    </div>
-                `;
-            });
-            itemsList.innerHTML = html;
-            document.getElementById('coSubtotal').innerText = `PKR ${subtotal.toLocaleString()}`;
-            document.getElementById('coTotal').innerText = `PKR ${subtotal.toLocaleString()}`;
-
-            switchTab('checkout');
-        }
-
-        function processOrder(e) {
-            e.preventDefault();
-            const name = document.getElementById('custName').value.trim();
-            let phone = document.getElementById('custPhone').value.trim();
-            const email = document.getElementById('custEmail').value.trim();
-            const address = document.getElementById('custAddress').value.trim();
-            const city = document.getElementById('custCity').value.trim();
-
-            let fullAddress = `${address}, City: ${city}`;
-            let itemsStr = cart.map(i => `${i.title} x${i.qty} (PKR ${i.price * i.qty})`).join(', ');
-            let totalAmount = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-
-            const btn = document.getElementById('placeOrderBtn');
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Submitting...`;
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    action: 'placeOrder',
-                    email: email,
-                    customerName: name,
-                    phone: phone,
-                    address: fullAddress,
-                    items: itemsStr,
-                    totalAmount: totalAmount
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                btn.disabled = false;
-                btn.innerText = 'Place Order (COD)';
-                cart = [];
-                updateCartUI();
-                alert(`Order Placed Successfully!\n\nYour order has been submitted to HY Store.`);
-                switchTab('home');
-            })
-            .catch(err => {
-                btn.disabled = false;
-                btn.innerText = 'Place Order (COD)';
-                cart = [];
-                updateCartUI();
-                alert(`Order Submitted Successfully! Thank you for shopping with HY Store.`);
-                switchTab('home');
-            });
-        }
-
-        function verifyAndTrackOrder(e) {
-            e.preventDefault();
-            const orderIdInput = document.getElementById('trackOrderId').value.trim().toUpperCase();
-            const resultBox = document.getElementById('trackResult');
-
-            if (!orderIdInput) return;
-
-            const btn = document.getElementById('trackBtn');
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Fetching...`;
-
-            resultBox.classList.remove('hidden');
-            resultBox.innerHTML = '<p class="text-center font-semibold text-gray-300 py-4"><i class="fa-solid fa-spinner animate-spin text-brandRed mr-2"></i> Fetching live shipment details...</p>';
-
-            fetch(SCRIPT_URL + '?action=trackOrder&orderId=' + encodeURIComponent(orderIdInput))
-                .then(res => res.json())
-                .then(data => {
-                    btn.disabled = false;
-                    btn.innerText = 'TRACK MY ORDER';
-                    if (data && data.success && data.order) {
-                        displayTrackingResult(data.order, resultBox);
-                    } else {
-                        resultBox.innerHTML = `<p class="text-center text-red-500 font-semibold py-4"><i class="fa-solid fa-circle-xmark mr-1"></i> No shipment found with Order ID "${orderIdInput}". Please check the ID.</p>`;
-                    }
-                })
-                .catch(err => {
-                    btn.disabled = false;
-                    btn.innerText = 'TRACK MY ORDER';
-                    resultBox.innerHTML = `<p class="text-center text-red-500 font-semibold py-4">Unable to retrieve tracking information right now.</p>`;
-                });
-        }
-
-        function displayTrackingResult(o, resultBox) {
-            let statusLower = (o.status || 'Confirmed').toLowerCase();
-            let widthPct = 0;
-            let s1 = true, s2 = false, s3 = false, s4 = false;
-
-            if (statusLower.includes('processing') || statusLower.includes('confirmed') || statusLower.includes('placed')) {
-                widthPct = 0; s1 = true;
-            } else if (statusLower.includes('dispatched') || statusLower.includes('shipped')) {
-                widthPct = 33; s1 = true; s2 = true;
-            } else if (statusLower.includes('out for delivery') || statusLower.includes('transit') || statusLower.includes('way')) {
-                widthPct = 66; s1 = true; s2 = true; s3 = true;
-            } else if (statusLower.includes('delivered')) {
-                widthPct = 100; s1 = true; s2 = true; s3 = true; s4 = true;
-            }
-
-            resultBox.innerHTML = `
-                <div class="flex flex-col sm:flex-row justify-between border-b border-brandBorder pb-3 gap-1.5">
-                    <div>
-                        <span class="text-[10px] text-gray-400">Order ID:</span>
-                        <h3 class="text-lg font-extrabold text-brandRed">${o.orderId}</h3>
-                    </div>
-                    <div>
-                        <span class="text-[10px] text-gray-400">Customer:</span>
-                        <p class="text-xs font-semibold">${o.customerName || 'Valued Customer'}</p>
-                    </div>
-                </div>
-
-                <div class="py-4 px-1">
-                    <h4 class="text-xs font-bold uppercase text-gray-400 mb-6 text-center">Delivery Progress</h4>
-                    
-                    <div class="relative w-full max-w-xl mx-auto flex items-center justify-between">
-                        <div class="absolute top-3.5 left-0 right-0 h-1 bg-brandBorder -translate-y-1/2 z-0"></div>
-                        <div class="absolute top-3.5 left-0 h-1 bg-brandRed -translate-y-1/2 z-0 transition-all duration-500" style="width: ${widthPct}%;"></div>
-
-                        <div class="relative z-10 flex flex-col items-center">
-                            <div class="w-7 h-7 rounded-full ${s1 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-[10px] font-bold">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <span class="text-[10px] font-bold ${s1 ? 'text-white' : 'text-gray-500'} mt-2 text-center">Placed</span>
-                        </div>
-
-                        <div class="relative z-10 flex flex-col items-center">
-                            <div class="w-7 h-7 rounded-full ${s2 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-[10px] font-bold">
-                                2
-                            </div>
-                            <span class="text-[10px] font-bold ${s2 ? 'text-white' : 'text-gray-500'} mt-2 text-center">Dispatched</span>
-                        </div>
-
-                        <div class="relative z-10 flex flex-col items-center">
-                            <div class="w-7 h-7 rounded-full ${s3 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-[10px] font-bold">
-                                3
-                            </div>
-                            <span class="text-[10px] font-bold ${s3 ? 'text-white' : 'text-gray-500'} mt-2 text-center">On The Way</span>
-                        </div>
-
-                        <div class="relative z-10 flex flex-col items-center">
-                            <div class="w-7 h-7 rounded-full ${s4 ? 'bg-brandRed text-white shadow-lg shadow-brandRed/50' : 'bg-brandGray border border-brandBorder text-gray-400'} flex items-center justify-center text-[10px] font-bold">
-                                4
-                            </div>
-                            <span class="text-[10px] font-bold ${s4 ? 'text-white' : 'text-gray-500'} mt-2 text-center">Delivered</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-brandGray p-3.5 rounded-xl border border-brandBorder space-y-1.5 text-xs mt-4">
-                    <p class="flex justify-between"><span>Current Status:</span> <strong class="text-brandRed uppercase font-bold">${o.status || 'Confirmed'}</strong></p>
-                    <p class="flex justify-between"><span>Items Ordered:</span> <strong class="text-gray-200 truncate max-w-[180px]">${o.items}</strong></p>
-                    <p class="flex justify-between"><span>Total Amount:</span> <strong class="text-white font-bold">PKR ${Number(o.totalAmount).toLocaleString()}</strong></p>
-                </div>
-            `;
-        }
-
-        // ==========================================
-        // CUSTOM MUG STUDIO & 10 TEMPLATES ENGINE
-        // ==========================================
-
-        function openStudioSelectionModal() {
-            document.getElementById('studioSelectModal').classList.remove('hidden');
-        }
-
-        function closeStudioSelectModal() {
-            document.getElementById('studioSelectModal').classList.add('hidden');
-        }
-
-        function launchMugStudio() {
-            closeStudioSelectModal();
-            document.getElementById('mugStudioModal').classList.remove('hidden');
-            onMugTemplateChange();
-        }
-
-        function closeMugStudioModal() {
-            document.getElementById('mugStudioModal').classList.add('hidden');
-        }
-
-        function launchCardStudio() {
-            closeStudioSelectModal();
-            alert('Opening Custom Card Studio...');
-        }
-
-        // TEMPLATE CHANGE HANDLER & PHOTO SLOTS GENERATOR
-        function onMugTemplateChange() {
-            const template = document.getElementById('mugTemplateSelect').value;
-            const photoContainer = document.getElementById('mugPhotoInputsContainer');
-            const fontContainer = document.getElementById('fontSelectContainer');
-
-            mugUploadedImages = [];
-            photoContainer.innerHTML = '';
-
-            let photoCount = 0;
-            if (template === 't1' || template === 't10') photoCount = 1;
-            else if (template === 't2') photoCount = 3;
-            else if (template === 't3') photoCount = 7;
-            else if (template === 't7') photoCount = 4;
-            else if (template === 't8' || template === 't9') photoCount = 2;
-
-            if (template === 't4' || template === 't5' || template === 't6') {
-                fontContainer.classList.remove('hidden');
-            } else {
-                fontContainer.classList.add('hidden');
-            }
-
-            if (photoCount > 0) {
-                let html = `<label class="block font-bold uppercase text-gray-400 mb-1">Upload ${photoCount} Photo(s)</label>`;
-                for (let i = 0; i < photoCount; i++) {
-                    html += `
-                        <div class="flex items-center space-x-2 mb-1.5">
-                            <span class="text-[10px] text-brandRed font-bold">Photo ${i + 1}:</span>
-                            <input type="file" accept="image/*" onchange="handleMugPhotoUpload(event, ${i})" class="w-full bg-brandGray border border-brandBorder rounded-lg p-1.5 text-xs text-gray-300">
-                        </div>
-                    `;
-                }
-                photoContainer.innerHTML = html;
-            }
-
-            renderMugCanvas();
-        }
-
-        function handleMugPhotoUpload(e, index) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = new Image();
-                    img.onload = function() {
-                        mugUploadedImages[index] = img;
-                        renderMugCanvas();
-                    };
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function setMugAngle(angle) {
-            currentMugAngle = angle;
-            renderMugCanvas();
-        }
-
-        // CANVAS RENDERING ENGINE FOR MUGS (2100px x 950px Sublimation Ratio)
-        function renderMugCanvas() {
-            const printCanvas = document.getElementById('mugPrintCanvas');
-            const ctx = printCanvas.getContext('2d');
-
-            const template = document.getElementById('mugTemplateSelect').value;
-            const namesText = document.getElementById('mugNameInput').value.trim() || "Vicky ❤️ Priti";
-            const dateText = document.getElementById('mugDateInput').value.trim() || "16 January 2026";
-            const selectedFont = document.getElementById('mugFontSelect').value;
-
-            // RESET CANVAS
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, 2100, 950);
-
-            // -------------------------------------------------------------
-            // TEMPLATE 1: HEART COUPLE & CALENDAR DATE (1 PHOTO)
-            // -------------------------------------------------------------
-            if (template === 't1') {
-                // Left Side Calendar Layout
-                ctx.fillStyle = "#111111";
-                ctx.font = "bold 60px Inter";
-                ctx.fillText("January", 250, 250);
-                ctx.font = "bold 60px Inter";
-                ctx.fillText("2026", 700, 250);
-
-                ctx.font = "bold 35px Inter"; ctx.fillStyle = "#E50914"; ctx.fillText("SUN", 150, 340);
-                ctx.fillStyle = "#333333";
-                const days = ["MON","TUE","WED","THU","FRI","SAT"];
-                days.forEach((d, i) => ctx.fillText(d, 270 + (i*100), 340));
-
-                // Render Calendar Numbers
-                let dayNum = 1;
-                for(let r=0; r<5; r++){
-                    for(let c=0; c<7; c++){
-                        if(dayNum <= 31){
-                            let x = 150 + (c*100);
-                            let y = 420 + (r*80);
-                            if(dayNum === 16){
-                                // Heart Highlight
-                                ctx.fillStyle = "#E50914";
-                                ctx.beginPath(); ctx.arc(x+20, y-10, 30, 0, Math.PI*2); ctx.fill();
-                                ctx.fillStyle = "#ffffff"; ctx.font = "bold 32px Inter";
-                            } else {
-                                ctx.fillStyle = "#222222"; ctx.font = "32px Inter";
-                            }
-                            ctx.fillText(dayNum.toString(), x, y);
-                            dayNum++;
-                        }
-                    }
-                }
-
-                // Right Side Heart Photo Frame
-                let photoX = 1500, photoY = 400, radius = 220;
-                if(mugUploadedImages[0]) {
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.moveTo(photoX, photoY - radius + 50);
-                    ctx.bezierCurveTo(photoX + radius, photoY - radius - 50, photoX + radius + 100, photoY + radius - 50, photoX, photoY + radius + 120);
-                    ctx.bezierCurveTo(photoX - radius - 100, photoY + radius - 50, photoX - radius, photoY - radius - 50, photoX, photoY - radius + 50);
-                    ctx.closePath();
-                    ctx.clip();
-                    ctx.drawImage(mugUploadedImages[0], photoX - 280, photoY - 260, 560, 560);
-                    ctx.restore();
-                } else {
-                    ctx.fillStyle = "#eeeeee";
-                    ctx.beginPath(); ctx.arc(photoX, photoY, 180, 0, Math.PI*2); ctx.fill();
-                    ctx.fillStyle = "#888888"; ctx.font = "35px Inter"; ctx.textAlign = "center";
-                    ctx.fillText("Upload Couple Photo", photoX, photoY);
-                }
-
-                // Couple Names Typography Below Heart
-                ctx.fillStyle = "#111111";
-                ctx.font = "italic bold 70px Great Vibes";
-                ctx.textAlign = "center";
-                ctx.fillText(namesText, photoX, 820);
-            }
-
-            // -------------------------------------------------------------
-            // TEMPLATE 2: BLUE HEARTS POLAROID FRAMES (3 PHOTOS)
-            // -------------------------------------------------------------
-            else if (template === 't2') {
-                // Background Pattern
-                ctx.fillStyle = "#f0f9ff"; ctx.fillRect(0,0,2100,950);
-                ctx.fillStyle = "#38bdf8";
-                for(let i=0; i<40; i++){
-                    let bx = (i*90)%2100, by = (i*110)%950;
-                    ctx.beginPath(); ctx.arc(bx, by, 8, 0, Math.PI*2); ctx.fill();
-                }
-
-                // 3 Polaroid Frames
-                const frameX = [350, 1050, 1750];
-                for(let i=0; i<3; i++){
-                    ctx.fillStyle = "#ffffff";
-                    ctx.shadowColor = "rgba(0,0,0,0.15)"; ctx.shadowBlur = 20;
-                    ctx.fillRect(frameX[i] - 220, 150, 440, 580);
-                    ctx.shadowBlur = 0;
-
-                    if(mugUploadedImages[i]){
-                        ctx.drawImage(mugUploadedImages[i], frameX[i] - 190, 180, 380, 420);
-                    } else {
-                        ctx.fillStyle = "#e2e8f0";
-                        ctx.fillRect(frameX[i] - 190, 180, 380, 420);
-                        ctx.fillStyle = "#64748b"; ctx.font = "30px Inter"; ctx.textAlign = "center";
-                        ctx.fillText(`Photo ${i+1}`, frameX[i], 390);
-                    }
-                }
-
-                ctx.fillStyle = "#0284c7"; ctx.font = "bold 60px Great Vibes"; ctx.textAlign = "center";
-                ctx.fillText(namesText, 1050, 830);
-            }
-
-            // -------------------------------------------------------------
-            // TEMPLATE 3: 7-PHOTO COLLAGE WRAP (7 PHOTOS)
-            // -------------------------------------------------------------
-            else if (template === 't3') {
-                ctx.fillStyle = "#000000"; ctx.fillRect(0,0,2100,950);
-                const slots = [
-                    {x:50, y:50, w:480, h:400}, {x:550, y:50, w:480, h:400}, {x:1070, y:50, w:480, h:400}, {x:1570, y:50, w:480, h:400},
-                    {x:50, y:480, w:480, h:400}, {x:1070, y:480, w:480, h:400}, {x:1570, y:480, w:480, h:400}
-                ];
-
-                for(let i=0; i<7; i++){
-                    if(mugUploadedImages[i]){
-                        ctx.drawImage(mugUploadedImages[i], slots[i].x, slots[i].y, slots[i].w, slots[i].h);
-                    } else {
-                        ctx.fillStyle = "#222222"; ctx.fillRect(slots[i].x, slots[i].y, slots[i].w, slots[i].h);
-                        ctx.fillStyle = "#ffffff"; ctx.font = "30px Inter"; ctx.textAlign = "center";
-                        ctx.fillText(`Photo ${i+1}`, slots[i].x + 240, slots[i].y + 200);
-                    }
-                }
-
-                // Center Black Text Box
-                ctx.fillStyle = "#000000"; ctx.fillRect(550, 480, 480, 400);
-                ctx.fillStyle = "#ffffff"; ctx.font = "bold 50px Great Vibes"; ctx.textAlign = "center";
-                ctx.fillText(namesText, 790, 680);
-            }
-
-            // -------------------------------------------------------------
-            // TEMPLATE 4, 5, 6: TYPOGRAPHY NAME ONLY
-            // -------------------------------------------------------------
-            else if (template === 't4' || template === 't5' || template === 't6') {
-                if (template === 't6') {
-                    ctx.fillStyle = "#0b0b0b"; ctx.fillRect(0,0,2100,950);
-                    ctx.strokeStyle = "#fbbf24"; ctx.lineWidth = 10; ctx.strokeRect(50,50,2000,850);
-                    ctx.fillStyle = "#fbbf24";
-                } else {
-                    ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,2100,950);
-                    ctx.fillStyle = "#111111";
-                }
-
-                let fontStyle = "bold 110px Great Vibes";
-                if(selectedFont === 'serif') fontStyle = "bold 100px Playfair Display";
-                else if(selectedFont === 'cinzel') fontStyle = "bold 110px Cinzel";
-                else if(selectedFont === 'sans') fontStyle = "bold 90px Inter";
-
-                ctx.font = fontStyle; ctx.textAlign = "center";
-                ctx.fillText(namesText, 1050, 480);
-
-                ctx.font = "35px Inter";
-                ctx.fillText(dateText, 1050, 580);
-            }
-
-            // DEFAULT / FALLBACK (Other templates render name + date)
-            else {
-                ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,2100,950);
-                ctx.fillStyle = "#E50914"; ctx.font = "bold 80px Inter"; ctx.textAlign = "center";
-                ctx.fillText(namesText, 1050, 450);
-                ctx.fillStyle = "#333333"; ctx.font = "40px Inter";
-                ctx.fillText(dateText, 1050, 550);
-            }
-
-            // UPDATE 3D CERAMIC MUG MOCKUP TEXTURE
-            updateMugMockupTexture();
-        }
-
-        // 3D CERAMIC MUG REALTIME MOCKUP RENDERER
-        function updateMugMockupTexture() {
-            const printCanvas = document.getElementById('mugPrintCanvas');
-            const mockupCanvas = document.getElementById('mugMockupTextureCanvas');
-            const mCtx = mockupCanvas.getContext('2d');
-
-            mCtx.fillStyle = "#ffffff"; mCtx.fillRect(0, 0, 220, 240);
-
-            let sourceX = 700; // Center
-            if (currentMugAngle === 'left') sourceX = 100;
-            if (currentMugAngle === 'right') sourceX = 1300;
-
-            // Slice and map flat wrap onto cylinder surface
-            mCtx.drawImage(printCanvas, sourceX, 0, 700, 950, 0, 20, 220, 200);
-
-            // Cylinder Light Shading Overlay
-            let grad = mCtx.createLinearGradient(0, 0, 220, 0);
-            grad.addColorStop(0, 'rgba(0,0,0,0.35)');
-            grad.addColorStop(0.2, 'rgba(255,255,255,0.4)');
-            grad.addColorStop(0.8, 'rgba(255,255,255,0)');
-            grad.addColorStop(1, 'rgba(0,0,0,0.4)');
-
-            mCtx.fillStyle = grad;
-            mCtx.fillRect(0, 0, 220, 240);
-        }
-
-        function downloadMugPrintDesign() {
-            const canvas = document.getElementById('mugPrintCanvas');
-            const link = document.createElement('a');
-            link.download = 'HY_Store_Mug_Sublimation_Wrap.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        }
-
-        function addCustomMugToCart() {
-            const printCanvas = document.getElementById('mugPrintCanvas');
-            const dataUrl = printCanvas.toDataURL();
-            const namesText = document.getElementById('mugNameInput').value.trim() || "Custom Design Mug";
-
-            cart.push({
-                title: `Custom Mug - ${namesText}`,
-                price: 1299,
-                image: dataUrl,
-                qty: 1
-            });
-
-            updateCartUI();
-            closeMugStudioModal();
-            toggleCartModal(true);
+            // Set Thumbnail Preview
+            thumbnail.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+            // Third-Party Downloader Redirect (SSYouTube Bypass Method)
+            const cleanUrl = `https://www.youtube.com/watch?v=${videoId}`;
+            const downloadUrl = `https://www.ssyoutube.com/watch?v=${videoId}`;
+
+            downloadLink.href = downloadUrl;
+            previewCard.style.display = 'block';
         }
     </script>
 </body>
