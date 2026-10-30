@@ -1,200 +1,1010 @@
 <!DOCTYPE html>
-<html lang="ur">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube MP4 Downloader</title>
+    <title>Adobe Illustrator Web Replica</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ai: {
+                            bg: '#333333',
+                            panel: '#262626',
+                            border: '#1a1a1a',
+                            header: '#3f3f3f',
+                            hover: '#4e4e4e',
+                            active: '#1e1e1e',
+                            canvas: '#535353',
+                            accent: '#0265dc',
+                            orange: '#ff9a00',
+                            text: '#d1d1d1',
+                            textMuted: '#9e9e9e'
+                        }
+                    },
+                    fontSize: {
+                        'xxs': '10px'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
         }
-
-        .container {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            text-align: center;
+        /* Custom scrollbar for UI panels */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
         }
-
-        .logo-box {
-            margin-bottom: 20px;
+        ::-webkit-scrollbar-track {
+            background: #262626;
         }
-
-        .logo-box svg {
-            width: 60px;
-            height: 60px;
-            fill: #ff0000;
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 3px;
         }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #666;
         }
-
-        p.subtitle {
-            color: #94a3b8;
-            font-size: 14px;
-            margin-bottom: 25px;
+        .tool-btn.active {
+            background-color: #1a1a1a;
+            border-left: 2px solid #ff9a00;
         }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
+        .swatch-box {
+            box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
         }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            background: #0f172a;
-            color: #fff;
-            font-size: 15px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        input[type="text"]:focus {
-            border-color: #ff0000;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-        }
-
-        button.btn-fetch {
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background: #ff0000;
-            color: #fff;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button.btn-fetch:hover {
-            background: #cc0000;
-        }
-
-        .preview-card {
-            display: none;
-            margin-top: 20px;
-            background: #0f172a;
-            border-radius: 12px;
-            padding: 15px;
-            border: 1px solid #334155;
-        }
-
-        .preview-card img {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-
-        .download-btn {
-            display: inline-block;
-            width: 100%;
-            padding: 12px;
-            background: #22c55e;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .download-btn:hover {
-            background: #16a34a;
-        }
-
-        .error-msg {
-            color: #ef4444;
-            font-size: 14px;
-            margin-top: 10px;
-            display: none;
+        /* Canvas workspace grid backdrop pattern */
+        .workspace-bg {
+            background-color: #474747;
+            background-image: radial-gradient(#3a3a3a 1px, transparent 0);
+            background-size: 16px 16px;
         }
     </style>
 </head>
-<body>
+<body class="h-full flex flex-col bg-ai-bg text-ai-text text-xs overflow-hidden">
 
-    <div class="container">
-        <!-- Logo -->
-        <div class="logo-box">
-            <svg viewBox="0 0 24 24">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
+    <!-- 1. TOP MENU BAR -->
+    <header class="h-7 bg-ai-header border-b border-ai-border flex items-center justify-between px-2 text-xxs shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-1 font-bold text-orange-500 mr-1">
+                <span class="bg-[#ff9a00] text-black font-extrabold px-1.5 py-0.5 rounded text-xs">Ai</span>
+            </div>
+            <div class="relative group cursor-pointer hover:bg-ai-hover px-2 py-1 rounded">
+                <span>File</span>
+                <div class="hidden group-hover:block absolute left-0 top-full bg-ai-panel border border-ai-border shadow-xl z-50 py-1 w-44 text-ai-text">
+                    <button id="btn-new" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white flex justify-between"><span>New</span><span class="text-ai-textMuted">Ctrl+N</span></button>
+                    <button id="btn-clear" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white">Clear Canvas</button>
+                    <hr class="border-ai-border my-1">
+                    <button id="btn-export-svg" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white">Export SVG</button>
+                    <button id="btn-export-png" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white">Export PNG</button>
+                    <button id="btn-export-json" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white">Save Project (JSON)</button>
+                </div>
+            </div>
+            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Edit</div>
+            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Object</div>
+            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Type</div>
+            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Select</div>
+            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Effect</div>
+            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">View</div>
+            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Window</div>
+            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Help</div>
         </div>
 
-        <h1>YouTube Video Downloader</h1>
-        <p class="subtitle">یوٹیوب ویڈیو کا لنک پیسٹ کریں اور MP4 میں ڈاؤن لوڈ کریں</p>
+        <div class="flex items-center space-x-3 text-ai-textMuted">
+            <button id="btn-undo" title="Undo (Ctrl+Z)" class="hover:text-white px-1.5 py-0.5 rounded hover:bg-ai-hover"><i class="fa-solid fa-rotate-left"></i></button>
+            <button id="btn-redo" title="Redo (Ctrl+Y)" class="hover:text-white px-1.5 py-0.5 rounded hover:bg-ai-hover"><i class="fa-solid fa-rotate-right"></i></button>
+            <span class="border-r border-ai-border h-4"></span>
+            <div class="flex items-center bg-ai-active px-2 py-0.5 rounded border border-ai-border text-ai-text">
+                <i class="fa-solid fa-wand-magic-sparkles text-orange-400 mr-1.5"></i>
+                <span>Generate Vectors</span>
+            </div>
+            <i class="fa-solid fa-cloud text-xs cursor-pointer hover:text-white"></i>
+            <i class="fa-solid fa-bell text-xs cursor-pointer hover:text-white"></i>
+            <i class="fa-solid fa-share-nodes text-xs cursor-pointer hover:text-white"></i>
+        </div>
+    </header>
 
-        <!-- Input Box -->
-        <div class="input-group">
-            <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
-            <button class="btn-fetch" onclick="processDownload()">Download Video</button>
+    <!-- 2. CONTROL TOOLBAR (Options Bar) -->
+    <div class="h-9 bg-ai-panel border-b border-ai-border flex items-center px-3 space-x-3 text-xxs shrink-0 overflow-x-auto">
+        <!-- Fill & Stroke indicators -->
+        <div class="flex items-center space-x-1">
+            <span class="text-ai-textMuted">Fill:</span>
+            <input type="color" id="fill-color" value="#3b82f6" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0">
+            <button id="btn-fill-none" class="px-1 py-0.5 bg-ai-header border border-ai-border rounded hover:bg-ai-hover text-red-400" title="No Fill">
+                <i class="fa-solid fa-ban"></i>
+            </button>
         </div>
 
-        <div id="errorMsg" class="error-msg">براہِ کرم صحیح YouTube کا لنک درج کریں۔</div>
+        <span class="border-r border-ai-border h-4"></span>
 
-        <!-- Preview & Download Section -->
-        <div class="preview-card" id="previewCard">
-            <img id="thumbnail" src="" alt="Thumbnail">
-            <a id="downloadLink" href="#" target="_blank" class="download-btn">📥 MP4 ڈاؤن لوڈ کریں</a>
+        <div class="flex items-center space-x-1">
+            <span class="text-ai-textMuted">Stroke:</span>
+            <input type="color" id="stroke-color" value="#000000" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0">
+            <select id="stroke-width" class="bg-ai-active border border-ai-border rounded px-1 py-0.5 text-ai-text focus:outline-none">
+                <option value="0">0 pt</option>
+                <option value="1" selected>1 pt</option>
+                <option value="2">2 pt</option>
+                <option value="4">4 pt</option>
+                <option value="6">6 pt</option>
+                <option value="10">10 pt</option>
+            </select>
+        </div>
+
+        <span class="border-r border-ai-border h-4"></span>
+
+        <!-- Uniform & Brush options -->
+        <div class="flex items-center space-x-2">
+            <select class="bg-ai-active border border-ai-border rounded px-2 py-0.5 text-ai-text">
+                <option>Uniform</option>
+                <option>Width Profile 1</option>
+                <option>Width Profile 2</option>
+            </select>
+            <select class="bg-ai-active border border-ai-border rounded px-2 py-0.5 text-ai-text">
+                <option>5 pt. Round</option>
+                <option>Basic</option>
+                <option>Chalk / Charcoal</option>
+            </select>
+        </div>
+
+        <span class="border-r border-ai-border h-4"></span>
+
+        <!-- Opacity -->
+        <div class="flex items-center space-x-1">
+            <span class="text-ai-textMuted">Opacity:</span>
+            <input type="number" id="shape-opacity" min="0" max="100" value="100" class="w-12 bg-ai-active border border-ai-border rounded px-1 py-0.5 text-center text-ai-text">
+            <span>%</span>
+        </div>
+
+        <span class="border-r border-ai-border h-4"></span>
+
+        <button class="bg-ai-header hover:bg-ai-hover border border-ai-border px-2 py-0.5 rounded">Document Setup</button>
+        <button class="bg-ai-header hover:bg-ai-hover border border-ai-border px-2 py-0.5 rounded">Preferences</button>
+    </div>
+
+    <!-- 3. TAB BAR -->
+    <div class="h-6 bg-ai-header border-b border-ai-border flex items-center px-2 text-xxs text-ai-textMuted shrink-0">
+        <div class="bg-ai-panel text-ai-text px-3 py-1 rounded-t border-t border-x border-ai-border flex items-center space-x-2">
+            <span>Untitled-1* @ 100% (CMYK/Preview)</span>
+            <i class="fa-solid fa-xmark hover:text-white cursor-pointer ml-2"></i>
         </div>
     </div>
 
+    <!-- MAIN WORKSPACE -->
+    <div class="flex-1 flex overflow-hidden relative">
+
+        <!-- 4. LEFT TOOLBAR -->
+        <div class="w-10 bg-ai-panel border-r border-ai-border flex flex-col items-center py-2 space-y-1 shrink-0 z-10">
+            <button id="tool-select" class="tool-btn active w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Selection Tool (V)">
+                <i class="fa-solid fa-arrow-pointer"></i>
+            </button>
+            <button id="tool-direct" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Direct Selection Tool (A)">
+                <i class="fa-regular fa-hand-pointer"></i>
+            </button>
+            <button id="tool-pen" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Pen / Freehand Tool (P)">
+                <i class="fa-solid fa-pen-nib"></i>
+            </button>
+            <button id="tool-text" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Type Tool (T)">
+                <i class="fa-solid fa-font"></i>
+            </button>
+            <button id="tool-rect" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Rectangle Tool (M)">
+                <i class="fa-regular fa-square"></i>
+            </button>
+            <button id="tool-circle" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Ellipse Tool (L)">
+                <i class="fa-regular fa-circle"></i>
+            </button>
+            <button id="tool-rotate" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Rotate Tool (R)">
+                <i class="fa-solid fa-rotate"></i>
+            </button>
+            <button id="tool-eraser" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Eraser Tool (Shift+E)">
+                <i class="fa-solid fa-eraser"></i>
+            </button>
+            <button id="tool-eyedropper" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Eyedropper Tool (I)">
+                <i class="fa-solid fa-eye-dropper"></i>
+            </button>
+
+            <div class="w-6 border-b border-ai-border my-1"></div>
+
+            <!-- Color Swatch overlap display -->
+            <div class="relative w-7 h-7 my-2">
+                <div id="swatch-fill-indicator" class="absolute left-0 top-0 w-5 h-5 bg-blue-500 border border-white shadow rounded-sm cursor-pointer z-10" title="Fill Color"></div>
+                <div id="swatch-stroke-indicator" class="absolute right-0 bottom-0 w-5 h-5 bg-black border border-white shadow rounded-sm cursor-pointer" title="Stroke Color"></div>
+            </div>
+        </div>
+
+        <!-- 5. CENTER CANVAS WORKSPACE -->
+        <div id="workspace-container" class="flex-1 workspace-bg relative overflow-auto flex items-center justify-center p-8">
+            
+            <!-- White Artboard Container -->
+            <div class="relative shadow-2xl transition-transform duration-75 origin-center">
+                <div class="absolute -top-6 left-0 text-xxs text-ai-textMuted font-medium tracking-wide">01 - Artboard 1</div>
+                
+                <!-- Main Canvas (Artboard) -->
+                <canvas id="main-canvas" width="700" height="900" class="bg-white shadow-xl rounded-sm cursor-crosshair block"></canvas>
+            </div>
+        </div>
+
+        <!-- 6. RIGHT DOCK PANELS -->
+        <div class="w-72 bg-ai-panel border-l border-ai-border flex flex-col shrink-0 text-xxs">
+            
+            <!-- Panel Tabs Header -->
+            <div class="flex bg-ai-header border-b border-ai-border">
+                <button class="panel-tab active px-3 py-1.5 border-r border-ai-border bg-ai-panel text-ai-text font-medium">Properties</button>
+                <button class="panel-tab px-3 py-1.5 border-r border-ai-border text-ai-textMuted hover:text-ai-text">Swatches</button>
+                <button class="panel-tab px-3 py-1.5 border-r border-ai-border text-ai-textMuted hover:text-ai-text">Layers</button>
+            </div>
+
+            <!-- Panel Content Area -->
+            <div class="flex-1 overflow-y-auto p-3 space-y-4">
+
+                <!-- TRANSFORM & ALIGN SECTION -->
+                <div class="bg-ai-active p-2.5 rounded border border-ai-border space-y-2">
+                    <div class="font-semibold text-ai-text flex justify-between items-center">
+                        <span>Transform</span>
+                        <i class="fa-solid fa-ellipsis-vertical text-ai-textMuted"></i>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-ai-textMuted">
+                        <div class="flex items-center space-x-1">
+                            <span>X:</span>
+                            <input id="trans-x" type="number" value="0" class="w-full bg-ai-panel border border-ai-border rounded px-1 text-ai-text">
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <span>Y:</span>
+                            <input id="trans-y" type="number" value="0" class="w-full bg-ai-panel border border-ai-border rounded px-1 text-ai-text">
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <span>W:</span>
+                            <input id="trans-w" type="number" value="0" class="w-full bg-ai-panel border border-ai-border rounded px-1 text-ai-text">
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <span>H:</span>
+                            <input id="trans-h" type="number" value="0" class="w-full bg-ai-panel border border-ai-border rounded px-1 text-ai-text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SWATCHES PALETTE SECTION -->
+                <div class="bg-ai-active p-2.5 rounded border border-ai-border space-y-2">
+                    <div class="font-semibold text-ai-text flex justify-between items-center">
+                        <span>Swatches</span>
+                        <div class="space-x-1">
+                            <button id="swatch-mode-fill" class="px-1.5 py-0.5 rounded bg-ai-panel text-orange-400 border border-ai-border">Fill</button>
+                            <button id="swatch-mode-stroke" class="px-1.5 py-0.5 rounded bg-ai-panel text-ai-textMuted border border-ai-border">Stroke</button>
+                        </div>
+                    </div>
+
+                    <!-- Swatches Color Grid -->
+                    <div id="swatch-grid" class="grid grid-cols-8 gap-1 pt-1">
+                        <!-- Colors inserted dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- LAYERS PANEL -->
+                <div class="bg-ai-active p-2.5 rounded border border-ai-border space-y-2">
+                    <div class="font-semibold text-ai-text flex justify-between items-center">
+                        <span>Layers</span>
+                        <button id="btn-delete-shape" class="text-red-400 hover:text-red-300" title="Delete Selected Shape"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div id="layers-list" class="space-y-1 max-h-36 overflow-y-auto pr-1">
+                        <div class="text-ai-textMuted italic py-1 text-center">No objects on artboard</div>
+                    </div>
+                </div>
+
+                <!-- COLOR GUIDE / QUICK ACTIONS -->
+                <div class="bg-ai-active p-2.5 rounded border border-ai-border space-y-2">
+                    <div class="font-semibold text-ai-text">Quick Actions</div>
+                    <div class="grid grid-cols-2 gap-1.5">
+                        <button id="btn-bring-front" class="bg-ai-panel hover:bg-ai-hover border border-ai-border p-1.5 rounded text-left">Bring to Front</button>
+                        <button id="btn-send-back" class="bg-ai-panel hover:bg-ai-hover border border-ai-border p-1.5 rounded text-left">Send to Back</button>
+                        <button id="btn-duplicate" class="bg-ai-panel hover:bg-ai-hover border border-ai-border p-1.5 rounded text-left">Duplicate</button>
+                        <button id="btn-clear-all" class="bg-ai-panel hover:bg-ai-hover border border-ai-border p-1.5 rounded text-left text-red-400">Clear All</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 7. BOTTOM STATUS BAR -->
+    <footer class="h-6 bg-ai-header border-t border-ai-border flex items-center justify-between px-3 text-xxs text-ai-textMuted shrink-0">
+        <div class="flex items-center space-x-4">
+            <span id="status-tool">Selection Tool</span>
+            <span class="border-r border-ai-border h-3"></span>
+            <div class="flex items-center space-x-1">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <select id="zoom-level" class="bg-ai-active text-ai-text border border-ai-border rounded px-1">
+                    <option value="0.5">50%</option>
+                    <option value="1" selected>100%</option>
+                    <option value="1.5">150%</option>
+                    <option value="2">200%</option>
+                </select>
+            </div>
+            <span class="border-r border-ai-border h-3"></span>
+            <span>0° Rotated</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <span id="status-coords">X: 0 pt  Y: 0 pt</span>
+            <span class="border-r border-ai-border h-3"></span>
+            <span>Toggle Direct Selection</span>
+        </div>
+    </footer>
+
+    <!-- VECTOR EDITOR APPLICATION ENGINE JS -->
     <script>
-        function getYouTubeID(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
+        // Color Swatches Palette Preset
+        const SWATCH_COLORS = [
+            '#000000', '#ffffff', '#7f7f7f', '#c3c3c3', '#880015', '#ed1c24', '#ff7f27', '#fff200',
+            '#22b14c', '#00a2e8', '#3f48cc', '#a349a4', '#b97a57', '#ffaec9', '#ffc90e', '#efe4b0',
+            '#b5e61d', '#99d9ea', '#7092be', '#c8bfe7', '#efe6d5', '#464646', '#d32f2f', '#f57c00',
+            '#fbc02d', '#388e3c', '#1976d2', '#7b1fa2', '#5d4037', '#616161', '#009688', '#8bc34a'
+        ];
+
+        // Application State
+        const state = {
+            activeTool: 'select', // select, direct, pen, text, rect, circle, rotate, eraser, eyedropper
+            fillColor: '#3b82f6',
+            strokeColor: '#000000',
+            strokeWidth: 1,
+            opacity: 100,
+            swatchMode: 'fill', // 'fill' or 'stroke'
+            shapes: [],
+            selectedShapeId: null,
+            isDrawing: false,
+            isDragging: false,
+            dragOffsetX: 0,
+            dragOffsetY: 0,
+            currentPath: [],
+            undoStack: [],
+            redoStack: [],
+            zoom: 1
+        };
+
+        // DOM Element Cache
+        const canvas = document.getElementById('main-canvas');
+        const ctx = canvas.getContext('2d');
+        const workspaceContainer = document.getElementById('workspace-container');
+        const layersList = document.getElementById('layers-list');
+        const statusTool = document.getElementById('status-tool');
+        const statusCoords = document.getElementById('status-coords');
+
+        // Inputs
+        const fillColorInput = document.getElementById('fill-color');
+        const strokeColorInput = document.getElementById('stroke-color');
+        const strokeWidthInput = document.getElementById('stroke-width');
+        const opacityInput = document.getElementById('shape-opacity');
+        const transX = document.getElementById('trans-x');
+        const transY = document.getElementById('trans-y');
+        const transW = document.getElementById('trans-w');
+        const transH = document.getElementById('trans-h');
+
+        // Initialize Application
+        window.onload = () => {
+            initSwatches();
+            setupEventListeners();
+            saveState();
+            render();
+        };
+
+        // Render Preset Swatches
+        function initSwatches() {
+            const grid = document.getElementById('swatch-grid');
+            grid.innerHTML = '';
+            SWATCH_COLORS.forEach(color => {
+                const btn = document.createElement('button');
+                btn.className = 'w-5 h-5 rounded-sm border border-ai-border swatch-box hover:scale-110 transition-transform';
+                btn.style.backgroundColor = color;
+                btn.onclick = () => applySwatchColor(color);
+                grid.appendChild(btn);
+            });
         }
 
-        function processDownload() {
-            const urlInput = document.getElementById('videoUrl').value.trim();
-            const errorMsg = document.getElementById('errorMsg');
-            const previewCard = document.getElementById('previewCard');
-            const thumbnail = document.getElementById('thumbnail');
-            const downloadLink = document.getElementById('downloadLink');
+        // Save History for Undo/Redo
+        function saveState() {
+            state.undoStack.push(JSON.stringify(state.shapes));
+            if (state.undoStack.length > 30) state.undoStack.shift();
+            state.redoStack = [];
+        }
 
-            const videoId = getYouTubeID(urlInput);
+        function undo() {
+            if (state.undoStack.length > 1) {
+                state.redoStack.push(state.undoStack.pop());
+                const previous = state.undoStack[state.undoStack.length - 1];
+                state.shapes = JSON.parse(previous);
+                state.selectedShapeId = null;
+                render();
+                updateLayersPanel();
+            }
+        }
 
-            if (!videoId) {
-                errorMsg.style.display = 'block';
-                previewCard.style.display = 'none';
+        function redo() {
+            if (state.redoStack.length > 0) {
+                const next = state.redoStack.pop();
+                state.undoStack.push(next);
+                state.shapes = JSON.parse(next);
+                render();
+                updateLayersPanel();
+            }
+        }
+
+        // Apply Swatch to Active Object or Global Fill/Stroke
+        function applySwatchColor(color) {
+            if (state.swatchMode === 'fill') {
+                state.fillColor = color;
+                fillColorInput.value = color;
+                document.getElementById('swatch-fill-indicator').style.backgroundColor = color;
+                if (state.selectedShapeId) {
+                    const shape = getSelectedShape();
+                    if (shape) shape.fill = color;
+                }
+            } else {
+                state.strokeColor = color;
+                strokeColorInput.value = color;
+                document.getElementById('swatch-stroke-indicator').style.backgroundColor = color;
+                if (state.selectedShapeId) {
+                    const shape = getSelectedShape();
+                    if (shape) shape.stroke = color;
+                }
+            }
+            render();
+        }
+
+        // Setup Event Handlers
+        function setupEventListeners() {
+            // Tool selection buttons
+            const toolButtons = {
+                'tool-select': 'select',
+                'tool-direct': 'direct',
+                'tool-pen': 'pen',
+                'tool-text': 'text',
+                'tool-rect': 'rect',
+                'tool-circle': 'circle',
+                'tool-rotate': 'rotate',
+                'tool-eraser': 'eraser',
+                'tool-eyedropper': 'eyedropper'
+            };
+
+            Object.keys(toolButtons).forEach(id => {
+                const btn = document.getElementById(id);
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    state.activeTool = toolButtons[id];
+                    statusTool.textContent = btn.getAttribute('title').split(' (')[0];
+                });
+            });
+
+            // Swatch mode toggles
+            document.getElementById('swatch-mode-fill').addEventListener('click', (e) => {
+                state.swatchMode = 'fill';
+                e.target.classList.add('text-orange-400');
+                document.getElementById('swatch-mode-stroke').classList.remove('text-orange-400');
+            });
+            document.getElementById('swatch-mode-stroke').addEventListener('click', (e) => {
+                state.swatchMode = 'stroke';
+                e.target.classList.add('text-orange-400');
+                document.getElementById('swatch-mode-fill').classList.remove('text-orange-400');
+            });
+
+            // Input Control Listeners
+            fillColorInput.addEventListener('input', (e) => {
+                state.fillColor = e.target.value;
+                document.getElementById('swatch-fill-indicator').style.backgroundColor = e.target.value;
+                if (state.selectedShapeId) {
+                    const shape = getSelectedShape();
+                    if (shape) shape.fill = e.target.value;
+                    render();
+                }
+            });
+
+            strokeColorInput.addEventListener('input', (e) => {
+                state.strokeColor = e.target.value;
+                document.getElementById('swatch-stroke-indicator').style.backgroundColor = e.target.value;
+                if (state.selectedShapeId) {
+                    const shape = getSelectedShape();
+                    if (shape) shape.stroke = e.target.value;
+                    render();
+                }
+            });
+
+            document.getElementById('btn-fill-none').addEventListener('click', () => {
+                state.fillColor = 'transparent';
+                fillColorInput.value = '#ffffff';
+                document.getElementById('swatch-fill-indicator').style.backgroundColor = 'transparent';
+                if (state.selectedShapeId) {
+                    const shape = getSelectedShape();
+                    if (shape) shape.fill = 'transparent';
+                    render();
+                }
+            });
+
+            strokeWidthInput.addEventListener('change', (e) => {
+                state.strokeWidth = parseInt(e.target.value);
+                if (state.selectedShapeId) {
+                    const shape = getSelectedShape();
+                    if (shape) shape.strokeWidth = state.strokeWidth;
+                    render();
+                }
+            });
+
+            opacityInput.addEventListener('input', (e) => {
+                state.opacity = parseInt(e.target.value);
+                if (state.selectedShapeId) {
+                    const shape = getSelectedShape();
+                    if (shape) shape.opacity = state.opacity / 100;
+                    render();
+                }
+            });
+
+            // Action Buttons
+            document.getElementById('btn-undo').addEventListener('click', undo);
+            document.getElementById('btn-redo').addEventListener('click', redo);
+            document.getElementById('btn-clear').addEventListener('click', clearCanvas);
+            document.getElementById('btn-clear-all').addEventListener('click', clearCanvas);
+            document.getElementById('btn-delete-shape').addEventListener('click', deleteSelectedShape);
+            document.getElementById('btn-bring-front').addEventListener('click', bringToFront);
+            document.getElementById('btn-send-back').addEventListener('click', sendToBack);
+            document.getElementById('btn-duplicate').addEventListener('click', duplicateSelected);
+
+            // Export Actions
+            document.getElementById('btn-export-svg').addEventListener('click', exportSVG);
+            document.getElementById('btn-export-png').addEventListener('click', exportPNG);
+            document.getElementById('btn-export-json').addEventListener('click', exportJSON);
+
+            // Zoom Control
+            document.getElementById('zoom-level').addEventListener('change', (e) => {
+                state.zoom = parseFloat(e.target.value);
+                canvas.style.transform = `scale(${state.zoom})`;
+            });
+
+            // Canvas Mouse Events
+            canvas.addEventListener('mousedown', handleMouseDown);
+            canvas.addEventListener('mousemove', handleMouseMove);
+            canvas.addEventListener('mouseup', handleMouseUp);
+
+            // Keyboard Shortcuts
+            window.addEventListener('keydown', (e) => {
+                if (e.target.tagName === 'INPUT') return; // Ignore if typing in input
+                if (e.key === 'v' || e.key === 'V') document.getElementById('tool-select').click();
+                if (e.key === 'a' || e.key === 'A') document.getElementById('tool-direct').click();
+                if (e.key === 'p' || e.key === 'P') document.getElementById('tool-pen').click();
+                if (e.key === 't' || e.key === 'T') document.getElementById('tool-text').click();
+                if (e.key === 'm' || e.key === 'M') document.getElementById('tool-rect').click();
+                if (e.key === 'l' || e.key === 'L') document.getElementById('tool-circle').click();
+                if (e.key === 'Delete' || e.key === 'Backspace') deleteSelectedShape();
+                if (e.ctrlKey && e.key === 'z') undo();
+                if (e.ctrlKey && e.key === 'y') redo();
+            });
+        }
+
+        // Get Pointer Position relative to Canvas
+        function getCanvasPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (e.clientX - rect.left) / state.zoom,
+                y: (e.clientY - rect.top) / state.zoom
+            };
+        }
+
+        // Canvas Interaction Handling
+        function handleMouseDown(e) {
+            const pos = getCanvasPos(e);
+            state.isDrawing = true;
+
+            if (state.activeTool === 'select' || state.activeTool === 'direct') {
+                const clickedShape = getShapeAtPos(pos.x, pos.y);
+                if (clickedShape) {
+                    state.selectedShapeId = clickedShape.id;
+                    state.isDragging = true;
+                    state.dragOffsetX = pos.x - clickedShape.x;
+                    state.dragOffsetY = pos.y - clickedShape.y;
+                    syncTransformPanel(clickedShape);
+                } else {
+                    state.selectedShapeId = null;
+                }
+            } else if (state.activeTool === 'rect') {
+                const newShape = {
+                    id: Date.now(),
+                    type: 'rect',
+                    x: pos.x,
+                    y: pos.y,
+                    w: 0,
+                    h: 0,
+                    fill: state.fillColor,
+                    stroke: state.strokeColor,
+                    strokeWidth: state.strokeWidth,
+                    opacity: state.opacity / 100
+                };
+                state.shapes.push(newShape);
+                state.selectedShapeId = newShape.id;
+            } else if (state.activeTool === 'circle') {
+                const newShape = {
+                    id: Date.now(),
+                    type: 'circle',
+                    x: pos.x,
+                    y: pos.y,
+                    radius: 0,
+                    fill: state.fillColor,
+                    stroke: state.strokeColor,
+                    strokeWidth: state.strokeWidth,
+                    opacity: state.opacity / 100
+                };
+                state.shapes.push(newShape);
+                state.selectedShapeId = newShape.id;
+            } else if (state.activeTool === 'pen') {
+                state.currentPath = [{ x: pos.x, y: pos.y }];
+            } else if (state.activeTool === 'text') {
+                const textContent = prompt('Enter Vector Text:', 'Adobe Illustrator');
+                if (textContent) {
+                    const newShape = {
+                        id: Date.now(),
+                        type: 'text',
+                        x: pos.x,
+                        y: pos.y,
+                        text: textContent,
+                        fontSize: 28,
+                        fill: state.fillColor,
+                        stroke: state.strokeColor,
+                        strokeWidth: state.strokeWidth,
+                        opacity: state.opacity / 100
+                    };
+                    state.shapes.push(newShape);
+                    state.selectedShapeId = newShape.id;
+                    saveState();
+                    updateLayersPanel();
+                }
+                state.isDrawing = false;
+            } else if (state.activeTool === 'eyedropper') {
+                const clickedShape = getShapeAtPos(pos.x, pos.y);
+                if (clickedShape) {
+                    if (clickedShape.fill && clickedShape.fill !== 'transparent') {
+                        applySwatchColor(clickedShape.fill);
+                    }
+                }
+                state.isDrawing = false;
+            } else if (state.activeTool === 'eraser') {
+                const clickedShape = getShapeAtPos(pos.x, pos.y);
+                if (clickedShape) {
+                    state.shapes = state.shapes.filter(s => s.id !== clickedShape.id);
+                    saveState();
+                    updateLayersPanel();
+                }
+                state.isDrawing = false;
+            }
+
+            render();
+        }
+
+        function handleMouseMove(e) {
+            const pos = getCanvasPos(e);
+            statusCoords.textContent = `X: ${Math.round(pos.x)} pt  Y: ${Math.round(pos.y)} pt`;
+
+            if (!state.isDrawing && !state.isDragging) return;
+
+            if (state.isDragging && state.selectedShapeId) {
+                const shape = getSelectedShape();
+                if (shape) {
+                    shape.x = pos.x - state.dragOffsetX;
+                    shape.y = pos.y - state.dragOffsetY;
+                    syncTransformPanel(shape);
+                }
+            } else if (state.activeTool === 'rect' && state.selectedShapeId) {
+                const shape = getSelectedShape();
+                if (shape) {
+                    shape.w = pos.x - shape.x;
+                    shape.h = pos.y - shape.y;
+                }
+            } else if (state.activeTool === 'circle' && state.selectedShapeId) {
+                const shape = getSelectedShape();
+                if (shape) {
+                    const dx = pos.x - shape.x;
+                    const dy = pos.y - shape.y;
+                    shape.radius = Math.sqrt(dx * dx + dy * dy);
+                }
+            } else if (state.activeTool === 'pen') {
+                state.currentPath.push({ x: pos.x, y: pos.y });
+            }
+
+            render();
+        }
+
+        function handleMouseUp() {
+            if (state.activeTool === 'pen' && state.currentPath.length > 1) {
+                const newShape = {
+                    id: Date.now(),
+                    type: 'path',
+                    points: [...state.currentPath],
+                    fill: 'transparent',
+                    stroke: state.strokeColor,
+                    strokeWidth: state.strokeWidth,
+                    opacity: state.opacity / 100
+                };
+                state.shapes.push(newShape);
+                state.selectedShapeId = newShape.id;
+                state.currentPath = [];
+            }
+
+            if (state.isDrawing || state.isDragging) {
+                saveState();
+                updateLayersPanel();
+            }
+
+            state.isDrawing = false;
+            state.isDragging = false;
+            render();
+        }
+
+        // Shape Lookup & Utilities
+        function getSelectedShape() {
+            return state.shapes.find(s => s.id === state.selectedShapeId);
+        }
+
+        function getShapeAtPos(x, y) {
+            // Hit test shapes in reverse order (topmost first)
+            for (let i = state.shapes.length - 1; i >= 0; i--) {
+                const s = state.shapes[i];
+                if (s.type === 'rect') {
+                    const minX = Math.min(s.x, s.x + s.w);
+                    const maxX = Math.max(s.x, s.x + s.w);
+                    const minY = Math.min(s.y, s.y + s.h);
+                    const maxY = Math.max(s.y, s.y + s.h);
+                    if (x >= minX && x <= maxX && y >= minY && y <= maxY) return s;
+                } else if (s.type === 'circle') {
+                    const dist = Math.sqrt((x - s.x) ** 2 + (y - s.y) ** 2);
+                    if (dist <= s.radius) return s;
+                } else if (s.type === 'text') {
+                    if (x >= s.x && x <= s.x + 150 && y >= s.y - 25 && y <= s.y + 10) return s;
+                }
+            }
+            return null;
+        }
+
+        function syncTransformPanel(shape) {
+            if (!shape) return;
+            transX.value = Math.round(shape.x || 0);
+            transY.value = Math.round(shape.y || 0);
+            transW.value = Math.round(shape.w || shape.radius * 2 || 0);
+            transH.value = Math.round(shape.h || shape.radius * 2 || 0);
+        }
+
+        // Layer Panel Updating
+        function updateLayersPanel() {
+            layersList.innerHTML = '';
+            if (state.shapes.length === 0) {
+                layersList.innerHTML = '<div class="text-ai-textMuted italic py-1 text-center">No objects on artboard</div>';
                 return;
             }
 
-            errorMsg.style.display = 'none';
-            
-            // Set Thumbnail Preview
-            thumbnail.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+            state.shapes.slice().reverse().forEach((shape, index) => {
+                const item = document.createElement('div');
+                const isSelected = shape.id === state.selectedShapeId;
+                item.className = `flex items-center justify-between p-1.5 rounded cursor-pointer border ${
+                    isSelected ? 'bg-ai-hover border-orange-500 text-white' : 'bg-ai-panel border-ai-border text-ai-text'
+                }`;
 
-            // Third-Party Downloader Redirect (SSYouTube Bypass Method)
-            const cleanUrl = `https://www.youtube.com/watch?v=${videoId}`;
-            const downloadUrl = `https://www.ssyoutube.com/watch?v=${videoId}`;
+                let icon = 'fa-shapes';
+                if (shape.type === 'rect') icon = 'fa-regular fa-square';
+                if (shape.type === 'circle') icon = 'fa-regular fa-circle';
+                if (shape.type === 'path') icon = 'fa-solid fa-pen-nib';
+                if (shape.type === 'text') icon = 'fa-solid fa-font';
 
-            downloadLink.href = downloadUrl;
-            previewCard.style.display = 'block';
+                item.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <i class="${icon} text-ai-textMuted"></i>
+                        <span>${shape.type.toUpperCase()} - ${shape.id.toString().slice(-4)}</span>
+                    </div>
+                    <i class="fa-solid fa-eye text-ai-textMuted hover:text-white"></i>
+                `;
+
+                item.onclick = () => {
+                    state.selectedShapeId = shape.id;
+                    syncTransformPanel(shape);
+                    render();
+                    updateLayersPanel();
+                };
+
+                layersList.appendChild(item);
+            });
+        }
+
+        // Shape Manipulation Functions
+        function deleteSelectedShape() {
+            if (state.selectedShapeId) {
+                state.shapes = state.shapes.filter(s => s.id !== state.selectedShapeId);
+                state.selectedShapeId = null;
+                saveState();
+                render();
+                updateLayersPanel();
+            }
+        }
+
+        function bringToFront() {
+            if (!state.selectedShapeId) return;
+            const shape = getSelectedShape();
+            state.shapes = state.shapes.filter(s => s.id !== state.selectedShapeId);
+            state.shapes.push(shape);
+            saveState();
+            render();
+            updateLayersPanel();
+        }
+
+        function sendToBack() {
+            if (!state.selectedShapeId) return;
+            const shape = getSelectedShape();
+            state.shapes = state.shapes.filter(s => s.id !== state.selectedShapeId);
+            state.shapes.unshift(shape);
+            saveState();
+            render();
+            updateLayersPanel();
+        }
+
+        function duplicateSelected() {
+            const shape = getSelectedShape();
+            if (shape) {
+                const dup = JSON.parse(JSON.stringify(shape));
+                dup.id = Date.now();
+                dup.x += 20;
+                dup.y += 20;
+                state.shapes.push(dup);
+                state.selectedShapeId = dup.id;
+                saveState();
+                render();
+                updateLayersPanel();
+            }
+        }
+
+        function clearCanvas() {
+            if (confirm('Are you sure you want to clear the entire artboard?')) {
+                state.shapes = [];
+                state.selectedShapeId = null;
+                saveState();
+                render();
+                updateLayersPanel();
+            }
+        }
+
+        // Main Rendering Engine
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw all shapes
+            state.shapes.forEach(s => {
+                ctx.save();
+                ctx.globalAlpha = s.opacity !== undefined ? s.opacity : 1;
+                ctx.fillStyle = s.fill || 'transparent';
+                ctx.strokeStyle = s.stroke || '#000000';
+                ctx.lineWidth = s.strokeWidth || 1;
+
+                if (s.type === 'rect') {
+                    ctx.beginPath();
+                    ctx.rect(s.x, s.y, s.w, s.h);
+                    if (s.fill && s.fill !== 'transparent') ctx.fill();
+                    if (s.strokeWidth > 0) ctx.stroke();
+                } else if (s.type === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, Math.max(0, s.radius), 0, Math.PI * 2);
+                    if (s.fill && s.fill !== 'transparent') ctx.fill();
+                    if (s.strokeWidth > 0) ctx.stroke();
+                } else if (s.type === 'text') {
+                    ctx.font = `${s.fontSize || 24}px Inter, sans-serif`;
+                    if (s.fill && s.fill !== 'transparent') ctx.fillText(s.text, s.x, s.y);
+                    if (s.strokeWidth > 0) ctx.strokeText(s.text, s.x, s.y);
+                } else if (s.type === 'path' && s.points.length > 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(s.points[0].x, s.points[0].y);
+                    for (let i = 1; i < s.points.length; i++) {
+                        ctx.lineTo(s.points[i].x, s.points[i].y);
+                    }
+                    if (s.strokeWidth > 0) ctx.stroke();
+                }
+
+                // Selection Box & Handles Indicator
+                if (s.id === state.selectedShapeId) {
+                    ctx.restore();
+                    ctx.save();
+                    ctx.strokeStyle = '#0265dc';
+                    ctx.lineWidth = 1.5;
+                    ctx.setLineDash([4, 4]);
+
+                    let bbox = { x: s.x, y: s.y, w: s.w || 0, h: s.h || 0 };
+                    if (s.type === 'circle') {
+                        bbox = { x: s.x - s.radius, y: s.y - s.radius, w: s.radius * 2, h: s.radius * 2 };
+                    } else if (s.type === 'text') {
+                        bbox = { x: s.x - 5, y: s.y - 25, w: 150, h: 30 };
+                    }
+
+                    ctx.strokeRect(bbox.x, bbox.y, bbox.w, bbox.h);
+
+                    // Draw corner handles
+                    ctx.fillStyle = '#ffffff';
+                    ctx.strokeStyle = '#0265dc';
+                    ctx.setLineDash([]);
+                    const handles = [
+                        { x: bbox.x, y: bbox.y },
+                        { x: bbox.x + bbox.w, y: bbox.y },
+                        { x: bbox.x, y: bbox.y + bbox.h },
+                        { x: bbox.x + bbox.w, y: bbox.y + bbox.h }
+                    ];
+                    handles.forEach(h => {
+                        ctx.beginPath();
+                        ctx.rect(h.x - 3, h.y - 3, 6, 6);
+                        ctx.fill();
+                        ctx.stroke();
+                    });
+                }
+
+                ctx.restore();
+            });
+
+            // Draw current active pen path preview
+            if (state.activeTool === 'pen' && state.currentPath.length > 1) {
+                ctx.save();
+                ctx.strokeStyle = state.strokeColor;
+                ctx.lineWidth = state.strokeWidth;
+                ctx.beginPath();
+                ctx.moveTo(state.currentPath[0].x, state.currentPath[0].y);
+                for (let i = 1; i < state.currentPath.length; i++) {
+                    ctx.lineTo(state.currentPath[i].x, state.currentPath[i].y);
+                }
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // Export Functions
+        function exportPNG() {
+            const link = document.createElement('a');
+            link.download = 'illustrator-artboard.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function exportJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.shapes, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "illustrator-project.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function exportSVG() {
+            let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">\n`;
+            state.shapes.forEach(s => {
+                if (s.type === 'rect') {
+                    svgContent += `  <rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" opacity="${s.opacity}" />\n`;
+                } else if (s.type === 'circle') {
+                    svgContent += `  <circle cx="${s.x}" cy="${s.y}" r="${s.radius}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" opacity="${s.opacity}" />\n`;
+                } else if (s.type === 'text') {
+                    svgContent += `  <text x="${s.x}" y="${s.y}" fill="${s.fill}" font-size="${s.fontSize || 24}" font-family="Inter">${s.text}</text>\n`;
+                } else if (s.type === 'path' && s.points.length > 0) {
+                    let d = `M ${s.points[0].x} ${s.points[0].y}`;
+                    for (let i = 1; i < s.points.length; i++) {
+                        d += ` L ${s.points[i].x} ${s.points[i].y}`;
+                    }
+                    svgContent += `  <path d="${d}" fill="none" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" />\n`;
+                }
+            });
+            svgContent += `</svg>`;
+
+            const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'illustrator-artwork.svg';
+            a.click();
+            URL.revokeObjectURL(url);
         }
     </script>
 </body>
