@@ -1,1011 +1,1409 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adobe Illustrator Web Replica</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ai: {
-                            bg: '#333333',
-                            panel: '#262626',
-                            border: '#1a1a1a',
-                            header: '#3f3f3f',
-                            hover: '#4e4e4e',
-                            active: '#1e1e1e',
-                            canvas: '#535353',
-                            accent: '#0265dc',
-                            orange: '#ff9a00',
-                            text: '#d1d1d1',
-                            textMuted: '#9e9e9e'
-                        }
-                    },
-                    fontSize: {
-                        'xxs': '10px'
-                    }
-                }
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import {
+  Play, Pause, SkipBack, SkipForward, Scissors, Trash2, Copy, Plus, Volume2,
+  VolumeX, Eye, EyeOff, ZoomIn, ZoomOut, Download, Film, Music, Image as ImageIcon,
+  Type, Sliders, Layers, Sparkles, Undo2, Redo2, Maximize, Settings, RefreshCw,
+  Move, RotateCw, Monitor, Smartphone, Square, Grid, Check, HelpCircle, X, ChevronRight
+} from 'lucide-react';
+
+// Default sample assets using royalty-free sample videos/audio/images
+const SAMPLE_ASSETS = [
+  {
+    id: 'sample-vid-1',
+    name: 'Nature River Stream',
+    type: 'video',
+    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    duration: 15,
+    thumb: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&auto=format&fit=crop&q=60'
+  },
+  {
+    id: 'sample-vid-2',
+    name: 'City Lights Loop',
+    type: 'video',
+    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    duration: 12,
+    thumb: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=200&auto=format&fit=crop&q=60'
+  },
+  {
+    id: 'sample-aud-1',
+    name: 'Cinematic Ambient Beat',
+    type: 'audio',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    duration: 30,
+    thumb: ''
+  },
+  {
+    id: 'sample-img-1',
+    name: 'Cyberpunk Overlay Background',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
+    duration: 5,
+    thumb: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200&auto=format&fit=crop&q=60'
+  }
+];
+
+// Preset filters for color grading
+const FILTER_PRESETS = [
+  { name: 'Normal', filter: 'none' },
+  { name: 'Cinematic', filter: 'contrast(125%) saturate(110%) sepia(20%) hue-rotate(-10deg)' },
+  { name: 'Vintage', filter: 'sepia(50%) contrast(90%) brightness(105%) hue-rotate(-15deg)' },
+  { name: 'Cyberpunk', filter: 'contrast(140%) saturate(180%) hue-rotate(190deg)' },
+  { name: 'B&W Film', filter: 'grayscale(100%) contrast(130%) brightness(95%)' },
+  { name: 'Warm Sunset', filter: 'saturate(130%) sepia(30%) hue-rotate(10deg) brightness(105%)' },
+  { name: 'Cool Breeze', filter: 'saturate(110%) hue-rotate(170deg) contrast(110%)' },
+  { name: 'VHS Glitch', filter: 'contrast(150%) saturate(200%) hue-rotate(90deg) invert(10%)' },
+];
+
+export default function App() {
+  // Asset Management
+  const [mediaAssets, setMediaAssets] = useState(SAMPLE_ASSETS);
+  const [activeTab, setActiveTab] = useState('media'); // media, text, fx, audio, export
+
+  // Timeline Tracks
+  // Tracks: 0 = Overlay/Text, 1 = Video 1, 2 = Video 2, 3 = Audio Track
+  const [tracks, setTracks] = useState([
+    { id: 'track-text', name: 'Text & Titles', type: 'text', muted: false, hidden: false, clips: [] },
+    { id: 'track-v1', name: 'Video Track 1', type: 'video', muted: false, hidden: false, clips: [] },
+    { id: 'track-v2', name: 'Overlay Track', type: 'video', muted: false, hidden: false, clips: [] },
+    { id: 'track-a1', name: 'Background Audio', type: 'audio', muted: false, hidden: false, clips: [] },
+  ]);
+
+  // Selected Clip for Inspector editing
+  const [selectedClipId, setSelectedClipId] = useState(null);
+
+  // Playback & Time control
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0); // in seconds
+  const [duration, setDuration] = useState(30); // total timeline duration in seconds
+  const [zoomLevel, setZoomLevel] = useState(15); // pixels per second
+  const [aspectRatio, setAspectRatio] = useState('16:9'); // 16:9, 9:16, 1:1, 4:3
+
+  // History Undo / Redo
+  const [history, setHistory] = useState([]);
+  const [historyIdx, setHistoryIdx] = useState(-1);
+
+  // Export Modal & Processing State
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0);
+  const [exportSettings, setExportSettings] = useState({
+    resolution: '1080p',
+    fps: 30,
+    format: 'video/webm',
+    quality: 'high'
+  });
+  const [renderedBlobUrl, setRenderedBlobUrl] = useState(null);
+  const [showShortcutsModal, setShowShortcutsModal] = useState(false);
+
+  // Canvas and HTML References
+  const canvasRef = useRef(null);
+  const playheadIntervalRef = useRef(null);
+  const mediaElementsRef = useRef({}); // Caches HTMLVideoElement or HTMLAudioElement instances
+
+  // Helper to save state for Undo/Redo
+  const saveState = useCallback((newTracks) => {
+    const nextHistory = history.slice(0, historyIdx + 1);
+    nextHistory.push(JSON.stringify(newTracks));
+    setHistory(nextHistory);
+    setHistoryIdx(nextHistory.length - 1);
+  }, [history, historyIdx]);
+
+  // Initialize with initial state saved
+  useEffect(() => {
+    if (history.length === 0) {
+      setHistory([JSON.stringify(tracks)]);
+      setHistoryIdx(0);
+    }
+  }, []);
+
+  const handleUndo = () => {
+    if (historyIdx > 0) {
+      const prev = historyIdx - 1;
+      setHistoryIdx(prev);
+      setTracks(JSON.parse(history[prev]));
+    }
+  };
+
+  const handleRedo = () => {
+    if (historyIdx < history.length - 1) {
+      const next = historyIdx + 1;
+      setHistoryIdx(next);
+      setTracks(JSON.parse(history[next]));
+    }
+  };
+
+  // Find currently selected clip object
+  const getSelectedClip = () => {
+    for (let track of tracks) {
+      const clip = track.clips.find(c => c.id === selectedClipId);
+      if (clip) return { clip, trackId: track.id };
+    }
+    return null;
+  };
+
+  // Update a specific property of the selected clip
+  const updateSelectedClip = (updatedProps) => {
+    const sel = getSelectedClip();
+    if (!sel) return;
+
+    const newTracks = tracks.map(track => {
+      if (track.id !== sel.trackId) return track;
+      return {
+        ...track,
+        clips: track.clips.map(c => c.id === selectedClipId ? { ...c, ...updatedProps } : c)
+      };
+    });
+
+    setTracks(newTracks);
+    saveState(newTracks);
+  };
+
+  // --- MEDIA UPLOAD HANDLER ---
+  const handleFileUpload = (e) => {
+    const files = Array.from(e.target.files || []);
+    files.forEach(file => {
+      const url = URL.createObjectURL(file);
+      let type = 'video';
+      if (file.type.startsWith('audio/')) type = 'audio';
+      if (file.type.startsWith('image/')) type = 'image';
+
+      const newAsset = {
+        id: `custom-${Date.now()}-${Math.random().toString(36).substring(2, 5)}`,
+        name: file.name,
+        type: type,
+        url: url,
+        duration: type === 'image' ? 5 : 10,
+        thumb: type === 'image' ? url : ''
+      };
+
+      setMediaAssets(prev => [newAsset, ...prev]);
+    });
+  };
+
+  // --- ADD ASSET TO TIMELINE ---
+  const addAssetToTimeline = (asset) => {
+    let targetTrackId = 'track-v1';
+    if (asset.type === 'audio') targetTrackId = 'track-a1';
+
+    const newClip = {
+      id: `clip-${Date.now()}`,
+      assetId: asset.id,
+      name: asset.name,
+      type: asset.type,
+      url: asset.url,
+      start: currentTime, // placed at playhead
+      duration: asset.duration || 5,
+      trimStart: 0,
+      // Transform Props
+      scale: 1,
+      rotation: 0,
+      posX: 0,
+      posY: 0,
+      opacity: 1,
+      flipH: false,
+      flipV: false,
+      // Color & Effects
+      brightness: 100,
+      contrast: 100,
+      saturation: 100,
+      hue: 0,
+      blur: 0,
+      filterPreset: 'none',
+      // Audio Props
+      volume: 1,
+      fadeIn: 0,
+      fadeOut: 0,
+      speed: 1,
+      // Text Specific
+      text: asset.type === 'text' ? (asset.text || 'Sample Title') : '',
+      fontSize: 48,
+      color: '#ffffff',
+      bgColor: 'transparent',
+      fontFamily: 'sans-serif',
+      textAnimation: 'none'
+    };
+
+    const newTracks = tracks.map(t => {
+      if (t.id === targetTrackId) {
+        return { ...t, clips: [...t.clips, newClip] };
+      }
+      return t;
+    });
+
+    setTracks(newTracks);
+    setSelectedClipId(newClip.id);
+    saveState(newTracks);
+
+    // Adjust timeline total length if clip expands beyond current limit
+    if (newClip.start + newClip.duration > duration - 5) {
+      setDuration(Math.ceil(newClip.start + newClip.duration + 10));
+    }
+  };
+
+  // Add custom Text title
+  const addTextOverlay = () => {
+    const textAsset = {
+      id: `text-${Date.now()}`,
+      name: 'Custom Text Track',
+      type: 'text',
+      text: 'DOUBLE CLICK TO EDIT',
+      duration: 5
+    };
+
+    const newClip = {
+      id: `clip-text-${Date.now()}`,
+      assetId: textAsset.id,
+      name: 'Title Overlay',
+      type: 'text',
+      start: currentTime,
+      duration: 5,
+      trimStart: 0,
+      scale: 1,
+      rotation: 0,
+      posX: 0,
+      posY: 0,
+      opacity: 1,
+      text: 'Nexus Studio',
+      fontSize: 52,
+      color: '#38bdf8',
+      bgColor: 'rgba(0,0,0,0.5)',
+      fontFamily: 'Inter, sans-serif',
+      textAnimation: 'fade'
+    };
+
+    const newTracks = tracks.map(t => {
+      if (t.id === 'track-text') {
+        return { ...t, clips: [...t.clips, newClip] };
+      }
+      return t;
+    });
+
+    setTracks(newTracks);
+    setSelectedClipId(newClip.id);
+    saveState(newTracks);
+  };
+
+  // --- TIMELINE CONTROLS & EDITING ---
+  const handleSplitClip = () => {
+    const sel = getSelectedClip();
+    if (!sel) return;
+
+    const clip = sel.clip;
+    const splitPoint = currentTime - clip.start;
+
+    // Split only if playhead is strictly inside clip bounds
+    if (splitPoint <= 0.2 || splitPoint >= clip.duration - 0.2) return;
+
+    const firstHalf = {
+      ...clip,
+      duration: splitPoint
+    };
+
+    const secondHalf = {
+      ...clip,
+      id: `clip-${Date.now()}`,
+      start: currentTime,
+      duration: clip.duration - splitPoint,
+      trimStart: clip.trimStart + splitPoint
+    };
+
+    const newTracks = tracks.map(t => {
+      if (t.id !== sel.trackId) return t;
+      const filtered = t.clips.filter(c => c.id !== clip.id);
+      return { ...t, clips: [...filtered, firstHalf, secondHalf] };
+    });
+
+    setTracks(newTracks);
+    setSelectedClipId(secondHalf.id);
+    saveState(newTracks);
+  };
+
+  const handleDeleteClip = () => {
+    if (!selectedClipId) return;
+    const newTracks = tracks.map(t => ({
+      ...t,
+      clips: t.clips.filter(c => c.id !== selectedClipId)
+    }));
+    setTracks(newTracks);
+    setSelectedClipId(null);
+    saveState(newTracks);
+  };
+
+  const handleDuplicateClip = () => {
+    const sel = getSelectedClip();
+    if (!sel) return;
+
+    const original = sel.clip;
+    const duplicate = {
+      ...original,
+      id: `clip-dup-${Date.now()}`,
+      start: original.start + original.duration + 0.5
+    };
+
+    const newTracks = tracks.map(t => {
+      if (t.id !== sel.trackId) return t;
+      return { ...t, clips: [...t.clips, duplicate] };
+    });
+
+    setTracks(newTracks);
+    setSelectedClipId(duplicate.id);
+    saveState(newTracks);
+  };
+
+  // --- PLAYBACK ENGINE ---
+  useEffect(() => {
+    if (isPlaying) {
+      playheadIntervalRef.current = setInterval(() => {
+        setCurrentTime(prev => {
+          if (prev >= duration) {
+            setIsPlaying(false);
+            return 0;
+          }
+          return prev + 0.05;
+        });
+      }, 50);
+    } else {
+      if (playheadIntervalRef.current) clearInterval(playheadIntervalRef.current);
+    }
+
+    return () => {
+      if (playheadIntervalRef.current) clearInterval(playheadIntervalRef.current);
+    };
+  }, [isPlaying, duration]);
+
+  // Sync HTML Media elements with timeline current time
+  useEffect(() => {
+    tracks.forEach(track => {
+      if (track.hidden) return;
+      track.clips.forEach(clip => {
+        if (currentTime >= clip.start && currentTime <= clip.start + clip.duration) {
+          const mediaEl = mediaElementsRef.current[clip.id];
+          if (mediaEl) {
+            const calculatedTime = (currentTime - clip.start) + clip.trimStart;
+            if (Math.abs(mediaEl.currentTime - calculatedTime) > 0.3) {
+              mediaEl.currentTime = calculatedTime;
             }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        /* Custom scrollbar for UI panels */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #262626;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #444;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #666;
-        }
-        .tool-btn.active {
-            background-color: #1a1a1a;
-            border-left: 2px solid #ff9a00;
-        }
-        .swatch-box {
-            box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
-        }
-        /* Canvas workspace grid backdrop pattern */
-        .workspace-bg {
-            background-color: #474747;
-            background-image: radial-gradient(#3a3a3a 1px, transparent 0);
-            background-size: 16px 16px;
-        }
-    </style>
-</head>
-<body class="h-full flex flex-col bg-ai-bg text-ai-text text-xs overflow-hidden">
-
-    <!-- 1. TOP MENU BAR -->
-    <header class="h-7 bg-ai-header border-b border-ai-border flex items-center justify-between px-2 text-xxs shrink-0">
-        <div class="flex items-center space-x-3">
-            <div class="flex items-center space-x-1 font-bold text-orange-500 mr-1">
-                <span class="bg-[#ff9a00] text-black font-extrabold px-1.5 py-0.5 rounded text-xs">Ai</span>
-            </div>
-            <div class="relative group cursor-pointer hover:bg-ai-hover px-2 py-1 rounded">
-                <span>File</span>
-                <div class="hidden group-hover:block absolute left-0 top-full bg-ai-panel border border-ai-border shadow-xl z-50 py-1 w-44 text-ai-text">
-                    <button id="btn-new" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white flex justify-between"><span>New</span><span class="text-ai-textMuted">Ctrl+N</span></button>
-                    <button id="btn-clear" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white">Clear Canvas</button>
-                    <hr class="border-ai-border my-1">
-                    <button id="btn-export-svg" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white">Export SVG</button>
-                    <button id="btn-export-png" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white">Export PNG</button>
-                    <button id="btn-export-json" class="w-full text-left px-3 py-1 hover:bg-ai-accent hover:text-white">Save Project (JSON)</button>
-                </div>
-            </div>
-            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Edit</div>
-            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Object</div>
-            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Type</div>
-            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Select</div>
-            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Effect</div>
-            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">View</div>
-            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Window</div>
-            <div class="hover:bg-ai-hover px-2 py-1 rounded cursor-pointer">Help</div>
-        </div>
-
-        <div class="flex items-center space-x-3 text-ai-textMuted">
-            <button id="btn-undo" title="Undo (Ctrl+Z)" class="hover:text-white px-1.5 py-0.5 rounded hover:bg-ai-hover"><i class="fa-solid fa-rotate-left"></i></button>
-            <button id="btn-redo" title="Redo (Ctrl+Y)" class="hover:text-white px-1.5 py-0.5 rounded hover:bg-ai-hover"><i class="fa-solid fa-rotate-right"></i></button>
-            <span class="border-r border-ai-border h-4"></span>
-            <div class="flex items-center bg-ai-active px-2 py-0.5 rounded border border-ai-border text-ai-text">
-                <i class="fa-solid fa-wand-magic-sparkles text-orange-400 mr-1.5"></i>
-                <span>Generate Vectors</span>
-            </div>
-            <i class="fa-solid fa-cloud text-xs cursor-pointer hover:text-white"></i>
-            <i class="fa-solid fa-bell text-xs cursor-pointer hover:text-white"></i>
-            <i class="fa-solid fa-share-nodes text-xs cursor-pointer hover:text-white"></i>
-        </div>
-    </header>
-
-    <!-- 2. CONTROL TOOLBAR (Options Bar) -->
-    <div class="h-9 bg-ai-panel border-b border-ai-border flex items-center px-3 space-x-3 text-xxs shrink-0 overflow-x-auto">
-        <!-- Fill & Stroke indicators -->
-        <div class="flex items-center space-x-1">
-            <span class="text-ai-textMuted">Fill:</span>
-            <input type="color" id="fill-color" value="#3b82f6" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0">
-            <button id="btn-fill-none" class="px-1 py-0.5 bg-ai-header border border-ai-border rounded hover:bg-ai-hover text-red-400" title="No Fill">
-                <i class="fa-solid fa-ban"></i>
-            </button>
-        </div>
-
-        <span class="border-r border-ai-border h-4"></span>
-
-        <div class="flex items-center space-x-1">
-            <span class="text-ai-textMuted">Stroke:</span>
-            <input type="color" id="stroke-color" value="#000000" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0">
-            <select id="stroke-width" class="bg-ai-active border border-ai-border rounded px-1 py-0.5 text-ai-text focus:outline-none">
-                <option value="0">0 pt</option>
-                <option value="1" selected>1 pt</option>
-                <option value="2">2 pt</option>
-                <option value="4">4 pt</option>
-                <option value="6">6 pt</option>
-                <option value="10">10 pt</option>
-            </select>
-        </div>
-
-        <span class="border-r border-ai-border h-4"></span>
-
-        <!-- Uniform & Brush options -->
-        <div class="flex items-center space-x-2">
-            <select class="bg-ai-active border border-ai-border rounded px-2 py-0.5 text-ai-text">
-                <option>Uniform</option>
-                <option>Width Profile 1</option>
-                <option>Width Profile 2</option>
-            </select>
-            <select class="bg-ai-active border border-ai-border rounded px-2 py-0.5 text-ai-text">
-                <option>5 pt. Round</option>
-                <option>Basic</option>
-                <option>Chalk / Charcoal</option>
-            </select>
-        </div>
-
-        <span class="border-r border-ai-border h-4"></span>
-
-        <!-- Opacity -->
-        <div class="flex items-center space-x-1">
-            <span class="text-ai-textMuted">Opacity:</span>
-            <input type="number" id="shape-opacity" min="0" max="100" value="100" class="w-12 bg-ai-active border border-ai-border rounded px-1 py-0.5 text-center text-ai-text">
-            <span>%</span>
-        </div>
-
-        <span class="border-r border-ai-border h-4"></span>
-
-        <button class="bg-ai-header hover:bg-ai-hover border border-ai-border px-2 py-0.5 rounded">Document Setup</button>
-        <button class="bg-ai-header hover:bg-ai-hover border border-ai-border px-2 py-0.5 rounded">Preferences</button>
-    </div>
-
-    <!-- 3. TAB BAR -->
-    <div class="h-6 bg-ai-header border-b border-ai-border flex items-center px-2 text-xxs text-ai-textMuted shrink-0">
-        <div class="bg-ai-panel text-ai-text px-3 py-1 rounded-t border-t border-x border-ai-border flex items-center space-x-2">
-            <span>Untitled-1* @ 100% (CMYK/Preview)</span>
-            <i class="fa-solid fa-xmark hover:text-white cursor-pointer ml-2"></i>
-        </div>
-    </div>
-
-    <!-- MAIN WORKSPACE -->
-    <div class="flex-1 flex overflow-hidden relative">
-
-        <!-- 4. LEFT TOOLBAR -->
-        <div class="w-10 bg-ai-panel border-r border-ai-border flex flex-col items-center py-2 space-y-1 shrink-0 z-10">
-            <button id="tool-select" class="tool-btn active w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Selection Tool (V)">
-                <i class="fa-solid fa-arrow-pointer"></i>
-            </button>
-            <button id="tool-direct" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Direct Selection Tool (A)">
-                <i class="fa-regular fa-hand-pointer"></i>
-            </button>
-            <button id="tool-pen" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Pen / Freehand Tool (P)">
-                <i class="fa-solid fa-pen-nib"></i>
-            </button>
-            <button id="tool-text" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Type Tool (T)">
-                <i class="fa-solid fa-font"></i>
-            </button>
-            <button id="tool-rect" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Rectangle Tool (M)">
-                <i class="fa-regular fa-square"></i>
-            </button>
-            <button id="tool-circle" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Ellipse Tool (L)">
-                <i class="fa-regular fa-circle"></i>
-            </button>
-            <button id="tool-rotate" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Rotate Tool (R)">
-                <i class="fa-solid fa-rotate"></i>
-            </button>
-            <button id="tool-eraser" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Eraser Tool (Shift+E)">
-                <i class="fa-solid fa-eraser"></i>
-            </button>
-            <button id="tool-eyedropper" class="tool-btn w-8 h-8 flex items-center justify-center rounded text-ai-text hover:bg-ai-hover" title="Eyedropper Tool (I)">
-                <i class="fa-solid fa-eye-dropper"></i>
-            </button>
-
-            <div class="w-6 border-b border-ai-border my-1"></div>
-
-            <!-- Color Swatch overlap display -->
-            <div class="relative w-7 h-7 my-2">
-                <div id="swatch-fill-indicator" class="absolute left-0 top-0 w-5 h-5 bg-blue-500 border border-white shadow rounded-sm cursor-pointer z-10" title="Fill Color"></div>
-                <div id="swatch-stroke-indicator" class="absolute right-0 bottom-0 w-5 h-5 bg-black border border-white shadow rounded-sm cursor-pointer" title="Stroke Color"></div>
-            </div>
-        </div>
-
-        <!-- 5. CENTER CANVAS WORKSPACE -->
-        <div id="workspace-container" class="flex-1 workspace-bg relative overflow-auto flex items-center justify-center p-8">
-            
-            <!-- White Artboard Container -->
-            <div class="relative shadow-2xl transition-transform duration-75 origin-center">
-                <div class="absolute -top-6 left-0 text-xxs text-ai-textMuted font-medium tracking-wide">01 - Artboard 1</div>
-                
-                <!-- Main Canvas (Artboard) -->
-                <canvas id="main-canvas" width="700" height="900" class="bg-white shadow-xl rounded-sm cursor-crosshair block"></canvas>
-            </div>
-        </div>
-
-        <!-- 6. RIGHT DOCK PANELS -->
-        <div class="w-72 bg-ai-panel border-l border-ai-border flex flex-col shrink-0 text-xxs">
-            
-            <!-- Panel Tabs Header -->
-            <div class="flex bg-ai-header border-b border-ai-border">
-                <button class="panel-tab active px-3 py-1.5 border-r border-ai-border bg-ai-panel text-ai-text font-medium">Properties</button>
-                <button class="panel-tab px-3 py-1.5 border-r border-ai-border text-ai-textMuted hover:text-ai-text">Swatches</button>
-                <button class="panel-tab px-3 py-1.5 border-r border-ai-border text-ai-textMuted hover:text-ai-text">Layers</button>
-            </div>
-
-            <!-- Panel Content Area -->
-            <div class="flex-1 overflow-y-auto p-3 space-y-4">
-
-                <!-- TRANSFORM & ALIGN SECTION -->
-                <div class="bg-ai-active p-2.5 rounded border border-ai-border space-y-2">
-                    <div class="font-semibold text-ai-text flex justify-between items-center">
-                        <span>Transform</span>
-                        <i class="fa-solid fa-ellipsis-vertical text-ai-textMuted"></i>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 text-ai-textMuted">
-                        <div class="flex items-center space-x-1">
-                            <span>X:</span>
-                            <input id="trans-x" type="number" value="0" class="w-full bg-ai-panel border border-ai-border rounded px-1 text-ai-text">
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <span>Y:</span>
-                            <input id="trans-y" type="number" value="0" class="w-full bg-ai-panel border border-ai-border rounded px-1 text-ai-text">
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <span>W:</span>
-                            <input id="trans-w" type="number" value="0" class="w-full bg-ai-panel border border-ai-border rounded px-1 text-ai-text">
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <span>H:</span>
-                            <input id="trans-h" type="number" value="0" class="w-full bg-ai-panel border border-ai-border rounded px-1 text-ai-text">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SWATCHES PALETTE SECTION -->
-                <div class="bg-ai-active p-2.5 rounded border border-ai-border space-y-2">
-                    <div class="font-semibold text-ai-text flex justify-between items-center">
-                        <span>Swatches</span>
-                        <div class="space-x-1">
-                            <button id="swatch-mode-fill" class="px-1.5 py-0.5 rounded bg-ai-panel text-orange-400 border border-ai-border">Fill</button>
-                            <button id="swatch-mode-stroke" class="px-1.5 py-0.5 rounded bg-ai-panel text-ai-textMuted border border-ai-border">Stroke</button>
-                        </div>
-                    </div>
-
-                    <!-- Swatches Color Grid -->
-                    <div id="swatch-grid" class="grid grid-cols-8 gap-1 pt-1">
-                        <!-- Colors inserted dynamically via JS -->
-                    </div>
-                </div>
-
-                <!-- LAYERS PANEL -->
-                <div class="bg-ai-active p-2.5 rounded border border-ai-border space-y-2">
-                    <div class="font-semibold text-ai-text flex justify-between items-center">
-                        <span>Layers</span>
-                        <button id="btn-delete-shape" class="text-red-400 hover:text-red-300" title="Delete Selected Shape"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <div id="layers-list" class="space-y-1 max-h-36 overflow-y-auto pr-1">
-                        <div class="text-ai-textMuted italic py-1 text-center">No objects on artboard</div>
-                    </div>
-                </div>
-
-                <!-- COLOR GUIDE / QUICK ACTIONS -->
-                <div class="bg-ai-active p-2.5 rounded border border-ai-border space-y-2">
-                    <div class="font-semibold text-ai-text">Quick Actions</div>
-                    <div class="grid grid-cols-2 gap-1.5">
-                        <button id="btn-bring-front" class="bg-ai-panel hover:bg-ai-hover border border-ai-border p-1.5 rounded text-left">Bring to Front</button>
-                        <button id="btn-send-back" class="bg-ai-panel hover:bg-ai-hover border border-ai-border p-1.5 rounded text-left">Send to Back</button>
-                        <button id="btn-duplicate" class="bg-ai-panel hover:bg-ai-hover border border-ai-border p-1.5 rounded text-left">Duplicate</button>
-                        <button id="btn-clear-all" class="bg-ai-panel hover:bg-ai-hover border border-ai-border p-1.5 rounded text-left text-red-400">Clear All</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-    <!-- 7. BOTTOM STATUS BAR -->
-    <footer class="h-6 bg-ai-header border-t border-ai-border flex items-center justify-between px-3 text-xxs text-ai-textMuted shrink-0">
-        <div class="flex items-center space-x-4">
-            <span id="status-tool">Selection Tool</span>
-            <span class="border-r border-ai-border h-3"></span>
-            <div class="flex items-center space-x-1">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <select id="zoom-level" class="bg-ai-active text-ai-text border border-ai-border rounded px-1">
-                    <option value="0.5">50%</option>
-                    <option value="1" selected>100%</option>
-                    <option value="1.5">150%</option>
-                    <option value="2">200%</option>
-                </select>
-            </div>
-            <span class="border-r border-ai-border h-3"></span>
-            <span>0° Rotated</span>
-        </div>
-        <div class="flex items-center space-x-3">
-            <span id="status-coords">X: 0 pt  Y: 0 pt</span>
-            <span class="border-r border-ai-border h-3"></span>
-            <span>Toggle Direct Selection</span>
-        </div>
-    </footer>
-
-    <!-- VECTOR EDITOR APPLICATION ENGINE JS -->
-    <script>
-        // Color Swatches Palette Preset
-        const SWATCH_COLORS = [
-            '#000000', '#ffffff', '#7f7f7f', '#c3c3c3', '#880015', '#ed1c24', '#ff7f27', '#fff200',
-            '#22b14c', '#00a2e8', '#3f48cc', '#a349a4', '#b97a57', '#ffaec9', '#ffc90e', '#efe4b0',
-            '#b5e61d', '#99d9ea', '#7092be', '#c8bfe7', '#efe6d5', '#464646', '#d32f2f', '#f57c00',
-            '#fbc02d', '#388e3c', '#1976d2', '#7b1fa2', '#5d4037', '#616161', '#009688', '#8bc34a'
-        ];
-
-        // Application State
-        const state = {
-            activeTool: 'select', // select, direct, pen, text, rect, circle, rotate, eraser, eyedropper
-            fillColor: '#3b82f6',
-            strokeColor: '#000000',
-            strokeWidth: 1,
-            opacity: 100,
-            swatchMode: 'fill', // 'fill' or 'stroke'
-            shapes: [],
-            selectedShapeId: null,
-            isDrawing: false,
-            isDragging: false,
-            dragOffsetX: 0,
-            dragOffsetY: 0,
-            currentPath: [],
-            undoStack: [],
-            redoStack: [],
-            zoom: 1
-        };
-
-        // DOM Element Cache
-        const canvas = document.getElementById('main-canvas');
-        const ctx = canvas.getContext('2d');
-        const workspaceContainer = document.getElementById('workspace-container');
-        const layersList = document.getElementById('layers-list');
-        const statusTool = document.getElementById('status-tool');
-        const statusCoords = document.getElementById('status-coords');
-
-        // Inputs
-        const fillColorInput = document.getElementById('fill-color');
-        const strokeColorInput = document.getElementById('stroke-color');
-        const strokeWidthInput = document.getElementById('stroke-width');
-        const opacityInput = document.getElementById('shape-opacity');
-        const transX = document.getElementById('trans-x');
-        const transY = document.getElementById('trans-y');
-        const transW = document.getElementById('trans-w');
-        const transH = document.getElementById('trans-h');
-
-        // Initialize Application
-        window.onload = () => {
-            initSwatches();
-            setupEventListeners();
-            saveState();
-            render();
-        };
-
-        // Render Preset Swatches
-        function initSwatches() {
-            const grid = document.getElementById('swatch-grid');
-            grid.innerHTML = '';
-            SWATCH_COLORS.forEach(color => {
-                const btn = document.createElement('button');
-                btn.className = 'w-5 h-5 rounded-sm border border-ai-border swatch-box hover:scale-110 transition-transform';
-                btn.style.backgroundColor = color;
-                btn.onclick = () => applySwatchColor(color);
-                grid.appendChild(btn);
-            });
-        }
-
-        // Save History for Undo/Redo
-        function saveState() {
-            state.undoStack.push(JSON.stringify(state.shapes));
-            if (state.undoStack.length > 30) state.undoStack.shift();
-            state.redoStack = [];
-        }
-
-        function undo() {
-            if (state.undoStack.length > 1) {
-                state.redoStack.push(state.undoStack.pop());
-                const previous = state.undoStack[state.undoStack.length - 1];
-                state.shapes = JSON.parse(previous);
-                state.selectedShapeId = null;
-                render();
-                updateLayersPanel();
+            if (isPlaying && mediaEl.paused) {
+              mediaEl.play().catch(() => {});
+            } else if (!isPlaying && !mediaEl.paused) {
+              mediaEl.pause();
             }
+          }
+        } else {
+          const mediaEl = mediaElementsRef.current[clip.id];
+          if (mediaEl && !mediaEl.paused) {
+            mediaEl.pause();
+          }
         }
+      });
+    });
+  }, [currentTime, isPlaying, tracks]);
 
-        function redo() {
-            if (state.redoStack.length > 0) {
-                const next = state.redoStack.pop();
-                state.undoStack.push(next);
-                state.shapes = JSON.parse(next);
-                render();
-                updateLayersPanel();
-            }
-        }
+  // --- CANVAS RENDER LOOP ---
+  const renderCanvasFrame = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-        // Apply Swatch to Active Object or Global Fill/Stroke
-        function applySwatchColor(color) {
-            if (state.swatchMode === 'fill') {
-                state.fillColor = color;
-                fillColorInput.value = color;
-                document.getElementById('swatch-fill-indicator').style.backgroundColor = color;
-                if (state.selectedShapeId) {
-                    const shape = getSelectedShape();
-                    if (shape) shape.fill = color;
-                }
+    // Clear Screen
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw grid guide lines
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 1;
+    const step = 40;
+    for (let x = 0; x < canvas.width; x += step) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += step) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    // Render active tracks in order (bottom to top)
+    const renderOrder = [...tracks].reverse();
+
+    renderOrder.forEach(track => {
+      if (track.hidden) return;
+
+      track.clips.forEach(clip => {
+        // Check active timeframe
+        if (currentTime >= clip.start && currentTime <= clip.start + clip.duration) {
+          ctx.save();
+
+          // Apply Canvas Transformations
+          const centerX = canvas.width / 2 + (clip.posX || 0);
+          const centerY = canvas.height / 2 + (clip.posY || 0);
+
+          ctx.translate(centerX, centerY);
+          ctx.rotate(((clip.rotation || 0) * Math.PI) / 180);
+          ctx.scale(
+            (clip.scale || 1) * (clip.flipH ? -1 : 1),
+            (clip.scale || 1) * (clip.flipV ? -1 : 1)
+          );
+          ctx.globalAlpha = clip.opacity !== undefined ? clip.opacity : 1;
+
+          // Apply CSS Filter presets + custom color grading
+          let filterStr = '';
+          if (clip.filterPreset && clip.filterPreset !== 'none') {
+            const presetObj = FILTER_PRESETS.find(f => f.name === clip.filterPreset);
+            if (presetObj) filterStr += presetObj.filter + ' ';
+          }
+          if (clip.brightness !== 100) filterStr += `brightness(${clip.brightness}%) `;
+          if (clip.contrast !== 100) filterStr += `contrast(${clip.contrast}%) `;
+          if (clip.saturation !== 100) filterStr += `saturate(${clip.saturation}%) `;
+          if (clip.hue !== 0) filterStr += `hue-rotate(${clip.hue}deg) `;
+          if (clip.blur > 0) filterStr += `blur(${clip.blur}px) `;
+
+          ctx.filter = filterStr.trim() || 'none';
+
+          // DRAW MEDIA CONTENT
+          if (clip.type === 'video' || clip.type === 'image') {
+            const mediaEl = mediaElementsRef.current[clip.id];
+            if (mediaEl && (mediaEl.readyState >= 2 || clip.type === 'image')) {
+              const dw = canvas.width * 0.8;
+              const dh = (dw * 9) / 16;
+              ctx.drawImage(mediaEl, -dw / 2, -dh / 2, dw, dh);
             } else {
-                state.strokeColor = color;
-                strokeColorInput.value = color;
-                document.getElementById('swatch-stroke-indicator').style.backgroundColor = color;
-                if (state.selectedShapeId) {
-                    const shape = getSelectedShape();
-                    if (shape) shape.stroke = color;
-                }
+              // Placeholder rectangle if loading
+              ctx.fillStyle = '#334155';
+              ctx.fillRect(-200, -112, 400, 225);
+              ctx.fillStyle = '#94a3b8';
+              ctx.font = '16px sans-serif';
+              ctx.textAlign = 'center';
+              ctx.fillText(`Loading ${clip.name}...`, 0, 0);
             }
-            render();
-        }
+          } else if (clip.type === 'text') {
+            ctx.font = `bold ${clip.fontSize || 48}px ${clip.fontFamily || 'sans-serif'}`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
 
-        // Setup Event Handlers
-        function setupEventListeners() {
-            // Tool selection buttons
-            const toolButtons = {
-                'tool-select': 'select',
-                'tool-direct': 'direct',
-                'tool-pen': 'pen',
-                'tool-text': 'text',
-                'tool-rect': 'rect',
-                'tool-circle': 'circle',
-                'tool-rotate': 'rotate',
-                'tool-eraser': 'eraser',
-                'tool-eyedropper': 'eyedropper'
-            };
-
-            Object.keys(toolButtons).forEach(id => {
-                const btn = document.getElementById(id);
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    state.activeTool = toolButtons[id];
-                    statusTool.textContent = btn.getAttribute('title').split(' (')[0];
-                });
-            });
-
-            // Swatch mode toggles
-            document.getElementById('swatch-mode-fill').addEventListener('click', (e) => {
-                state.swatchMode = 'fill';
-                e.target.classList.add('text-orange-400');
-                document.getElementById('swatch-mode-stroke').classList.remove('text-orange-400');
-            });
-            document.getElementById('swatch-mode-stroke').addEventListener('click', (e) => {
-                state.swatchMode = 'stroke';
-                e.target.classList.add('text-orange-400');
-                document.getElementById('swatch-mode-fill').classList.remove('text-orange-400');
-            });
-
-            // Input Control Listeners
-            fillColorInput.addEventListener('input', (e) => {
-                state.fillColor = e.target.value;
-                document.getElementById('swatch-fill-indicator').style.backgroundColor = e.target.value;
-                if (state.selectedShapeId) {
-                    const shape = getSelectedShape();
-                    if (shape) shape.fill = e.target.value;
-                    render();
-                }
-            });
-
-            strokeColorInput.addEventListener('input', (e) => {
-                state.strokeColor = e.target.value;
-                document.getElementById('swatch-stroke-indicator').style.backgroundColor = e.target.value;
-                if (state.selectedShapeId) {
-                    const shape = getSelectedShape();
-                    if (shape) shape.stroke = e.target.value;
-                    render();
-                }
-            });
-
-            document.getElementById('btn-fill-none').addEventListener('click', () => {
-                state.fillColor = 'transparent';
-                fillColorInput.value = '#ffffff';
-                document.getElementById('swatch-fill-indicator').style.backgroundColor = 'transparent';
-                if (state.selectedShapeId) {
-                    const shape = getSelectedShape();
-                    if (shape) shape.fill = 'transparent';
-                    render();
-                }
-            });
-
-            strokeWidthInput.addEventListener('change', (e) => {
-                state.strokeWidth = parseInt(e.target.value);
-                if (state.selectedShapeId) {
-                    const shape = getSelectedShape();
-                    if (shape) shape.strokeWidth = state.strokeWidth;
-                    render();
-                }
-            });
-
-            opacityInput.addEventListener('input', (e) => {
-                state.opacity = parseInt(e.target.value);
-                if (state.selectedShapeId) {
-                    const shape = getSelectedShape();
-                    if (shape) shape.opacity = state.opacity / 100;
-                    render();
-                }
-            });
-
-            // Action Buttons
-            document.getElementById('btn-undo').addEventListener('click', undo);
-            document.getElementById('btn-redo').addEventListener('click', redo);
-            document.getElementById('btn-clear').addEventListener('click', clearCanvas);
-            document.getElementById('btn-clear-all').addEventListener('click', clearCanvas);
-            document.getElementById('btn-delete-shape').addEventListener('click', deleteSelectedShape);
-            document.getElementById('btn-bring-front').addEventListener('click', bringToFront);
-            document.getElementById('btn-send-back').addEventListener('click', sendToBack);
-            document.getElementById('btn-duplicate').addEventListener('click', duplicateSelected);
-
-            // Export Actions
-            document.getElementById('btn-export-svg').addEventListener('click', exportSVG);
-            document.getElementById('btn-export-png').addEventListener('click', exportPNG);
-            document.getElementById('btn-export-json').addEventListener('click', exportJSON);
-
-            // Zoom Control
-            document.getElementById('zoom-level').addEventListener('change', (e) => {
-                state.zoom = parseFloat(e.target.value);
-                canvas.style.transform = `scale(${state.zoom})`;
-            });
-
-            // Canvas Mouse Events
-            canvas.addEventListener('mousedown', handleMouseDown);
-            canvas.addEventListener('mousemove', handleMouseMove);
-            canvas.addEventListener('mouseup', handleMouseUp);
-
-            // Keyboard Shortcuts
-            window.addEventListener('keydown', (e) => {
-                if (e.target.tagName === 'INPUT') return; // Ignore if typing in input
-                if (e.key === 'v' || e.key === 'V') document.getElementById('tool-select').click();
-                if (e.key === 'a' || e.key === 'A') document.getElementById('tool-direct').click();
-                if (e.key === 'p' || e.key === 'P') document.getElementById('tool-pen').click();
-                if (e.key === 't' || e.key === 'T') document.getElementById('tool-text').click();
-                if (e.key === 'm' || e.key === 'M') document.getElementById('tool-rect').click();
-                if (e.key === 'l' || e.key === 'L') document.getElementById('tool-circle').click();
-                if (e.key === 'Delete' || e.key === 'Backspace') deleteSelectedShape();
-                if (e.ctrlKey && e.key === 'z') undo();
-                if (e.ctrlKey && e.key === 'y') redo();
-            });
-        }
-
-        // Get Pointer Position relative to Canvas
-        function getCanvasPos(e) {
-            const rect = canvas.getBoundingClientRect();
-            return {
-                x: (e.clientX - rect.left) / state.zoom,
-                y: (e.clientY - rect.top) / state.zoom
-            };
-        }
-
-        // Canvas Interaction Handling
-        function handleMouseDown(e) {
-            const pos = getCanvasPos(e);
-            state.isDrawing = true;
-
-            if (state.activeTool === 'select' || state.activeTool === 'direct') {
-                const clickedShape = getShapeAtPos(pos.x, pos.y);
-                if (clickedShape) {
-                    state.selectedShapeId = clickedShape.id;
-                    state.isDragging = true;
-                    state.dragOffsetX = pos.x - clickedShape.x;
-                    state.dragOffsetY = pos.y - clickedShape.y;
-                    syncTransformPanel(clickedShape);
-                } else {
-                    state.selectedShapeId = null;
-                }
-            } else if (state.activeTool === 'rect') {
-                const newShape = {
-                    id: Date.now(),
-                    type: 'rect',
-                    x: pos.x,
-                    y: pos.y,
-                    w: 0,
-                    h: 0,
-                    fill: state.fillColor,
-                    stroke: state.strokeColor,
-                    strokeWidth: state.strokeWidth,
-                    opacity: state.opacity / 100
-                };
-                state.shapes.push(newShape);
-                state.selectedShapeId = newShape.id;
-            } else if (state.activeTool === 'circle') {
-                const newShape = {
-                    id: Date.now(),
-                    type: 'circle',
-                    x: pos.x,
-                    y: pos.y,
-                    radius: 0,
-                    fill: state.fillColor,
-                    stroke: state.strokeColor,
-                    strokeWidth: state.strokeWidth,
-                    opacity: state.opacity / 100
-                };
-                state.shapes.push(newShape);
-                state.selectedShapeId = newShape.id;
-            } else if (state.activeTool === 'pen') {
-                state.currentPath = [{ x: pos.x, y: pos.y }];
-            } else if (state.activeTool === 'text') {
-                const textContent = prompt('Enter Vector Text:', 'Adobe Illustrator');
-                if (textContent) {
-                    const newShape = {
-                        id: Date.now(),
-                        type: 'text',
-                        x: pos.x,
-                        y: pos.y,
-                        text: textContent,
-                        fontSize: 28,
-                        fill: state.fillColor,
-                        stroke: state.strokeColor,
-                        strokeWidth: state.strokeWidth,
-                        opacity: state.opacity / 100
-                    };
-                    state.shapes.push(newShape);
-                    state.selectedShapeId = newShape.id;
-                    saveState();
-                    updateLayersPanel();
-                }
-                state.isDrawing = false;
-            } else if (state.activeTool === 'eyedropper') {
-                const clickedShape = getShapeAtPos(pos.x, pos.y);
-                if (clickedShape) {
-                    if (clickedShape.fill && clickedShape.fill !== 'transparent') {
-                        applySwatchColor(clickedShape.fill);
-                    }
-                }
-                state.isDrawing = false;
-            } else if (state.activeTool === 'eraser') {
-                const clickedShape = getShapeAtPos(pos.x, pos.y);
-                if (clickedShape) {
-                    state.shapes = state.shapes.filter(s => s.id !== clickedShape.id);
-                    saveState();
-                    updateLayersPanel();
-                }
-                state.isDrawing = false;
+            // Draw Background Box if set
+            if (clip.bgColor && clip.bgColor !== 'transparent') {
+              const textMetrics = ctx.measureText(clip.text || '');
+              const padX = 20;
+              const padY = 12;
+              ctx.fillStyle = clip.bgColor;
+              ctx.fillRect(
+                -textMetrics.width / 2 - padX,
+                -(clip.fontSize / 2) - padY,
+                textMetrics.width + padX * 2,
+                clip.fontSize + padY * 2
+              );
             }
 
-            render();
+            ctx.fillStyle = clip.color || '#ffffff';
+            ctx.fillText(clip.text || 'Nexus Studio', 0, 0);
+          }
+
+          ctx.restore();
         }
+      });
+    });
+  }, [currentTime, tracks]);
 
-        function handleMouseMove(e) {
-            const pos = getCanvasPos(e);
-            statusCoords.textContent = `X: ${Math.round(pos.x)} pt  Y: ${Math.round(pos.y)} pt`;
+  useEffect(() => {
+    renderCanvasFrame();
+  }, [renderCanvasFrame]);
 
-            if (!state.isDrawing && !state.isDragging) return;
+  // Keyboard Shortcuts handling
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Ignore key events in text inputs
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
 
-            if (state.isDragging && state.selectedShapeId) {
-                const shape = getSelectedShape();
-                if (shape) {
-                    shape.x = pos.x - state.dragOffsetX;
-                    shape.y = pos.y - state.dragOffsetY;
-                    syncTransformPanel(shape);
-                }
-            } else if (state.activeTool === 'rect' && state.selectedShapeId) {
-                const shape = getSelectedShape();
-                if (shape) {
-                    shape.w = pos.x - shape.x;
-                    shape.h = pos.y - shape.y;
-                }
-            } else if (state.activeTool === 'circle' && state.selectedShapeId) {
-                const shape = getSelectedShape();
-                if (shape) {
-                    const dx = pos.x - shape.x;
-                    const dy = pos.y - shape.y;
-                    shape.radius = Math.sqrt(dx * dx + dy * dy);
-                }
-            } else if (state.activeTool === 'pen') {
-                state.currentPath.push({ x: pos.x, y: pos.y });
-            }
+      if (e.code === 'Space') {
+        e.preventDefault();
+        setIsPlaying(prev => !prev);
+      } else if (e.code === 'KeyS') {
+        e.preventDefault();
+        handleSplitClip();
+      } else if (e.code === 'Delete' || e.code === 'Backspace') {
+        e.preventDefault();
+        handleDeleteClip();
+      } else if (e.ctrlKey && e.code === 'KeyZ') {
+        e.preventDefault();
+        handleUndo();
+      } else if (e.ctrlKey && e.code === 'KeyY') {
+        e.preventDefault();
+        handleRedo();
+      }
+    };
 
-            render();
-        }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedClipId, tracks, historyIdx]);
 
-        function handleMouseUp() {
-            if (state.activeTool === 'pen' && state.currentPath.length > 1) {
-                const newShape = {
-                    id: Date.now(),
-                    type: 'path',
-                    points: [...state.currentPath],
-                    fill: 'transparent',
-                    stroke: state.strokeColor,
-                    strokeWidth: state.strokeWidth,
-                    opacity: state.opacity / 100
-                };
-                state.shapes.push(newShape);
-                state.selectedShapeId = newShape.id;
-                state.currentPath = [];
-            }
+  // --- EXPORT RENDER ENGINE ---
+  const triggerExport = async () => {
+    setIsExporting(true);
+    setExportProgress(0);
+    setIsPlaying(false);
 
-            if (state.isDrawing || state.isDragging) {
-                saveState();
-                updateLayersPanel();
-            }
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-            state.isDrawing = false;
-            state.isDragging = false;
-            render();
-        }
+    // Use Canvas Stream & MediaRecorder
+    const stream = canvas.captureStream(exportSettings.fps);
+    let recorder;
 
-        // Shape Lookup & Utilities
-        function getSelectedShape() {
-            return state.shapes.find(s => s.id === state.selectedShapeId);
-        }
+    try {
+      recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+    } catch (e) {
+      recorder = new MediaRecorder(stream);
+    }
 
-        function getShapeAtPos(x, y) {
-            // Hit test shapes in reverse order (topmost first)
-            for (let i = state.shapes.length - 1; i >= 0; i--) {
-                const s = state.shapes[i];
-                if (s.type === 'rect') {
-                    const minX = Math.min(s.x, s.x + s.w);
-                    const maxX = Math.max(s.x, s.x + s.w);
-                    const minY = Math.min(s.y, s.y + s.h);
-                    const maxY = Math.max(s.y, s.y + s.h);
-                    if (x >= minX && x <= maxX && y >= minY && y <= maxY) return s;
-                } else if (s.type === 'circle') {
-                    const dist = Math.sqrt((x - s.x) ** 2 + (y - s.y) ** 2);
-                    if (dist <= s.radius) return s;
-                } else if (s.type === 'text') {
-                    if (x >= s.x && x <= s.x + 150 && y >= s.y - 25 && y <= s.y + 10) return s;
-                }
-            }
-            return null;
-        }
+    const chunks = [];
+    recorder.ondataavailable = e => chunks.push(e.data);
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      setRenderedBlobUrl(url);
+      setExportProgress(100);
+    };
 
-        function syncTransformPanel(shape) {
-            if (!shape) return;
-            transX.value = Math.round(shape.x || 0);
-            transY.value = Math.round(shape.y || 0);
-            transW.value = Math.round(shape.w || shape.radius * 2 || 0);
-            transH.value = Math.round(shape.h || shape.radius * 2 || 0);
-        }
+    recorder.start();
 
-        // Layer Panel Updating
-        function updateLayersPanel() {
-            layersList.innerHTML = '';
-            if (state.shapes.length === 0) {
-                layersList.innerHTML = '<div class="text-ai-textMuted italic py-1 text-center">No objects on artboard</div>';
-                return;
-            }
+    // Render timeline frame by frame at selected speed
+    const totalFrames = duration * exportSettings.fps;
+    let currentFrame = 0;
 
-            state.shapes.slice().reverse().forEach((shape, index) => {
-                const item = document.createElement('div');
-                const isSelected = shape.id === state.selectedShapeId;
-                item.className = `flex items-center justify-between p-1.5 rounded cursor-pointer border ${
-                    isSelected ? 'bg-ai-hover border-orange-500 text-white' : 'bg-ai-panel border-ai-border text-ai-text'
-                }`;
+    const renderInterval = setInterval(() => {
+      currentFrame++;
+      const nextTime = (currentFrame / totalFrames) * duration;
+      setCurrentTime(nextTime);
+      setExportProgress(Math.min(99, Math.round((currentFrame / totalFrames) * 100)));
 
-                let icon = 'fa-shapes';
-                if (shape.type === 'rect') icon = 'fa-regular fa-square';
-                if (shape.type === 'circle') icon = 'fa-regular fa-circle';
-                if (shape.type === 'path') icon = 'fa-solid fa-pen-nib';
-                if (shape.type === 'text') icon = 'fa-solid fa-font';
+      if (currentFrame >= totalFrames) {
+        clearInterval(renderInterval);
+        recorder.stop();
+      }
+    }, 1000 / exportSettings.fps);
+  };
 
-                item.innerHTML = `
-                    <div class="flex items-center space-x-2">
-                        <i class="${icon} text-ai-textMuted"></i>
-                        <span>${shape.type.toUpperCase()} - ${shape.id.toString().slice(-4)}</span>
+  // Helper time format HH:MM:SS:FF
+  const formatTime = (timeInSec) => {
+    const hrs = Math.floor(timeInSec / 3600);
+    const mins = Math.floor((timeInSec % 3600) / 60);
+    const secs = Math.floor(timeInSec % 60);
+    const frames = Math.floor((timeInSec % 1) * 30);
+
+    return `${hrs > 0 ? String(hrs).padStart(2, '0') + ':' : ''}${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${String(frames).padStart(2, '0')}`;
+  };
+
+  const selectedClipData = getSelectedClip()?.clip;
+
+  return (
+    <div className="flex flex-col h-screen w-screen bg-slate-950 text-slate-100 font-sans overflow-hidden select-none">
+      
+      {/* HIDDEN MEDIA CONTAINER FOR VIDEO & AUDIO DOM ELEMENTS */}
+      <div className="hidden">
+        {tracks.flatMap(t => t.clips).map(clip => {
+          if (clip.type === 'video') {
+            return (
+              <video
+                key={clip.id}
+                ref={el => mediaElementsRef.current[clip.id] = el}
+                src={clip.url}
+                crossOrigin="anonymous"
+                playsInline
+                muted={tracks.find(t => t.clips.some(c => c.id === clip.id))?.muted}
+              />
+            );
+          } else if (clip.type === 'audio') {
+            return (
+              <audio
+                key={clip.id}
+                ref={el => mediaElementsRef.current[clip.id] = el}
+                src={clip.url}
+                crossOrigin="anonymous"
+              />
+            );
+          } else if (clip.type === 'image') {
+            return (
+              <img
+                key={clip.id}
+                ref={el => mediaElementsRef.current[clip.id] = el}
+                src={clip.url}
+                crossOrigin="anonymous"
+                alt={clip.name}
+              />
+            );
+          }
+          return null;
+        })}
+      </div>
+
+      {/* TOP NAVBAR */}
+      <header className="h-14 bg-slate-900 border-b border-slate-800 px-4 flex items-center justify-between z-20">
+        <div className="flex items-center gap-3">
+          <div className="bg-gradient-to-tr from-cyan-500 to-blue-600 p-2 rounded-lg text-white shadow-lg shadow-cyan-500/20">
+            <Film className="w-5 h-5" />
+          </div>
+          <span className="font-bold text-lg tracking-wider bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+            NEXUS STUDIO <span className="text-xs px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50">PRO</span>
+          </span>
+        </div>
+
+        {/* Center Title & Controls */}
+        <div className="flex items-center gap-2 bg-slate-950/60 p-1.5 rounded-lg border border-slate-800">
+          <button
+            onClick={handleUndo}
+            disabled={historyIdx <= 0}
+            className="p-1.5 rounded hover:bg-slate-800 text-slate-400 disabled:opacity-30 hover:text-slate-200 transition"
+            title="Undo (Ctrl+Z)"
+          >
+            <Undo2 className="w-4 h-4" />
+          </button>
+          <button
+            onClick={handleRedo}
+            disabled={historyIdx >= history.length - 1}
+            className="p-1.5 rounded hover:bg-slate-800 text-slate-400 disabled:opacity-30 hover:text-slate-200 transition"
+            title="Redo (Ctrl+Y)"
+          >
+            <Redo2 className="w-4 h-4" />
+          </button>
+          <div className="h-4 w-px bg-slate-800 mx-1" />
+          <button
+            onClick={() => setShowShortcutsModal(true)}
+            className="p-1.5 rounded hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition"
+            title="Keyboard Shortcuts"
+          >
+            <HelpCircle className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Export Button */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setActiveTab('export')}
+            className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium px-4 py-2 rounded-lg text-sm shadow-md transition active:scale-95"
+          >
+            <Download className="w-4 h-4" />
+            <span>Export Video</span>
+          </button>
+        </div>
+      </header>
+
+      {/* MAIN WORKSPACE */}
+      <div className="flex-1 flex overflow-hidden">
+        
+        {/* LEFT TOOLBAR / ASSET DRAWER */}
+        <div className="w-80 bg-slate-900 border-r border-slate-800 flex flex-col z-10">
+          {/* Navigation Tabs */}
+          <div className="flex border-b border-slate-800 bg-slate-950/40">
+            {[
+              { id: 'media', label: 'Media', icon: Film },
+              { id: 'text', label: 'Text', icon: Type },
+              { id: 'fx', label: 'Filters & FX', icon: Sparkles },
+              { id: 'audio', label: 'Audio', icon: Music },
+              { id: 'export', label: 'Export', icon: Download },
+            ].map(tab => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-1 py-3 flex flex-col items-center justify-center text-xs font-medium border-b-2 transition ${
+                    activeTab === tab.id
+                      ? 'border-cyan-500 text-cyan-400 bg-slate-800/50'
+                      : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/20'
+                  }`}
+                >
+                  <Icon className="w-4 h-4 mb-1" />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* TAB CONTENT PANELS */}
+          <div className="flex-1 p-4 overflow-y-auto space-y-4">
+            
+            {/* MEDIA TAB */}
+            {activeTab === 'media' && (
+              <div className="space-y-4">
+                <div className="border-2 border-dashed border-slate-700 hover:border-cyan-500 rounded-xl p-4 text-center cursor-pointer bg-slate-950/30 transition group">
+                  <input
+                    type="file"
+                    multiple
+                    accept="video/*,audio/*,image/*"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center">
+                    <Film className="w-8 h-8 text-slate-500 group-hover:text-cyan-400 mb-2 transition" />
+                    <span className="text-xs font-medium text-slate-300">Click or Drag media files here</span>
+                    <span className="text-[10px] text-slate-500 mt-1">MP4, WEBM, MP3, WAV, JPG, PNG</span>
+                  </label>
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Project Assets</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    {mediaAssets.map(asset => (
+                      <div
+                        key={asset.id}
+                        className="group relative bg-slate-800/50 border border-slate-700/60 rounded-lg overflow-hidden hover:border-cyan-500/80 transition"
+                      >
+                        <div className="h-20 bg-slate-950 relative flex items-center justify-center">
+                          {asset.thumb ? (
+                            <img src={asset.thumb} alt={asset.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="text-slate-600">
+                              {asset.type === 'video' && <Film className="w-8 h-8" />}
+                              {asset.type === 'audio' && <Music className="w-8 h-8" />}
+                              {asset.type === 'image' && <ImageIcon className="w-8 h-8" />}
+                            </div>
+                          )}
+                          <span className="absolute bottom-1 right-1 bg-black/80 px-1.5 py-0.5 rounded text-[10px] text-slate-300 font-mono">
+                            {asset.duration}s
+                          </span>
+                        </div>
+                        <div className="p-2 flex items-center justify-between">
+                          <p className="text-xs text-slate-200 truncate font-medium">{asset.name}</p>
+                          <button
+                            onClick={() => addAssetToTimeline(asset)}
+                            className="p-1 rounded-md bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500 hover:text-white transition"
+                            title="Add to Timeline"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TEXT & TITLES TAB */}
+            {activeTab === 'text' && (
+              <div className="space-y-4">
+                <button
+                  onClick={addTextOverlay}
+                  className="w-full py-2.5 bg-cyan-600/20 hover:bg-cyan-600/30 border border-cyan-500/40 rounded-lg text-cyan-300 text-xs font-medium flex items-center justify-center gap-2 transition"
+                >
+                  <Plus className="w-4 h-4" /> Add Text Title Overlay
+                </button>
+
+                {selectedClipData && selectedClipData.type === 'text' ? (
+                  <div className="space-y-3 bg-slate-800/40 p-3 rounded-lg border border-slate-700/50">
+                    <h4 className="text-xs font-semibold text-cyan-400">Text Inspector</h4>
+                    <div>
+                      <label className="text-[11px] text-slate-400 block mb-1">Content</label>
+                      <input
+                        type="text"
+                        value={selectedClipData.text || ''}
+                        onChange={e => updateSelectedClip({ text: e.target.value })}
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                      />
                     </div>
-                    <i class="fa-solid fa-eye text-ai-textMuted hover:text-white"></i>
-                `;
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-[11px] text-slate-400 block mb-1">Font Size</label>
+                        <input
+                          type="number"
+                          value={selectedClipData.fontSize || 48}
+                          onChange={e => updateSelectedClip({ fontSize: Number(e.target.value) })}
+                          className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-200"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[11px] text-slate-400 block mb-1">Text Color</label>
+                        <input
+                          type="color"
+                          value={selectedClipData.color || '#ffffff'}
+                          onChange={e => updateSelectedClip({ color: e.target.value })}
+                          className="w-full h-8 bg-slate-900 border border-slate-700 rounded cursor-pointer p-0.5"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[11px] text-slate-400 block mb-1">Background Fill</label>
+                      <input
+                        type="color"
+                        value={selectedClipData.bgColor === 'transparent' ? '#000000' : selectedClipData.bgColor}
+                        onChange={e => updateSelectedClip({ bgColor: e.target.value })}
+                        className="w-full h-8 bg-slate-900 border border-slate-700 rounded cursor-pointer p-0.5"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-500 italic text-center py-4">
+                    Select a text clip on the timeline to inspect and edit style properties.
+                  </p>
+                )}
+              </div>
+            )}
 
-                item.onclick = () => {
-                    state.selectedShapeId = shape.id;
-                    syncTransformPanel(shape);
-                    render();
-                    updateLayersPanel();
-                };
+            {/* FILTERS & FX TAB */}
+            {activeTab === 'fx' && (
+              <div className="space-y-4">
+                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Filter Presets</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {FILTER_PRESETS.map(preset => (
+                    <button
+                      key={preset.name}
+                      onClick={() => updateSelectedClip({ filterPreset: preset.name })}
+                      className={`p-2.5 rounded-lg text-left border text-xs transition ${
+                        selectedClipData?.filterPreset === preset.name
+                          ? 'bg-cyan-950 border-cyan-500 text-cyan-300'
+                          : 'bg-slate-800/40 border-slate-700/60 text-slate-300 hover:border-slate-500'
+                      }`}
+                    >
+                      {preset.name}
+                    </button>
+                  ))}
+                </div>
 
-                layersList.appendChild(item);
-            });
-        }
+                {selectedClipData && (
+                  <div className="space-y-3 bg-slate-800/40 p-3 rounded-lg border border-slate-700/50 mt-4">
+                    <h4 className="text-xs font-semibold text-cyan-400">Color Grading Tuning</h4>
+                    
+                    <div>
+                      <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                        <span>Brightness</span>
+                        <span>{selectedClipData.brightness || 100}%</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        value={selectedClipData.brightness || 100}
+                        onChange={e => updateSelectedClip({ brightness: Number(e.target.value) })}
+                        className="w-full accent-cyan-500"
+                      />
+                    </div>
 
-        // Shape Manipulation Functions
-        function deleteSelectedShape() {
-            if (state.selectedShapeId) {
-                state.shapes = state.shapes.filter(s => s.id !== state.selectedShapeId);
-                state.selectedShapeId = null;
-                saveState();
-                render();
-                updateLayersPanel();
-            }
-        }
+                    <div>
+                      <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                        <span>Contrast</span>
+                        <span>{selectedClipData.contrast || 100}%</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        value={selectedClipData.contrast || 100}
+                        onChange={e => updateSelectedClip({ contrast: Number(e.target.value) })}
+                        className="w-full accent-cyan-500"
+                      />
+                    </div>
 
-        function bringToFront() {
-            if (!state.selectedShapeId) return;
-            const shape = getSelectedShape();
-            state.shapes = state.shapes.filter(s => s.id !== state.selectedShapeId);
-            state.shapes.push(shape);
-            saveState();
-            render();
-            updateLayersPanel();
-        }
+                    <div>
+                      <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                        <span>Saturation</span>
+                        <span>{selectedClipData.saturation || 100}%</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        value={selectedClipData.saturation || 100}
+                        onChange={e => updateSelectedClip({ saturation: Number(e.target.value) })}
+                        className="w-full accent-cyan-500"
+                      />
+                    </div>
 
-        function sendToBack() {
-            if (!state.selectedShapeId) return;
-            const shape = getSelectedShape();
-            state.shapes = state.shapes.filter(s => s.id !== state.selectedShapeId);
-            state.shapes.unshift(shape);
-            saveState();
-            render();
-            updateLayersPanel();
-        }
+                    <div>
+                      <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                        <span>Hue Shift</span>
+                        <span>{selectedClipData.hue || 0}°</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="-180"
+                        max="180"
+                        value={selectedClipData.hue || 0}
+                        onChange={e => updateSelectedClip({ hue: Number(e.target.value) })}
+                        className="w-full accent-cyan-500"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
-        function duplicateSelected() {
-            const shape = getSelectedShape();
-            if (shape) {
-                const dup = JSON.parse(JSON.stringify(shape));
-                dup.id = Date.now();
-                dup.x += 20;
-                dup.y += 20;
-                state.shapes.push(dup);
-                state.selectedShapeId = dup.id;
-                saveState();
-                render();
-                updateLayersPanel();
-            }
-        }
+            {/* AUDIO TAB */}
+            {activeTab === 'audio' && (
+              <div className="space-y-4">
+                {selectedClipData ? (
+                  <div className="space-y-3 bg-slate-800/40 p-3 rounded-lg border border-slate-700/50">
+                    <h4 className="text-xs font-semibold text-cyan-400">Audio Controls</h4>
+                    <div>
+                      <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                        <span>Volume Gain</span>
+                        <span>{Math.round((selectedClipData.volume ?? 1) * 100)}%</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="2"
+                        step="0.05"
+                        value={selectedClipData.volume ?? 1}
+                        onChange={e => updateSelectedClip({ volume: Number(e.target.value) })}
+                        className="w-full accent-cyan-500"
+                      />
+                    </div>
 
-        function clearCanvas() {
-            if (confirm('Are you sure you want to clear the entire artboard?')) {
-                state.shapes = [];
-                state.selectedShapeId = null;
-                saveState();
-                render();
-                updateLayersPanel();
-            }
-        }
+                    <div>
+                      <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                        <span>Playback Speed</span>
+                        <span>{selectedClipData.speed || 1}x</span>
+                      </div>
+                      <select
+                        value={selectedClipData.speed || 1}
+                        onChange={e => updateSelectedClip({ speed: Number(e.target.value) })}
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-200"
+                      >
+                        <option value="0.5">0.5x (Slow motion)</option>
+                        <option value="1">1.0x (Normal)</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="2">2.0x (Fast)</option>
+                      </select>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-500 italic text-center py-4">
+                    Select an audio or video clip to adjust sound options.
+                  </p>
+                )}
+              </div>
+            )}
 
-        // Main Rendering Engine
-        function render() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            {/* EXPORT TAB */}
+            {activeTab === 'export' && (
+              <div className="space-y-4">
+                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Render Configurations</h3>
+                
+                <div className="space-y-3 bg-slate-800/40 p-3 rounded-lg border border-slate-700/50">
+                  <div>
+                    <label className="text-[11px] text-slate-400 block mb-1">Resolution Preset</label>
+                    <select
+                      value={exportSettings.resolution}
+                      onChange={e => setExportSettings(s => ({ ...s, resolution: e.target.value }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-200"
+                    >
+                      <option value="4K">4K UHD (3840x2160)</option>
+                      <option value="1080p">1080p Full HD (1920x1080)</option>
+                      <option value="720p">720p HD (1280x720)</option>
+                    </select>
+                  </div>
 
-            // Draw all shapes
-            state.shapes.forEach(s => {
-                ctx.save();
-                ctx.globalAlpha = s.opacity !== undefined ? s.opacity : 1;
-                ctx.fillStyle = s.fill || 'transparent';
-                ctx.strokeStyle = s.stroke || '#000000';
-                ctx.lineWidth = s.strokeWidth || 1;
+                  <div>
+                    <label className="text-[11px] text-slate-400 block mb-1">Frame Rate (FPS)</label>
+                    <select
+                      value={exportSettings.fps}
+                      onChange={e => setExportSettings(s => ({ ...s, fps: Number(e.target.value) }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-200"
+                    >
+                      <option value="24">24 FPS (Cinematic)</option>
+                      <option value="30">30 FPS (Standard)</option>
+                      <option value="60">60 FPS (Smooth)</option>
+                    </select>
+                  </div>
 
-                if (s.type === 'rect') {
-                    ctx.beginPath();
-                    ctx.rect(s.x, s.y, s.w, s.h);
-                    if (s.fill && s.fill !== 'transparent') ctx.fill();
-                    if (s.strokeWidth > 0) ctx.stroke();
-                } else if (s.type === 'circle') {
-                    ctx.beginPath();
-                    ctx.arc(s.x, s.y, Math.max(0, s.radius), 0, Math.PI * 2);
-                    if (s.fill && s.fill !== 'transparent') ctx.fill();
-                    if (s.strokeWidth > 0) ctx.stroke();
-                } else if (s.type === 'text') {
-                    ctx.font = `${s.fontSize || 24}px Inter, sans-serif`;
-                    if (s.fill && s.fill !== 'transparent') ctx.fillText(s.text, s.x, s.y);
-                    if (s.strokeWidth > 0) ctx.strokeText(s.text, s.x, s.y);
-                } else if (s.type === 'path' && s.points.length > 0) {
-                    ctx.beginPath();
-                    ctx.moveTo(s.points[0].x, s.points[0].y);
-                    for (let i = 1; i < s.points.length; i++) {
-                        ctx.lineTo(s.points[i].x, s.points[i].y);
-                    }
-                    if (s.strokeWidth > 0) ctx.stroke();
-                }
+                  <button
+                    onClick={triggerExport}
+                    className="w-full py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium rounded-lg text-xs shadow-md transition mt-2"
+                  >
+                    Start Export Render
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
 
-                // Selection Box & Handles Indicator
-                if (s.id === state.selectedShapeId) {
-                    ctx.restore();
-                    ctx.save();
-                    ctx.strokeStyle = '#0265dc';
-                    ctx.lineWidth = 1.5;
-                    ctx.setLineDash([4, 4]);
+        {/* CENTER VIEWPORT / CANVAS PREVIEW */}
+        <div className="flex-1 bg-slate-950 flex flex-col items-center justify-between p-4 relative overflow-hidden">
+          
+          {/* Canvas Toolbar Header */}
+          <div className="w-full flex items-center justify-between px-2 text-xs text-slate-400">
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-cyan-400 bg-slate-900 px-2 py-1 rounded border border-slate-800">
+                {formatTime(currentTime)}
+              </span>
+              <span className="text-slate-600">/</span>
+              <span className="font-mono text-slate-500">{formatTime(duration)}</span>
+            </div>
 
-                    let bbox = { x: s.x, y: s.y, w: s.w || 0, h: s.h || 0 };
-                    if (s.type === 'circle') {
-                        bbox = { x: s.x - s.radius, y: s.y - s.radius, w: s.radius * 2, h: s.radius * 2 };
-                    } else if (s.type === 'text') {
-                        bbox = { x: s.x - 5, y: s.y - 25, w: 150, h: 30 };
-                    }
+            {/* Aspect Ratio Picker */}
+            <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800">
+              {[
+                { label: '16:9', icon: Monitor },
+                { label: '9:16', icon: Smartphone },
+                { label: '1:1', icon: Square }
+              ].map(ratio => {
+                const Icon = ratio.icon;
+                return (
+                  <button
+                    key={ratio.label}
+                    onClick={() => setAspectRatio(ratio.label)}
+                    className={`px-2 py-1 rounded flex items-center gap-1 text-[11px] transition ${
+                      aspectRatio === ratio.label
+                        ? 'bg-slate-800 text-cyan-400 font-medium'
+                        : 'hover:text-slate-200'
+                    }`}
+                  >
+                    <Icon className="w-3 h-3" />
+                    {ratio.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-                    ctx.strokeRect(bbox.x, bbox.y, bbox.w, bbox.h);
+          {/* MAIN VIDEO CANVAS PREVIEW CONTAINER */}
+          <div className="flex-1 flex items-center justify-center w-full my-2 relative">
+            <div
+              className={`relative border border-slate-800 rounded-lg overflow-hidden shadow-2xl bg-black flex items-center justify-center transition-all ${
+                aspectRatio === '9:16' ? 'aspect-[9/16] h-full max-h-[460px]' :
+                aspectRatio === '1:1' ? 'aspect-square h-full max-h-[460px]' :
+                'aspect-video w-full max-w-[800px]'
+              }`}
+            >
+              <canvas
+                ref={canvasRef}
+                width={1280}
+                height={720}
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
 
-                    // Draw corner handles
-                    ctx.fillStyle = '#ffffff';
-                    ctx.strokeStyle = '#0265dc';
-                    ctx.setLineDash([]);
-                    const handles = [
-                        { x: bbox.x, y: bbox.y },
-                        { x: bbox.x + bbox.w, y: bbox.y },
-                        { x: bbox.x, y: bbox.y + bbox.h },
-                        { x: bbox.x + bbox.w, y: bbox.y + bbox.h }
-                    ];
-                    handles.forEach(h => {
-                        ctx.beginPath();
-                        ctx.rect(h.x - 3, h.y - 3, 6, 6);
-                        ctx.fill();
-                        ctx.stroke();
-                    });
-                }
+          {/* PLAYER CONTROLS TOOLBAR */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 flex items-center gap-4 shadow-lg z-10">
+            <button
+              onClick={() => setCurrentTime(0)}
+              className="text-slate-400 hover:text-white transition"
+              title="Skip to Start"
+            >
+              <SkipBack className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setIsPlaying(p => !p)}
+              className="p-2.5 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition shadow-lg shadow-cyan-500/20 active:scale-95"
+            >
+              {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current ml-0.5" />}
+            </button>
+            <button
+              onClick={() => setCurrentTime(duration)}
+              className="text-slate-400 hover:text-white transition"
+              title="Skip to End"
+            >
+              <SkipForward className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
 
-                ctx.restore();
-            });
+        {/* RIGHT TRANSFORM INSPECTOR */}
+        {selectedClipData && (
+          <div className="w-72 bg-slate-900 border-l border-slate-800 p-4 space-y-4 overflow-y-auto">
+            <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Transform Inspector</h3>
 
-            // Draw current active pen path preview
-            if (state.activeTool === 'pen' && state.currentPath.length > 1) {
-                ctx.save();
-                ctx.strokeStyle = state.strokeColor;
-                ctx.lineWidth = state.strokeWidth;
-                ctx.beginPath();
-                ctx.moveTo(state.currentPath[0].x, state.currentPath[0].y);
-                for (let i = 1; i < state.currentPath.length; i++) {
-                    ctx.lineTo(state.currentPath[i].x, state.currentPath[i].y);
-                }
-                ctx.stroke();
-                ctx.restore();
-            }
-        }
+            <div className="space-y-3 bg-slate-800/40 p-3 rounded-lg border border-slate-700/50">
+              <div>
+                <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                  <span>Scale / Zoom</span>
+                  <span>{Math.round((selectedClipData.scale || 1) * 100)}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.2"
+                  max="3"
+                  step="0.05"
+                  value={selectedClipData.scale || 1}
+                  onChange={e => updateSelectedClip({ scale: Number(e.target.value) })}
+                  className="w-full accent-cyan-500"
+                />
+              </div>
 
-        // Export Functions
-        function exportPNG() {
-            const link = document.createElement('a');
-            link.download = 'illustrator-artboard.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        }
+              <div>
+                <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                  <span>Rotation</span>
+                  <span>{selectedClipData.rotation || 0}°</span>
+                </div>
+                <input
+                  type="range"
+                  min="-180"
+                  max="180"
+                  value={selectedClipData.rotation || 0}
+                  onChange={e => updateSelectedClip({ rotation: Number(e.target.value) })}
+                  className="w-full accent-cyan-500"
+                />
+              </div>
 
-        function exportJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.shapes, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "illustrator-project.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-        }
+              <div>
+                <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                  <span>Position X</span>
+                  <span>{selectedClipData.posX || 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-400"
+                  max="400"
+                  value={selectedClipData.posX || 0}
+                  onChange={e => updateSelectedClip({ posX: Number(e.target.value) })}
+                  className="w-full accent-cyan-500"
+                />
+              </div>
 
-        function exportSVG() {
-            let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">\n`;
-            state.shapes.forEach(s => {
-                if (s.type === 'rect') {
-                    svgContent += `  <rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" opacity="${s.opacity}" />\n`;
-                } else if (s.type === 'circle') {
-                    svgContent += `  <circle cx="${s.x}" cy="${s.y}" r="${s.radius}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" opacity="${s.opacity}" />\n`;
-                } else if (s.type === 'text') {
-                    svgContent += `  <text x="${s.x}" y="${s.y}" fill="${s.fill}" font-size="${s.fontSize || 24}" font-family="Inter">${s.text}</text>\n`;
-                } else if (s.type === 'path' && s.points.length > 0) {
-                    let d = `M ${s.points[0].x} ${s.points[0].y}`;
-                    for (let i = 1; i < s.points.length; i++) {
-                        d += ` L ${s.points[i].x} ${s.points[i].y}`;
-                    }
-                    svgContent += `  <path d="${d}" fill="none" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" />\n`;
-                }
-            });
-            svgContent += `</svg>`;
+              <div>
+                <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                  <span>Position Y</span>
+                  <span>{selectedClipData.posY || 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-300"
+                  max="300"
+                  value={selectedClipData.posY || 0}
+                  onChange={e => updateSelectedClip({ posY: Number(e.target.value) })}
+                  className="w-full accent-cyan-500"
+                />
+              </div>
 
-            const blob = new Blob([svgContent], { type: 'image/svg+xml' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'illustrator-artwork.svg';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-    </script>
-</body>
-</html>
+              <div>
+                <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+                  <span>Opacity</span>
+                  <span>{Math.round((selectedClipData.opacity ?? 1) * 100)}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={selectedClipData.opacity ?? 1}
+                  onChange={e => updateSelectedClip({ opacity: Number(e.target.value) })}
+                  className="w-full accent-cyan-500"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* BOTTOM MULTI-TRACK TIMELINE */}
+      <div className="h-64 bg-slate-900 border-t border-slate-800 flex flex-col z-10">
+        
+        {/* TIMELINE TOOLBAR */}
+        <div className="h-10 border-b border-slate-800 px-4 flex items-center justify-between bg-slate-950/40 text-xs">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleSplitClip}
+              disabled={!selectedClipId}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 disabled:opacity-40 transition"
+              title="Split clip at Playhead (S)"
+            >
+              <Scissors className="w-3.5 h-3.5" />
+              <span>Split</span>
+            </button>
+            <button
+              onClick={handleDuplicateClip}
+              disabled={!selectedClipId}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 disabled:opacity-40 transition"
+            >
+              <Copy className="w-3.5 h-3.5" />
+              <span>Duplicate</span>
+            </button>
+            <button
+              onClick={handleDeleteClip}
+              disabled={!selectedClipId}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-red-950/40 border border-red-800/40 hover:bg-red-900/50 text-red-300 disabled:opacity-40 transition"
+              title="Delete clip (Del)"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>Delete</span>
+            </button>
+          </div>
+
+          {/* Timeline Zoom Slider */}
+          <div className="flex items-center gap-2 text-slate-400">
+            <ZoomOut className="w-3.5 h-3.5" />
+            <input
+              type="range"
+              min="5"
+              max="40"
+              value={zoomLevel}
+              onChange={e => setZoomLevel(Number(e.target.value))}
+              className="w-24 accent-cyan-500"
+            />
+            <ZoomIn className="w-3.5 h-3.5" />
+          </div>
+        </div>
+
+        {/* TIMELINE TRACKS AREA */}
+        <div className="flex-1 flex overflow-x-auto relative select-none">
+          
+          {/* TRACK HEADERS */}
+          <div className="w-48 bg-slate-900 border-r border-slate-800 sticky left-0 z-20 flex-shrink-0">
+            <div className="h-6 border-b border-slate-800 bg-slate-950/80 px-2 text-[10px] font-semibold text-slate-500 uppercase flex items-center">
+              Tracks
+            </div>
+            {tracks.map(track => (
+              <div
+                key={track.id}
+                className="h-12 border-b border-slate-800/80 px-3 flex items-center justify-between text-xs text-slate-300"
+              >
+                <span className="truncate font-medium">{track.name}</span>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => {
+                      setTracks(tracks.map(t => t.id === track.id ? { ...t, muted: !t.muted } : t));
+                    }}
+                    className={`p-1 rounded ${track.muted ? 'text-red-400' : 'text-slate-500 hover:text-slate-300'}`}
+                  >
+                    {track.muted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTracks(tracks.map(t => t.id === track.id ? { ...t, hidden: !t.hidden } : t));
+                    }}
+                    className={`p-1 rounded ${track.hidden ? 'text-amber-400' : 'text-slate-500 hover:text-slate-300'}`}
+                  >
+                    {track.hidden ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* TRACK CLIPS CONTAINER */}
+          <div className="flex-1 relative min-w-[1200px]" onClick={e => {
+            // Click empty area to seek playhead
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const newTime = Math.max(0, clickX / zoomLevel);
+            setCurrentTime(newTime);
+          }}>
+            
+            {/* Timeline Ruler Header */}
+            <div className="h-6 border-b border-slate-800 bg-slate-950/80 relative">
+              {Array.from({ length: Math.ceil(duration) }).map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute top-0 bottom-0 border-l border-slate-800 text-[9px] font-mono text-slate-500 pl-1"
+                  style={{ left: `${i * zoomLevel}px` }}
+                >
+                  {i % 5 === 0 ? `${i}s` : ''}
+                </div>
+              ))}
+            </div>
+
+            {/* TRACK LANES */}
+            {tracks.map(track => (
+              <div key={track.id} className="h-12 border-b border-slate-800/80 relative">
+                {track.clips.map(clip => {
+                  const isSelected = selectedClipId === clip.id;
+                  const leftPos = clip.start * zoomLevel;
+                  const widthPos = clip.duration * zoomLevel;
+
+                  return (
+                    <div
+                      key={clip.id}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedClipId(clip.id);
+                      }}
+                      className={`absolute top-1 bottom-1 rounded-md border text-xs px-2 flex items-center justify-between cursor-pointer transition shadow-sm overflow-hidden ${
+                        isSelected
+                          ? 'border-cyan-400 bg-cyan-950/80 text-cyan-200 ring-1 ring-cyan-400'
+                          : clip.type === 'video'
+                          ? 'border-blue-700/60 bg-blue-950/60 text-blue-200 hover:border-blue-500'
+                          : clip.type === 'audio'
+                          ? 'border-emerald-700/60 bg-emerald-950/60 text-emerald-200 hover:border-emerald-500'
+                          : 'border-purple-700/60 bg-purple-950/60 text-purple-200 hover:border-purple-500'
+                      }`}
+                      style={{
+                        left: `${leftPos}px`,
+                        width: `${widthPos}px`
+                      }}
+                    >
+                      <span className="truncate font-medium text-[11px]">{clip.name || clip.text}</span>
+                      <span className="text-[9px] opacity-70 font-mono ml-1">{Math.round(clip.duration)}s</span>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+
+            {/* RED PLAYHEAD LINE */}
+            <div
+              className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-30 pointer-events-none"
+              style={{ left: `${currentTime * zoomLevel}px` }}
+            >
+              <div className="w-3 h-3 bg-red-500 rotate-45 -ml-1.25 -mt-1 shadow-md" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* EXPORT PROGRESS / RENDER MODAL */}
+      {isExporting && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl text-center">
+            <h3 className="text-lg font-bold text-slate-100">Rendering Final Video</h3>
+            <p className="text-xs text-slate-400">Processing timeline tracks and frames onto output media buffer...</p>
+
+            <div className="w-full bg-slate-950 rounded-full h-3 border border-slate-800 overflow-hidden">
+              <div
+                className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full transition-all duration-150"
+                style={{ width: `${exportProgress}%` }}
+              />
+            </div>
+            <p className="text-sm font-mono text-cyan-400 font-bold">{exportProgress}% Completed</p>
+
+            {renderedBlobUrl && (
+              <div className="space-y-3 pt-2">
+                <p className="text-xs text-emerald-400 font-semibold flex items-center justify-center gap-1">
+                  <Check className="w-4 h-4" /> Render Complete!
+                </p>
+                <a
+                  href={renderedBlobUrl}
+                  download="NexusStudio_Rendered_Video.webm"
+                  className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg text-xs block text-center shadow-lg transition"
+                >
+                  Download Output File
+                </a>
+              </div>
+            )}
+
+            <button
+              onClick={() => setIsExporting(false)}
+              className="text-xs text-slate-500 hover:text-slate-300 mt-2"
+            >
+              Close Window
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* KEYBOARD SHORTCUTS MODAL */}
+      {showShortcutsModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 max-w-sm w-full space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h3 className="text-sm font-bold text-slate-100">Keyboard Shortcuts</h3>
+              <button onClick={() => setShowShortcutsModal(false)} className="text-slate-400 hover:text-white">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="space-y-2 text-xs text-slate-300">
+              <div className="flex justify-between"><span>Play / Pause</span><kbd className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">Space</kbd></div>
+              <div className="flex justify-between"><span>Split Clip</span><kbd className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">S</kbd></div>
+              <div className="flex justify-between"><span>Delete Selected</span><kbd className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">Delete / Backspace</kbd></div>
+              <div className="flex justify-between"><span>Undo Action</span><kbd className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">Ctrl + Z</kbd></div>
+              <div className="flex justify-between"><span>Redo Action</span><kbd className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">Ctrl + Y</kbd></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}
