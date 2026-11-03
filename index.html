@@ -1,1333 +1,1407 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import {
-  Play, Pause, SkipBack, SkipForward, Scissors, Trash2, Copy, Plus, Volume2,
-  VolumeX, Eye, EyeOff, ZoomIn, ZoomOut, Download, Film, Music, Image as ImageIcon,
-  Type, Sliders, Layers, Sparkles, Undo2, Redo2, Maximize, Settings, RefreshCw,
-  Move, RotateCw, Monitor, Smartphone, Square, Grid, Check, HelpCircle, X,
-  ChevronRight, Mic, ShieldAlert, Cpu, Activity, Wand2, Disc, Crosshair,
-  SlidersHorizontal, Repeat, SlidersVertical, Layers3, Flame, Split, Eye as EyeIcon,
-  FastForward, Rewind, Lock, Unlock, Bookmark, Zap, Compass, FileVideo, Crop,
-  Gauge, Radio, BarChart2, Shield, Sun, Droplet, Waves, Sparkles as SparklesIcon
-} from 'lucide-react';
-
-// Default sample media assets
-const INITIAL_ASSETS = [
-  {
-    id: 'asset-vid-1',
-    name: 'Cinematic Forest Stream.mp4',
-    type: 'video',
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    duration: 15,
-    resolution: '1920x1080',
-    fps: 30,
-    thumb: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&auto=format&fit=crop&q=60'
-  },
-  {
-    id: 'asset-vid-2',
-    name: 'Cyber Neon Metropolis.mp4',
-    type: 'video',
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-    duration: 12,
-    resolution: '3840x2160',
-    fps: 60,
-    thumb: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=300&auto=format&fit=crop&q=60'
-  },
-  {
-    id: 'asset-aud-1',
-    name: 'Ambient Electronic Beat.mp3',
-    type: 'audio',
-    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-    duration: 30,
-    thumb: ''
-  },
-  {
-    id: 'asset-img-1',
-    name: 'Abstract Cyber Overlay.png',
-    type: 'image',
-    url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
-    duration: 5,
-    thumb: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200&auto=format&fit=crop&q=60'
-  }
-];
-
-// Color Grading Presets & LUTs
-const FILTER_PRESETS = [
-  { name: 'Rec.709 Standard', filter: 'none' },
-  { name: 'Cinematic Teal & Orange', filter: 'contrast(125%) saturate(120%) sepia(15%) hue-rotate(-12deg)' },
-  { name: 'Vintage Kodak 35mm', filter: 'sepia(45%) contrast(95%) brightness(105%) hue-rotate(-10deg)' },
-  { name: 'Cyberpunk Neon Glow', filter: 'contrast(140%) saturate(190%) hue-rotate(185deg)' },
-  { name: 'Monochrome Film Noir', filter: 'grayscale(100%) contrast(140%) brightness(90%)' },
-  { name: 'Warm Golden Hour', filter: 'saturate(130%) sepia(30%) hue-rotate(10deg) brightness(105%)' },
-  { name: 'Matrix Digital Green', filter: 'contrast(130%) saturate(140%) hue-rotate(90deg)' },
-];
-
-export default function App() {
-  // Splash Screen State
-  const [showSplash, setShowSplash] = useState(true);
-  const [splashProgress, setSplashProgress] = useState(0);
-  const [splashStage, setSplashStage] = useState('Initializing Engine Core...');
-
-  // Active Tool Mode
-  const [activeTool, setActiveTool] = useState('select'); // select, blade, slip, slide, rate, hand, crop, mask
-
-  // Navigation Drawer Tab
-  const [activeTab, setActiveTab] = useState('media'); // media, transform, color, ai_keying, fx, audio, text, export, scopes
-
-  // Project Media Bin & Timeline Tracks
-  const [mediaAssets, setMediaAssets] = useState(INITIAL_ASSETS);
-  const [tracks, setTracks] = useState([
-    { id: 'track-text', name: 'T1 - Kinetic Titles', type: 'text', muted: false, hidden: false, locked: false, clips: [] },
-    { id: 'track-adj', name: 'FX - Adjustment Layer', type: 'adjustment', muted: false, hidden: false, locked: false, clips: [] },
-    { id: 'track-v2', name: 'V2 - Overlay & B-Roll', type: 'video', muted: false, hidden: false, locked: false, clips: [] },
-    { id: 'track-v1', name: 'V1 - Main Video Track', type: 'video', muted: false, hidden: false, locked: false, clips: [] },
-    { id: 'track-a1', name: 'A1 - Primary Dialogue', type: 'audio', muted: false, hidden: false, locked: false, clips: [] },
-    { id: 'track-a2', name: 'A2 - Score & SFX Engine', type: 'audio', muted: false, hidden: false, locked: false, clips: [] },
-  ]);
-
-  // Selected Clip for Inspector
-  const [selectedClipId, setSelectedClipId] = useState(null);
-
-  // Time & Playback Controls
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(30);
-  const [zoomLevel, setZoomLevel] = useState(18);
-  const [aspectRatio, setAspectRatio] = useState('16:9');
-  const [loopPlayback, setLoopPlayback] = useState(false);
-  const [snapping, setSnapping] = useState(true);
-  const [inPoint, setInPoint] = useState(null);
-  const [outPoint, setOutPoint] = useState(null);
-
-  // View Settings & Scopes
-  const [showScopes, setShowScopes] = useState(false);
-  const [showGrid, setShowGrid] = useState(true);
-  const [showGizmo, setShowGizmo] = useState(true);
-  const [zeroLatencyPreview, setZeroLatencyPreview] = useState(true);
-  const [proxyEnabled, setProxyEnabled] = useState(false);
-  const [dualTimeline, setDualTimeline] = useState(false);
-
-  // History State Stack (Undo/Redo)
-  const [history, setHistory] = useState([]);
-  const [historyIdx, setHistoryIdx] = useState(-1);
-
-  // Markers
-  const [markers, setMarkers] = useState([{ time: 5, label: 'Intro Scene' }, { time: 14, label: 'B-Roll Transition' }]);
-
-  // Export Engine State
-  const [isExporting, setIsExporting] = useState(false);
-  const [exportProgress, setExportProgress] = useState(0);
-  const [renderedBlobUrl, setRenderedBlobUrl] = useState(null);
-  const [exportSettings, setExportSettings] = useState({
-    format: 'MP4',
-    resolution: '1080p',
-    fps: 30,
-    bitrate: 'High',
-    watermark: false
-  });
-
-  // Modal
-  const [showShortcutsModal, setShowShortcutsModal] = useState(false);
-
-  // References
-  const canvasRef = useRef(null);
-  const playheadIntervalRef = useRef(null);
-  const mediaElementsRef = useRef({});
-
-  // Splash Screen Handler
-  useEffect(() => {
-    const stages = [
-      { p: 20, text: 'Loading GPU Canvas Pipeline...' },
-      { p: 45, text: 'Initializing A-Z Audio DSP & EQ Filters...' },
-      { p: 70, text: 'Loading Ultra Keyer & Motion Tracking Modules...' },
-      { p: 90, text: 'Building Non-Destructive Timeline Engine...' },
-      { p: 100, text: 'NexusStudio Pro Engine Ready!' }
-    ];
-
-    let currentStage = 0;
-    const interval = setInterval(() => {
-      if (currentStage < stages.length) {
-        setSplashProgress(stages[currentStage].p);
-        setSplashStage(stages[currentStage].text);
-        currentStage++;
-      } else {
-        clearInterval(interval);
-        setTimeout(() => setShowSplash(false), 600);
-      }
-    }, 400);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Save state for Undo/Redo
-  const saveState = useCallback((newTracks) => {
-    const nextHistory = history.slice(0, historyIdx + 1);
-    nextHistory.push(JSON.stringify(newTracks));
-    setHistory(nextHistory);
-    setHistoryIdx(nextHistory.length - 1);
-  }, [history, historyIdx]);
-
-  useEffect(() => {
-    if (history.length === 0) {
-      setHistory([JSON.stringify(tracks)]);
-      setHistoryIdx(0);
-    }
-  }, []);
-
-  const handleUndo = () => {
-    if (historyIdx > 0) {
-      const prev = historyIdx - 1;
-      setHistoryIdx(prev);
-      setTracks(JSON.parse(history[prev]));
-    }
-  };
-
-  const handleRedo = () => {
-    if (historyIdx < history.length - 1) {
-      const next = historyIdx + 1;
-      setHistoryIdx(next);
-      setTracks(JSON.parse(history[next]));
-    }
-  };
-
-  // Get active clip
-  const getSelectedClip = () => {
-    for (let track of tracks) {
-      const clip = track.clips.find(c => c.id === selectedClipId);
-      if (clip) return { clip, trackId: track.id };
-    }
-    return null;
-  };
-
-  const updateSelectedClip = (updatedProps) => {
-    const sel = getSelectedClip();
-    if (!sel) return;
-
-    const newTracks = tracks.map(track => {
-      if (track.id !== sel.trackId) return track;
-      return {
-        ...track,
-        clips: track.clips.map(c => c.id === selectedClipId ? { ...c, ...updatedProps } : c)
-      };
-    });
-
-    setTracks(newTracks);
-    saveState(newTracks);
-  };
-
-  // File Upload Ingestion
-  const handleFileUpload = (e) => {
-    const files = Array.from(e.target.files || []);
-    files.forEach(file => {
-      const url = URL.createObjectURL(file);
-      let type = 'video';
-      if (file.type.startsWith('audio/')) type = 'audio';
-      if (file.type.startsWith('image/')) type = 'image';
-
-      const newAsset = {
-        id: `asset-${Date.now()}-${Math.random().toString(36).substring(2, 5)}`,
-        name: file.name,
-        type: type,
-        url: url,
-        duration: type === 'image' ? 5 : 10,
-        resolution: '1920x1080',
-        fps: 30,
-        thumb: type === 'image' ? url : ''
-      };
-
-      setMediaAssets(prev => [newAsset, ...prev]);
-    });
-  };
-
-  // Add Asset to Timeline
-  const addAssetToTimeline = (asset) => {
-    let targetTrackId = 'track-v1';
-    if (asset.type === 'audio') targetTrackId = 'track-a1';
-
-    const newClip = {
-      id: `clip-${Date.now()}`,
-      assetId: asset.id,
-      name: asset.name,
-      type: asset.type,
-      url: asset.url,
-      start: currentTime,
-      duration: asset.duration || 5,
-      trimStart: 0,
-      // Transforms
-      scale: 1,
-      rotation: 0,
-      posX: 0,
-      posY: 0,
-      anchorX: 0,
-      anchorY: 0,
-      opacity: 1,
-      blendMode: 'normal',
-      dropShadow: false,
-      flipH: false,
-      flipV: false,
-      // Color Wheel & Grading (Lift, Gamma, Gain)
-      liftR: 0, liftG: 0, liftB: 0,
-      gammaR: 0, gammaG: 0, gammaB: 0,
-      gainR: 0, gainG: 0, gainB: 0,
-      brightness: 100,
-      contrast: 100,
-      saturation: 100,
-      hue: 0,
-      exposure: 0,
-      highlights: 0,
-      shadows: 0,
-      blur: 0,
-      filterPreset: 'Rec.709 Standard',
-      // AI & Keyer
-      chromaKeyEnabled: false,
-      keyColor: '#00ff00',
-      keyTolerance: 30,
-      aiBackgroundRemoved: false,
-      beautyRetouch: false,
-      // Audio Studio
-      volume: 1,
-      pan: 0,
-      speed: 1,
-      eqLow: 0,
-      eqMid: 0,
-      eqHigh: 0,
-      audioDucking: false,
-      denoiser: false,
-      pitchShift: 0,
-      // Text Typography
-      text: asset.type === 'text' ? 'PRO KINETIC TEXT' : '',
-      fontSize: 56,
-      color: '#38bdf8',
-      bgColor: 'transparent',
-      fontFamily: 'sans-serif'
-    };
-
-    const newTracks = tracks.map(t => {
-      if (t.id === targetTrackId) {
-        return { ...t, clips: [...t.clips, newClip] };
-      }
-      return t;
-    });
-
-    setTracks(newTracks);
-    setSelectedClipId(newClip.id);
-    saveState(newTracks);
-
-    if (newClip.start + newClip.duration > duration - 5) {
-      setDuration(Math.ceil(newClip.start + newClip.duration + 10));
-    }
-  };
-
-  // Add Kinetic Title
-  const addKineticText = () => {
-    const textClip = {
-      id: `clip-txt-${Date.now()}`,
-      name: 'Kinetic Subtitle',
-      type: 'text',
-      start: currentTime,
-      duration: 5,
-      trimStart: 0,
-      scale: 1,
-      rotation: 0,
-      posX: 0,
-      posY: 100,
-      opacity: 1,
-      text: 'NEXUS ULTRA TEXT',
-      fontSize: 52,
-      color: '#06b6d4',
-      bgColor: 'rgba(15, 23, 42, 0.75)',
-      fontFamily: 'Inter, sans-serif'
-    };
-
-    const newTracks = tracks.map(t => {
-      if (t.id === 'track-text') return { ...t, clips: [...t.clips, textClip] };
-      return t;
-    });
-
-    setTracks(newTracks);
-    setSelectedClipId(textClip.id);
-    saveState(newTracks);
-  };
-
-  // Split Clip (Blade Tool)
-  const handleSplitClip = () => {
-    const sel = getSelectedClip();
-    if (!sel) return;
-
-    const clip = sel.clip;
-    const splitPoint = currentTime - clip.start;
-    if (splitPoint <= 0.2 || splitPoint >= clip.duration - 0.2) return;
-
-    const first = { ...clip, duration: splitPoint };
-    const second = {
-      ...clip,
-      id: `clip-split-${Date.now()}`,
-      start: currentTime,
-      duration: clip.duration - splitPoint,
-      trimStart: clip.trimStart + splitPoint
-    };
-
-    const newTracks = tracks.map(t => {
-      if (t.id !== sel.trackId) return t;
-      return { ...t, clips: [...t.clips.filter(c => c.id !== clip.id), first, second] };
-    });
-
-    setTracks(newTracks);
-    setSelectedClipId(second.id);
-    saveState(newTracks);
-  };
-
-  // Playback Loop Engine
-  useEffect(() => {
-    if (isPlaying) {
-      playheadIntervalRef.current = setInterval(() => {
-        setCurrentTime(prev => {
-          if (outPoint !== null && prev >= outPoint) {
-            return loopPlayback ? (inPoint || 0) : outPoint;
-          }
-          if (prev >= duration) {
-            if (loopPlayback) return 0;
-            setIsPlaying(false);
-            return 0;
-          }
-          return prev + 0.05;
-        });
-      }, 50);
-    } else {
-      if (playheadIntervalRef.current) clearInterval(playheadIntervalRef.current);
-    }
-    return () => {
-      if (playheadIntervalRef.current) clearInterval(playheadIntervalRef.current);
-    };
-  }, [isPlaying, duration, loopPlayback, inPoint, outPoint]);
-
-  // Sync HTML Media
-  useEffect(() => {
-    tracks.forEach(track => {
-      if (track.hidden) return;
-      track.clips.forEach(clip => {
-        if (currentTime >= clip.start && currentTime <= clip.start + clip.duration) {
-          const mediaEl = mediaElementsRef.current[clip.id];
-          if (mediaEl) {
-            const computedTime = (currentTime - clip.start) + clip.trimStart;
-            if (Math.abs(mediaEl.currentTime - computedTime) > 0.3) {
-              mediaEl.currentTime = computedTime;
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexMart — Premium Store & Ecommerce Platform</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f3ff',
+                            100: '#e1e7fe',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
             }
-            if (isPlaying && mediaEl.paused) mediaEl.play().catch(() => {});
-            else if (!isPlaying && !mediaEl.paused) mediaEl.pause();
-          }
-        } else {
-          const mediaEl = mediaElementsRef.current[clip.id];
-          if (mediaEl && !mediaEl.paused) mediaEl.pause();
         }
-      });
-    });
-  }, [currentTime, isPlaying, tracks]);
-
-  // Canvas Compositor Frame Render
-  const renderCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#020617';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Guide Grid Overlay
-    if (showGrid) {
-      ctx.strokeStyle = '#1e293b';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < canvas.width; x += 40) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-      }
-      for (let y = 0; y < canvas.height; y += 40) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-      }
-    }
-
-    const renderOrder = [...tracks].reverse();
-
-    renderOrder.forEach(track => {
-      if (track.hidden) return;
-
-      track.clips.forEach(clip => {
-        if (currentTime >= clip.start && currentTime <= clip.start + clip.duration) {
-          ctx.save();
-
-          const centerX = canvas.width / 2 + (clip.posX || 0);
-          const centerY = canvas.height / 2 + (clip.posY || 0);
-
-          ctx.translate(centerX, centerY);
-          ctx.rotate(((clip.rotation || 0) * Math.PI) / 180);
-          ctx.scale((clip.scale || 1) * (clip.flipH ? -1 : 1), (clip.scale || 1) * (clip.flipV ? -1 : 1));
-          ctx.globalAlpha = clip.opacity !== undefined ? clip.opacity : 1;
-
-          // Composite Blend Mode
-          if (clip.blendMode && clip.blendMode !== 'normal') {
-            ctx.globalCompositeOperation = clip.blendMode;
-          }
-
-          // CSS Filter Chain
-          let filterStr = '';
-          if (clip.filterPreset && clip.filterPreset !== 'Rec.709 Standard') {
-            const presetObj = FILTER_PRESETS.find(f => f.name === clip.filterPreset);
-            if (presetObj) filterStr += presetObj.filter + ' ';
-          }
-          if (clip.brightness !== 100) filterStr += `brightness(${clip.brightness}%) `;
-          if (clip.contrast !== 100) filterStr += `contrast(${clip.contrast}%) `;
-          if (clip.saturation !== 100) filterStr += `saturate(${clip.saturation}%) `;
-          if (clip.hue !== 0) filterStr += `hue-rotate(${clip.hue}deg) `;
-          if (clip.blur > 0) filterStr += `blur(${clip.blur}px) `;
-
-          ctx.filter = filterStr.trim() || 'none';
-
-          // Draw Content
-          if (clip.type === 'video' || clip.type === 'image') {
-            const mediaEl = mediaElementsRef.current[clip.id];
-            if (mediaEl && (mediaEl.readyState >= 2 || clip.type === 'image')) {
-              const dw = canvas.width * 0.8;
-              const dh = (dw * 9) / 16;
-              ctx.drawImage(mediaEl, -dw / 2, -dh / 2, dw, dh);
-            } else {
-              ctx.fillStyle = '#1e293b';
-              ctx.fillRect(-200, -112, 400, 225);
-              ctx.fillStyle = '#38bdf8';
-              ctx.font = '14px sans-serif';
-              ctx.textAlign = 'center';
-              ctx.fillText(`[ ${clip.name} ] Loading...`, 0, 0);
-            }
-          } else if (clip.type === 'text') {
-            ctx.font = `bold ${clip.fontSize || 52}px ${clip.fontFamily || 'sans-serif'}`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-
-            if (clip.bgColor && clip.bgColor !== 'transparent') {
-              const metrics = ctx.measureText(clip.text || '');
-              ctx.fillStyle = clip.bgColor;
-              ctx.fillRect(-metrics.width / 2 - 16, -(clip.fontSize / 2) - 10, metrics.width + 32, clip.fontSize + 20);
-            }
-
-            ctx.fillStyle = clip.color || '#38bdf8';
-            ctx.fillText(clip.text || 'NEXUS TEXT', 0, 0);
-          }
-
-          // On-Screen Transform Gizmo Highlight
-          if (showGizmo && selectedClipId === clip.id) {
-            ctx.strokeStyle = '#06b6d4';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(-210, -118, 420, 236);
-            ctx.fillStyle = '#06b6d4';
-            ctx.fillRect(-6, -6, 12, 12); // Center Anchor
-          }
-
-          ctx.restore();
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.6);
         }
-      });
-    });
-  }, [currentTime, tracks, showGrid, showGizmo, selectedClipId]);
+        .dark .glass-card {
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* Toast notification styling */
+        #toastContainer {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .toast {
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col">
 
-  useEffect(() => {
-    renderCanvas();
-  }, [renderCanvas]);
+    <!-- Toast Notification Overlay -->
+    <div id="toastContainer"></div>
 
-  // Export Processing Engine
-  const triggerExport = async () => {
-    setIsExporting(true);
-    setExportProgress(0);
-    setIsPlaying(false);
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const stream = canvas.captureStream(exportSettings.fps);
-    let recorder;
-
-    try {
-      recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
-    } catch (e) {
-      recorder = new MediaRecorder(stream);
-    }
-
-    const chunks = [];
-    recorder.ondataavailable = e => chunks.push(e.data);
-    recorder.onstop = () => {
-      const blob = new Blob(chunks, { type: 'video/webm' });
-      setRenderedBlobUrl(URL.createObjectURL(blob));
-      setExportProgress(100);
-    };
-
-    recorder.start();
-    const totalFrames = duration * exportSettings.fps;
-    let currentFrame = 0;
-
-    const interval = setInterval(() => {
-      currentFrame++;
-      setCurrentTime((currentFrame / totalFrames) * duration);
-      setExportProgress(Math.min(99, Math.round((currentFrame / totalFrames) * 100)));
-
-      if (currentFrame >= totalFrames) {
-        clearInterval(interval);
-        recorder.stop();
-      }
-    }, 1000 / exportSettings.fps);
-  };
-
-  const formatTimecode = (sec) => {
-    const hrs = Math.floor(sec / 3600);
-    const mins = Math.floor((sec % 3600) / 60);
-    const secs = Math.floor(sec % 60);
-    const frames = Math.floor((sec % 1) * 30);
-    return `${hrs > 0 ? String(hrs).padStart(2, '0') + ':' : ''}${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${String(frames).padStart(2, '0')}`;
-  };
-
-  const selectedClipData = getSelectedClip()?.clip;
-
-  return (
-    <div className="flex flex-col h-screen w-screen bg-slate-950 text-slate-100 font-sans overflow-hidden select-none">
-      
-      {/* SPLASH INTRO OVERLAY */}
-      {showSplash && (
-        <div className="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center p-6 text-center">
-          <div className="relative flex items-center justify-center mb-8">
-            <div className="w-28 h-28 rounded-3xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 animate-pulse blur-xl opacity-60 absolute" />
-            <div className="w-24 h-24 rounded-2xl bg-slate-900 border border-cyan-500/50 flex items-center justify-center shadow-2xl relative z-10">
-              <Film className="w-12 h-12 text-cyan-400 animate-bounce" />
-            </div>
-          </div>
-
-          <h1 className="text-3xl font-black tracking-wider bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300 bg-clip-text text-transparent mb-2">
-            NEXUS STUDIO PRO
-          </h1>
-          <p className="text-xs font-mono text-cyan-400/80 uppercase tracking-widest mb-8">
-            A-Z ULTIMATE EDITION • NON-LINEAR VIDEO EDITOR
-          </p>
-
-          <div className="w-80 space-y-3">
-            <div className="w-full bg-slate-900 border border-slate-800 rounded-full h-2.5 overflow-hidden p-0.5">
-              <div
-                className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full transition-all duration-300"
-                style={{ width: `${splashProgress}%` }}
-              />
-            </div>
-            <p className="text-[11px] font-mono text-slate-400">{splashStage}</p>
-          </div>
+    <!-- Top Announcement Bar -->
+    <div class="bg-indigo-600 text-white text-xs py-2 px-4 text-center font-medium flex justify-between items-center max-w-full">
+        <div class="hidden sm:block">⚡ Flash Sale: Get 15% OFF with code <span class="bg-white/20 px-1.5 py-0.5 rounded font-mono font-bold">DISCOUNT15</span></div>
+        <div class="mx-auto sm:mx-0 flex items-center space-x-4">
+            <span>🚀 Free Express Delivery on orders over PKR 5,000 / $30</span>
         </div>
-      )}
-
-      {/* HIDDEN MEDIA ELEMENTS */}
-      <div className="hidden">
-        {tracks.flatMap(t => t.clips).map(clip => {
-          if (clip.type === 'video') {
-            return (
-              <video
-                key={clip.id}
-                ref={el => mediaElementsRef.current[clip.id] = el}
-                src={clip.url}
-                crossOrigin="anonymous"
-                playsInline
-                muted={tracks.find(t => t.clips.some(c => c.id === clip.id))?.muted}
-              />
-            );
-          } else if (clip.type === 'audio') {
-            return (
-              <audio
-                key={clip.id}
-                ref={el => mediaElementsRef.current[clip.id] = el}
-                src={clip.url}
-                crossOrigin="anonymous"
-              />
-            );
-          } else if (clip.type === 'image') {
-            return (
-              <img
-                key={clip.id}
-                ref={el => mediaElementsRef.current[clip.id] = el}
-                src={clip.url}
-                crossOrigin="anonymous"
-                alt={clip.name}
-              />
-            );
-          }
-          return null;
-        })}
-      </div>
-
-      {/* TOP NAVBAR & MENU TOOLBAR */}
-      <header className="h-12 bg-slate-900/90 border-b border-slate-800 px-3 flex items-center justify-between z-20">
-        <div className="flex items-center gap-3">
-          <div className="bg-gradient-to-tr from-cyan-500 to-blue-600 p-1.5 rounded-lg text-white">
-            <Film className="w-4 h-4" />
-          </div>
-          <span className="font-bold text-sm tracking-wider text-slate-200">
-            NEXUS STUDIO <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800/60 font-mono">A-Z PRO</span>
-          </span>
-
-          <div className="h-4 w-px bg-slate-800 mx-1" />
-
-          {/* EDITING TOOLS SWITCHER */}
-          <div className="flex items-center gap-1 bg-slate-950/60 p-1 rounded-lg border border-slate-800">
-            {[
-              { id: 'select', icon: Move, label: 'Selection (V)' },
-              { id: 'blade', icon: Scissors, label: 'Blade Razor (B)' },
-              { id: 'slip', icon: Repeat, label: 'Slip Tool (Y)' },
-              { id: 'slide', icon: SlidersHorizontal, label: 'Slide Tool (U)' },
-              { id: 'crop', icon: Crop, label: 'Crop Gizmo (C)' },
-            ].map(tool => {
-              const Icon = tool.icon;
-              return (
-                <button
-                  key={tool.id}
-                  onClick={() => setActiveTool(tool.id)}
-                  className={`p-1.5 rounded transition ${
-                    activeTool === tool.id ? 'bg-cyan-500 text-slate-950' : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                  title={tool.label}
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                </button>
-              );
-            })}
-          </div>
+        <div class="hidden md:flex items-center space-x-3">
+            <!-- Currency Switcher -->
+            <select id="currencySelect" class="bg-indigo-700 text-white text-xs rounded px-2 py-0.5 outline-none cursor-pointer">
+                <option value="PKR">PKR (Rs.)</option>
+                <option value="USD">USD ($)</option>
+            </select>
         </div>
-
-        {/* CENTER UTILITIES */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleUndo}
-            disabled={historyIdx <= 0}
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-400 disabled:opacity-30"
-            title="Undo"
-          >
-            <Undo2 className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={handleRedo}
-            disabled={historyIdx >= history.length - 1}
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-400 disabled:opacity-30"
-            title="Redo"
-          >
-            <Redo2 className="w-3.5 h-3.5" />
-          </button>
-          <div className="h-4 w-px bg-slate-800" />
-          <button
-            onClick={() => setShowScopes(!showScopes)}
-            className={`px-2 py-1 rounded text-xs flex items-center gap-1 border ${
-              showScopes ? 'bg-cyan-950 border-cyan-500 text-cyan-300' : 'border-slate-800 text-slate-400'
-            }`}
-          >
-            <BarChart2 className="w-3.5 h-3.5" />
-            <span>Scopes</span>
-          </button>
-          <button
-            onClick={() => setProxyEnabled(!proxyEnabled)}
-            className={`px-2 py-1 rounded text-xs font-mono border ${
-              proxyEnabled ? 'bg-amber-950 border-amber-500 text-amber-300' : 'border-slate-800 text-slate-500'
-            }`}
-          >
-            PROXY
-          </button>
-        </div>
-
-        {/* RIGHT ACTION BUTTONS */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setShowShortcutsModal(true)}
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-400"
-          >
-            <HelpCircle className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => setActiveTab('export')}
-            className="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>Export</span>
-          </button>
-        </div>
-      </header>
-
-      {/* MAIN WORKSPACE LAYOUT */}
-      <div className="flex-1 flex overflow-hidden">
-        
-        {/* LEFT TAB NAVIGATION SIDEBAR */}
-        <div className="w-72 bg-slate-900 border-r border-slate-800 flex flex-col z-10">
-          <div className="flex border-b border-slate-800 bg-slate-950/40 overflow-x-auto">
-            {[
-              { id: 'media', label: 'Media Bin', icon: Film },
-              { id: 'transform', label: 'Transform', icon: Move },
-              { id: 'color', label: 'Color / HSL', icon: SparklesIcon },
-              { id: 'ai_keying', label: 'AI Keyer', icon: Wand2 },
-              { id: 'fx', label: 'FX Filters', icon: SlidersVertical },
-              { id: 'audio', label: 'DAW Audio', icon: Music },
-              { id: 'text', label: 'Kinetic Text', icon: Type },
-            ].map(tab => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`p-2.5 flex flex-col items-center justify-center min-w-[64px] text-[10px] font-medium border-b-2 transition ${
-                    activeTab === tab.id
-                      ? 'border-cyan-500 text-cyan-400 bg-slate-800/50'
-                      : 'border-transparent text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <Icon className="w-4 h-4 mb-1" />
-                  <span className="truncate">{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* TAB CONTENT PANELS */}
-          <div className="flex-1 p-3 overflow-y-auto space-y-4">
-            
-            {/* MEDIA BIN PANEL */}
-            {activeTab === 'media' && (
-              <div className="space-y-3">
-                <div className="border border-dashed border-slate-700 hover:border-cyan-500 rounded-xl p-3 text-center bg-slate-950/30 transition">
-                  <input type="file" multiple accept="video/*,audio/*,image/*" onChange={handleFileUpload} className="hidden" id="ingest-file" />
-                  <label htmlFor="ingest-file" className="cursor-pointer flex flex-col items-center">
-                    <FileVideo className="w-6 h-6 text-slate-500 mb-1" />
-                    <span className="text-xs font-medium text-slate-300">Ingest Media Assets</span>
-                    <span className="text-[10px] text-slate-500">MP4, MOV, WAV, PNG, Sequences</span>
-                  </label>
-                </div>
-
-                <div className="space-y-2">
-                  <h4 className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Project Bins</h4>
-                  <div className="grid grid-cols-1 gap-2">
-                    {mediaAssets.map(asset => (
-                      <div key={asset.id} className="bg-slate-800/40 border border-slate-700/60 rounded-lg p-2 flex items-center justify-between">
-                        <div className="flex items-center gap-2 overflow-hidden">
-                          {asset.thumb ? (
-                            <img src={asset.thumb} className="w-10 h-10 object-cover rounded" alt="" />
-                          ) : (
-                            <div className="w-10 h-10 bg-slate-950 rounded flex items-center justify-center text-slate-500">
-                              {asset.type === 'video' ? <Film className="w-5 h-5" /> : <Music className="w-5 h-5" />}
-                            </div>
-                          )}
-                          <div className="truncate">
-                            <p className="text-xs font-medium text-slate-200 truncate">{asset.name}</p>
-                            <p className="text-[10px] font-mono text-slate-500">{asset.duration}s • {asset.fps}fps</p>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => addAssetToTimeline(asset)}
-                          className="p-1 rounded bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500 hover:text-slate-950 transition"
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* TRANSFORM & MOTION PANEL */}
-            {activeTab === 'transform' && selectedClipData && (
-              <div className="space-y-3 bg-slate-800/30 p-3 rounded-lg border border-slate-700/50">
-                <h4 className="text-xs font-semibold text-cyan-400">Position & Transform Gizmo</h4>
-                
-                <div>
-                  <div className="flex justify-between text-[11px] text-slate-400 mb-1">
-                    <span>Scale / Zoom</span>
-                    <span>{Math.round((selectedClipData.scale || 1) * 100)}%</span>
-                  </div>
-                  <input
-                    type="range" min="0.1" max="3" step="0.05"
-                    value={selectedClipData.scale || 1}
-                    onChange={e => updateSelectedClip({ scale: Number(e.target.value) })}
-                    className="w-full accent-cyan-500"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-[11px] text-slate-400 mb-1">
-                    <span>Rotation</span>
-                    <span>{selectedClipData.rotation || 0}°</span>
-                  </div>
-                  <input
-                    type="range" min="-180" max="180"
-                    value={selectedClipData.rotation || 0}
-                    onChange={e => updateSelectedClip({ rotation: Number(e.target.value) })}
-                    className="w-full accent-cyan-500"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="text-[10px] text-slate-400 block mb-1">Position X</label>
-                    <input
-                      type="number" value={selectedClipData.posX || 0}
-                      onChange={e => updateSelectedClip({ posX: Number(e.target.value) })}
-                      className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[10px] text-slate-400 block mb-1">Position Y</label>
-                    <input
-                      type="number" value={selectedClipData.posY || 0}
-                      onChange={e => updateSelectedClip({ posY: Number(e.target.value) })}
-                      className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Composite Blend Mode</label>
-                  <select
-                    value={selectedClipData.blendMode || 'normal'}
-                    onChange={e => updateSelectedClip({ blendMode: e.target.value })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-200"
-                  >
-                    <option value="normal">Normal</option>
-                    <option value="screen">Screen</option>
-                    <option value="multiply">Multiply</option>
-                    <option value="overlay">Overlay</option>
-                  </select>
-                </div>
-              </div>
-            )}
-
-            {/* COLOR GRADING & HSL PANEL */}
-            {activeTab === 'color' && selectedClipData && (
-              <div className="space-y-4">
-                <div className="space-y-3 bg-slate-800/30 p-3 rounded-lg border border-slate-700/50">
-                  <h4 className="text-xs font-semibold text-cyan-400">Color Wheels (Lift, Gamma, Gain)</h4>
-                  
-                  <div>
-                    <span className="text-[11px] text-slate-400 block mb-1">LUT Preset Loader</span>
-                    <select
-                      value={selectedClipData.filterPreset || 'Rec.709 Standard'}
-                      onChange={e => updateSelectedClip({ filterPreset: e.target.value })}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-200"
-                    >
-                      {FILTER_PRESETS.map(p => (
-                        <option key={p.name} value={p.name}>{p.name}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between text-[11px] text-slate-400 mb-1">
-                      <span>Brightness</span>
-                      <span>{selectedClipData.brightness || 100}%</span>
-                    </div>
-                    <input
-                      type="range" min="0" max="200"
-                      value={selectedClipData.brightness || 100}
-                      onChange={e => updateSelectedClip({ brightness: Number(e.target.value) })}
-                      className="w-full accent-cyan-500"
-                    />
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between text-[11px] text-slate-400 mb-1">
-                      <span>Saturation</span>
-                      <span>{selectedClipData.saturation || 100}%</span>
-                    </div>
-                    <input
-                      type="range" min="0" max="200"
-                      value={selectedClipData.saturation || 100}
-                      onChange={e => updateSelectedClip({ saturation: Number(e.target.value) })}
-                      className="w-full accent-cyan-500"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* AI KEYING & REMOVAL PANEL */}
-            {activeTab === 'ai_keying' && selectedClipData && (
-              <div className="space-y-3 bg-slate-800/30 p-3 rounded-lg border border-slate-700/50">
-                <h4 className="text-xs font-semibold text-cyan-400">Ultra Keyer & Green Screen</h4>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-300">Enable Chroma Key</span>
-                  <input
-                    type="checkbox"
-                    checked={selectedClipData.chromaKeyEnabled || false}
-                    onChange={e => updateSelectedClip({ chromaKeyEnabled: e.target.checked })}
-                    className="accent-cyan-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[10px] text-slate-400 block mb-1">Key Color</label>
-                  <input
-                    type="color"
-                    value={selectedClipData.keyColor || '#00ff00'}
-                    onChange={e => updateSelectedClip({ keyColor: e.target.value })}
-                    className="w-full h-8 bg-slate-900 border border-slate-700 rounded p-0.5 cursor-pointer"
-                  />
-                </div>
-
-                <div className="pt-2 border-t border-slate-800 space-y-2">
-                  <h5 className="text-[11px] font-semibold text-slate-400">AI Assist Tools</h5>
-                  <button
-                    onClick={() => updateSelectedClip({ aiBackgroundRemoved: !selectedClipData.aiBackgroundRemoved })}
-                    className={`w-full py-1.5 rounded text-xs border transition ${
-                      selectedClipData.aiBackgroundRemoved ? 'bg-cyan-950 border-cyan-500 text-cyan-300' : 'border-slate-700 text-slate-400'
-                    }`}
-                  >
-                    AI Background Isolator
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* DAW AUDIO MIXER PANEL */}
-            {activeTab === 'audio' && selectedClipData && (
-              <div className="space-y-3 bg-slate-800/30 p-3 rounded-lg border border-slate-700/50">
-                <h4 className="text-xs font-semibold text-cyan-400">Parametric Audio EQ & Ducking</h4>
-                
-                <div>
-                  <div className="flex justify-between text-[11px] text-slate-400 mb-1">
-                    <span>Gain Volume</span>
-                    <span>{Math.round((selectedClipData.volume ?? 1) * 100)}%</span>
-                  </div>
-                  <input
-                    type="range" min="0" max="2" step="0.05"
-                    value={selectedClipData.volume ?? 1}
-                    onChange={e => updateSelectedClip({ volume: Number(e.target.value) })}
-                    className="w-full accent-cyan-500"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-[11px] text-slate-400 mb-1">
-                    <span>Pan / Balance</span>
-                    <span>{selectedClipData.pan || 0}</span>
-                  </div>
-                  <input
-                    type="range" min="-1" max="1" step="0.1"
-                    value={selectedClipData.pan || 0}
-                    onChange={e => updateSelectedClip({ pan: Number(e.target.value) })}
-                    className="w-full accent-cyan-500"
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* KINETIC TEXT PANEL */}
-            {activeTab === 'text' && (
-              <div className="space-y-3">
-                <button
-                  onClick={addKineticText}
-                  className="w-full py-2 bg-cyan-600/20 border border-cyan-500/50 text-cyan-300 rounded-lg text-xs font-semibold flex items-center justify-center gap-2"
-                >
-                  <Plus className="w-4 h-4" /> Add Kinetic Subtitle
-                </button>
-
-                {selectedClipData && selectedClipData.type === 'text' && (
-                  <div className="space-y-3 bg-slate-800/30 p-3 rounded-lg border border-slate-700/50">
-                    <h4 className="text-xs font-semibold text-cyan-400">Typography Settings</h4>
-                    <input
-                      type="text"
-                      value={selectedClipData.text || ''}
-                      onChange={e => updateSelectedClip({ text: e.target.value })}
-                      className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs"
-                    />
-                    <div className="grid grid-cols-2 gap-2">
-                      <input
-                        type="color"
-                        value={selectedClipData.color || '#38bdf8'}
-                        onChange={e => updateSelectedClip({ color: e.target.value })}
-                        className="w-full h-8 bg-slate-900 border border-slate-700 rounded p-0.5"
-                      />
-                      <input
-                        type="number"
-                        value={selectedClipData.fontSize || 52}
-                        onChange={e => updateSelectedClip({ fontSize: Number(e.target.value) })}
-                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* EXPORT PANEL */}
-            {activeTab === 'export' && (
-              <div className="space-y-3 bg-slate-800/30 p-3 rounded-lg border border-slate-700/50">
-                <h4 className="text-xs font-semibold text-cyan-400">Batch Render Config</h4>
-                <div>
-                  <label className="text-[10px] text-slate-400 block mb-1">Resolution Scaler</label>
-                  <select
-                    value={exportSettings.resolution}
-                    onChange={e => setExportSettings(s => ({ ...s, resolution: e.target.value }))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-200"
-                  >
-                    <option value="4K">4K UHD (3840x2160)</option>
-                    <option value="1080p">1080p Full HD (1920x1080)</option>
-                    <option value="720p">720p HD (1280x720)</option>
-                  </select>
-                </div>
-                <button
-                  onClick={triggerExport}
-                  className="w-full py-2 bg-gradient-to-r from-cyan-500 to-blue-600 font-bold text-slate-950 rounded text-xs transition"
-                >
-                  Start Batch Export
-                </button>
-              </div>
-            )}
-
-          </div>
-        </div>
-
-        {/* CENTER VIEWPORT & SCOPES */}
-        <div className="flex-1 bg-slate-950 flex flex-col justify-between p-3 relative overflow-hidden">
-          
-          {/* TOP CANVAS CONTROLS */}
-          <div className="w-full flex items-center justify-between px-2 text-xs text-slate-400">
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-cyan-400 bg-slate-900 px-2 py-1 rounded border border-slate-800">
-                {formatTimecode(currentTime)}
-              </span>
-              <span className="text-slate-600">/</span>
-              <span className="font-mono text-slate-500">{formatTimecode(duration)}</span>
-            </div>
-
-            <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800">
-              {['16:9', '9:16', '1:1', '4:3'].map(ratio => (
-                <button
-                  key={ratio}
-                  onClick={() => setAspectRatio(ratio)}
-                  className={`px-2 py-0.5 rounded text-[11px] ${aspectRatio === ratio ? 'bg-slate-800 text-cyan-400 font-semibold' : 'text-slate-500'}`}
-                >
-                  {ratio}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* CANVAS PREVIEW AREA */}
-          <div className="flex-1 flex items-center justify-center w-full my-2 relative">
-            <div
-              className={`relative border border-slate-800 rounded-lg overflow-hidden shadow-2xl bg-black flex items-center justify-center transition-all ${
-                aspectRatio === '9:16' ? 'aspect-[9/16] h-full max-h-[460px]' :
-                aspectRatio === '1:1' ? 'aspect-square h-full max-h-[460px]' :
-                aspectRatio === '4:3' ? 'aspect-[4/3] h-full max-h-[460px]' :
-                'aspect-video w-full max-w-[800px]'
-              }`}
-            >
-              <canvas ref={canvasRef} width={1280} height={720} className="w-full h-full object-contain" />
-            </div>
-
-            {/* SCOPES OVERLAY DRAWER */}
-            {showScopes && (
-              <div className="absolute right-4 top-4 bg-slate-900/90 border border-slate-800 rounded-lg p-2 w-48 space-y-2 backdrop-blur">
-                <span className="text-[10px] font-mono text-cyan-400 block border-b border-slate-800 pb-1">WAVEFORM SCOPE</span>
-                <div className="h-20 bg-slate-950 rounded flex items-end justify-between px-1 py-1">
-                  {Array.from({ length: 16 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-1.5 bg-gradient-to-t from-blue-500 via-cyan-400 to-emerald-400 rounded-t"
-                      style={{ height: `${Math.sin(i + currentTime) * 40 + 50}%` }}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* PLAYER TOOLBAR */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-1.5 flex items-center justify-center gap-4 shadow-lg self-center">
-            <button onClick={() => setCurrentTime(0)} className="text-slate-400 hover:text-white">
-              <SkipBack className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="p-2 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold"
-            >
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
-            </button>
-            <button onClick={() => setCurrentTime(duration)} className="text-slate-400 hover:text-white">
-              <SkipForward className="w-4 h-4" />
-            </button>
-            <div className="h-4 w-px bg-slate-800" />
-            <button
-              onClick={() => setLoopPlayback(!loopPlayback)}
-              className={`p-1 rounded ${loopPlayback ? 'text-cyan-400' : 'text-slate-500'}`}
-              title="Loop Playback"
-            >
-              <Repeat className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-        </div>
-      </div>
-
-      {/* MULTI-TRACK INTERACTIVE TIMELINE */}
-      <div className="h-60 bg-slate-900 border-t border-slate-800 flex flex-col z-10">
-        
-        {/* TIMELINE TOOLBAR */}
-        <div className="h-9 border-b border-slate-800 px-3 flex items-center justify-between bg-slate-950/60 text-xs">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleSplitClip}
-              disabled={!selectedClipId}
-              className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 disabled:opacity-40 flex items-center gap-1"
-            >
-              <Scissors className="w-3 h-3" />
-              <span>Split (S)</span>
-            </button>
-            <button
-              onClick={() => setSnapping(!snapping)}
-              className={`px-2 py-1 rounded border ${snapping ? 'bg-cyan-950 border-cyan-500 text-cyan-300' : 'border-slate-800 text-slate-500'}`}
-            >
-              Snapping
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <ZoomOut className="w-3.5 h-3.5 text-slate-500" />
-            <input
-              type="range" min="8" max="35" value={zoomLevel}
-              onChange={e => setZoomLevel(Number(e.target.value))}
-              className="w-24 accent-cyan-500"
-            />
-            <ZoomIn className="w-3.5 h-3.5 text-slate-500" />
-          </div>
-        </div>
-
-        {/* TIMELINE TRACK LANES */}
-        <div className="flex-1 flex overflow-x-auto relative">
-          
-          {/* TRACK HEADERS */}
-          <div className="w-44 bg-slate-900 border-r border-slate-800 sticky left-0 z-20 flex-shrink-0">
-            <div className="h-5 border-b border-slate-800 bg-slate-950 px-2 text-[9px] font-mono text-slate-500 flex items-center">
-              TRACK HEADERS
-            </div>
-            {tracks.map(track => (
-              <div key={track.id} className="h-8 border-b border-slate-800/80 px-2 flex items-center justify-between text-[11px] text-slate-300">
-                <span className="truncate font-medium">{track.name}</span>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => setTracks(tracks.map(t => t.id === track.id ? { ...t, muted: !t.muted } : t))}
-                    className={`p-0.5 rounded ${track.muted ? 'text-red-400' : 'text-slate-500'}`}
-                  >
-                    <VolumeX className="w-3 h-3" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* TIMELINE TRACK CLIPS */}
-          <div
-            className="flex-1 relative min-w-[1000px]"
-            onClick={e => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              setCurrentTime(Math.max(0, (e.clientX - rect.left) / zoomLevel));
-            }}
-          >
-            {/* RULER */}
-            <div className="h-5 border-b border-slate-800 bg-slate-950 relative">
-              {Array.from({ length: Math.ceil(duration) }).map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute top-0 bottom-0 border-l border-slate-800/80 text-[8px] font-mono text-slate-600 pl-0.5"
-                  style={{ left: `${i * zoomLevel}px` }}
-                >
-                  {i % 5 === 0 ? `${i}s` : ''}
-                </div>
-              ))}
-            </div>
-
-            {/* CLIPS */}
-            {tracks.map(track => (
-              <div key={track.id} className="h-8 border-b border-slate-800/80 relative">
-                {track.clips.map(clip => {
-                  const isSelected = selectedClipId === clip.id;
-                  return (
-                    <div
-                      key={clip.id}
-                      onClick={e => { e.stopPropagation(); setSelectedClipId(clip.id); }}
-                      className={`absolute top-0.5 bottom-0.5 rounded border text-[10px] px-1.5 flex items-center justify-between cursor-pointer transition overflow-hidden ${
-                        isSelected
-                          ? 'border-cyan-400 bg-cyan-950 text-cyan-200 ring-1 ring-cyan-400'
-                          : clip.type === 'video'
-                          ? 'border-blue-700/60 bg-blue-950/60 text-blue-200'
-                          : clip.type === 'audio'
-                          ? 'border-emerald-700/60 bg-emerald-950/60 text-emerald-200'
-                          : 'border-purple-700/60 bg-purple-950/60 text-purple-200'
-                      }`}
-                      style={{
-                        left: `${clip.start * zoomLevel}px`,
-                        width: `${clip.duration * zoomLevel}px`
-                      }}
-                    >
-                      <span className="truncate font-medium">{clip.name || clip.text}</span>
-                      <span className="text-[8px] font-mono opacity-70 ml-1">{Math.round(clip.duration)}s</span>
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-
-            {/* PLAYHEAD */}
-            <div
-              className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-30 pointer-events-none"
-              style={{ left: `${currentTime * zoomLevel}px` }}
-            >
-              <div className="w-2.5 h-2.5 bg-red-500 rotate-45 -ml-1 -mt-0.5" />
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      {/* EXPORT MODAL */}
-      {isExporting && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full space-y-4 text-center shadow-2xl">
-            <h3 className="text-base font-bold text-slate-100">Rendering Batch Output</h3>
-            <div className="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden border border-slate-800">
-              <div className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full transition-all duration-150" style={{ width: `${exportProgress}%` }} />
-            </div>
-            <p className="text-xs font-mono text-cyan-400">{exportProgress}% Rendered</p>
-
-            {renderedBlobUrl && (
-              <a
-                href={renderedBlobUrl}
-                download="NexusStudio_Rendered.webm"
-                className="w-full py-2 bg-emerald-600 text-white font-semibold rounded text-xs block text-center shadow"
-              >
-                Download Rendered Video
-              </a>
-            )}
-
-            <button onClick={() => setIsExporting(false)} className="text-xs text-slate-500 hover:text-slate-300">
-              Close Window
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* SHORTCUTS MODAL */}
-      {showShortcutsModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 max-w-sm w-full space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <h3 className="text-xs font-bold text-slate-100">Keyboard Hotkeys</h3>
-              <button onClick={() => setShowShortcutsModal(false)} className="text-slate-400 hover:text-white">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="space-y-1.5 text-xs text-slate-300">
-              <div className="flex justify-between"><span>Selection Tool</span><kbd className="bg-slate-800 px-1 rounded text-[10px]">V</kbd></div>
-              <div className="flex justify-between"><span>Blade Cut</span><kbd className="bg-slate-800 px-1 rounded text-[10px]">B / S</kbd></div>
-              <div className="flex justify-between"><span>Play / Pause</span><kbd className="bg-slate-800 px-1 rounded text-[10px]">Space</kbd></div>
-              <div className="flex justify-between"><span>Undo Action</span><kbd className="bg-slate-800 px-1 rounded text-[10px]">Ctrl + Z</kbd></div>
-            </div>
-          </div>
-        </div>
-      )}
-
     </div>
-  );
-}
+
+    <!-- Sticky Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <!-- Logo -->
+            <a href="#/" class="flex items-center space-x-2 shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white font-black text-xl shadow-md">
+                    A
+                </div>
+                <span class="font-extrabold text-2xl tracking-tight hidden sm:inline-block">
+                    Apex<span class="text-indigo-600 dark:text-indigo-400">Mart</span>
+                </span>
+            </a>
+
+            <!-- Search Bar with Predictive Live Search -->
+            <div class="relative flex-1 max-w-md hidden md:block">
+                <div class="relative">
+                    <input type="text" id="globalSearchInput" placeholder="Search products, brands, categories..." class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 text-sm outline-none transition-all">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                    <button id="clearSearchBtn" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+                <!-- Search Live Results Box -->
+                <div id="searchResultsBox" class="hidden absolute top-full left-0 w-full mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden z-50 max-h-96 overflow-y-auto"></div>
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center space-x-6 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                <a href="#/" class="hover:text-indigo-600 dark:hover:text-indigo-400">Home</a>
+                <a href="#/products" class="hover:text-indigo-600 dark:hover:text-indigo-400">Shop</a>
+                <a href="#/services" class="hover:text-indigo-600 dark:hover:text-indigo-400">Services</a>
+                <a href="#/track-order" class="hover:text-indigo-600 dark:hover:text-indigo-400">Track Order</a>
+                <a href="#/about" class="hover:text-indigo-600 dark:hover:text-indigo-400">About</a>
+                <a href="#/admin" class="hover:text-indigo-600 dark:hover:text-indigo-400 text-xs px-2.5 py-1 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">Admin</a>
+            </nav>
+
+            <!-- Actions (Theme, Account, Wishlist, Cart) -->
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <!-- Dark Mode Toggle -->
+                <button id="themeToggle" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <i class="fa-solid fa-moon text-base dark:hidden"></i>
+                    <i class="fa-solid fa-sun text-base hidden dark:block"></i>
+                </button>
+
+                <!-- Account -->
+                <a href="#/account" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors relative" title="Account">
+                    <i class="fa-regular fa-user text-base"></i>
+                </a>
+
+                <!-- Wishlist Badge -->
+                <a href="#/account?tab=wishlist" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors relative hidden sm:flex" title="Wishlist">
+                    <i class="fa-regular fa-heart text-base"></i>
+                    <span id="wishlistBadge" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">0</span>
+                </a>
+
+                <!-- Shopping Cart -->
+                <a href="#/cart" class="p-2.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-colors relative flex items-center space-x-2 px-3 sm:px-4 shadow-md shadow-indigo-500/20">
+                    <i class="fa-solid fa-bag-shopping text-base"></i>
+                    <span id="cartCountBadge" class="font-bold text-xs bg-white text-indigo-600 px-1.5 py-0.5 rounded-full">0</span>
+                </a>
+
+                <!-- Mobile Menu Hamburger -->
+                <button id="mobileNavToggle" class="lg:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileDrawer" class="hidden lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-4 space-y-3">
+            <div class="mb-3">
+                <input type="text" id="mobileSearchInput" placeholder="Search products..." class="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-transparent text-sm outline-none">
+            </div>
+            <a href="#/" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Home</a>
+            <a href="#/products" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Shop Catalog</a>
+            <a href="#/services" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Services & Branding</a>
+            <a href="#/track-order" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Track Order</a>
+            <a href="#/policies" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Legal & Policies</a>
+            <a href="#/about" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">About Us</a>
+            <a href="#/admin" class="mobile-nav-link block py-2 font-medium text-indigo-600 dark:text-indigo-400">Admin Control Panel</a>
+        </div>
+    </header>
+
+    <!-- MAIN VIEW CONTAINER (DYNAMIC ROUTING TARGET) -->
+    <main id="appView" class="flex-grow">
+        <!-- Rendered dynamically via JavaScript Router -->
+    </main>
+
+    <!-- Footers Column Structure -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-20 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+                <!-- Column 1: Store Bio -->
+                <div class="space-y-4 lg:col-span-1">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">A</div>
+                        <span class="font-bold text-xl">ApexMart</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Your one-stop premium destination for flagship electronics, fashion, and lifestyle products with instant nationwide shipping.
+                    </p>
+                    <div class="flex space-x-3 text-slate-400">
+                        <a href="#" class="hover:text-indigo-600"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="hover:text-indigo-600"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="hover:text-indigo-600"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="hover:text-indigo-600"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div>
+                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-900 dark:text-slate-100">Quick Links</h4>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                        <li><a href="#/" class="hover:text-indigo-600">Home</a></li>
+                        <li><a href="#/products" class="hover:text-indigo-600">All Products Catalog</a></li>
+                        <li><a href="#/products?category=Electronics" class="hover:text-indigo-600">Featured Electronics</a></li>
+                        <li><a href="#/services" class="hover:text-indigo-600">Custom Branding Services</a></li>
+                        <li><a href="#/about" class="hover:text-indigo-600">Our Story & Mission</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Customer Service -->
+                <div>
+                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-900 dark:text-slate-100">Customer Support</h4>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                        <li><a href="#/track-order" class="hover:text-indigo-600">Track Your Order</a></li>
+                        <li><a href="#/account" class="hover:text-indigo-600">My Account & Orders</a></li>
+                        <li><a href="#/cart" class="hover:text-indigo-600">View Shopping Cart</a></li>
+                        <li><a href="#/policies?tab=faq" class="hover:text-indigo-600">Help Center & FAQ</a></li>
+                        <li><a href="#/policies?tab=returns" class="hover:text-indigo-600">Returns & Exchanges</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Policies -->
+                <div>
+                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-900 dark:text-slate-100">Store Policies</h4>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                        <li><a href="#/policies?tab=privacy" class="hover:text-indigo-600">Privacy Policy</a></li>
+                        <li><a href="#/policies?tab=terms" class="hover:text-indigo-600">Terms & Conditions</a></li>
+                        <li><a href="#/policies?tab=shipping" class="hover:text-indigo-600">Shipping Policy</a></li>
+                        <li><a href="#/policies?tab=cookies" class="hover:text-indigo-600">Cookie Preferences</a></li>
+                        <li><a href="#/policies?tab=warranty" class="hover:text-indigo-600">Warranty Disclaimer</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 5: Contact Info -->
+                <div>
+                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-900 dark:text-slate-100">Contact Info</h4>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-location-dot mt-0.5 text-indigo-600"></i>
+                            <span>123 Innovation Boulevard, Tech City, Pakistan</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fa-solid fa-phone text-indigo-600"></i>
+                            <span>+92 (300) 123-4567</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fa-solid fa-envelope text-indigo-600"></i>
+                            <span>support@apexmart.com</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fa-solid fa-clock text-indigo-600"></i>
+                            <span>Mon - Sat: 9:00 AM - 9:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-4">
+                <p>&copy; 2026 ApexMart Inc. All rights reserved. Built with precision and performance.</p>
+                <div class="flex items-center space-x-4 text-lg text-slate-400">
+                    <i class="fa-brands fa-cc-visa hover:text-slate-600 dark:hover:text-slate-200"></i>
+                    <i class="fa-brands fa-cc-mastercard hover:text-slate-600 dark:hover:text-slate-200"></i>
+                    <i class="fa-brands fa-cc-paypal hover:text-slate-600 dark:hover:text-slate-200"></i>
+                    <i class="fa-solid fa-money-bill-transfer hover:text-slate-600 dark:hover:text-slate-200" title="Cash on Delivery"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Core Logic -->
+    <script>
+        /**
+         * State & Mock Database Initialization
+         */
+        const INITIAL_PRODUCTS = [
+            {
+                id: "prod-1",
+                name: "Apex Ultra Pro Wireless Noise-Cancelling Headphones",
+                category: "Electronics",
+                pricePKR: 24999,
+                priceUSD: 89,
+                oldPricePKR: 32000,
+                oldPriceUSD: 115,
+                rating: 4.8,
+                reviewsCount: 142,
+                sku: "APX-AUD-01",
+                stock: 18,
+                featured: true,
+                bestSeller: true,
+                newArrival: true,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80"
+                ],
+                description: "Experience world-class active noise cancellation with crystal clear acoustic precision. Designed with ergonomic memory foam cushions for all-day comfort.",
+                colors: ["Matte Black", "Silver Gray", "Midnight Blue"],
+                sizes: ["Standard"]
+            },
+            {
+                id: "prod-2",
+                name: "Minimalist Ergonomic Executive Chronograph Watch",
+                category: "Fashion",
+                pricePKR: 18500,
+                priceUSD: 65,
+                oldPricePKR: 22000,
+                oldPriceUSD: 80,
+                rating: 4.6,
+                reviewsCount: 89,
+                sku: "APX-WTC-09",
+                stock: 12,
+                featured: true,
+                bestSeller: false,
+                newArrival: true,
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
+                ],
+                description: "Sleek stainless steel watch case paired with genuine Italian leather strap. Water-resistant up to 50 meters.",
+                colors: ["Rose Gold", "Silver Stainless", "Obsidian Black"],
+                sizes: ["40mm", "44mm"]
+            },
+            {
+                id: "prod-3",
+                name: "NextGen Mechanical Gaming Keyboard (RGB)",
+                category: "Electronics",
+                pricePKR: 14999,
+                priceUSD: 52,
+                oldPricePKR: 18000,
+                oldPriceUSD: 65,
+                rating: 4.9,
+                reviewsCount: 210,
+                sku: "APX-KBD-44",
+                stock: 25,
+                featured: false,
+                bestSeller: true,
+                newArrival: false,
+                image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80"
+                ],
+                description: "Ultra-responsive tactile mechanical switches with custom programmable per-key RGB backlighting and durable PBT keycaps.",
+                colors: ["Black RGB", "Retro White"],
+                sizes: ["Full 104-Key", "Tenkeyless 80%"]
+            },
+            {
+                id: "prod-4",
+                name: "Premium Waterproof Urban Commuter Backpack",
+                category: "Accessories",
+                pricePKR: 8999,
+                priceUSD: 32,
+                oldPricePKR: 12000,
+                oldPriceUSD: 42,
+                rating: 4.7,
+                reviewsCount: 64,
+                sku: "APX-BAG-03",
+                stock: 8,
+                featured: true,
+                bestSeller: true,
+                newArrival: false,
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
+                ],
+                description: "Built with high-density ballistic nylon, anti-theft hidden zippers, and built-in USB charging port extension.",
+                colors: ["Charcoal Gray", "Olive Green"],
+                sizes: ["20L Capacity", "30L Extended"]
+            },
+            {
+                id: "prod-5",
+                name: "Smart Fitness Health Tracker Watch V2",
+                category: "Electronics",
+                pricePKR: 11500,
+                priceUSD: 40,
+                oldPricePKR: 15000,
+                oldPriceUSD: 52,
+                rating: 4.5,
+                reviewsCount: 95,
+                sku: "APX-SMT-11",
+                stock: 30,
+                featured: false,
+                bestSeller: false,
+                newArrival: true,
+                image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=800&q=80"
+                ],
+                description: "Continuous heart rate tracking, SpO2 blood oxygen sensor, AMOLED display, and 14-day battery life.",
+                colors: ["Graphite", "Coral Pink"],
+                sizes: ["Standard Fit"]
+            },
+            {
+                id: "prod-6",
+                name: "High-Resolution Studio Monitor Speakers (Pair)",
+                category: "Electronics",
+                pricePKR: 38999,
+                priceUSD: 139,
+                oldPricePKR: 45000,
+                oldPriceUSD: 160,
+                rating: 4.9,
+                reviewsCount: 38,
+                sku: "APX-SPK-88",
+                stock: 5,
+                featured: true,
+                bestSeller: false,
+                newArrival: false,
+                image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80"
+                ],
+                description: "Flat-frequency response audio drivers engineered for audio producers, sound designers, and audiophiles.",
+                colors: ["Walnut Wood", "Matte Black"],
+                sizes: ["5-inch", "8-inch"]
+            }
+        ];
+
+        // Persistent State Holders
+        let appState = {
+            products: JSON.parse(localStorage.getItem('apex_products')) || INITIAL_PRODUCTS,
+            cart: JSON.parse(localStorage.getItem('apex_cart')) || [],
+            wishlist: JSON.parse(localStorage.getItem('apex_wishlist')) || [],
+            orders: JSON.parse(localStorage.getItem('apex_orders')) || [
+                {
+                    id: "ORD-98421",
+                    date: "2026-03-28",
+                    totalPKR: 24999,
+                    totalUSD: 89,
+                    status: "Dispatched",
+                    items: [{ name: "Apex Ultra Pro Headphones", qty: 1, pricePKR: 24999, priceUSD: 89 }],
+                    customer: { name: "Ahmed Khan", phone: "+92 300 1234567", city: "Lahore" }
+                }
+            ],
+            user: JSON.parse(localStorage.getItem('apex_user')) || {
+                isLoggedIn: true,
+                name: "Ahmed Khan",
+                email: "ahmed@example.com",
+                phone: "+92 300 1234567",
+                address: "House 45, Street 12, Gulberg III",
+                city: "Lahore"
+            },
+            currency: localStorage.getItem('apex_currency') || 'PKR',
+            appliedCoupon: null
+        };
+
+        // Save State Helper
+        function saveState() {
+            localStorage.setItem('apex_products', JSON.stringify(appState.products));
+            localStorage.setItem('apex_cart', JSON.stringify(appState.cart));
+            localStorage.setItem('apex_wishlist', JSON.stringify(appState.wishlist));
+            localStorage.setItem('apex_orders', JSON.stringify(appState.orders));
+            localStorage.setItem('apex_user', JSON.stringify(appState.user));
+            localStorage.setItem('apex_currency', appState.currency);
+            updateBadges();
+        }
+
+        // Format Currency Helper
+        function formatPrice(pkr, usd) {
+            if (appState.currency === 'USD') {
+                return `$${usd.toLocaleString()}`;
+            }
+            return `Rs. ${pkr.toLocaleString()}`;
+        }
+
+        // Notification Toast Generator
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            const bgClass = type === 'success' ? 'bg-emerald-600 text-white' : 'bg-indigo-600 text-white';
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-info';
+
+            toast.className = `toast flex items-center space-x-3 px-5 py-3 rounded-xl shadow-2xl ${bgClass} font-medium text-sm`;
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
+        }
+
+        // Dynamic Badges Update
+        function updateBadges() {
+            const cartBadge = document.getElementById('cartCountBadge');
+            const wishBadge = document.getElementById('wishlistBadge');
+            
+            const cartTotalQty = appState.cart.reduce((sum, item) => sum + item.qty, 0);
+            cartBadge.textContent = cartTotalQty;
+            wishBadge.textContent = appState.wishlist.length;
+        }
+
+        /**
+         * ROUTER LOGIC
+         */
+        function handleRoute() {
+            const hash = window.location.hash || '#/';
+            const appView = document.getElementById('appView');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Close Mobile Menu if open
+            document.getElementById('mobileDrawer').classList.add('hidden');
+
+            // Parse Hash Path
+            const [path, queryString] = hash.split('?');
+            const queryParams = new URLSearchParams(queryString || '');
+
+            if (path === '#/' || path === '') {
+                renderHomeView(appView);
+            } else if (path === '#/products') {
+                renderCatalogView(appView, queryParams);
+            } else if (path.startsWith('#/product/')) {
+                const productId = path.replace('#/product/', '');
+                renderProductDetailsView(appView, productId);
+            } else if (path === '#/services') {
+                renderServicesView(appView);
+            } else if (path === '#/cart') {
+                renderCartView(appView);
+            } else if (path === '#/checkout') {
+                renderCheckoutView(appView);
+            } else if (path === '#/account') {
+                renderAccountView(appView, queryParams);
+            } else if (path === '#/admin') {
+                renderAdminView(appView);
+            } else if (path === '#/track-order') {
+                renderTrackOrderView(appView, queryParams);
+            } else if (path === '#/policies') {
+                renderPoliciesView(appView, queryParams);
+            } else if (path === '#/about') {
+                renderAboutView(appView);
+            } else {
+                renderNotFoundView(appView);
+            }
+        }
+
+        window.addEventListener('hashchange', handleRoute);
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currencySelect').value = appState.currency;
+            updateBadges();
+            handleRoute();
+        });
+
+        // Currency Toggle Listener
+        document.getElementById('currencySelect').addEventListener('change', (e) => {
+            appState.currency = e.target.value;
+            saveState();
+            handleRoute();
+            showToast(`Currency updated to ${appState.currency}`);
+        });
+
+        // Theme Toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+
+        // Mobile Nav Hamburger Toggle
+        document.getElementById('mobileNavToggle').addEventListener('click', () => {
+            document.getElementById('mobileDrawer').classList.toggle('hidden');
+        });
+
+        /**
+         * PREDICTIVE LIVE SEARCH LOGIC
+         */
+        const searchInput = document.getElementById('globalSearchInput');
+        const searchBox = document.getElementById('searchResultsBox');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length === 0) {
+                searchBox.classList.add('hidden');
+                return;
+            }
+
+            const matches = appState.products.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.category.toLowerCase().includes(query)
+            );
+
+            if (matches.length === 0) {
+                searchBox.innerHTML = `<div class="p-4 text-xs text-slate-500 text-center">No products found for "${query}"</div>`;
+            } else {
+                searchBox.innerHTML = matches.map(p => `
+                    <a href="#/product/${p.id}" class="search-result-item flex items-center space-x-3 p-3 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-100 dark:border-slate-800 transition-colors">
+                        <img src="${p.image}" class="w-10 h-10 object-cover rounded-lg">
+                        <div class="flex-grow">
+                            <h5 class="text-xs font-bold text-slate-800 dark:text-slate-100 line-clamp-1">${p.name}</h5>
+                            <span class="text-[11px] text-indigo-600 font-semibold">${formatPrice(p.pricePKR, p.priceUSD)}</span>
+                        </div>
+                    </a>
+                `).join('');
+            }
+            searchBox.classList.remove('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !searchBox.contains(e.target)) {
+                searchBox.classList.add('hidden');
+            }
+        });
+
+        /**
+         * VIEW RENDERERS
+         */
+
+        // 1. HOME VIEW
+        function renderHomeView(container) {
+            const featuredProds = appState.products.filter(p => p.featured);
+            const bestSellers = appState.products.filter(p => p.bestSeller);
+
+            container.innerHTML = `
+                <!-- Hero Section -->
+                <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-indigo-50/50 to-transparent dark:from-slate-900/50">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div class="space-y-6 text-center lg:text-left">
+                                <span class="inline-block px-3.5 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider">
+                                    🔥 Flagship Collection 2026
+                                </span>
+                                <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+                                    Next Generation <br/>
+                                    <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">Premium Products</span>
+                                </h1>
+                                <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+                                    Discover engineered elegance. Shop high-performance gadgets, luxury fashion gear, and everyday lifestyle essentials delivered directly to your doorstep.
+                                </p>
+                                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                                    <a href="#/products" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-xl shadow-indigo-500/30 transition-all text-center">
+                                        Shop All Products <i class="fa-solid fa-arrow-right ml-2"></i>
+                                    </a>
+                                    <a href="#/services" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold hover:bg-slate-50 transition-all text-center">
+                                        Custom Branding
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="relative">
+                                <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/50 dark:border-slate-800">
+                                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80" class="w-full h-[400px] sm:h-[480px] object-cover">
+                                    <div class="absolute bottom-6 left-6 right-6 p-6 glass-card rounded-2xl flex items-center justify-between">
+                                        <div>
+                                            <span class="text-xs font-bold text-indigo-600">Featured Product</span>
+                                            <h4 class="font-bold text-base text-slate-900 dark:text-white">Apex Ultra Pro Headphones</h4>
+                                        </div>
+                                        <a href="#/product/prod-1" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700">View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Featured Categories -->
+                <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-2xl font-extrabold mb-8 text-center sm:text-left">Shop by Popular Categories</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                        <a href="#/products?category=Electronics" class="group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all text-center">
+                            <div class="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-plug"></i>
+                            </div>
+                            <h3 class="font-bold text-sm">Electronics</h3>
+                            <p class="text-xs text-slate-500 mt-1">Gadgets & Tech</p>
+                        </a>
+                        <a href="#/products?category=Fashion" class="group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all text-center">
+                            <div class="w-14 h-14 rounded-2xl bg-pink-50 dark:bg-pink-950 text-pink-600 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-shirt"></i>
+                            </div>
+                            <h3 class="font-bold text-sm">Fashion</h3>
+                            <p class="text-xs text-slate-500 mt-1">Watches & Wearables</p>
+                        </a>
+                        <a href="#/products?category=Accessories" class="group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all text-center">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-bag-shopping"></i>
+                            </div>
+                            <h3 class="font-bold text-sm">Accessories</h3>
+                            <p class="text-xs text-slate-500 mt-1">Backpacks & Storage</p>
+                        </a>
+                        <a href="#/products" class="group p-6 rounded-2xl bg-indigo-600 text-white transition-all text-center flex flex-col items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-xl mb-2">
+                                <i class="fa-solid fa-grid-2"></i>
+                            </div>
+                            <h3 class="font-bold text-sm">Explore All</h3>
+                            <p class="text-xs opacity-80 mt-1">Full Catalog</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Featured Products Slider / Grid -->
+                <section class="py-16 bg-slate-100/60 dark:bg-slate-900/40">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex items-center justify-between mb-8">
+                            <div>
+                                <h2 class="text-2xl font-extrabold">Featured Products</h2>
+                                <p class="text-xs text-slate-500">Hand-picked flagship items curated for quality</p>
+                            </div>
+                            <a href="#/products" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">View All &rarr;</a>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${featuredProds.map(p => renderProductCardHTML(p)).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Why Choose Us Banner -->
+                <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 flex items-center justify-center text-xl mx-auto mb-4">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <h3 class="font-bold text-base mb-1">Express Nationwide Shipping</h3>
+                            <p class="text-xs text-slate-500">Guaranteed doorstep delivery within 24 to 48 hours across major cities.</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 flex items-center justify-center text-xl mx-auto mb-4">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <h3 class="font-bold text-base mb-1">Authentic 1-Year Warranty</h3>
+                            <p class="text-xs text-slate-500">100% official brand warranty and easy 7-day replacement guarantee.</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 flex items-center justify-center text-xl mx-auto mb-4">
+                                <i class="fa-solid fa-headset"></i>
+                            </div>
+                            <h3 class="font-bold text-base mb-1">24/7 Dedicated Support</h3>
+                            <p class="text-xs text-slate-500">Instant WhatsApp & Live agent assistance available for all orders.</p>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        // 2. PRODUCT CATALOG VIEW WITH FILTERS & SORTING
+        function renderCatalogView(container, queryParams) {
+            const selectedCategory = queryParams.get('category') || 'All';
+            const searchQuery = queryParams.get('search') || '';
+
+            let filtered = [...appState.products];
+
+            if (selectedCategory !== 'All') {
+                filtered = filtered.filter(p => p.category === selectedCategory);
+            }
+            if (searchQuery) {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+            }
+
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <!-- Page Header -->
+                    <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+                        <div>
+                            <h1 class="text-3xl font-extrabold">Product Catalog</h1>
+                            <p class="text-xs text-slate-500 mt-1">Showing ${filtered.length} product(s) available in stock</p>
+                        </div>
+                        
+                        <!-- Filter & Sorting Bar Controls -->
+                        <div class="flex items-center space-x-3">
+                            <label class="text-xs font-semibold text-slate-500">Sort By:</label>
+                            <select id="sortSelect" class="px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium outline-none">
+                                <option value="featured">Featured First</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rating">Highest Rated</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                        <!-- Sidebar Filter Drawer -->
+                        <div class="space-y-6">
+                            <!-- Category Filter -->
+                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                                <h4 class="font-bold text-sm mb-4">Categories</h4>
+                                <div class="space-y-2">
+                                    ${['All', 'Electronics', 'Fashion', 'Accessories'].map(cat => `
+                                        <a href="#/products?category=${cat}" class="flex items-center justify-between text-xs py-1.5 px-3 rounded-lg font-medium transition-colors ${selectedCategory === cat ? 'bg-indigo-600 text-white font-bold' : 'hover:bg-slate-100 dark:hover:bg-slate-700'}">
+                                            <span>${cat}</span>
+                                            <span class="opacity-70">(${cat === 'All' ? appState.products.length : appState.products.filter(p => p.category === cat).length})</span>
+                                        </a>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Grid -->
+                        <div class="lg:col-span-3">
+                            ${filtered.length === 0 ? `
+                                <div class="text-center py-20 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
+                                    <i class="fa-solid fa-box-open text-4xl text-slate-300 mb-4"></i>
+                                    <h3 class="font-bold text-lg">No Products Found</h3>
+                                    <p class="text-xs text-slate-500 mt-1">Try clearing filters or searching for something else.</p>
+                                    <a href="#/products" class="inline-block mt-4 px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold">Clear Filters</a>
+                                </div>
+                            ` : `
+                                <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    ${filtered.map(p => renderProductCardHTML(p)).join('')}
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Sort Selector Listener
+            const sortSelect = document.getElementById('sortSelect');
+            if (sortSelect) {
+                sortSelect.addEventListener('change', (e) => {
+                    const val = e.target.value;
+                    if (val === 'price-low') filtered.sort((a,b) => a.pricePKR - b.pricePKR);
+                    if (val === 'price-high') filtered.sort((a,b) => b.pricePKR - a.pricePKR);
+                    if (val === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+                    
+                    const catalogGrid = document.getElementById('catalogGrid');
+                    if (catalogGrid) {
+                        catalogGrid.innerHTML = filtered.map(p => renderProductCardHTML(p)).join('');
+                    }
+                });
+            }
+        }
+
+        // Helper Component: Product Card HTML
+        function renderProductCardHTML(product) {
+            const isWishlisted = appState.wishlist.includes(product.id);
+            return `
+                <div class="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div class="relative h-56 overflow-hidden bg-slate-100 dark:bg-slate-900">
+                        <img src="${product.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <button onclick="toggleWishlist('${product.id}')" class="absolute top-3 right-3 p-2 rounded-full bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 hover:text-rose-500 transition-colors">
+                            <i class="${isWishlisted ? 'fa-solid fa-heart text-rose-500' : 'fa-regular fa-heart'} text-sm"></i>
+                        </button>
+                        ${product.oldPricePKR ? `
+                            <span class="absolute top-3 left-3 bg-rose-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Sale</span>
+                        ` : ''}
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold mb-1">
+                                <span>${product.category}</span>
+                                <span><i class="fa-solid fa-star text-amber-400 mr-1"></i>${product.rating}</span>
+                            </div>
+                            <a href="#/product/${product.id}" class="font-bold text-sm text-slate-900 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 line-clamp-2 mb-2">
+                                ${product.name}
+                            </a>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+                            <div>
+                                <span class="font-black text-sm text-slate-900 dark:text-white">
+                                    ${formatPrice(product.pricePKR, product.priceUSD)}
+                                </span>
+                                ${product.oldPricePKR ? `
+                                    <span class="text-[11px] text-slate-400 line-through ml-1">
+                                        ${formatPrice(product.oldPricePKR, product.oldPriceUSD)}
+                                    </span>
+                                ` : ''}
+                            </div>
+                            <button onclick="addToCart('${product.id}')" class="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-600 hover:text-white transition-all font-bold text-xs flex items-center space-x-1">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>Add</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 3. PRODUCT DETAILS VIEW
+        function renderProductDetailsView(container, productId) {
+            const product = appState.products.find(p => p.id === productId);
+
+            if (!product) {
+                renderNotFoundView(container);
+                return;
+            }
+
+            let selectedImg = product.image;
+
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <div class="mb-6">
+                        <a href="#/products" class="text-xs font-bold text-slate-500 hover:text-indigo-600">&larr; Back to Products</a>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Image Gallery -->
+                        <div>
+                            <div class="rounded-3xl overflow-hidden bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 mb-4 h-96 sm:h-[450px]">
+                                <img id="mainGalleryImage" src="${selectedImg}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex space-x-3">
+                                ${(product.images || [product.image]).map(img => `
+                                    <button onclick="document.getElementById('mainGalleryImage').src='${img}'" class="w-20 h-20 rounded-xl overflow-hidden border-2 border-indigo-500 focus:outline-none">
+                                        <img src="${img}" class="w-full h-full object-cover">
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Product Information Details -->
+                        <div class="space-y-6">
+                            <div>
+                                <span class="px-2.5 py-1 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase">${product.category}</span>
+                                <h1 class="text-2xl sm:text-3xl font-extrabold mt-2 mb-2 text-slate-900 dark:text-white">${product.name}</h1>
+                                <div class="flex items-center space-x-4 text-xs">
+                                    <div class="flex items-center text-amber-400">
+                                        <i class="fa-solid fa-star"></i>
+                                        <span class="font-bold ml-1 text-slate-700 dark:text-slate-300">${product.rating}</span>
+                                    </div>
+                                    <span class="text-slate-400">|</span>
+                                    <span class="text-slate-500">${product.reviewsCount} Customer Reviews</span>
+                                    <span class="text-slate-400">|</span>
+                                    <span class="font-mono text-slate-500">SKU: ${product.sku}</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center space-x-4">
+                                <span class="text-3xl font-black text-indigo-600 dark:text-indigo-400">
+                                    ${formatPrice(product.pricePKR, product.priceUSD)}
+                                </span>
+                                ${product.oldPricePKR ? `
+                                    <span class="text-base text-slate-400 line-through">
+                                        ${formatPrice(product.oldPricePKR, product.oldPriceUSD)}
+                                    </span>
+                                ` : ''}
+                            </div>
+
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">${product.description}</p>
+
+                            <!-- Color Selector -->
+                            ${product.colors ? `
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Color Variant</label>
+                                    <div class="flex space-x-2">
+                                        ${product.colors.map((c, i) => `
+                                            <button class="px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold hover:border-indigo-600 focus:bg-indigo-600 focus:text-white transition-colors">
+                                                ${c}
+                                            </button>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <!-- Add to Cart Action -->
+                            <div class="flex items-center space-x-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                                <button onclick="addToCart('${product.id}')" class="flex-1 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-xl shadow-indigo-500/30 transition-all flex items-center justify-center space-x-2">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                    <span>Add to Cart</span>
+                                </button>
+                                <button onclick="toggleWishlist('${product.id}')" class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-rose-500">
+                                    <i class="fa-regular fa-heart text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 4. SHOPPING CART VIEW
+        function renderCartView(container) {
+            const subtotalPKR = appState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0);
+            const subtotalUSD = appState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0);
+            
+            const shippingPKR = subtotalPKR > 5000 || subtotalPKR === 0 ? 0 : 250;
+            const shippingUSD = subtotalUSD > 30 || subtotalUSD === 0 ? 0 : 3;
+
+            let discountPKR = 0;
+            let discountUSD = 0;
+
+            if (appState.appliedCoupon === 'DISCOUNT15') {
+                discountPKR = Math.round(subtotalPKR * 0.15);
+                discountUSD = Math.round(subtotalUSD * 0.15);
+            }
+
+            const totalPKR = subtotalPKR + shippingPKR - discountPKR;
+            const totalUSD = subtotalUSD + shippingUSD - discountUSD;
+
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-extrabold mb-8">Shopping Cart</h1>
+
+                    ${appState.cart.length === 0 ? `
+                        <div class="text-center py-20 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
+                            <i class="fa-solid fa-cart-shopping text-5xl text-slate-300 mb-4"></i>
+                            <h3 class="font-bold text-xl">Your cart is empty</h3>
+                            <p class="text-xs text-slate-500 mt-1 mb-6">Looks like you haven't added anything to your cart yet.</p>
+                            <a href="#/products" class="px-6 py-3 bg-indigo-600 text-white rounded-xl text-xs font-bold">Start Shopping</a>
+                        </div>
+                    ` : `
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <!-- Items List -->
+                            <div class="lg:col-span-2 space-y-4">
+                                ${appState.cart.map(item => `
+                                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-4">
+                                        <img src="${item.image}" class="w-16 h-16 object-cover rounded-xl shrink-0">
+                                        <div class="flex-grow">
+                                            <h4 class="font-bold text-sm">${item.name}</h4>
+                                            <span class="text-xs font-semibold text-indigo-600">${formatPrice(item.pricePKR, item.priceUSD)}</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2 border border-slate-200 dark:border-slate-700 rounded-lg p-1">
+                                            <button onclick="updateCartQty('${item.id}', ${item.qty - 1})" class="w-6 h-6 rounded bg-slate-100 dark:bg-slate-700 text-xs font-bold">-</button>
+                                            <span class="text-xs font-bold px-2">${item.qty}</span>
+                                            <button onclick="updateCartQty('${item.id}', ${item.qty + 1})" class="w-6 h-6 rounded bg-slate-100 dark:bg-slate-700 text-xs font-bold">+</button>
+                                        </div>
+                                        <button onclick="removeFromCart('${item.id}')" class="text-slate-400 hover:text-rose-500 text-sm p-2">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <!-- Order Summary -->
+                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 h-fit space-y-4">
+                                <h3 class="font-bold text-base border-b border-slate-100 dark:border-slate-700 pb-3">Order Summary</h3>
+                                
+                                <div class="space-y-2 text-xs">
+                                    <div class="flex justify-between text-slate-500">
+                                        <span>Subtotal</span>
+                                        <span class="font-bold text-slate-800 dark:text-slate-200">${formatPrice(subtotalPKR, subtotalUSD)}</span>
+                                    </div>
+                                    <div class="flex justify-between text-slate-500">
+                                        <span>Shipping</span>
+                                        <span class="font-bold text-slate-800 dark:text-slate-200">${shippingPKR === 0 ? 'FREE' : formatPrice(shippingPKR, shippingUSD)}</span>
+                                    </div>
+                                    ${discountPKR > 0 ? `
+                                        <div class="flex justify-between text-emerald-600 font-bold">
+                                            <span>Coupon (DISCOUNT15)</span>
+                                            <span>-${formatPrice(discountPKR, discountUSD)}</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+
+                                <!-- Coupon Code Input -->
+                                <div class="pt-2">
+                                    <div class="flex space-x-2">
+                                        <input type="text" id="couponInput" placeholder="Promo code" class="w-full px-3 py-2 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none">
+                                        <button onclick="applyCoupon()" class="px-4 py-2 bg-slate-900 dark:bg-slate-700 text-white rounded-xl text-xs font-bold">Apply</button>
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-slate-100 dark:border-slate-700 pt-4 flex justify-between items-center">
+                                    <span class="font-bold text-sm">Grand Total</span>
+                                    <span class="font-black text-lg text-indigo-600 dark:text-indigo-400">${formatPrice(totalPKR, totalUSD)}</span>
+                                </div>
+
+                                <a href="#/checkout" class="block w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs text-center shadow-lg shadow-indigo-500/30">
+                                    Proceed to Checkout
+                                </a>
+                            </div>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        // 5. CHECKOUT VIEW
+        function renderCheckoutView(container) {
+            const subtotalPKR = appState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0);
+            const subtotalUSD = appState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0);
+            const totalPKR = subtotalPKR;
+            const totalUSD = subtotalUSD;
+
+            container.innerHTML = `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-extrabold mb-8 text-center">Secure Checkout</h1>
+                    
+                    <form id="checkoutForm" class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 space-y-6">
+                        <div>
+                            <h3 class="font-bold text-sm mb-4 uppercase text-indigo-600">1. Delivery Address</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                                <div>
+                                    <label class="block font-semibold mb-1">Full Name</label>
+                                    <input type="text" required value="${appState.user.name}" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold mb-1">Mobile Number</label>
+                                    <input type="text" required value="${appState.user.phone}" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label class="block font-semibold mb-1">Shipping Address</label>
+                                    <input type="text" required value="${appState.user.address}" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 dark:border-slate-700">
+                            <h3 class="font-bold text-sm mb-4 uppercase text-indigo-600">2. Payment Method</h3>
+                            <div class="space-y-3">
+                                <label class="flex items-center space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer">
+                                    <input type="radio" name="payment" value="cod" checked class="text-indigo-600">
+                                    <span class="text-xs font-bold">Cash on Delivery (COD)</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer">
+                                    <input type="radio" name="payment" value="bank" class="text-indigo-600">
+                                    <span class="text-xs font-bold">Direct Bank Transfer / Mobile Wallet</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
+                            <div>
+                                <span class="text-xs text-slate-500">Total Payable Amount</span>
+                                <h4 class="text-xl font-black text-indigo-600">${formatPrice(totalPKR, totalUSD)}</h4>
+                            </div>
+                            <button type="submit" class="px-8 py-3.5 bg-indigo-600 text-white font-bold rounded-xl text-xs shadow-lg shadow-indigo-500/30">
+                                Place Order Now
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newOrder = {
+                    id: "ORD-" + Math.floor(10000 + Math.random() * 90000),
+                    date: new Date().toISOString().split('T')[0],
+                    totalPKR: totalPKR,
+                    totalUSD: totalUSD,
+                    status: "Processing",
+                    items: [...appState.cart],
+                    customer: { ...appState.user }
+                };
+                appState.orders.unshift(newOrder);
+                appState.cart = [];
+                saveState();
+                showToast("Order placed successfully!");
+                window.location.hash = `#/track-order?id=${newOrder.id}`;
+            });
+        }
+
+        // 6. ORDER TRACKING VIEW
+        function renderTrackOrderView(container, queryParams) {
+            const orderId = queryParams.get('id') || '';
+            const foundOrder = appState.orders.find(o => o.id === orderId);
+
+            container.innerHTML = `
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-extrabold mb-8 text-center">Track Your Order</h1>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 mb-8">
+                        <form onsubmit="event.preventDefault(); window.location.hash='#/track-order?id=' + document.getElementById('trackIdInput').value;" class="flex space-x-3">
+                            <input type="text" id="trackIdInput" value="${orderId}" placeholder="Enter Order ID (e.g. ORD-98421)" class="w-full px-4 py-3 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none">
+                            <button type="submit" class="px-6 py-3 bg-indigo-600 text-white font-bold text-xs rounded-xl">Track</button>
+                        </form>
+                    </div>
+
+                    ${foundOrder ? `
+                        <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 space-y-6">
+                            <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-700 pb-4">
+                                <div>
+                                    <span class="text-xs text-slate-500">Order Reference</span>
+                                    <h3 class="font-bold text-base">${foundOrder.id}</h3>
+                                </div>
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-600 text-xs font-bold rounded-full">${foundOrder.status}</span>
+                            </div>
+
+                            <!-- Stepper Timeline -->
+                            <div class="py-6 flex items-center justify-between relative">
+                                <div class="text-center z-10">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center mx-auto text-xs font-bold"><i class="fa-solid fa-check"></i></div>
+                                    <span class="text-[11px] font-bold mt-2 block">Placed</span>
+                                </div>
+                                <div class="text-center z-10">
+                                    <div class="w-10 h-10 rounded-full ${['Processing','Dispatched','Delivered'].includes(foundOrder.status) ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-500'} flex items-center justify-center mx-auto text-xs font-bold"><i class="fa-solid fa-box-open"></i></div>
+                                    <span class="text-[11px] font-bold mt-2 block">Processing</span>
+                                </div>
+                                <div class="text-center z-10">
+                                    <div class="w-10 h-10 rounded-full ${['Dispatched','Delivered'].includes(foundOrder.status) ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-500'} flex items-center justify-center mx-auto text-xs font-bold"><i class="fa-solid fa-truck"></i></div>
+                                    <span class="text-[11px] font-bold mt-2 block">Dispatched</span>
+                                </div>
+                                <div class="text-center z-10">
+                                    <div class="w-10 h-10 rounded-full ${foundOrder.status === 'Delivered' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-500'} flex items-center justify-center mx-auto text-xs font-bold"><i class="fa-solid fa-house"></i></div>
+                                    <span class="text-[11px] font-bold mt-2 block">Delivered</span>
+                                </div>
+                            </div>
+                        </div>
+                    ` : orderId ? `
+                        <div class="text-center py-10 text-xs text-slate-500">No order details found for "${orderId}".</div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // 7. ADMIN DASHBOARD VIEW
+        function renderAdminView(container) {
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h1 class="text-3xl font-extrabold">Admin Dashboard</h1>
+                            <p class="text-xs text-slate-500">Manage catalog inventory, update prices, and process customer orders</p>
+                        </div>
+                        <button onclick="openAddProductModal()" class="px-4 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold">
+                            + Add New Product
+                        </button>
+                    </div>
+
+                    <!-- Products Table -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden mb-10">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 text-slate-500">
+                                <tr>
+                                    <th class="p-4">Product</th>
+                                    <th class="p-4">Category</th>
+                                    <th class="p-4">Price (PKR)</th>
+                                    <th class="p-4">Stock</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                                ${appState.products.map(p => `
+                                    <tr>
+                                        <td class="p-4 font-bold flex items-center space-x-3">
+                                            <img src="${p.image}" class="w-8 h-8 rounded object-cover">
+                                            <span>${p.name}</span>
+                                        </td>
+                                        <td class="p-4">${p.category}</td>
+                                        <td class="p-4 font-mono font-bold">Rs. ${p.pricePKR.toLocaleString()}</td>
+                                        <td class="p-4"><span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 font-bold">${p.stock}</span></td>
+                                        <td class="p-4 text-right space-x-2">
+                                            <button onclick="deleteProduct('${p.id}')" class="text-rose-500 hover:underline">Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 8. POLICIES VIEW
+        function renderPoliciesView(container, queryParams) {
+            const activeTab = queryParams.get('tab') || 'privacy';
+
+            container.innerHTML = `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-extrabold mb-6 text-center">Store Policies & Help Center</h1>
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 text-xs leading-relaxed space-y-4">
+                        <h3 class="font-bold text-sm uppercase text-indigo-600">${activeTab.toUpperCase()} POLICY</h3>
+                        <p>We take customer data protection, safe transactions, and transparent store guidelines seriously. All operational practices are governed under current e-commerce digital rights standard procedures.</p>
+                        <p>For official return claims, please verify product SKU and present your valid Order Reference ID to customer support within 7 business days of delivery.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 9. SERVICES VIEW
+        function renderServicesView(container) {
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+                    <h1 class="text-4xl font-extrabold mb-4">Custom Corporate Branding Services</h1>
+                    <p class="text-slate-500 max-w-2xl mx-auto text-sm mb-12">We provide bulk customized merchandise, engraved corporate gifts, and bespoke product branding for corporate clients across the globe.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
+                            <i class="fa-solid fa-stamp text-3xl text-indigo-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Laser Engraving</h3>
+                            <p class="text-xs text-slate-500">Custom logo placement on electronics & luxury watches.</p>
+                        </div>
+                        <div class="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
+                            <i class="fa-solid fa-boxes-packing text-3xl text-indigo-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Custom Packaging</h3>
+                            <p class="text-xs text-slate-500">Unboxing experience designed with custom brand graphics.</p>
+                        </div>
+                        <div class="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
+                            <i class="fa-solid fa-truck-ramp-box text-3xl text-indigo-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Bulk Logistics</h3>
+                            <p class="text-xs text-slate-500">Nationwide distribution for corporate events.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 10. ABOUT VIEW
+        function renderAboutView(container) {
+            container.innerHTML = `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+                    <h1 class="text-4xl font-extrabold mb-4">About ApexMart</h1>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-8">Founded with the mission to redefine online shopping experiences, ApexMart provides curated premium products paired with lightning-fast delivery infrastructure.</p>
+                </div>
+            `;
+        }
+
+        // 11. ACCOUNT VIEW
+        function renderAccountView(container, queryParams) {
+            container.innerHTML = `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-extrabold mb-8">My Account</h1>
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="w-16 h-16 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-2xl">
+                                ${appState.user.name[0]}
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">${appState.user.name}</h3>
+                                <p class="text-xs text-slate-500">${appState.user.email}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 404 NOT FOUND VIEW
+        function renderNotFoundView(container) {
+            container.innerHTML = `
+                <div class="text-center py-20">
+                    <h1 class="text-6xl font-black text-indigo-600 mb-4">404</h1>
+                    <h2 class="text-xl font-bold mb-2">Page Not Found</h2>
+                    <a href="#/" class="text-xs font-bold text-indigo-600 hover:underline">&larr; Return Home</a>
+                </div>
+            `;
+        }
+
+        /**
+         * CART & WISHLIST MUTATION HANDLERS
+         */
+        function addToCart(productId) {
+            const product = appState.products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = appState.cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                appState.cart.push({ ...product, qty: 1 });
+            }
+
+            saveState();
+            showToast(`${product.name} added to cart!`);
+        }
+
+        function updateCartQty(productId, newQty) {
+            if (newQty <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            const item = appState.cart.find(i => i.id === productId);
+            if (item) {
+                item.qty = newQty;
+                saveState();
+                handleRoute();
+            }
+        }
+
+        function removeFromCart(productId) {
+            appState.cart = appState.cart.filter(i => i.id !== productId);
+            saveState();
+            handleRoute();
+            showToast("Item removed from cart");
+        }
+
+        function toggleWishlist(productId) {
+            const idx = appState.wishlist.indexOf(productId);
+            if (idx > -1) {
+                appState.wishlist.splice(idx, 1);
+                showToast("Removed from wishlist");
+            } else {
+                appState.wishlist.push(productId);
+                showToast("Added to wishlist");
+            }
+            saveState();
+            handleRoute();
+        }
+
+        function applyCoupon() {
+            const val = document.getElementById('couponInput').value.trim();
+            if (val === 'DISCOUNT15') {
+                appState.appliedCoupon = 'DISCOUNT15';
+                showToast("Coupon DISCOUNT15 applied (15% OFF)!");
+                handleRoute();
+            } else {
+                showToast("Invalid coupon code", "error");
+            }
+        }
+
+        function deleteProduct(id) {
+            appState.products = appState.products.filter(p => p.id !== id);
+            saveState();
+            handleRoute();
+            showToast("Product deleted from database");
+        }
+
+        function openAddProductModal() {
+            const name = prompt("Enter Product Name:");
+            if (!name) return;
+            const price = prompt("Enter Price in PKR:");
+            if (!price) return;
+
+            const newProd = {
+                id: "prod-" + Date.now(),
+                name: name,
+                category: "Electronics",
+                pricePKR: parseInt(price),
+                priceUSD: Math.round(parseInt(price) / 280),
+                rating: 5.0,
+                reviewsCount: 1,
+                sku: "APX-NEW-" + Math.floor(Math.random() * 90),
+                stock: 10,
+                image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80",
+                description: "Newly added store product."
+            };
+
+            appState.products.unshift(newProd);
+            saveState();
+            handleRoute();
+            showToast("New product published!");
+        }
+    </script>
+</body>
+</html>
