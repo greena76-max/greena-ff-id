@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HY Store - Gifts & Printing Services</title>
-
-  <!-- Tailwind CSS CDN -->
+  <title>HY STORE OFFICIAL - Gifts & Printing Services</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -14,952 +12,604 @@
         extend: {
           colors: {
             brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              800: '#1e40af',
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
             }
           }
         }
       }
     }
   </script>
-
-  <!-- FontAwesome Icons CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Fallback Custom CSS: Guarantees full design, colors, flex layouts, typography & buttons even if Tailwind fails -->
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    }
-
-    body {
-      background-color: #f8fafc;
-      color: #0f172a;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Top Bar */
-    .top-announcement-bar {
-      background-color: #1d4ed8;
-      color: #ffffff;
-      font-size: 12px;
-      padding: 8px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    /* Header Nav */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .nav-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .brand-logo-box {
-      width: 42px;
-      height: 42px;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 900;
-      font-size: 20px;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-    }
-
-    .nav-links-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      list-style: none;
-    }
-
-    .nav-link {
-      color: #334155;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    .nav-link:hover, .nav-link.active {
-      color: #2563eb;
-    }
-
-    .btn-custom {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 18px;
-      border-radius: 9999px;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: 1px solid transparent;
-    }
-
-    .btn-client-login {
-      background-color: #ffffff;
-      border-color: #cbd5e1;
-      color: #1e293b;
-    }
-    .btn-client-login:hover {
-      background-color: #f1f5f9;
-      border-color: #94a3b8;
-    }
-
-    .btn-whatsapp {
-      background-color: #10b981;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
-    }
-    .btn-whatsapp:hover {
-      background-color: #059669;
-      transform: translateY(-1px);
-    }
-
-    .btn-primary {
-      background-color: #2563eb;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-    }
-    .btn-primary:hover {
-      background-color: #1d4ed8;
-    }
-
-    /* Search Bar */
-    .search-input-box {
-      position: relative;
-      flex: 1;
-      max-width: 320px;
-    }
-    .search-input-box input {
-      width: 100%;
-      padding: 8px 12px 8px 36px;
-      border-radius: 12px;
-      border: 1px solid #cbd5e1;
-      background-color: #f8fafc;
-      font-size: 13px;
-      outline: none;
-    }
-    .search-input-box i {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #94a3b8;
-      font-size: 13px;
-    }
-
-    /* Grid layout fallbacks */
-    .main-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 32px 16px;
-      width: 100%;
-      flex-grow: 1;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 24px;
-      margin-top: 24px;
-    }
-
-    .product-card {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid #e2e8f0;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-    }
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-    }
-
-    .product-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      background-color: #f1f5f9;
-    }
-
-    .product-details {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: space-between;
-    }
-
-    /* Toast Notification Overlay */
-    #toast-container {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .toast-msg {
-      background-color: #1e293b;
-      color: #ffffff;
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      animation: slideIn 0.3s ease-out;
-    }
-    @keyframes slideIn {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    /* Footer Fallback */
-    .site-footer {
-      background-color: #0f172a;
-      color: #cbd5e1;
-      padding: 48px 16px 24px 16px;
-      margin-top: auto;
-      border-top: 1px solid #1e293b;
-    }
-    .footer-grid {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 32px;
-    }
-    .footer-col h5 {
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    .footer-col ul {
-      list-style: none;
-    }
-    .footer-col ul li {
-      margin-bottom: 10px;
-      font-size: 13px;
-    }
-    .footer-col ul li a {
-      color: #94a3b8;
-      text-decoration: none;
-    }
-    .footer-col ul li a:hover {
-      color: #ffffff;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); }
+    .dark .glass-nav { background: rgba(15, 23, 42, 0.95); }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
-  <!-- Toast Notification Overlay -->
-  <div id="toast-container"></div>
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- Top Announcement Bar -->
-  <div class="top-announcement-bar">
-    <div>
-      <i class="fa-solid fa-truck-fast mr-1"></i>
-      <span>Free Shipping on custom gift orders over PKR 5,000!</span>
-    </div>
-    <div class="flex items-center gap-4">
-      <span><i class="fa-solid fa-phone mr-1"></i> 0320 9306672</span>
-      <span class="hidden md:inline"><i class="fa-solid fa-envelope mr-1"></i> hybusinessprint@gmail.com</span>
-      <select id="currency-switcher" onchange="switchCurrency(this.value)" class="bg-blue-800 text-white text-xs px-2 py-0.5 rounded outline-none cursor-pointer">
-        <option value="PKR">PKR (Rs.)</option>
-        <option value="USD">USD ($)</option>
-      </select>
+  <!-- Top Promotional Bar -->
+  <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 text-white text-xs py-2 px-4 shadow-sm">
+    <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center gap-2 font-semibold">
+        <i class="fa-solid fa-truck-fast text-yellow-300"></i>
+        <span>Free Shipping Across Pakistan on Orders Above PKR 5,000!</span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px] font-medium">
+        <a href="tel:03209306672" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-phone"></i> 0320 9306672</a>
+        <a href="mailto:hybusinessprint@gmail.com" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-envelope"></i> hybusinessprint@gmail.com</a>
+        <button onclick="toggleDarkMode()" class="p-1 rounded bg-black/20 hover:bg-black/40 transition">
+          <i id="theme-icon" class="fa-solid fa-moon"></i>
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Main Navigation Header -->
-  <header class="site-header">
-    <div class="nav-container">
+  <!-- Main Sticky Header Header -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
       
       <!-- Brand Logo -->
-      <a href="#/" class="flex items-center gap-3 no-underline">
-        <div class="brand-logo-box">HY</div>
+      <a href="#/" class="flex items-center gap-3 group">
+        <div class="text-3xl font-black italic tracking-tighter text-red-600 dark:text-red-500">
+          HY
+        </div>
+        <div class="h-8 w-[2px] bg-slate-800 dark:bg-slate-200"></div>
         <div>
-          <span class="text-lg font-extrabold tracking-tight block leading-none text-slate-900">HY STORE</span>
-          <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mt-0.5">Gifts & Printing Services</span>
+          <span class="text-base font-black tracking-wider block leading-tight text-slate-900 dark:text-white">HY STORE</span>
+          <span class="text-[12px] font-extrabold tracking-widest text-slate-900 dark:text-slate-300 uppercase block">OFFICIAL</span>
         </div>
       </a>
 
       <!-- Search Bar -->
-      <div class="search-input-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="global-search-input" placeholder="Search gifts, mug printing, t-shirts..." onkeyup="handleGlobalSearch(event)">
+      <div class="flex-1 max-w-md relative hidden sm:block">
+        <div class="relative flex items-center">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 text-slate-400 text-sm"></i>
+          <input type="text" id="main-search-input" onkeyup="handleSearchInput(event)" placeholder="Search Products, Gifts & Printing Services..." class="w-full pl-10 pr-12 py-2.5 rounded-full border-2 border-orange-500 dark:bg-slate-900 dark:border-orange-500 text-sm focus:outline-none shadow-sm">
+          <button onclick="executeSearch()" class="absolute right-1.5 w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center hover:scale-105 transition shadow-sm">
+            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+          </button>
+        </div>
+        <!-- Live Search Suggestions -->
+        <div id="search-suggestions" class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl hidden z-50 max-h-80 overflow-y-auto"></div>
       </div>
 
-      <!-- Center Main Navigation Links -->
-      <nav class="hidden md:flex items-center gap-5 text-xs md:text-sm font-semibold">
-        <a href="#/" class="nav-link text-slate-700 hover:text-blue-600">Home Page</a>
-        <a href="#/products" class="nav-link text-slate-700 hover:text-blue-600">All Products & Gifts</a>
-        <a href="#/services" class="nav-link text-slate-700 hover:text-blue-600">Printing Services</a>
-        <a href="#/track-order" class="nav-link text-slate-700 hover:text-blue-600">Track Order Progress</a>
-        <a href="#/policies" class="nav-link text-slate-700 hover:text-blue-600">Store Policies & Terms</a>
-        <a href="#/about" class="nav-link text-slate-700 hover:text-blue-600">About HY Store</a>
-        <a href="#/admin" class="nav-link text-blue-600 hover:underline">Admin Control Panel</a>
-      </nav>
-
-      <!-- Action Buttons -->
-      <div class="flex items-center gap-3">
-        <!-- Cart Badge -->
-        <a href="#/cart" class="relative p-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition text-slate-700">
-          <i class="fa-solid fa-bag-shopping text-base"></i>
-          <span id="cart-badge" class="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+      <!-- Header Action Buttons -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/923209306672" target="_blank" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-bold shadow-md shadow-emerald-600/20 hover:scale-105 transition">
+          <i class="fa-brands fa-whatsapp text-base"></i>
+          <span class="hidden xs:inline">Ask WhatsApp</span>
         </a>
 
         <!-- Client Login Button -->
-        <button onclick="openLoginModal()" class="btn-custom btn-client-login hidden sm:inline-flex">
-          <i class="fa-solid fa-user-lock text-blue-600"></i>
-          <span>Client Login</span>
+        <button onclick="openLoginModal()" class="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 px-4 py-2 rounded-full text-xs sm:text-sm font-bold shadow-md transition">
+          <i class="fa-solid fa-user"></i>
+          <span id="user-btn-label">Client Login</span>
         </button>
 
-        <!-- WhatsApp Let's Talk Button -->
-        <a href="https://wa.me/923209306672" target="_blank" class="btn-custom btn-whatsapp">
-          <i class="fa-brands fa-whatsapp text-lg"></i>
-          <span>Let's Talk</span>
+        <!-- Shopping Cart Icon -->
+        <a href="#/cart" class="relative p-2.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+          <i class="fa-solid fa-cart-shopping text-slate-700 dark:text-slate-200"></i>
+          <span id="cart-count-badge" class="absolute -top-1 -right-1 bg-orange-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">0</span>
         </a>
       </div>
+    </div>
 
+    <!-- Centered Bottom Navigation Pills -->
+    <div class="border-t border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/50">
+      <div class="container mx-auto px-4">
+        <nav class="flex items-center justify-center gap-2 sm:gap-4 py-2.5 overflow-x-auto hide-scrollbar text-xs sm:text-sm font-bold">
+          <a href="#/" class="nav-link flex items-center gap-2 px-5 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-orange-500 hover:text-orange-600 transition shrink-0 shadow-sm">
+            <i class="fa-solid fa-house text-orange-500"></i> Home
+          </a>
+          <a href="#/about" class="nav-link flex items-center gap-2 px-5 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-orange-500 hover:text-orange-600 transition shrink-0 shadow-sm">
+            <i class="fa-solid fa-circle-info text-orange-500"></i> About
+          </a>
+          <a href="#/services" class="nav-link flex items-center gap-2 px-5 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-orange-500 hover:text-orange-600 transition shrink-0 shadow-sm">
+            <i class="fa-solid fa-gear text-orange-500"></i> Services
+          </a>
+          <a href="#/products" class="nav-link flex items-center gap-2 px-5 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-orange-500 hover:text-orange-600 transition shrink-0 shadow-sm">
+            <i class="fa-solid fa-box-open text-orange-500"></i> Products
+          </a>
+          <a href="#/track-order" class="nav-link flex items-center gap-2 px-5 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-orange-500 hover:text-orange-600 transition shrink-0 shadow-sm">
+            <i class="fa-solid fa-location-dot text-orange-500"></i> Track Order
+          </a>
+          <a href="#/contact" class="nav-link flex items-center gap-2 px-5 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-orange-500 hover:text-orange-600 transition shrink-0 shadow-sm">
+            <i class="fa-solid fa-envelope text-orange-500"></i> Contact
+          </a>
+          <a href="#/admin" class="nav-link flex items-center gap-2 px-5 py-2 rounded-full border border-orange-500 bg-orange-50 dark:bg-orange-950/40 text-orange-600 hover:bg-orange-600 hover:text-white transition shrink-0 shadow-sm">
+            <i class="fa-solid fa-user-shield"></i> Admin Panel
+          </a>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- Dynamic Page Content Root -->
-  <main id="app-root" class="main-container">
-    <!-- View rendered dynamically via JavaScript Hash Router -->
+  <!-- Dynamic Content Renderer -->
+  <main id="app-view" class="flex-grow container mx-auto px-4 py-8">
+    <!-- Pages render dynamically via Hash Router -->
   </main>
 
-  <!-- Login Modal -->
-  <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl p-6 shadow-2xl relative border border-slate-200">
-      <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+  <!-- Login/Account Modal -->
+  <div id="login-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800">
+      <button onclick="closeLoginModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
-      <h3 class="text-xl font-extrabold mb-1">Client Login & Account</h3>
-      <p class="text-xs text-slate-500 mb-6">Enter your credentials to access your order history & profile</p>
-      <form onsubmit="handleAccountLogin(event)" class="space-y-4 text-xs font-semibold">
-        <div>
-          <label class="block mb-1">Email Address</label>
-          <input type="email" required placeholder="hybusinessprint@gmail.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-blue-500">
+      
+      <div id="modal-login-form">
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 mb-2">
+            <i class="fa-solid fa-user-lock text-xl"></i>
+          </div>
+          <h3 class="text-xl font-black">Client Login</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Access your order history, profile & saved trackings</p>
         </div>
-        <div>
-          <label class="block mb-1">Password</label>
-          <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-blue-500">
+
+        <form onsubmit="handleAccountLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold mb-1">Email Address</label>
+            <input type="email" id="login-email" required placeholder="hybusinessprint@gmail.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-orange-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1">Password</label>
+            <input type="password" id="login-pass" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-orange-500 outline-none">
+          </div>
+          <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-orange-600/30 transition">Login to HY Account</button>
+        </form>
+
+        <div class="mt-4 text-center text-xs text-slate-500">
+          Quick contact: <a href="https://wa.me/923209306672" target="_blank" class="text-emerald-600 font-bold">WhatsApp 0320 9306672</a>
         </div>
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Login to Account</button>
-      </form>
+      </div>
+
+      <div id="modal-user-profile" class="hidden">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 rounded-full bg-gradient-to-r from-orange-500 to-red-600 text-white flex items-center justify-center text-2xl font-black mx-auto mb-2">
+            HY
+          </div>
+          <h3 id="user-profile-name" class="text-lg font-black">Valued Client</h3>
+          <p id="user-profile-email" class="text-xs text-slate-500">client@hy-store.com</p>
+        </div>
+        <div class="space-y-2 mb-6">
+          <a href="#/account" onclick="closeLoginModal()" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 transition text-sm font-semibold">
+            <span><i class="fa-solid fa-box mr-2 text-orange-500"></i> My Orders</span>
+            <i class="fa-solid fa-chevron-right text-xs"></i>
+          </a>
+        </div>
+        <button onclick="handleLogout()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl text-sm transition">Logout</button>
+      </div>
     </div>
   </div>
 
-  <!-- 5-Column Complete Footer -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <!-- Column 1: Store Bio -->
-      <div class="footer-col">
+  <!-- Professional 5-Column Footer -->
+  <footer class="bg-slate-900 text-slate-300 mt-auto border-t border-slate-800">
+    <div class="container mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 text-xs">
+      <!-- Col 1: About -->
+      <div class="md:col-span-1">
         <div class="flex items-center gap-2 mb-3">
-          <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black">HY</div>
-          <span class="text-white font-extrabold text-base">HY Store</span>
+          <span class="text-2xl font-black text-red-500 italic">HY</span>
+          <span class="font-black text-white text-base">STORE OFFICIAL</span>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed mb-4">Your premium shop for customized gifts, corporate printing, mug printing, t-shirt printing, banners, and promotional items.</p>
-        <p class="text-xs text-slate-300"><i class="fa-solid fa-phone text-blue-500 mr-2"></i> 0320 9306672</p>
-        <p class="text-xs text-slate-300 mt-1"><i class="fa-solid fa-envelope text-blue-500 mr-2"></i> hybusinessprint@gmail.com</p>
+        <p class="text-slate-400 leading-relaxed mb-4">Your Pakistan destination for premium customized gifts, mug printing, t-shirt printing, corporate branding & stationery.</p>
+        <div class="flex items-center gap-3 text-slate-400">
+          <a href="https://wa.me/923209306672" target="_blank" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-600 hover:text-white transition"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+          <a href="mailto:hybusinessprint@gmail.com" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-orange-600 hover:text-white transition"><i class="fa-solid fa-envelope text-sm"></i></a>
+          <a href="tel:03209306672" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i class="fa-solid fa-phone text-sm"></i></a>
+        </div>
       </div>
 
-      <!-- Column 2: Quick Links -->
-      <div class="footer-col">
-        <h5>Quick Links</h5>
-        <ul>
-          <li><a href="#/">Home Page</a></li>
-          <li><a href="#/products">All Products & Gifts</a></li>
-          <li><a href="#/services">Printing Services</a></li>
-          <li><a href="#/about">About HY Store</a></li>
+      <!-- Col 2: Quick Links -->
+      <div>
+        <h5 class="text-white font-extrabold text-sm mb-4 uppercase tracking-wider">Quick Links</h5>
+        <ul class="space-y-2.5 text-slate-400">
+          <li><a href="#/" class="hover:text-orange-400 transition">Home Page</a></li>
+          <li><a href="#/products" class="hover:text-orange-400 transition">All Products & Gifts</a></li>
+          <li><a href="#/services" class="hover:text-orange-400 transition">Printing Services</a></li>
+          <li><a href="#/about" class="hover:text-orange-400 transition">About HY Store</a></li>
+          <li><a href="#/contact" class="hover:text-orange-400 transition">Contact Us</a></li>
         </ul>
       </div>
 
-      <!-- Column 3: Customer Service -->
-      <div class="footer-col">
-        <h5>Customer Support</h5>
-        <ul>
-          <li><a href="#/track-order">Track Order Progress</a></li>
-          <li><a href="#/cart">Shopping Cart</a></li>
-          <li><a href="#/policies">Help & FAQ</a></li>
-          <li><a href="#/admin">Admin Panel</a></li>
+      <!-- Col 3: Customer Service -->
+      <div>
+        <h5 class="text-white font-extrabold text-sm mb-4 uppercase tracking-wider">Customer Care</h5>
+        <ul class="space-y-2.5 text-slate-400">
+          <li><a href="#/track-order" class="hover:text-orange-400 transition">Track Your Order</a></li>
+          <li><a href="#/cart" class="hover:text-orange-400 transition">Shopping Cart</a></li>
+          <li><a href="#/account" class="hover:text-orange-400 transition">Client Account</a></li>
+          <li><a href="#/admin" class="hover:text-orange-400 transition">Admin Portal</a></li>
         </ul>
       </div>
 
-      <!-- Column 4: Policies -->
-      <div class="footer-col">
-        <h5>Store Policies</h5>
-        <ul>
-          <li><a href="#/policies">Privacy Policy</a></li>
-          <li><a href="#/policies">Terms & Conditions</a></li>
-          <li><a href="#/policies">Shipping & Delivery Policy</a></li>
-          <li><a href="#/policies">Return & Refund Policy</a></li>
+      <!-- Col 4: Policies -->
+      <div>
+        <h5 class="text-white font-extrabold text-sm mb-4 uppercase tracking-wider">Legal & Policies</h5>
+        <ul class="space-y-2.5 text-slate-400">
+          <li><a href="#/policies" class="hover:text-orange-400 transition">Privacy Policy</a></li>
+          <li><a href="#/policies" class="hover:text-orange-400 transition">Terms & Conditions</a></li>
+          <li><a href="#/policies" class="hover:text-orange-400 transition">Return & Exchange</a></li>
+          <li><a href="#/policies" class="hover:text-orange-400 transition">Shipping Policy</a></li>
         </ul>
       </div>
 
-      <!-- Column 5: Instant WhatsApp -->
-      <div class="footer-col">
-        <h5>Instant Support</h5>
-        <p class="text-xs text-slate-400 mb-3">Get instant quotes and order updates on WhatsApp.</p>
-        <a href="https://wa.me/923209306672" target="_blank" class="btn-custom btn-whatsapp inline-flex">
-          <i class="fa-brands fa-whatsapp text-lg"></i>
-          <span>WhatsApp 0320 9306672</span>
-        </a>
+      <!-- Col 5: Contact Info -->
+      <div>
+        <h5 class="text-white font-extrabold text-sm mb-4 uppercase tracking-wider">Store Contact</h5>
+        <div class="space-y-3 text-slate-400">
+          <p class="flex items-start gap-2">
+            <i class="fa-solid fa-phone text-orange-500 mt-1"></i>
+            <span><strong>Phone/WhatsApp:</strong><br>0320 9306672</span>
+          </p>
+          <p class="flex items-start gap-2">
+            <i class="fa-solid fa-envelope text-orange-500 mt-1"></i>
+            <span><strong>Official Email:</strong><br>hybusinessprint@gmail.com</span>
+          </p>
+          <a href="https://wa.me/923209306672" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl transition mt-2">
+            <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Direct
+          </a>
+        </div>
       </div>
     </div>
-    
-    <div class="max-w-7xl mx-auto border-t border-slate-800 mt-10 pt-6 text-center text-xs text-slate-500">
-      &copy; 2026 HY Store - Gifts & Printing Services. All Rights Reserved.
+
+    <div class="border-t border-slate-800 py-4 text-center text-slate-500 text-[11px]">
+      &copy; 2026 HY Store Official (Gifts & Printing Services). All Rights Reserved.
     </div>
   </footer>
 
-  <!-- JavaScript Single Page Application Logic -->
+  <!-- Application Logic & Routing JavaScript -->
   <script>
-    // State Initialization
-    const INITIAL_PRODUCTS = [
-      {
-        id: "prod-1",
-        name: "Custom Magic Ceramic Photo Mug (Heat Sensitive)",
-        category: "Custom Mugs",
-        pricePKR: 1200,
-        priceUSD: 4.5,
-        rating: 4.9,
-        reviewsCount: 88,
-        sku: "HY-MUG-01",
-        stock: 50,
-        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
-        description: "High quality ceramic mug with heat-sensitive color-changing magic print. Reveals photo when hot liquid is poured."
-      },
-      {
-        id: "prod-2",
-        name: "Custom Premium Cotton Printed T-Shirt",
-        category: "T-Shirt Printing",
-        pricePKR: 1800,
-        priceUSD: 6.5,
-        rating: 4.8,
-        reviewsCount: 64,
-        sku: "HY-TSH-02",
-        stock: 35,
-        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80",
-        description: "100% breathable combed cotton with vibrant wash-proof DTF custom logo or photo print."
-      },
-      {
-        id: "prod-3",
-        name: "Luxury Matte Embossed Visiting Cards (Pack of 100)",
-        category: "Visiting Cards",
-        pricePKR: 2500,
-        priceUSD: 9.0,
-        rating: 5.0,
-        reviewsCount: 120,
-        sku: "HY-CRD-03",
-        stock: 100,
-        image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80",
-        description: "350 GSM heavy card stock with velvet touch matte lamination and metallic spot UV foil."
-      },
-      {
-        id: "prod-4",
-        name: "Heavy Duty Flex Banner & Vinyl Board Printing",
-        category: "Banners & Signs",
-        pricePKR: 3500,
-        priceUSD: 12.5,
-        rating: 4.7,
-        reviewsCount: 45,
-        sku: "HY-BNR-04",
-        stock: 20,
-        image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80",
-        description: "Outdoor weatherproof vinyl printing with eyelets and reinforced borders for store branding."
-      },
-      {
-        id: "prod-5",
-        name: "Executive Wooden Engraved Desk Gift Box Set",
-        category: "Corporate Gifts",
-        pricePKR: 4500,
-        priceUSD: 16.0,
-        rating: 4.9,
-        reviewsCount: 52,
-        sku: "HY-GFT-05",
-        stock: 15,
-        image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80",
-        description: "Includes customized metal pen, executive diary, thermal flask, and USB drive in a luxury wooden gift box."
-      }
+    // Initial Products State
+    const initialProducts = [
+      { id: 101, name: "Custom Magic Mug", category: "Mug Printing", price: 850, rating: 4.9, reviews: 24, image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400", desc: "Color changing heat-sensitive magic mug printed with your photo or logo." },
+      { id: 102, name: "Custom Printed Shirt", category: "T-Shirts", price: 1250, rating: 4.8, reviews: 18, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400", desc: "Premium cotton customized t-shirt with durable high resolution printing." },
+      { id: 103, name: "Visiting Cards (100 Pcs)", category: "Stationery", price: 1500, rating: 5.0, reviews: 45, image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400", desc: "Heavy matte laminated business cards with sharp detail." },
+      { id: 104, name: "Executive Gift Set", category: "Corporate Gifts", price: 4500, rating: 4.9, reviews: 12, image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400", desc: "Luxury corporate gift bundle including pen, diary, mug, and keychain." },
+      { id: 105, name: "Acrylic Table Standee", category: "Branding", price: 1800, rating: 4.7, reviews: 9, image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400", desc: "Crystal clear acrylic QR/logo display stand for business tables." }
     ];
 
-    let storeState = {
-      products: JSON.parse(localStorage.getItem('hy_products')) || INITIAL_PRODUCTS,
-      cart: JSON.parse(localStorage.getItem('hy_cart')) || [],
-      orders: JSON.parse(localStorage.getItem('hy_orders')) || [
-        {
-          id: "ORD-78901",
-          date: "2026-04-01",
-          totalPKR: 2400,
-          totalUSD: 9,
-          status: "Dispatched",
-          customerName: "Ali Raza",
-          items: [{ name: "Custom Magic Ceramic Mug", qty: 2 }]
-        }
-      ],
-      currency: localStorage.getItem('hy_currency') || 'PKR'
-    };
+    // Local Storage State
+    function getStoredProducts() {
+      const stored = localStorage.getItem('hy_products');
+      return stored ? JSON.parse(stored) : initialProducts;
+    }
+    function saveStoredProducts(products) {
+      localStorage.setItem('hy_products', JSON.stringify(products));
+    }
 
-    function saveState() {
-      localStorage.setItem('hy_products', JSON.stringify(storeState.products));
-      localStorage.setItem('hy_cart', JSON.stringify(storeState.cart));
-      localStorage.setItem('hy_orders', JSON.stringify(storeState.orders));
-      localStorage.setItem('hy_currency', storeState.currency);
+    function getStoredCart() {
+      const cart = localStorage.getItem('hy_cart');
+      return cart ? JSON.parse(cart) : [];
+    }
+    function saveStoredCart(cart) {
+      localStorage.setItem('hy_cart', JSON.stringify(cart));
       updateCartBadge();
     }
 
-    function formatCurrency(pkr, usd) {
-      if (storeState.currency === 'USD') return `$${usd.toFixed(2)}`;
-      return `Rs. ${pkr.toLocaleString()}`;
+    function getStoredUser() {
+      return JSON.parse(localStorage.getItem('hy_user') || 'null');
     }
 
-    function showToast(msg) {
+    // App State
+    let products = getStoredProducts();
+    let cart = getStoredCart();
+    let currentUser = getStoredUser();
+
+    // Initialize Badge & User
+    function updateCartBadge() {
+      const badge = document.getElementById('cart-count-badge');
+      const total = cart.reduce((acc, item) => acc + item.qty, 0);
+      if (badge) badge.innerText = total;
+    }
+
+    function updateAuthUI() {
+      const userBtnLabel = document.getElementById('user-btn-label');
+      const form = document.getElementById('modal-login-form');
+      const profile = document.getElementById('modal-user-profile');
+      
+      if (currentUser) {
+        if (userBtnLabel) userBtnLabel.innerText = currentUser.name || 'My Account';
+        if (form) form.classList.add('hidden');
+        if (profile) {
+          profile.classList.remove('hidden');
+          document.getElementById('user-profile-name').innerText = currentUser.name || 'Client';
+          document.getElementById('user-profile-email').innerText = currentUser.email || '';
+        }
+      } else {
+        if (userBtnLabel) userBtnLabel.innerText = 'Client Login';
+        if (form) form.classList.remove('hidden');
+        if (profile) profile.classList.add('hidden');
+      }
+    }
+
+    // Toast Notifications
+    function showToast(message, type = 'success') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
-      toast.className = 'toast-msg';
-      toast.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i> <span>${msg}</span>`;
+      toast.className = `px-4 py-3 rounded-xl text-white font-bold text-xs shadow-xl transition transform translate-y-2 ${type === 'success' ? 'bg-emerald-600' : 'bg-red-600'}`;
+      toast.innerText = message;
       container.appendChild(toast);
-      setTimeout(() => toast.remove(), 3500);
+      setTimeout(() => toast.remove(), 3000);
     }
 
-    function updateCartBadge() {
-      const totalQty = storeState.cart.reduce((sum, item) => sum + item.qty, 0);
-      document.getElementById('cart-badge').textContent = totalQty;
-    }
-
-    function switchCurrency(val) {
-      storeState.currency = val;
-      saveState();
-      handleRouting();
-    }
-
-    // Modal Control
-    function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
-    function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
-    function handleAccountLogin(e) {
-      e.preventDefault();
-      showToast("Logged in successfully to HY Store account!");
-      closeLoginModal();
-    }
-
-    // Single Page Router
-    function handleRouting() {
+    // Router Renderers
+    function renderApp() {
       const hash = window.location.hash || '#/';
-      const root = document.getElementById('app-root');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const main = document.getElementById('app-view');
+      window.scrollTo(0,0);
 
-      const [path, queryString] = hash.split('?');
-      const params = new URLSearchParams(queryString || '');
-
-      if (path === '#/' || path === '') renderHomeView(root);
-      else if (path === '#/products') renderProductsView(root, params);
-      else if (path.startsWith('#/product/')) renderProductDetailView(root, path.replace('#/product/', ''));
-      else if (path === '#/services') renderServicesView(root);
-      else if (path === '#/cart') renderCartView(root);
-      else if (path === '#/checkout') renderCheckoutView(root);
-      else if (path === '#/track-order') renderTrackOrderView(root, params);
-      else if (path === '#/policies') renderPoliciesView(root);
-      else if (path === '#/about') renderAboutView(root);
-      else if (path === '#/admin') renderAdminView(root);
-      else renderHomeView(root);
-    }
-
-    window.addEventListener('hashchange', handleRouting);
-    window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('currency-switcher').value = storeState.currency;
-      updateCartBadge();
-      handleRouting();
-    });
-
-    // RENDER VIEWS
-    function renderHomeView(container) {
-      container.innerHTML = `
-        <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white rounded-3xl p-8 md:p-14 shadow-2xl mb-12 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div class="max-w-xl space-y-4 text-center md:text-left">
-            <span class="inline-block bg-white/20 text-white text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">🔥 Premium Custom Gifts & Printing</span>
-            <h1 class="text-3xl sm:text-5xl font-black leading-tight">Elevate Your Brand with Premium Printing</h1>
-            <p class="text-blue-100 text-sm leading-relaxed">Customize mug prints, t-shirts, visiting cards, vinyl banners, and corporate gift packages with nationwide express delivery.</p>
-            <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-2">
-              <a href="#/products" class="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-xl font-extrabold text-xs shadow-lg transition">Explore Products</a>
-              <a href="https://wa.me/923209306672" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-extrabold text-xs shadow-lg transition">Instant WhatsApp Quote</a>
-            </div>
-          </div>
-          <div class="w-full md:w-80 h-72 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20">
-            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-        <!-- Featured Products -->
-        <div class="mb-12">
-          <div class="flex justify-between items-center mb-6">
-            <div>
-              <h2 class="text-2xl font-black">Featured Products & Gifts</h2>
-              <p class="text-xs text-slate-500">Top-rated items customized for personal & business needs</p>
-            </div>
-            <a href="#/products" class="text-xs font-bold text-blue-600 hover:underline">View All Catalog &rarr;</a>
-          </div>
-
-          <div class="product-grid">
-            ${storeState.products.map(p => renderProductCardHTML(p)).join('')}
-          </div>
-        </div>
-      `;
-    }
-
-    function renderProductsView(container, params) {
-      const category = params.get('category') || 'All';
-      let filtered = storeState.products;
-      if (category !== 'All') filtered = filtered.filter(p => p.category === category);
-
-      container.innerHTML = `
-        <div class="mb-8 border-b pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h1 class="text-3xl font-black">All Products & Printing Catalog</h1>
-            <p class="text-xs text-slate-500 mt-1">Showing ${filtered.length} customized items</p>
-          </div>
-          <div class="flex gap-2 flex-wrap">
-            ${['All', 'Custom Mugs', 'T-Shirt Printing', 'Visiting Cards', 'Banners & Signs', 'Corporate Gifts'].map(c => `
-              <a href="#/products?category=${encodeURIComponent(c)}" class="text-xs font-bold px-3 py-1.5 rounded-lg border ${category === c ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-700 border-slate-300'} hover:border-blue-600">${c}</a>
-            `).join('')}
-          </div>
-        </div>
-        <div class="product-grid">
-          ${filtered.map(p => renderProductCardHTML(p)).join('')}
-        </div>
-      `;
-    }
-
-    function renderProductCardHTML(p) {
-      return `
-        <div class="product-card">
-          <img src="${p.image}" class="product-image" alt="${p.name}">
-          <div class="product-details">
-            <div>
-              <span class="text-[10px] font-bold uppercase text-blue-600 bg-blue-50 px-2 py-0.5 rounded">${p.category}</span>
-              <a href="#/product/${p.id}" class="font-bold text-sm block text-slate-900 mt-2 hover:text-blue-600 line-clamp-2 no-underline">${p.name}</a>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-              <span class="font-black text-base text-slate-900">${formatCurrency(p.pricePKR, p.priceUSD)}</span>
-              <button onclick="addToCart('${p.id}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-md transition">
-                + Add
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderProductDetailView(container, id) {
-      const p = storeState.products.find(item => item.id === id);
-      if (!p) { container.innerHTML = `<p class="py-20 text-center text-sm font-bold">Product not found!</p>`; return; }
-
-      container.innerHTML = `
-        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="h-80 md:h-96 rounded-2xl overflow-hidden bg-slate-100 border">
-            <img src="${p.image}" class="w-full h-full object-cover">
-          </div>
-          <div class="space-y-4">
-            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md uppercase">${p.category}</span>
-            <h1 class="text-2xl font-black text-slate-900">${p.name}</h1>
-            <p class="text-2xl font-black text-blue-600">${formatCurrency(p.pricePKR, p.priceUSD)}</p>
-            <p class="text-xs text-slate-600 leading-relaxed">${p.description}</p>
-            <div class="pt-4 border-t flex gap-4">
-              <button onclick="addToCart('${p.id}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition text-xs">Add to Cart</button>
-              <a href="https://wa.me/923209306672?text=Hi%20HY%20Store,%20I%20want%20to%20order%20${encodeURIComponent(p.name)}" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2">
-                <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
+      if (hash === '#/' || hash === '') {
+        main.innerHTML = `
+          <!-- Hero Section -->
+          <div class="bg-gradient-to-r from-orange-100 via-amber-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 rounded-3xl p-8 sm:p-12 border border-orange-200 dark:border-slate-800 mb-12 text-center shadow-lg">
+            <h1 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white mb-4">
+              Customized Gifts & Corporate Printing
+            </h1>
+            <p class="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-8 text-sm sm:text-base leading-relaxed">
+              Mug Printing, Customized T-Shirts, Visiting Cards, Banners, Acrylic Displays, and Corporate Gift Boxes tailored to your exact needs.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+              <a href="#/products" class="bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-orange-600/30 transition">
+                Browse Products
+              </a>
+              <a href="https://wa.me/923209306672" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition">
+                WhatsApp Order (0320 9306672)
               </a>
             </div>
           </div>
-        </div>
-      `;
-    }
 
-    function renderCartView(container) {
-      const subtotalPKR = storeState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0);
-      const subtotalUSD = storeState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0);
-
-      container.innerHTML = `
-        <h1 class="text-3xl font-black mb-6">Your Shopping Cart</h1>
-        ${storeState.cart.length === 0 ? `
-          <div class="text-center py-20 bg-white rounded-3xl border border-slate-200">
-            <i class="fa-solid fa-bag-shopping text-4xl text-slate-300 mb-3"></i>
-            <h3 class="font-bold text-lg">Your cart is empty</h3>
-            <a href="#/products" class="inline-block mt-4 bg-blue-600 text-white text-xs font-bold px-5 py-2.5 rounded-xl">Browse Catalog</a>
+          <!-- Featured Products -->
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-black">Trending Products</h2>
+            <a href="#/products" class="text-orange-600 font-bold text-sm hover:underline">View All &rarr;</a>
           </div>
-        ` : `
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-4">
-              ${storeState.cart.map(item => `
-                <div class="bg-white p-4 rounded-2xl border flex items-center justify-between gap-4">
-                  <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover">
-                  <div class="flex-grow">
-                    <h4 class="font-bold text-sm">${item.name}</h4>
-                    <span class="text-xs font-semibold text-blue-600">${formatCurrency(item.pricePKR, item.priceUSD)}</span>
-                  </div>
-                  <div class="flex items-center border rounded-lg p-1">
-                    <button onclick="updateQty('${item.id}', ${item.qty - 1})" class="px-2 font-bold text-xs">-</button>
-                    <span class="px-2 text-xs font-bold">${item.qty}</span>
-                    <button onclick="updateQty('${item.id}', ${item.qty + 1})" class="px-2 font-bold text-xs">+</button>
-                  </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            ${products.slice(0, 4).map(p => `
+              <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between hover:shadow-xl transition group">
+                <div>
+                  <img src="${p.image}" class="w-full h-48 object-cover rounded-xl mb-4 group-hover:scale-105 transition" alt="${p.name}">
+                  <span class="text-[10px] font-black uppercase text-orange-600 bg-orange-100 dark:bg-orange-950/60 px-2.5 py-1 rounded-full">${p.category}</span>
+                  <h3 class="font-extrabold text-base mt-2 mb-1">${p.name}</h3>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-3">${p.desc}</p>
                 </div>
-              `).join('')}
-            </div>
-            <div class="bg-white p-6 rounded-2xl border h-fit space-y-4">
-              <h3 class="font-bold text-base border-b pb-2">Order Summary</h3>
-              <div class="flex justify-between text-xs font-semibold">
-                <span>Subtotal</span>
-                <span>${formatCurrency(subtotalPKR, subtotalUSD)}</span>
+                <div>
+                  <div class="text-lg font-black text-orange-600 mb-3">PKR ${p.price.toLocaleString()}</div>
+                  <button onclick="addToCart(${p.id})" class="w-full bg-slate-900 hover:bg-orange-600 text-white font-bold py-2.5 rounded-xl text-sm transition">
+                    Add to Cart
+                  </button>
+                </div>
               </div>
-              <a href="#/checkout" class="block text-center w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs shadow-lg">Proceed to Checkout</a>
+            `).join('')}
+          </div>
+        `;
+      } 
+      else if (hash === '#/products') {
+        main.innerHTML = `
+          <h1 class="text-3xl font-black mb-6">All Products & Printing Catalog</h1>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            ${products.map(p => `
+              <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col justify-between shadow-sm">
+                <div>
+                  <img src="${p.image}" class="w-full h-52 object-cover rounded-xl mb-4" alt="${p.name}">
+                  <span class="text-[10px] font-black uppercase text-orange-600 bg-orange-100 dark:bg-orange-950 px-2.5 py-1 rounded-full">${p.category}</span>
+                  <h3 class="font-bold text-lg mt-2">${p.name}</h3>
+                  <p class="text-xs text-slate-500 mb-4">${p.desc}</p>
+                </div>
+                <div>
+                  <div class="text-xl font-black text-orange-600 mb-3">PKR ${p.price.toLocaleString()}</div>
+                  <button onclick="addToCart(${p.id})" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+      else if (hash === '#/cart') {
+        if (cart.length === 0) {
+          main.innerHTML = `
+            <div class="text-center py-20">
+              <i class="fa-solid fa-cart-shopping text-6xl text-slate-300 dark:text-slate-700 mb-4"></i>
+              <h2 class="text-2xl font-black mb-2">Your Shopping Cart is Empty</h2>
+              <p class="text-slate-500 text-sm mb-6">Explore our gifts and printing catalog to add products.</p>
+              <a href="#/products" class="bg-orange-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg">Browse Products</a>
+            </div>
+          `;
+        } else {
+          const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+          main.innerHTML = `
+            <h1 class="text-3xl font-black mb-6">Shopping Cart</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div class="lg:col-span-2 space-y-4">
+                ${cart.map(item => `
+                  <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex items-center justify-between gap-4">
+                    <img src="${item.image}" class="w-20 h-20 object-cover rounded-xl" alt="${item.name}">
+                    <div class="flex-1">
+                      <h4 class="font-bold text-base">${item.name}</h4>
+                      <div class="text-sm text-orange-600 font-extrabold">PKR ${item.price.toLocaleString()}</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <button onclick="updateQty(${item.id}, -1)" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold">-</button>
+                      <span class="font-bold text-sm w-6 text-center">${item.qty}</span>
+                      <button onclick="updateQty(${item.id}, 1)" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold">+</button>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash"></i></button>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 h-fit">
+                <h3 class="text-xl font-black mb-4">Order Summary</h3>
+                <div class="flex justify-between text-sm mb-2"><span>Subtotal:</span><span class="font-bold">PKR ${total.toLocaleString()}</span></div>
+                <div class="flex justify-between text-sm mb-4"><span>Shipping:</span><span class="font-bold text-emerald-600">FREE</span></div>
+                <div class="border-t border-slate-200 dark:border-slate-800 pt-4 flex justify-between text-lg font-black mb-6">
+                  <span>Grand Total:</span><span class="text-orange-600">PKR ${total.toLocaleString()}</span>
+                </div>
+                <button onclick="handleCheckout()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition">Proceed to Checkout</button>
+              </div>
+            </div>
+          `;
+        }
+      }
+      else if (hash === '#/track-order') {
+        main.innerHTML = `
+          <div class="max-w-xl mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl">
+            <h1 class="text-2xl font-black text-center mb-2">Track Order Progress</h1>
+            <p class="text-xs text-center text-slate-500 mb-6">Enter your Order ID (e.g., HY-1001) to check real-time status.</p>
+            <div class="flex gap-2 mb-6">
+              <input type="text" id="track-id-input" placeholder="Order ID..." class="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none">
+              <button onclick="searchOrderTrack()" class="bg-orange-600 text-white font-bold px-6 py-3 rounded-xl">Track</button>
+            </div>
+            <div id="track-result" class="hidden border-t border-slate-200 dark:border-slate-800 pt-6">
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-bold text-sm">Status:</span>
+                <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">In Production / Printing</span>
+              </div>
+              <div class="space-y-3 text-xs text-slate-600 dark:text-slate-400">
+                <p><i class="fa-solid fa-check-circle text-emerald-500 mr-2"></i> Order Received & Confirmed</p>
+                <p><i class="fa-solid fa-sync text-orange-500 mr-2"></i> Design & Custom Printing under process</p>
+                <p><i class="fa-solid fa-clock text-slate-400 mr-2"></i> Dispatch via Courier Service</p>
+              </div>
             </div>
           </div>
-        `}
-      `;
-    }
-
-    function renderCheckoutView(container) {
-      const totalPKR = storeState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0);
-      const totalUSD = storeState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0);
-
-      container.innerHTML = `
-        <div class="max-w-2xl mx-auto bg-white p-8 rounded-3xl border border-slate-200 shadow-lg">
-          <h1 class="text-2xl font-black mb-6">Complete Checkout</h1>
-          <form onsubmit="placeOrder(event)" class="space-y-4 text-xs font-semibold">
-            <div>
-              <label class="block mb-1">Full Name</label>
-              <input type="text" id="cust-name" required placeholder="Ali Raza" class="w-full p-3 rounded-xl border border-slate-300">
-            </div>
-            <div>
-              <label class="block mb-1">WhatsApp Mobile Number</label>
-              <input type="text" id="cust-phone" required placeholder="0320 9306672" class="w-full p-3 rounded-xl border border-slate-300">
-            </div>
-            <div>
-              <label class="block mb-1">Shipping Address</label>
-              <textarea id="cust-address" required placeholder="Full street address & city" class="w-full p-3 rounded-xl border border-slate-300"></textarea>
-            </div>
-            <div class="pt-4 border-t flex justify-between items-center">
-              <div>
-                <span class="text-slate-500 block">Total Amount</span>
-                <span class="text-xl font-black text-blue-600">${formatCurrency(totalPKR, totalUSD)}</span>
-              </div>
-              <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-xl text-xs shadow-lg">Place Order</button>
-            </div>
-          </form>
-        </div>
-      `;
-    }
-
-    function renderTrackOrderView(container, params) {
-      const searchId = params.get('id') || '';
-      const order = storeState.orders.find(o => o.id === searchId);
-
-      container.innerHTML = `
-        <div class="max-w-xl mx-auto space-y-6">
-          <h1 class="text-3xl font-black text-center">Track Order Progress</h1>
-          <div class="bg-white p-6 rounded-2xl border">
-            <form onsubmit="event.preventDefault(); window.location.hash='#/track-order?id=' + document.getElementById('track-id').value;" class="flex gap-2">
-              <input type="text" id="track-id" value="${searchId}" placeholder="Enter Order ID (e.g. ORD-78901)" class="w-full p-3 text-xs rounded-xl border border-slate-300 outline-none">
-              <button type="submit" class="bg-blue-600 text-white font-bold text-xs px-6 py-3 rounded-xl">Track</button>
+        `;
+      }
+      else if (hash === '#/admin') {
+        main.innerHTML = `
+          <h1 class="text-3xl font-black mb-6">Admin Control Panel</h1>
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl mb-8">
+            <h3 class="text-lg font-extrabold mb-4">Add New Product</h3>
+            <form onsubmit="adminAddProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" id="adm-name" placeholder="Product Name" required class="px-4 py-2.5 rounded-xl border dark:bg-slate-800 text-sm">
+              <input type="text" id="adm-cat" placeholder="Category" required class="px-4 py-2.5 rounded-xl border dark:bg-slate-800 text-sm">
+              <input type="number" id="adm-price" placeholder="Price in PKR" required class="px-4 py-2.5 rounded-xl border dark:bg-slate-800 text-sm">
+              <input type="text" id="adm-img" placeholder="Image URL" required class="px-4 py-2.5 rounded-xl border dark:bg-slate-800 text-sm">
+              <textarea id="adm-desc" placeholder="Product Description" class="sm:col-span-2 px-4 py-2.5 rounded-xl border dark:bg-slate-800 text-sm"></textarea>
+              <button type="submit" class="sm:col-span-2 bg-orange-600 text-white font-bold py-3 rounded-xl">Publish Product</button>
             </form>
           </div>
-          ${order ? `
-            <div class="bg-white p-6 rounded-2xl border space-y-4">
-              <div class="flex justify-between items-center border-b pb-3">
-                <span class="font-bold text-sm">${order.id}</span>
-                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">${order.status}</span>
-              </div>
-              <p class="text-xs text-slate-500">Customer: ${order.customerName}</p>
-            </div>
-          ` : searchId ? `<p class="text-center text-xs text-slate-500">No order found with ID "${searchId}".</p>` : ''}
-        </div>
-      `;
-    }
-
-    function renderServicesView(container) {
-      container.innerHTML = `
-        <div class="max-w-4xl mx-auto py-8 text-center space-y-6">
-          <h1 class="text-4xl font-black">Professional Printing Services</h1>
-          <p class="text-slate-600 text-sm">We provide commercial printing, gift customizations, and bulk corporate merchandise.</p>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left pt-6">
-            <div class="p-6 bg-white rounded-2xl border"><h3 class="font-bold mb-2">Custom Mug Printing</h3><p class="text-xs text-slate-500">Sublimation & heat sensitive magic mugs.</p></div>
-            <div class="p-6 bg-white rounded-2xl border"><h3 class="font-bold mb-2">DTF Shirt Printing</h3><p class="text-xs text-slate-500">Washproof high resolution t-shirt printing.</p></div>
-            <div class="p-6 bg-white rounded-2xl border"><h3 class="font-bold mb-2">Corporate Gift Sets</h3><p class="text-xs text-slate-500">Executive boxes engraved with business logo.</p></div>
+        `;
+      }
+      else {
+        main.innerHTML = `
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 max-w-2xl mx-auto text-center">
+            <h1 class="text-3xl font-black mb-4">HY Store Official</h1>
+            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6">
+              Welcome to HY Store Official (Gifts & Printing Services). We specialize in high quality custom gift items, mug printing, visiting cards, t-shirts, and commercial printing.
+            </p>
+            <p class="text-xs text-slate-500 font-semibold mb-2">WhatsApp / Phone: 0320 9306672</p>
+            <p class="text-xs text-slate-500 font-semibold">Email: hybusinessprint@gmail.com</p>
           </div>
-        </div>
-      `;
+        `;
+      }
     }
 
-    function renderPoliciesView(container) {
-      container.innerHTML = `
-        <div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl border text-xs space-y-4 leading-relaxed">
-          <h1 class="text-2xl font-black text-slate-900 mb-4">Store Policies & Terms</h1>
-          <p><strong>Shipping Policy:</strong> Orders are processed and dispatched within 24 to 48 hours. Free shipping applies on orders above PKR 5,000.</p>
-          <p><strong>Return Policy:</strong> Defective custom printed items are eligible for free replacement within 7 business days.</p>
-        </div>
-      `;
-    }
-
-    function renderAboutView(container) {
-      container.innerHTML = `
-        <div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl border text-center space-y-4">
-          <h1 class="text-3xl font-black">About HY Store</h1>
-          <p class="text-xs text-slate-600 leading-relaxed">HY Store (Gifts & Printing Services) delivers top tier customization for personal celebrations and business branding across Pakistan.</p>
-          <p class="text-xs font-bold text-blue-600">Contact: 0320 9306672 | hybusinessprint@gmail.com</p>
-        </div>
-      `;
-    }
-
-    function renderAdminView(container) {
-      container.innerHTML = `
-        <div class="space-y-6">
-          <div class="flex justify-between items-center">
-            <h1 class="text-3xl font-black">Admin Control Panel</h1>
-            <button onclick="addNewProductPrompt()" class="bg-blue-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl">+ Add New Product</button>
-          </div>
-          <div class="bg-white rounded-2xl border overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead class="bg-slate-50 border-b">
-                <tr><th class="p-4">Product Name</th><th class="p-4">Category</th><th class="p-4">Price (PKR)</th><th class="p-4">Actions</th></tr>
-              </thead>
-              <tbody class="divide-y">
-                ${storeState.products.map(p => `
-                  <tr>
-                    <td class="p-4 font-bold">${p.name}</td>
-                    <td class="p-4">${p.category}</td>
-                    <td class="p-4 font-bold">Rs. ${p.pricePKR}</td>
-                    <td class="p-4"><button onclick="deleteProduct('${p.id}')" class="text-rose-600 font-bold hover:underline">Delete</button></td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
-    }
-
-    // MUTATION HANDLERS
+    // Cart Actions
     function addToCart(id) {
-      const p = storeState.products.find(item => item.id === id);
+      const p = products.find(item => item.id === id);
       if (!p) return;
-      const exist = storeState.cart.find(item => item.id === id);
-      if (exist) exist.qty += 1;
-      else storeState.cart.push({ ...p, qty: 1 });
-      saveState();
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ ...p, qty: 1 });
+      }
+      saveStoredCart(cart);
       showToast(`${p.name} added to cart!`);
     }
 
-    function updateQty(id, qty) {
-      if (qty <= 0) storeState.cart = storeState.cart.filter(i => i.id !== id);
-      else {
-        const item = storeState.cart.find(i => i.id === id);
-        if (item) item.qty = qty;
+    function updateQty(id, change) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty += change;
+      if (item.qty <= 0) {
+        cart = cart.filter(i => i.id !== id);
       }
-      saveState();
-      handleRouting();
+      saveStoredCart(cart);
+      renderApp();
     }
 
-    function placeOrder(e) {
+    function removeFromCart(id) {
+      cart = cart.filter(i => i.id !== id);
+      saveStoredCart(cart);
+      renderApp();
+    }
+
+    function handleCheckout() {
+      const orderId = 'HY-' + Math.floor(1000 + Math.random() * 9000);
+      alert(`Order Placed Successfully!\n\nYour Order ID: ${orderId}\nWe will contact you on WhatsApp / Phone shortly.`);
+      cart = [];
+      saveStoredCart(cart);
+      window.location.hash = '#/track-order';
+    }
+
+    // Modal & Auth
+    function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
+    function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+    
+    function handleAccountLogin(e) {
       e.preventDefault();
-      const newOrder = {
-        id: "ORD-" + Math.floor(10000 + Math.random() * 90000),
-        date: new Date().toISOString().split('T')[0],
-        totalPKR: storeState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0),
-        totalUSD: storeState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0),
-        status: "Processing",
-        customerName: document.getElementById('cust-name').value,
-        items: [...storeState.cart]
-      };
-      storeState.orders.unshift(newOrder);
-      storeState.cart = [];
-      saveState();
-      showToast("Order placed successfully!");
-      window.location.hash = `#/track-order?id=${newOrder.id}`;
+      const email = document.getElementById('login-email').value;
+      currentUser = { name: email.split('@')[0], email: email };
+      localStorage.setItem('hy_user', JSON.stringify(currentUser));
+      updateAuthUI();
+      closeLoginModal();
+      showToast('Login Successful!');
     }
 
-    function addNewProductPrompt() {
-      const name = prompt("Enter Product Name:");
-      if (!name) return;
-      const price = prompt("Enter Price in PKR:");
-      if (!price) return;
+    function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('hy_user');
+      updateAuthUI();
+      closeLoginModal();
+      showToast('Logged Out');
+    }
+
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function searchOrderTrack() {
+      const id = document.getElementById('track-id-input').value;
+      if (!id) return alert('Please enter Order ID');
+      document.getElementById('track-result').classList.remove('hidden');
+    }
+
+    function adminAddProduct(e) {
+      e.preventDefault();
       const newP = {
-        id: "prod-" + Date.now(),
-        name: name,
-        category: "Custom Mugs",
-        pricePKR: parseInt(price),
-        priceUSD: Math.round(parseInt(price) / 280),
-        rating: 5.0,
-        reviewsCount: 1,
-        sku: "HY-NEW-" + Math.floor(Math.random() * 90),
-        stock: 20,
-        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
-        description: "New custom printed item."
+        id: Date.now(),
+        name: document.getElementById('adm-name').value,
+        category: document.getElementById('adm-cat').value,
+        price: parseFloat(document.getElementById('adm-price').value),
+        image: document.getElementById('adm-img').value,
+        desc: document.getElementById('adm-desc').value
       };
-      storeState.products.unshift(newP);
-      saveState();
-      handleRouting();
-      showToast("New product published!");
+      products.push(newP);
+      saveStoredProducts(products);
+      showToast('New Product Added!');
+      window.location.hash = '#/products';
     }
 
-    function deleteProduct(id) {
-      storeState.products = storeState.products.filter(p => p.id !== id);
-      saveState();
-      handleRouting();
-      showToast("Product deleted!");
-    }
-
-    function handleGlobalSearch(e) {
-      if (e.key === 'Enter') {
-        const query = e.target.value.toLowerCase().trim();
-        window.location.hash = `#/products?search=${encodeURIComponent(query)}`;
-      }
-    }
+    // Init App
+    window.addEventListener('hashchange', renderApp);
+    window.addEventListener('DOMContentLoaded', () => {
+      updateCartBadge();
+      updateAuthUI();
+      renderApp();
+    });
   </script>
 </body>
 </html>
