@@ -1,1407 +1,965 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ApexMart — Premium Store & Ecommerce Platform</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0f3ff',
-                            100: '#e1e7fe',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HY Store - Gifts & Printing Services</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
             }
+          }
         }
-    </script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(229, 231, 235, 0.6);
-        }
-        .dark .glass-card {
-            background: rgba(17, 24, 39, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        /* Toast notification styling */
-        #toastContainer {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .toast {
-            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes slideUp {
-            from { transform: translateY(100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-    </style>
+      }
+    }
+  </script>
+
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Fallback Custom CSS: Guarantees full design, colors, flex layouts, typography & buttons even if Tailwind fails -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Bar */
+    .top-announcement-bar {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      font-size: 12px;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Header Nav */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo-box {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .nav-links-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: #334155;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: #2563eb;
+    }
+
+    .btn-custom {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .btn-client-login {
+      background-color: #ffffff;
+      border-color: #cbd5e1;
+      color: #1e293b;
+    }
+    .btn-client-login:hover {
+      background-color: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .btn-whatsapp {
+      background-color: #10b981;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+    .btn-whatsapp:hover {
+      background-color: #059669;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    }
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    /* Search Bar */
+    .search-input-box {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+    }
+    .search-input-box input {
+      width: 100%;
+      padding: 8px 12px 8px 36px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      background-color: #f8fafc;
+      font-size: 13px;
+      outline: none;
+    }
+    .search-input-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    /* Grid layout fallbacks */
+    .main-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 16px;
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background-color: #f1f5f9;
+    }
+
+    .product-details {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    /* Toast Notification Overlay */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast-msg {
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.3s ease-out;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Footer Fallback */
+    .site-footer {
+      background-color: #0f172a;
+      color: #cbd5e1;
+      padding: 48px 16px 24px 16px;
+      margin-top: auto;
+      border-top: 1px solid #1e293b;
+    }
+    .footer-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+    }
+    .footer-col h5 {
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col ul li {
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+    .footer-col ul li a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+    .footer-col ul li a:hover {
+      color: #ffffff;
+    }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col">
+<body>
 
-    <!-- Toast Notification Overlay -->
-    <div id="toastContainer"></div>
+  <!-- Toast Notification Overlay -->
+  <div id="toast-container"></div>
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-indigo-600 text-white text-xs py-2 px-4 text-center font-medium flex justify-between items-center max-w-full">
-        <div class="hidden sm:block">⚡ Flash Sale: Get 15% OFF with code <span class="bg-white/20 px-1.5 py-0.5 rounded font-mono font-bold">DISCOUNT15</span></div>
-        <div class="mx-auto sm:mx-0 flex items-center space-x-4">
-            <span>🚀 Free Express Delivery on orders over PKR 5,000 / $30</span>
-        </div>
-        <div class="hidden md:flex items-center space-x-3">
-            <!-- Currency Switcher -->
-            <select id="currencySelect" class="bg-indigo-700 text-white text-xs rounded px-2 py-0.5 outline-none cursor-pointer">
-                <option value="PKR">PKR (Rs.)</option>
-                <option value="USD">USD ($)</option>
-            </select>
-        </div>
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement-bar">
+    <div>
+      <i class="fa-solid fa-truck-fast mr-1"></i>
+      <span>Free Shipping on custom gift orders over PKR 5,000!</span>
     </div>
+    <div class="flex items-center gap-4">
+      <span><i class="fa-solid fa-phone mr-1"></i> 0320 9306672</span>
+      <span class="hidden md:inline"><i class="fa-solid fa-envelope mr-1"></i> hybusinessprint@gmail.com</span>
+      <select id="currency-switcher" onchange="switchCurrency(this.value)" class="bg-blue-800 text-white text-xs px-2 py-0.5 rounded outline-none cursor-pointer">
+        <option value="PKR">PKR (Rs.)</option>
+        <option value="USD">USD ($)</option>
+      </select>
+    </div>
+  </div>
 
-    <!-- Sticky Navigation Bar -->
-    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-            <!-- Logo -->
-            <a href="#/" class="flex items-center space-x-2 shrink-0">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white font-black text-xl shadow-md">
-                    A
-                </div>
-                <span class="font-extrabold text-2xl tracking-tight hidden sm:inline-block">
-                    Apex<span class="text-indigo-600 dark:text-indigo-400">Mart</span>
-                </span>
-            </a>
+  <!-- Main Navigation Header -->
+  <header class="site-header">
+    <div class="nav-container">
+      
+      <!-- Brand Logo -->
+      <a href="#/" class="flex items-center gap-3 no-underline">
+        <div class="brand-logo-box">HY</div>
+        <div>
+          <span class="text-lg font-extrabold tracking-tight block leading-none text-slate-900">HY STORE</span>
+          <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mt-0.5">Gifts & Printing Services</span>
+        </div>
+      </a>
 
-            <!-- Search Bar with Predictive Live Search -->
-            <div class="relative flex-1 max-w-md hidden md:block">
-                <div class="relative">
-                    <input type="text" id="globalSearchInput" placeholder="Search products, brands, categories..." class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 text-sm outline-none transition-all">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-                    <button id="clearSearchBtn" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                        <i class="fa-solid fa-xmark text-sm"></i>
-                    </button>
-                </div>
-                <!-- Search Live Results Box -->
-                <div id="searchResultsBox" class="hidden absolute top-full left-0 w-full mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden z-50 max-h-96 overflow-y-auto"></div>
+      <!-- Search Bar -->
+      <div class="search-input-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="global-search-input" placeholder="Search gifts, mug printing, t-shirts..." onkeyup="handleGlobalSearch(event)">
+      </div>
+
+      <!-- Center Main Navigation Links -->
+      <nav class="hidden md:flex items-center gap-5 text-xs md:text-sm font-semibold">
+        <a href="#/" class="nav-link text-slate-700 hover:text-blue-600">Home Page</a>
+        <a href="#/products" class="nav-link text-slate-700 hover:text-blue-600">All Products & Gifts</a>
+        <a href="#/services" class="nav-link text-slate-700 hover:text-blue-600">Printing Services</a>
+        <a href="#/track-order" class="nav-link text-slate-700 hover:text-blue-600">Track Order Progress</a>
+        <a href="#/policies" class="nav-link text-slate-700 hover:text-blue-600">Store Policies & Terms</a>
+        <a href="#/about" class="nav-link text-slate-700 hover:text-blue-600">About HY Store</a>
+        <a href="#/admin" class="nav-link text-blue-600 hover:underline">Admin Control Panel</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3">
+        <!-- Cart Badge -->
+        <a href="#/cart" class="relative p-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition text-slate-700">
+          <i class="fa-solid fa-bag-shopping text-base"></i>
+          <span id="cart-badge" class="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        </a>
+
+        <!-- Client Login Button -->
+        <button onclick="openLoginModal()" class="btn-custom btn-client-login hidden sm:inline-flex">
+          <i class="fa-solid fa-user-lock text-blue-600"></i>
+          <span>Client Login</span>
+        </button>
+
+        <!-- WhatsApp Let's Talk Button -->
+        <a href="https://wa.me/923209306672" target="_blank" class="btn-custom btn-whatsapp">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>Let's Talk</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Dynamic Page Content Root -->
+  <main id="app-root" class="main-container">
+    <!-- View rendered dynamically via JavaScript Hash Router -->
+  </main>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl p-6 shadow-2xl relative border border-slate-200">
+      <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+      <h3 class="text-xl font-extrabold mb-1">Client Login & Account</h3>
+      <p class="text-xs text-slate-500 mb-6">Enter your credentials to access your order history & profile</p>
+      <form onsubmit="handleAccountLogin(event)" class="space-y-4 text-xs font-semibold">
+        <div>
+          <label class="block mb-1">Email Address</label>
+          <input type="email" required placeholder="hybusinessprint@gmail.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block mb-1">Password</label>
+          <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Login to Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5-Column Complete Footer -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <!-- Column 1: Store Bio -->
+      <div class="footer-col">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black">HY</div>
+          <span class="text-white font-extrabold text-base">HY Store</span>
+        </div>
+        <p class="text-xs text-slate-400 leading-relaxed mb-4">Your premium shop for customized gifts, corporate printing, mug printing, t-shirt printing, banners, and promotional items.</p>
+        <p class="text-xs text-slate-300"><i class="fa-solid fa-phone text-blue-500 mr-2"></i> 0320 9306672</p>
+        <p class="text-xs text-slate-300 mt-1"><i class="fa-solid fa-envelope text-blue-500 mr-2"></i> hybusinessprint@gmail.com</p>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#/">Home Page</a></li>
+          <li><a href="#/products">All Products & Gifts</a></li>
+          <li><a href="#/services">Printing Services</a></li>
+          <li><a href="#/about">About HY Store</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Customer Service -->
+      <div class="footer-col">
+        <h5>Customer Support</h5>
+        <ul>
+          <li><a href="#/track-order">Track Order Progress</a></li>
+          <li><a href="#/cart">Shopping Cart</a></li>
+          <li><a href="#/policies">Help & FAQ</a></li>
+          <li><a href="#/admin">Admin Panel</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Policies -->
+      <div class="footer-col">
+        <h5>Store Policies</h5>
+        <ul>
+          <li><a href="#/policies">Privacy Policy</a></li>
+          <li><a href="#/policies">Terms & Conditions</a></li>
+          <li><a href="#/policies">Shipping & Delivery Policy</a></li>
+          <li><a href="#/policies">Return & Refund Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 5: Instant WhatsApp -->
+      <div class="footer-col">
+        <h5>Instant Support</h5>
+        <p class="text-xs text-slate-400 mb-3">Get instant quotes and order updates on WhatsApp.</p>
+        <a href="https://wa.me/923209306672" target="_blank" class="btn-custom btn-whatsapp inline-flex">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>WhatsApp 0320 9306672</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto border-t border-slate-800 mt-10 pt-6 text-center text-xs text-slate-500">
+      &copy; 2026 HY Store - Gifts & Printing Services. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- JavaScript Single Page Application Logic -->
+  <script>
+    // State Initialization
+    const INITIAL_PRODUCTS = [
+      {
+        id: "prod-1",
+        name: "Custom Magic Ceramic Photo Mug (Heat Sensitive)",
+        category: "Custom Mugs",
+        pricePKR: 1200,
+        priceUSD: 4.5,
+        rating: 4.9,
+        reviewsCount: 88,
+        sku: "HY-MUG-01",
+        stock: 50,
+        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+        description: "High quality ceramic mug with heat-sensitive color-changing magic print. Reveals photo when hot liquid is poured."
+      },
+      {
+        id: "prod-2",
+        name: "Custom Premium Cotton Printed T-Shirt",
+        category: "T-Shirt Printing",
+        pricePKR: 1800,
+        priceUSD: 6.5,
+        rating: 4.8,
+        reviewsCount: 64,
+        sku: "HY-TSH-02",
+        stock: 35,
+        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80",
+        description: "100% breathable combed cotton with vibrant wash-proof DTF custom logo or photo print."
+      },
+      {
+        id: "prod-3",
+        name: "Luxury Matte Embossed Visiting Cards (Pack of 100)",
+        category: "Visiting Cards",
+        pricePKR: 2500,
+        priceUSD: 9.0,
+        rating: 5.0,
+        reviewsCount: 120,
+        sku: "HY-CRD-03",
+        stock: 100,
+        image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80",
+        description: "350 GSM heavy card stock with velvet touch matte lamination and metallic spot UV foil."
+      },
+      {
+        id: "prod-4",
+        name: "Heavy Duty Flex Banner & Vinyl Board Printing",
+        category: "Banners & Signs",
+        pricePKR: 3500,
+        priceUSD: 12.5,
+        rating: 4.7,
+        reviewsCount: 45,
+        sku: "HY-BNR-04",
+        stock: 20,
+        image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80",
+        description: "Outdoor weatherproof vinyl printing with eyelets and reinforced borders for store branding."
+      },
+      {
+        id: "prod-5",
+        name: "Executive Wooden Engraved Desk Gift Box Set",
+        category: "Corporate Gifts",
+        pricePKR: 4500,
+        priceUSD: 16.0,
+        rating: 4.9,
+        reviewsCount: 52,
+        sku: "HY-GFT-05",
+        stock: 15,
+        image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80",
+        description: "Includes customized metal pen, executive diary, thermal flask, and USB drive in a luxury wooden gift box."
+      }
+    ];
+
+    let storeState = {
+      products: JSON.parse(localStorage.getItem('hy_products')) || INITIAL_PRODUCTS,
+      cart: JSON.parse(localStorage.getItem('hy_cart')) || [],
+      orders: JSON.parse(localStorage.getItem('hy_orders')) || [
+        {
+          id: "ORD-78901",
+          date: "2026-04-01",
+          totalPKR: 2400,
+          totalUSD: 9,
+          status: "Dispatched",
+          customerName: "Ali Raza",
+          items: [{ name: "Custom Magic Ceramic Mug", qty: 2 }]
+        }
+      ],
+      currency: localStorage.getItem('hy_currency') || 'PKR'
+    };
+
+    function saveState() {
+      localStorage.setItem('hy_products', JSON.stringify(storeState.products));
+      localStorage.setItem('hy_cart', JSON.stringify(storeState.cart));
+      localStorage.setItem('hy_orders', JSON.stringify(storeState.orders));
+      localStorage.setItem('hy_currency', storeState.currency);
+      updateCartBadge();
+    }
+
+    function formatCurrency(pkr, usd) {
+      if (storeState.currency === 'USD') return `$${usd.toFixed(2)}`;
+      return `Rs. ${pkr.toLocaleString()}`;
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i> <span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3500);
+    }
+
+    function updateCartBadge() {
+      const totalQty = storeState.cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cart-badge').textContent = totalQty;
+    }
+
+    function switchCurrency(val) {
+      storeState.currency = val;
+      saveState();
+      handleRouting();
+    }
+
+    // Modal Control
+    function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
+    function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+    function handleAccountLogin(e) {
+      e.preventDefault();
+      showToast("Logged in successfully to HY Store account!");
+      closeLoginModal();
+    }
+
+    // Single Page Router
+    function handleRouting() {
+      const hash = window.location.hash || '#/';
+      const root = document.getElementById('app-root');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const [path, queryString] = hash.split('?');
+      const params = new URLSearchParams(queryString || '');
+
+      if (path === '#/' || path === '') renderHomeView(root);
+      else if (path === '#/products') renderProductsView(root, params);
+      else if (path.startsWith('#/product/')) renderProductDetailView(root, path.replace('#/product/', ''));
+      else if (path === '#/services') renderServicesView(root);
+      else if (path === '#/cart') renderCartView(root);
+      else if (path === '#/checkout') renderCheckoutView(root);
+      else if (path === '#/track-order') renderTrackOrderView(root, params);
+      else if (path === '#/policies') renderPoliciesView(root);
+      else if (path === '#/about') renderAboutView(root);
+      else if (path === '#/admin') renderAdminView(root);
+      else renderHomeView(root);
+    }
+
+    window.addEventListener('hashchange', handleRouting);
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('currency-switcher').value = storeState.currency;
+      updateCartBadge();
+      handleRouting();
+    });
+
+    // RENDER VIEWS
+    function renderHomeView(container) {
+      container.innerHTML = `
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white rounded-3xl p-8 md:p-14 shadow-2xl mb-12 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div class="max-w-xl space-y-4 text-center md:text-left">
+            <span class="inline-block bg-white/20 text-white text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">🔥 Premium Custom Gifts & Printing</span>
+            <h1 class="text-3xl sm:text-5xl font-black leading-tight">Elevate Your Brand with Premium Printing</h1>
+            <p class="text-blue-100 text-sm leading-relaxed">Customize mug prints, t-shirts, visiting cards, vinyl banners, and corporate gift packages with nationwide express delivery.</p>
+            <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-2">
+              <a href="#/products" class="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-xl font-extrabold text-xs shadow-lg transition">Explore Products</a>
+              <a href="https://wa.me/923209306672" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-extrabold text-xs shadow-lg transition">Instant WhatsApp Quote</a>
             </div>
-
-            <!-- Desktop Nav Links -->
-            <nav class="hidden lg:flex items-center space-x-6 text-sm font-semibold text-slate-700 dark:text-slate-300">
-                <a href="#/" class="hover:text-indigo-600 dark:hover:text-indigo-400">Home</a>
-                <a href="#/products" class="hover:text-indigo-600 dark:hover:text-indigo-400">Shop</a>
-                <a href="#/services" class="hover:text-indigo-600 dark:hover:text-indigo-400">Services</a>
-                <a href="#/track-order" class="hover:text-indigo-600 dark:hover:text-indigo-400">Track Order</a>
-                <a href="#/about" class="hover:text-indigo-600 dark:hover:text-indigo-400">About</a>
-                <a href="#/admin" class="hover:text-indigo-600 dark:hover:text-indigo-400 text-xs px-2.5 py-1 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">Admin</a>
-            </nav>
-
-            <!-- Actions (Theme, Account, Wishlist, Cart) -->
-            <div class="flex items-center space-x-3 sm:space-x-4">
-                <!-- Dark Mode Toggle -->
-                <button id="themeToggle" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                    <i class="fa-solid fa-moon text-base dark:hidden"></i>
-                    <i class="fa-solid fa-sun text-base hidden dark:block"></i>
-                </button>
-
-                <!-- Account -->
-                <a href="#/account" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors relative" title="Account">
-                    <i class="fa-regular fa-user text-base"></i>
-                </a>
-
-                <!-- Wishlist Badge -->
-                <a href="#/account?tab=wishlist" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors relative hidden sm:flex" title="Wishlist">
-                    <i class="fa-regular fa-heart text-base"></i>
-                    <span id="wishlistBadge" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">0</span>
-                </a>
-
-                <!-- Shopping Cart -->
-                <a href="#/cart" class="p-2.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-colors relative flex items-center space-x-2 px-3 sm:px-4 shadow-md shadow-indigo-500/20">
-                    <i class="fa-solid fa-bag-shopping text-base"></i>
-                    <span id="cartCountBadge" class="font-bold text-xs bg-white text-indigo-600 px-1.5 py-0.5 rounded-full">0</span>
-                </a>
-
-                <!-- Mobile Menu Hamburger -->
-                <button id="mobileNavToggle" class="lg:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                    <i class="fa-solid fa-bars text-lg"></i>
-                </button>
-            </div>
+          </div>
+          <div class="w-full md:w-80 h-72 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20">
+            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+          </div>
         </div>
 
-        <!-- Mobile Drawer Menu -->
-        <div id="mobileDrawer" class="hidden lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-4 space-y-3">
-            <div class="mb-3">
-                <input type="text" id="mobileSearchInput" placeholder="Search products..." class="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-transparent text-sm outline-none">
+        <!-- Featured Products -->
+        <div class="mb-12">
+          <div class="flex justify-between items-center mb-6">
+            <div>
+              <h2 class="text-2xl font-black">Featured Products & Gifts</h2>
+              <p class="text-xs text-slate-500">Top-rated items customized for personal & business needs</p>
             </div>
-            <a href="#/" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Home</a>
-            <a href="#/products" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Shop Catalog</a>
-            <a href="#/services" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Services & Branding</a>
-            <a href="#/track-order" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Track Order</a>
-            <a href="#/policies" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">Legal & Policies</a>
-            <a href="#/about" class="mobile-nav-link block py-2 font-medium border-b border-slate-100 dark:border-slate-800">About Us</a>
-            <a href="#/admin" class="mobile-nav-link block py-2 font-medium text-indigo-600 dark:text-indigo-400">Admin Control Panel</a>
+            <a href="#/products" class="text-xs font-bold text-blue-600 hover:underline">View All Catalog &rarr;</a>
+          </div>
+
+          <div class="product-grid">
+            ${storeState.products.map(p => renderProductCardHTML(p)).join('')}
+          </div>
         </div>
-    </header>
+      `;
+    }
 
-    <!-- MAIN VIEW CONTAINER (DYNAMIC ROUTING TARGET) -->
-    <main id="appView" class="flex-grow">
-        <!-- Rendered dynamically via JavaScript Router -->
-    </main>
+    function renderProductsView(container, params) {
+      const category = params.get('category') || 'All';
+      let filtered = storeState.products;
+      if (category !== 'All') filtered = filtered.filter(p => p.category === category);
 
-    <!-- Footers Column Structure -->
-    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-20 pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
-                <!-- Column 1: Store Bio -->
-                <div class="space-y-4 lg:col-span-1">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">A</div>
-                        <span class="font-bold text-xl">ApexMart</span>
-                    </div>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Your one-stop premium destination for flagship electronics, fashion, and lifestyle products with instant nationwide shipping.
-                    </p>
-                    <div class="flex space-x-3 text-slate-400">
-                        <a href="#" class="hover:text-indigo-600"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" class="hover:text-indigo-600"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="hover:text-indigo-600"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="#" class="hover:text-indigo-600"><i class="fa-brands fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <!-- Column 2: Quick Links -->
-                <div>
-                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-900 dark:text-slate-100">Quick Links</h4>
-                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
-                        <li><a href="#/" class="hover:text-indigo-600">Home</a></li>
-                        <li><a href="#/products" class="hover:text-indigo-600">All Products Catalog</a></li>
-                        <li><a href="#/products?category=Electronics" class="hover:text-indigo-600">Featured Electronics</a></li>
-                        <li><a href="#/services" class="hover:text-indigo-600">Custom Branding Services</a></li>
-                        <li><a href="#/about" class="hover:text-indigo-600">Our Story & Mission</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3: Customer Service -->
-                <div>
-                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-900 dark:text-slate-100">Customer Support</h4>
-                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
-                        <li><a href="#/track-order" class="hover:text-indigo-600">Track Your Order</a></li>
-                        <li><a href="#/account" class="hover:text-indigo-600">My Account & Orders</a></li>
-                        <li><a href="#/cart" class="hover:text-indigo-600">View Shopping Cart</a></li>
-                        <li><a href="#/policies?tab=faq" class="hover:text-indigo-600">Help Center & FAQ</a></li>
-                        <li><a href="#/policies?tab=returns" class="hover:text-indigo-600">Returns & Exchanges</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 4: Policies -->
-                <div>
-                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-900 dark:text-slate-100">Store Policies</h4>
-                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
-                        <li><a href="#/policies?tab=privacy" class="hover:text-indigo-600">Privacy Policy</a></li>
-                        <li><a href="#/policies?tab=terms" class="hover:text-indigo-600">Terms & Conditions</a></li>
-                        <li><a href="#/policies?tab=shipping" class="hover:text-indigo-600">Shipping Policy</a></li>
-                        <li><a href="#/policies?tab=cookies" class="hover:text-indigo-600">Cookie Preferences</a></li>
-                        <li><a href="#/policies?tab=warranty" class="hover:text-indigo-600">Warranty Disclaimer</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 5: Contact Info -->
-                <div>
-                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-900 dark:text-slate-100">Contact Info</h4>
-                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
-                        <li class="flex items-start space-x-2">
-                            <i class="fa-solid fa-location-dot mt-0.5 text-indigo-600"></i>
-                            <span>123 Innovation Boulevard, Tech City, Pakistan</span>
-                        </li>
-                        <li class="flex items-center space-x-2">
-                            <i class="fa-solid fa-phone text-indigo-600"></i>
-                            <span>+92 (300) 123-4567</span>
-                        </li>
-                        <li class="flex items-center space-x-2">
-                            <i class="fa-solid fa-envelope text-indigo-600"></i>
-                            <span>support@apexmart.com</span>
-                        </li>
-                        <li class="flex items-center space-x-2">
-                            <i class="fa-solid fa-clock text-indigo-600"></i>
-                            <span>Mon - Sat: 9:00 AM - 9:00 PM</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Footer Bottom -->
-            <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-4">
-                <p>&copy; 2026 ApexMart Inc. All rights reserved. Built with precision and performance.</p>
-                <div class="flex items-center space-x-4 text-lg text-slate-400">
-                    <i class="fa-brands fa-cc-visa hover:text-slate-600 dark:hover:text-slate-200"></i>
-                    <i class="fa-brands fa-cc-mastercard hover:text-slate-600 dark:hover:text-slate-200"></i>
-                    <i class="fa-brands fa-cc-paypal hover:text-slate-600 dark:hover:text-slate-200"></i>
-                    <i class="fa-solid fa-money-bill-transfer hover:text-slate-600 dark:hover:text-slate-200" title="Cash on Delivery"></i>
-                </div>
-            </div>
+      container.innerHTML = `
+        <div class="mb-8 border-b pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h1 class="text-3xl font-black">All Products & Printing Catalog</h1>
+            <p class="text-xs text-slate-500 mt-1">Showing ${filtered.length} customized items</p>
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            ${['All', 'Custom Mugs', 'T-Shirt Printing', 'Visiting Cards', 'Banners & Signs', 'Corporate Gifts'].map(c => `
+              <a href="#/products?category=${encodeURIComponent(c)}" class="text-xs font-bold px-3 py-1.5 rounded-lg border ${category === c ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-700 border-slate-300'} hover:border-blue-600">${c}</a>
+            `).join('')}
+          </div>
         </div>
-    </footer>
+        <div class="product-grid">
+          ${filtered.map(p => renderProductCardHTML(p)).join('')}
+        </div>
+      `;
+    }
 
-    <!-- JavaScript Application Core Logic -->
-    <script>
-        /**
-         * State & Mock Database Initialization
-         */
-        const INITIAL_PRODUCTS = [
-            {
-                id: "prod-1",
-                name: "Apex Ultra Pro Wireless Noise-Cancelling Headphones",
-                category: "Electronics",
-                pricePKR: 24999,
-                priceUSD: 89,
-                oldPricePKR: 32000,
-                oldPriceUSD: 115,
-                rating: 4.8,
-                reviewsCount: 142,
-                sku: "APX-AUD-01",
-                stock: 18,
-                featured: true,
-                bestSeller: true,
-                newArrival: true,
-                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
-                images: [
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
-                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=800&q=80",
-                    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80"
-                ],
-                description: "Experience world-class active noise cancellation with crystal clear acoustic precision. Designed with ergonomic memory foam cushions for all-day comfort.",
-                colors: ["Matte Black", "Silver Gray", "Midnight Blue"],
-                sizes: ["Standard"]
-            },
-            {
-                id: "prod-2",
-                name: "Minimalist Ergonomic Executive Chronograph Watch",
-                category: "Fashion",
-                pricePKR: 18500,
-                priceUSD: 65,
-                oldPricePKR: 22000,
-                oldPriceUSD: 80,
-                rating: 4.6,
-                reviewsCount: 89,
-                sku: "APX-WTC-09",
-                stock: 12,
-                featured: true,
-                bestSeller: false,
-                newArrival: true,
-                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
-                images: [
-                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
-                    "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
-                ],
-                description: "Sleek stainless steel watch case paired with genuine Italian leather strap. Water-resistant up to 50 meters.",
-                colors: ["Rose Gold", "Silver Stainless", "Obsidian Black"],
-                sizes: ["40mm", "44mm"]
-            },
-            {
-                id: "prod-3",
-                name: "NextGen Mechanical Gaming Keyboard (RGB)",
-                category: "Electronics",
-                pricePKR: 14999,
-                priceUSD: 52,
-                oldPricePKR: 18000,
-                oldPriceUSD: 65,
-                rating: 4.9,
-                reviewsCount: 210,
-                sku: "APX-KBD-44",
-                stock: 25,
-                featured: false,
-                bestSeller: true,
-                newArrival: false,
-                image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80",
-                images: [
-                    "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80"
-                ],
-                description: "Ultra-responsive tactile mechanical switches with custom programmable per-key RGB backlighting and durable PBT keycaps.",
-                colors: ["Black RGB", "Retro White"],
-                sizes: ["Full 104-Key", "Tenkeyless 80%"]
-            },
-            {
-                id: "prod-4",
-                name: "Premium Waterproof Urban Commuter Backpack",
-                category: "Accessories",
-                pricePKR: 8999,
-                priceUSD: 32,
-                oldPricePKR: 12000,
-                oldPriceUSD: 42,
-                rating: 4.7,
-                reviewsCount: 64,
-                sku: "APX-BAG-03",
-                stock: 8,
-                featured: true,
-                bestSeller: true,
-                newArrival: false,
-                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80",
-                images: [
-                    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
-                ],
-                description: "Built with high-density ballistic nylon, anti-theft hidden zippers, and built-in USB charging port extension.",
-                colors: ["Charcoal Gray", "Olive Green"],
-                sizes: ["20L Capacity", "30L Extended"]
-            },
-            {
-                id: "prod-5",
-                name: "Smart Fitness Health Tracker Watch V2",
-                category: "Electronics",
-                pricePKR: 11500,
-                priceUSD: 40,
-                oldPricePKR: 15000,
-                oldPriceUSD: 52,
-                rating: 4.5,
-                reviewsCount: 95,
-                sku: "APX-SMT-11",
-                stock: 30,
-                featured: false,
-                bestSeller: false,
-                newArrival: true,
-                image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=800&q=80",
-                images: [
-                    "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=800&q=80"
-                ],
-                description: "Continuous heart rate tracking, SpO2 blood oxygen sensor, AMOLED display, and 14-day battery life.",
-                colors: ["Graphite", "Coral Pink"],
-                sizes: ["Standard Fit"]
-            },
-            {
-                id: "prod-6",
-                name: "High-Resolution Studio Monitor Speakers (Pair)",
-                category: "Electronics",
-                pricePKR: 38999,
-                priceUSD: 139,
-                oldPricePKR: 45000,
-                oldPriceUSD: 160,
-                rating: 4.9,
-                reviewsCount: 38,
-                sku: "APX-SPK-88",
-                stock: 5,
-                featured: true,
-                bestSeller: false,
-                newArrival: false,
-                image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80",
-                images: [
-                    "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80"
-                ],
-                description: "Flat-frequency response audio drivers engineered for audio producers, sound designers, and audiophiles.",
-                colors: ["Walnut Wood", "Matte Black"],
-                sizes: ["5-inch", "8-inch"]
-            }
-        ];
+    function renderProductCardHTML(p) {
+      return `
+        <div class="product-card">
+          <img src="${p.image}" class="product-image" alt="${p.name}">
+          <div class="product-details">
+            <div>
+              <span class="text-[10px] font-bold uppercase text-blue-600 bg-blue-50 px-2 py-0.5 rounded">${p.category}</span>
+              <a href="#/product/${p.id}" class="font-bold text-sm block text-slate-900 mt-2 hover:text-blue-600 line-clamp-2 no-underline">${p.name}</a>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+              <span class="font-black text-base text-slate-900">${formatCurrency(p.pricePKR, p.priceUSD)}</span>
+              <button onclick="addToCart('${p.id}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-md transition">
+                + Add
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
 
-        // Persistent State Holders
-        let appState = {
-            products: JSON.parse(localStorage.getItem('apex_products')) || INITIAL_PRODUCTS,
-            cart: JSON.parse(localStorage.getItem('apex_cart')) || [],
-            wishlist: JSON.parse(localStorage.getItem('apex_wishlist')) || [],
-            orders: JSON.parse(localStorage.getItem('apex_orders')) || [
-                {
-                    id: "ORD-98421",
-                    date: "2026-03-28",
-                    totalPKR: 24999,
-                    totalUSD: 89,
-                    status: "Dispatched",
-                    items: [{ name: "Apex Ultra Pro Headphones", qty: 1, pricePKR: 24999, priceUSD: 89 }],
-                    customer: { name: "Ahmed Khan", phone: "+92 300 1234567", city: "Lahore" }
-                }
-            ],
-            user: JSON.parse(localStorage.getItem('apex_user')) || {
-                isLoggedIn: true,
-                name: "Ahmed Khan",
-                email: "ahmed@example.com",
-                phone: "+92 300 1234567",
-                address: "House 45, Street 12, Gulberg III",
-                city: "Lahore"
-            },
-            currency: localStorage.getItem('apex_currency') || 'PKR',
-            appliedCoupon: null
-        };
+    function renderProductDetailView(container, id) {
+      const p = storeState.products.find(item => item.id === id);
+      if (!p) { container.innerHTML = `<p class="py-20 text-center text-sm font-bold">Product not found!</p>`; return; }
 
-        // Save State Helper
-        function saveState() {
-            localStorage.setItem('apex_products', JSON.stringify(appState.products));
-            localStorage.setItem('apex_cart', JSON.stringify(appState.cart));
-            localStorage.setItem('apex_wishlist', JSON.stringify(appState.wishlist));
-            localStorage.setItem('apex_orders', JSON.stringify(appState.orders));
-            localStorage.setItem('apex_user', JSON.stringify(appState.user));
-            localStorage.setItem('apex_currency', appState.currency);
-            updateBadges();
-        }
+      container.innerHTML = `
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="h-80 md:h-96 rounded-2xl overflow-hidden bg-slate-100 border">
+            <img src="${p.image}" class="w-full h-full object-cover">
+          </div>
+          <div class="space-y-4">
+            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md uppercase">${p.category}</span>
+            <h1 class="text-2xl font-black text-slate-900">${p.name}</h1>
+            <p class="text-2xl font-black text-blue-600">${formatCurrency(p.pricePKR, p.priceUSD)}</p>
+            <p class="text-xs text-slate-600 leading-relaxed">${p.description}</p>
+            <div class="pt-4 border-t flex gap-4">
+              <button onclick="addToCart('${p.id}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition text-xs">Add to Cart</button>
+              <a href="https://wa.me/923209306672?text=Hi%20HY%20Store,%20I%20want%20to%20order%20${encodeURIComponent(p.name)}" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2">
+                <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
 
-        // Format Currency Helper
-        function formatPrice(pkr, usd) {
-            if (appState.currency === 'USD') {
-                return `$${usd.toLocaleString()}`;
-            }
-            return `Rs. ${pkr.toLocaleString()}`;
-        }
+    function renderCartView(container) {
+      const subtotalPKR = storeState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0);
+      const subtotalUSD = storeState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0);
 
-        // Notification Toast Generator
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            const bgClass = type === 'success' ? 'bg-emerald-600 text-white' : 'bg-indigo-600 text-white';
-            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-info';
-
-            toast.className = `toast flex items-center space-x-3 px-5 py-3 rounded-xl shadow-2xl ${bgClass} font-medium text-sm`;
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
-            
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.remove();
-            }, 3500);
-        }
-
-        // Dynamic Badges Update
-        function updateBadges() {
-            const cartBadge = document.getElementById('cartCountBadge');
-            const wishBadge = document.getElementById('wishlistBadge');
-            
-            const cartTotalQty = appState.cart.reduce((sum, item) => sum + item.qty, 0);
-            cartBadge.textContent = cartTotalQty;
-            wishBadge.textContent = appState.wishlist.length;
-        }
-
-        /**
-         * ROUTER LOGIC
-         */
-        function handleRoute() {
-            const hash = window.location.hash || '#/';
-            const appView = document.getElementById('appView');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Close Mobile Menu if open
-            document.getElementById('mobileDrawer').classList.add('hidden');
-
-            // Parse Hash Path
-            const [path, queryString] = hash.split('?');
-            const queryParams = new URLSearchParams(queryString || '');
-
-            if (path === '#/' || path === '') {
-                renderHomeView(appView);
-            } else if (path === '#/products') {
-                renderCatalogView(appView, queryParams);
-            } else if (path.startsWith('#/product/')) {
-                const productId = path.replace('#/product/', '');
-                renderProductDetailsView(appView, productId);
-            } else if (path === '#/services') {
-                renderServicesView(appView);
-            } else if (path === '#/cart') {
-                renderCartView(appView);
-            } else if (path === '#/checkout') {
-                renderCheckoutView(appView);
-            } else if (path === '#/account') {
-                renderAccountView(appView, queryParams);
-            } else if (path === '#/admin') {
-                renderAdminView(appView);
-            } else if (path === '#/track-order') {
-                renderTrackOrderView(appView, queryParams);
-            } else if (path === '#/policies') {
-                renderPoliciesView(appView, queryParams);
-            } else if (path === '#/about') {
-                renderAboutView(appView);
-            } else {
-                renderNotFoundView(appView);
-            }
-        }
-
-        window.addEventListener('hashchange', handleRoute);
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('currencySelect').value = appState.currency;
-            updateBadges();
-            handleRoute();
-        });
-
-        // Currency Toggle Listener
-        document.getElementById('currencySelect').addEventListener('change', (e) => {
-            appState.currency = e.target.value;
-            saveState();
-            handleRoute();
-            showToast(`Currency updated to ${appState.currency}`);
-        });
-
-        // Theme Toggle
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-        });
-
-        // Mobile Nav Hamburger Toggle
-        document.getElementById('mobileNavToggle').addEventListener('click', () => {
-            document.getElementById('mobileDrawer').classList.toggle('hidden');
-        });
-
-        /**
-         * PREDICTIVE LIVE SEARCH LOGIC
-         */
-        const searchInput = document.getElementById('globalSearchInput');
-        const searchBox = document.getElementById('searchResultsBox');
-
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase().trim();
-            if (query.length === 0) {
-                searchBox.classList.add('hidden');
-                return;
-            }
-
-            const matches = appState.products.filter(p => 
-                p.name.toLowerCase().includes(query) || 
-                p.category.toLowerCase().includes(query)
-            );
-
-            if (matches.length === 0) {
-                searchBox.innerHTML = `<div class="p-4 text-xs text-slate-500 text-center">No products found for "${query}"</div>`;
-            } else {
-                searchBox.innerHTML = matches.map(p => `
-                    <a href="#/product/${p.id}" class="search-result-item flex items-center space-x-3 p-3 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-100 dark:border-slate-800 transition-colors">
-                        <img src="${p.image}" class="w-10 h-10 object-cover rounded-lg">
-                        <div class="flex-grow">
-                            <h5 class="text-xs font-bold text-slate-800 dark:text-slate-100 line-clamp-1">${p.name}</h5>
-                            <span class="text-[11px] text-indigo-600 font-semibold">${formatPrice(p.pricePKR, p.priceUSD)}</span>
-                        </div>
-                    </a>
-                `).join('');
-            }
-            searchBox.classList.remove('hidden');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!searchInput.contains(e.target) && !searchBox.contains(e.target)) {
-                searchBox.classList.add('hidden');
-            }
-        });
-
-        /**
-         * VIEW RENDERERS
-         */
-
-        // 1. HOME VIEW
-        function renderHomeView(container) {
-            const featuredProds = appState.products.filter(p => p.featured);
-            const bestSellers = appState.products.filter(p => p.bestSeller);
-
-            container.innerHTML = `
-                <!-- Hero Section -->
-                <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-indigo-50/50 to-transparent dark:from-slate-900/50">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                            <div class="space-y-6 text-center lg:text-left">
-                                <span class="inline-block px-3.5 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider">
-                                    🔥 Flagship Collection 2026
-                                </span>
-                                <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
-                                    Next Generation <br/>
-                                    <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">Premium Products</span>
-                                </h1>
-                                <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
-                                    Discover engineered elegance. Shop high-performance gadgets, luxury fashion gear, and everyday lifestyle essentials delivered directly to your doorstep.
-                                </p>
-                                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                                    <a href="#/products" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-xl shadow-indigo-500/30 transition-all text-center">
-                                        Shop All Products <i class="fa-solid fa-arrow-right ml-2"></i>
-                                    </a>
-                                    <a href="#/services" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold hover:bg-slate-50 transition-all text-center">
-                                        Custom Branding
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="relative">
-                                <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/50 dark:border-slate-800">
-                                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80" class="w-full h-[400px] sm:h-[480px] object-cover">
-                                    <div class="absolute bottom-6 left-6 right-6 p-6 glass-card rounded-2xl flex items-center justify-between">
-                                        <div>
-                                            <span class="text-xs font-bold text-indigo-600">Featured Product</span>
-                                            <h4 class="font-bold text-base text-slate-900 dark:text-white">Apex Ultra Pro Headphones</h4>
-                                        </div>
-                                        <a href="#/product/prod-1" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700">View</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Featured Categories -->
-                <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 class="text-2xl font-extrabold mb-8 text-center sm:text-left">Shop by Popular Categories</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-                        <a href="#/products?category=Electronics" class="group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all text-center">
-                            <div class="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-plug"></i>
-                            </div>
-                            <h3 class="font-bold text-sm">Electronics</h3>
-                            <p class="text-xs text-slate-500 mt-1">Gadgets & Tech</p>
-                        </a>
-                        <a href="#/products?category=Fashion" class="group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all text-center">
-                            <div class="w-14 h-14 rounded-2xl bg-pink-50 dark:bg-pink-950 text-pink-600 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-shirt"></i>
-                            </div>
-                            <h3 class="font-bold text-sm">Fashion</h3>
-                            <p class="text-xs text-slate-500 mt-1">Watches & Wearables</p>
-                        </a>
-                        <a href="#/products?category=Accessories" class="group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all text-center">
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-bag-shopping"></i>
-                            </div>
-                            <h3 class="font-bold text-sm">Accessories</h3>
-                            <p class="text-xs text-slate-500 mt-1">Backpacks & Storage</p>
-                        </a>
-                        <a href="#/products" class="group p-6 rounded-2xl bg-indigo-600 text-white transition-all text-center flex flex-col items-center justify-center">
-                            <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-xl mb-2">
-                                <i class="fa-solid fa-grid-2"></i>
-                            </div>
-                            <h3 class="font-bold text-sm">Explore All</h3>
-                            <p class="text-xs opacity-80 mt-1">Full Catalog</p>
-                        </a>
-                    </div>
-                </section>
-
-                <!-- Featured Products Slider / Grid -->
-                <section class="py-16 bg-slate-100/60 dark:bg-slate-900/40">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="flex items-center justify-between mb-8">
-                            <div>
-                                <h2 class="text-2xl font-extrabold">Featured Products</h2>
-                                <p class="text-xs text-slate-500">Hand-picked flagship items curated for quality</p>
-                            </div>
-                            <a href="#/products" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">View All &rarr;</a>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            ${featuredProds.map(p => renderProductCardHTML(p)).join('')}
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Why Choose Us Banner -->
-                <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-                            <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 flex items-center justify-center text-xl mx-auto mb-4">
-                                <i class="fa-solid fa-truck-fast"></i>
-                            </div>
-                            <h3 class="font-bold text-base mb-1">Express Nationwide Shipping</h3>
-                            <p class="text-xs text-slate-500">Guaranteed doorstep delivery within 24 to 48 hours across major cities.</p>
-                        </div>
-                        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-                            <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 flex items-center justify-center text-xl mx-auto mb-4">
-                                <i class="fa-solid fa-shield-halved"></i>
-                            </div>
-                            <h3 class="font-bold text-base mb-1">Authentic 1-Year Warranty</h3>
-                            <p class="text-xs text-slate-500">100% official brand warranty and easy 7-day replacement guarantee.</p>
-                        </div>
-                        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-                            <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 flex items-center justify-center text-xl mx-auto mb-4">
-                                <i class="fa-solid fa-headset"></i>
-                            </div>
-                            <h3 class="font-bold text-base mb-1">24/7 Dedicated Support</h3>
-                            <p class="text-xs text-slate-500">Instant WhatsApp & Live agent assistance available for all orders.</p>
-                        </div>
-                    </div>
-                </section>
-            `;
-        }
-
-        // 2. PRODUCT CATALOG VIEW WITH FILTERS & SORTING
-        function renderCatalogView(container, queryParams) {
-            const selectedCategory = queryParams.get('category') || 'All';
-            const searchQuery = queryParams.get('search') || '';
-
-            let filtered = [...appState.products];
-
-            if (selectedCategory !== 'All') {
-                filtered = filtered.filter(p => p.category === selectedCategory);
-            }
-            if (searchQuery) {
-                filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
-            }
-
-            container.innerHTML = `
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <!-- Page Header -->
-                    <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
-                        <div>
-                            <h1 class="text-3xl font-extrabold">Product Catalog</h1>
-                            <p class="text-xs text-slate-500 mt-1">Showing ${filtered.length} product(s) available in stock</p>
-                        </div>
-                        
-                        <!-- Filter & Sorting Bar Controls -->
-                        <div class="flex items-center space-x-3">
-                            <label class="text-xs font-semibold text-slate-500">Sort By:</label>
-                            <select id="sortSelect" class="px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium outline-none">
-                                <option value="featured">Featured First</option>
-                                <option value="price-low">Price: Low to High</option>
-                                <option value="price-high">Price: High to Low</option>
-                                <option value="rating">Highest Rated</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                        <!-- Sidebar Filter Drawer -->
-                        <div class="space-y-6">
-                            <!-- Category Filter -->
-                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                                <h4 class="font-bold text-sm mb-4">Categories</h4>
-                                <div class="space-y-2">
-                                    ${['All', 'Electronics', 'Fashion', 'Accessories'].map(cat => `
-                                        <a href="#/products?category=${cat}" class="flex items-center justify-between text-xs py-1.5 px-3 rounded-lg font-medium transition-colors ${selectedCategory === cat ? 'bg-indigo-600 text-white font-bold' : 'hover:bg-slate-100 dark:hover:bg-slate-700'}">
-                                            <span>${cat}</span>
-                                            <span class="opacity-70">(${cat === 'All' ? appState.products.length : appState.products.filter(p => p.category === cat).length})</span>
-                                        </a>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product Grid -->
-                        <div class="lg:col-span-3">
-                            ${filtered.length === 0 ? `
-                                <div class="text-center py-20 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
-                                    <i class="fa-solid fa-box-open text-4xl text-slate-300 mb-4"></i>
-                                    <h3 class="font-bold text-lg">No Products Found</h3>
-                                    <p class="text-xs text-slate-500 mt-1">Try clearing filters or searching for something else.</p>
-                                    <a href="#/products" class="inline-block mt-4 px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold">Clear Filters</a>
-                                </div>
-                            ` : `
-                                <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    ${filtered.map(p => renderProductCardHTML(p)).join('')}
-                                </div>
-                            `}
-                        </div>
-                    </div>
+      container.innerHTML = `
+        <h1 class="text-3xl font-black mb-6">Your Shopping Cart</h1>
+        ${storeState.cart.length === 0 ? `
+          <div class="text-center py-20 bg-white rounded-3xl border border-slate-200">
+            <i class="fa-solid fa-bag-shopping text-4xl text-slate-300 mb-3"></i>
+            <h3 class="font-bold text-lg">Your cart is empty</h3>
+            <a href="#/products" class="inline-block mt-4 bg-blue-600 text-white text-xs font-bold px-5 py-2.5 rounded-xl">Browse Catalog</a>
+          </div>
+        ` : `
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-4">
+              ${storeState.cart.map(item => `
+                <div class="bg-white p-4 rounded-2xl border flex items-center justify-between gap-4">
+                  <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover">
+                  <div class="flex-grow">
+                    <h4 class="font-bold text-sm">${item.name}</h4>
+                    <span class="text-xs font-semibold text-blue-600">${formatCurrency(item.pricePKR, item.priceUSD)}</span>
+                  </div>
+                  <div class="flex items-center border rounded-lg p-1">
+                    <button onclick="updateQty('${item.id}', ${item.qty - 1})" class="px-2 font-bold text-xs">-</button>
+                    <span class="px-2 text-xs font-bold">${item.qty}</span>
+                    <button onclick="updateQty('${item.id}', ${item.qty + 1})" class="px-2 font-bold text-xs">+</button>
+                  </div>
                 </div>
-            `;
+              `).join('')}
+            </div>
+            <div class="bg-white p-6 rounded-2xl border h-fit space-y-4">
+              <h3 class="font-bold text-base border-b pb-2">Order Summary</h3>
+              <div class="flex justify-between text-xs font-semibold">
+                <span>Subtotal</span>
+                <span>${formatCurrency(subtotalPKR, subtotalUSD)}</span>
+              </div>
+              <a href="#/checkout" class="block text-center w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs shadow-lg">Proceed to Checkout</a>
+            </div>
+          </div>
+        `}
+      `;
+    }
 
-            // Sort Selector Listener
-            const sortSelect = document.getElementById('sortSelect');
-            if (sortSelect) {
-                sortSelect.addEventListener('change', (e) => {
-                    const val = e.target.value;
-                    if (val === 'price-low') filtered.sort((a,b) => a.pricePKR - b.pricePKR);
-                    if (val === 'price-high') filtered.sort((a,b) => b.pricePKR - a.pricePKR);
-                    if (val === 'rating') filtered.sort((a,b) => b.rating - a.rating);
-                    
-                    const catalogGrid = document.getElementById('catalogGrid');
-                    if (catalogGrid) {
-                        catalogGrid.innerHTML = filtered.map(p => renderProductCardHTML(p)).join('');
-                    }
-                });
-            }
-        }
+    function renderCheckoutView(container) {
+      const totalPKR = storeState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0);
+      const totalUSD = storeState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0);
 
-        // Helper Component: Product Card HTML
-        function renderProductCardHTML(product) {
-            const isWishlisted = appState.wishlist.includes(product.id);
-            return `
-                <div class="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300 flex flex-col">
-                    <div class="relative h-56 overflow-hidden bg-slate-100 dark:bg-slate-900">
-                        <img src="${product.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <button onclick="toggleWishlist('${product.id}')" class="absolute top-3 right-3 p-2 rounded-full bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 hover:text-rose-500 transition-colors">
-                            <i class="${isWishlisted ? 'fa-solid fa-heart text-rose-500' : 'fa-regular fa-heart'} text-sm"></i>
-                        </button>
-                        ${product.oldPricePKR ? `
-                            <span class="absolute top-3 left-3 bg-rose-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Sale</span>
-                        ` : ''}
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow justify-between">
-                        <div>
-                            <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold mb-1">
-                                <span>${product.category}</span>
-                                <span><i class="fa-solid fa-star text-amber-400 mr-1"></i>${product.rating}</span>
-                            </div>
-                            <a href="#/product/${product.id}" class="font-bold text-sm text-slate-900 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 line-clamp-2 mb-2">
-                                ${product.name}
-                            </a>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
-                            <div>
-                                <span class="font-black text-sm text-slate-900 dark:text-white">
-                                    ${formatPrice(product.pricePKR, product.priceUSD)}
-                                </span>
-                                ${product.oldPricePKR ? `
-                                    <span class="text-[11px] text-slate-400 line-through ml-1">
-                                        ${formatPrice(product.oldPricePKR, product.oldPriceUSD)}
-                                    </span>
-                                ` : ''}
-                            </div>
-                            <button onclick="addToCart('${product.id}')" class="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-600 hover:text-white transition-all font-bold text-xs flex items-center space-x-1">
-                                <i class="fa-solid fa-plus"></i>
-                                <span>Add</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+      container.innerHTML = `
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-3xl border border-slate-200 shadow-lg">
+          <h1 class="text-2xl font-black mb-6">Complete Checkout</h1>
+          <form onsubmit="placeOrder(event)" class="space-y-4 text-xs font-semibold">
+            <div>
+              <label class="block mb-1">Full Name</label>
+              <input type="text" id="cust-name" required placeholder="Ali Raza" class="w-full p-3 rounded-xl border border-slate-300">
+            </div>
+            <div>
+              <label class="block mb-1">WhatsApp Mobile Number</label>
+              <input type="text" id="cust-phone" required placeholder="0320 9306672" class="w-full p-3 rounded-xl border border-slate-300">
+            </div>
+            <div>
+              <label class="block mb-1">Shipping Address</label>
+              <textarea id="cust-address" required placeholder="Full street address & city" class="w-full p-3 rounded-xl border border-slate-300"></textarea>
+            </div>
+            <div class="pt-4 border-t flex justify-between items-center">
+              <div>
+                <span class="text-slate-500 block">Total Amount</span>
+                <span class="text-xl font-black text-blue-600">${formatCurrency(totalPKR, totalUSD)}</span>
+              </div>
+              <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-xl text-xs shadow-lg">Place Order</button>
+            </div>
+          </form>
+        </div>
+      `;
+    }
 
-        // 3. PRODUCT DETAILS VIEW
-        function renderProductDetailsView(container, productId) {
-            const product = appState.products.find(p => p.id === productId);
+    function renderTrackOrderView(container, params) {
+      const searchId = params.get('id') || '';
+      const order = storeState.orders.find(o => o.id === searchId);
 
-            if (!product) {
-                renderNotFoundView(container);
-                return;
-            }
+      container.innerHTML = `
+        <div class="max-w-xl mx-auto space-y-6">
+          <h1 class="text-3xl font-black text-center">Track Order Progress</h1>
+          <div class="bg-white p-6 rounded-2xl border">
+            <form onsubmit="event.preventDefault(); window.location.hash='#/track-order?id=' + document.getElementById('track-id').value;" class="flex gap-2">
+              <input type="text" id="track-id" value="${searchId}" placeholder="Enter Order ID (e.g. ORD-78901)" class="w-full p-3 text-xs rounded-xl border border-slate-300 outline-none">
+              <button type="submit" class="bg-blue-600 text-white font-bold text-xs px-6 py-3 rounded-xl">Track</button>
+            </form>
+          </div>
+          ${order ? `
+            <div class="bg-white p-6 rounded-2xl border space-y-4">
+              <div class="flex justify-between items-center border-b pb-3">
+                <span class="font-bold text-sm">${order.id}</span>
+                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">${order.status}</span>
+              </div>
+              <p class="text-xs text-slate-500">Customer: ${order.customerName}</p>
+            </div>
+          ` : searchId ? `<p class="text-center text-xs text-slate-500">No order found with ID "${searchId}".</p>` : ''}
+        </div>
+      `;
+    }
 
-            let selectedImg = product.image;
+    function renderServicesView(container) {
+      container.innerHTML = `
+        <div class="max-w-4xl mx-auto py-8 text-center space-y-6">
+          <h1 class="text-4xl font-black">Professional Printing Services</h1>
+          <p class="text-slate-600 text-sm">We provide commercial printing, gift customizations, and bulk corporate merchandise.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left pt-6">
+            <div class="p-6 bg-white rounded-2xl border"><h3 class="font-bold mb-2">Custom Mug Printing</h3><p class="text-xs text-slate-500">Sublimation & heat sensitive magic mugs.</p></div>
+            <div class="p-6 bg-white rounded-2xl border"><h3 class="font-bold mb-2">DTF Shirt Printing</h3><p class="text-xs text-slate-500">Washproof high resolution t-shirt printing.</p></div>
+            <div class="p-6 bg-white rounded-2xl border"><h3 class="font-bold mb-2">Corporate Gift Sets</h3><p class="text-xs text-slate-500">Executive boxes engraved with business logo.</p></div>
+          </div>
+        </div>
+      `;
+    }
 
-            container.innerHTML = `
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <div class="mb-6">
-                        <a href="#/products" class="text-xs font-bold text-slate-500 hover:text-indigo-600">&larr; Back to Products</a>
-                    </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                        <!-- Image Gallery -->
-                        <div>
-                            <div class="rounded-3xl overflow-hidden bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 mb-4 h-96 sm:h-[450px]">
-                                <img id="mainGalleryImage" src="${selectedImg}" class="w-full h-full object-cover">
-                            </div>
-                            <div class="flex space-x-3">
-                                ${(product.images || [product.image]).map(img => `
-                                    <button onclick="document.getElementById('mainGalleryImage').src='${img}'" class="w-20 h-20 rounded-xl overflow-hidden border-2 border-indigo-500 focus:outline-none">
-                                        <img src="${img}" class="w-full h-full object-cover">
-                                    </button>
-                                `).join('')}
-                            </div>
-                        </div>
+    function renderPoliciesView(container) {
+      container.innerHTML = `
+        <div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl border text-xs space-y-4 leading-relaxed">
+          <h1 class="text-2xl font-black text-slate-900 mb-4">Store Policies & Terms</h1>
+          <p><strong>Shipping Policy:</strong> Orders are processed and dispatched within 24 to 48 hours. Free shipping applies on orders above PKR 5,000.</p>
+          <p><strong>Return Policy:</strong> Defective custom printed items are eligible for free replacement within 7 business days.</p>
+        </div>
+      `;
+    }
 
-                        <!-- Product Information Details -->
-                        <div class="space-y-6">
-                            <div>
-                                <span class="px-2.5 py-1 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase">${product.category}</span>
-                                <h1 class="text-2xl sm:text-3xl font-extrabold mt-2 mb-2 text-slate-900 dark:text-white">${product.name}</h1>
-                                <div class="flex items-center space-x-4 text-xs">
-                                    <div class="flex items-center text-amber-400">
-                                        <i class="fa-solid fa-star"></i>
-                                        <span class="font-bold ml-1 text-slate-700 dark:text-slate-300">${product.rating}</span>
-                                    </div>
-                                    <span class="text-slate-400">|</span>
-                                    <span class="text-slate-500">${product.reviewsCount} Customer Reviews</span>
-                                    <span class="text-slate-400">|</span>
-                                    <span class="font-mono text-slate-500">SKU: ${product.sku}</span>
-                                </div>
-                            </div>
+    function renderAboutView(container) {
+      container.innerHTML = `
+        <div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl border text-center space-y-4">
+          <h1 class="text-3xl font-black">About HY Store</h1>
+          <p class="text-xs text-slate-600 leading-relaxed">HY Store (Gifts & Printing Services) delivers top tier customization for personal celebrations and business branding across Pakistan.</p>
+          <p class="text-xs font-bold text-blue-600">Contact: 0320 9306672 | hybusinessprint@gmail.com</p>
+        </div>
+      `;
+    }
 
-                            <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center space-x-4">
-                                <span class="text-3xl font-black text-indigo-600 dark:text-indigo-400">
-                                    ${formatPrice(product.pricePKR, product.priceUSD)}
-                                </span>
-                                ${product.oldPricePKR ? `
-                                    <span class="text-base text-slate-400 line-through">
-                                        ${formatPrice(product.oldPricePKR, product.oldPriceUSD)}
-                                    </span>
-                                ` : ''}
-                            </div>
+    function renderAdminView(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div class="flex justify-between items-center">
+            <h1 class="text-3xl font-black">Admin Control Panel</h1>
+            <button onclick="addNewProductPrompt()" class="bg-blue-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl">+ Add New Product</button>
+          </div>
+          <div class="bg-white rounded-2xl border overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 border-b">
+                <tr><th class="p-4">Product Name</th><th class="p-4">Category</th><th class="p-4">Price (PKR)</th><th class="p-4">Actions</th></tr>
+              </thead>
+              <tbody class="divide-y">
+                ${storeState.products.map(p => `
+                  <tr>
+                    <td class="p-4 font-bold">${p.name}</td>
+                    <td class="p-4">${p.category}</td>
+                    <td class="p-4 font-bold">Rs. ${p.pricePKR}</td>
+                    <td class="p-4"><button onclick="deleteProduct('${p.id}')" class="text-rose-600 font-bold hover:underline">Delete</button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
 
-                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">${product.description}</p>
+    // MUTATION HANDLERS
+    function addToCart(id) {
+      const p = storeState.products.find(item => item.id === id);
+      if (!p) return;
+      const exist = storeState.cart.find(item => item.id === id);
+      if (exist) exist.qty += 1;
+      else storeState.cart.push({ ...p, qty: 1 });
+      saveState();
+      showToast(`${p.name} added to cart!`);
+    }
 
-                            <!-- Color Selector -->
-                            ${product.colors ? `
-                                <div>
-                                    <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Color Variant</label>
-                                    <div class="flex space-x-2">
-                                        ${product.colors.map((c, i) => `
-                                            <button class="px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold hover:border-indigo-600 focus:bg-indigo-600 focus:text-white transition-colors">
-                                                ${c}
-                                            </button>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            ` : ''}
+    function updateQty(id, qty) {
+      if (qty <= 0) storeState.cart = storeState.cart.filter(i => i.id !== id);
+      else {
+        const item = storeState.cart.find(i => i.id === id);
+        if (item) item.qty = qty;
+      }
+      saveState();
+      handleRouting();
+    }
 
-                            <!-- Add to Cart Action -->
-                            <div class="flex items-center space-x-4 pt-4 border-t border-slate-200 dark:border-slate-800">
-                                <button onclick="addToCart('${product.id}')" class="flex-1 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-xl shadow-indigo-500/30 transition-all flex items-center justify-center space-x-2">
-                                    <i class="fa-solid fa-bag-shopping"></i>
-                                    <span>Add to Cart</span>
-                                </button>
-                                <button onclick="toggleWishlist('${product.id}')" class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-rose-500">
-                                    <i class="fa-regular fa-heart text-lg"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+    function placeOrder(e) {
+      e.preventDefault();
+      const newOrder = {
+        id: "ORD-" + Math.floor(10000 + Math.random() * 90000),
+        date: new Date().toISOString().split('T')[0],
+        totalPKR: storeState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0),
+        totalUSD: storeState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0),
+        status: "Processing",
+        customerName: document.getElementById('cust-name').value,
+        items: [...storeState.cart]
+      };
+      storeState.orders.unshift(newOrder);
+      storeState.cart = [];
+      saveState();
+      showToast("Order placed successfully!");
+      window.location.hash = `#/track-order?id=${newOrder.id}`;
+    }
 
-        // 4. SHOPPING CART VIEW
-        function renderCartView(container) {
-            const subtotalPKR = appState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0);
-            const subtotalUSD = appState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0);
-            
-            const shippingPKR = subtotalPKR > 5000 || subtotalPKR === 0 ? 0 : 250;
-            const shippingUSD = subtotalUSD > 30 || subtotalUSD === 0 ? 0 : 3;
+    function addNewProductPrompt() {
+      const name = prompt("Enter Product Name:");
+      if (!name) return;
+      const price = prompt("Enter Price in PKR:");
+      if (!price) return;
+      const newP = {
+        id: "prod-" + Date.now(),
+        name: name,
+        category: "Custom Mugs",
+        pricePKR: parseInt(price),
+        priceUSD: Math.round(parseInt(price) / 280),
+        rating: 5.0,
+        reviewsCount: 1,
+        sku: "HY-NEW-" + Math.floor(Math.random() * 90),
+        stock: 20,
+        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+        description: "New custom printed item."
+      };
+      storeState.products.unshift(newP);
+      saveState();
+      handleRouting();
+      showToast("New product published!");
+    }
 
-            let discountPKR = 0;
-            let discountUSD = 0;
+    function deleteProduct(id) {
+      storeState.products = storeState.products.filter(p => p.id !== id);
+      saveState();
+      handleRouting();
+      showToast("Product deleted!");
+    }
 
-            if (appState.appliedCoupon === 'DISCOUNT15') {
-                discountPKR = Math.round(subtotalPKR * 0.15);
-                discountUSD = Math.round(subtotalUSD * 0.15);
-            }
-
-            const totalPKR = subtotalPKR + shippingPKR - discountPKR;
-            const totalUSD = subtotalUSD + shippingUSD - discountUSD;
-
-            container.innerHTML = `
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <h1 class="text-3xl font-extrabold mb-8">Shopping Cart</h1>
-
-                    ${appState.cart.length === 0 ? `
-                        <div class="text-center py-20 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
-                            <i class="fa-solid fa-cart-shopping text-5xl text-slate-300 mb-4"></i>
-                            <h3 class="font-bold text-xl">Your cart is empty</h3>
-                            <p class="text-xs text-slate-500 mt-1 mb-6">Looks like you haven't added anything to your cart yet.</p>
-                            <a href="#/products" class="px-6 py-3 bg-indigo-600 text-white rounded-xl text-xs font-bold">Start Shopping</a>
-                        </div>
-                    ` : `
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            <!-- Items List -->
-                            <div class="lg:col-span-2 space-y-4">
-                                ${appState.cart.map(item => `
-                                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-4">
-                                        <img src="${item.image}" class="w-16 h-16 object-cover rounded-xl shrink-0">
-                                        <div class="flex-grow">
-                                            <h4 class="font-bold text-sm">${item.name}</h4>
-                                            <span class="text-xs font-semibold text-indigo-600">${formatPrice(item.pricePKR, item.priceUSD)}</span>
-                                        </div>
-                                        <div class="flex items-center space-x-2 border border-slate-200 dark:border-slate-700 rounded-lg p-1">
-                                            <button onclick="updateCartQty('${item.id}', ${item.qty - 1})" class="w-6 h-6 rounded bg-slate-100 dark:bg-slate-700 text-xs font-bold">-</button>
-                                            <span class="text-xs font-bold px-2">${item.qty}</span>
-                                            <button onclick="updateCartQty('${item.id}', ${item.qty + 1})" class="w-6 h-6 rounded bg-slate-100 dark:bg-slate-700 text-xs font-bold">+</button>
-                                        </div>
-                                        <button onclick="removeFromCart('${item.id}')" class="text-slate-400 hover:text-rose-500 text-sm p-2">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </div>
-                                `).join('')}
-                            </div>
-
-                            <!-- Order Summary -->
-                            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 h-fit space-y-4">
-                                <h3 class="font-bold text-base border-b border-slate-100 dark:border-slate-700 pb-3">Order Summary</h3>
-                                
-                                <div class="space-y-2 text-xs">
-                                    <div class="flex justify-between text-slate-500">
-                                        <span>Subtotal</span>
-                                        <span class="font-bold text-slate-800 dark:text-slate-200">${formatPrice(subtotalPKR, subtotalUSD)}</span>
-                                    </div>
-                                    <div class="flex justify-between text-slate-500">
-                                        <span>Shipping</span>
-                                        <span class="font-bold text-slate-800 dark:text-slate-200">${shippingPKR === 0 ? 'FREE' : formatPrice(shippingPKR, shippingUSD)}</span>
-                                    </div>
-                                    ${discountPKR > 0 ? `
-                                        <div class="flex justify-between text-emerald-600 font-bold">
-                                            <span>Coupon (DISCOUNT15)</span>
-                                            <span>-${formatPrice(discountPKR, discountUSD)}</span>
-                                        </div>
-                                    ` : ''}
-                                </div>
-
-                                <!-- Coupon Code Input -->
-                                <div class="pt-2">
-                                    <div class="flex space-x-2">
-                                        <input type="text" id="couponInput" placeholder="Promo code" class="w-full px-3 py-2 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none">
-                                        <button onclick="applyCoupon()" class="px-4 py-2 bg-slate-900 dark:bg-slate-700 text-white rounded-xl text-xs font-bold">Apply</button>
-                                    </div>
-                                </div>
-
-                                <div class="border-t border-slate-100 dark:border-slate-700 pt-4 flex justify-between items-center">
-                                    <span class="font-bold text-sm">Grand Total</span>
-                                    <span class="font-black text-lg text-indigo-600 dark:text-indigo-400">${formatPrice(totalPKR, totalUSD)}</span>
-                                </div>
-
-                                <a href="#/checkout" class="block w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs text-center shadow-lg shadow-indigo-500/30">
-                                    Proceed to Checkout
-                                </a>
-                            </div>
-                        </div>
-                    `}
-                </div>
-            `;
-        }
-
-        // 5. CHECKOUT VIEW
-        function renderCheckoutView(container) {
-            const subtotalPKR = appState.cart.reduce((sum, item) => sum + (item.pricePKR * item.qty), 0);
-            const subtotalUSD = appState.cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0);
-            const totalPKR = subtotalPKR;
-            const totalUSD = subtotalUSD;
-
-            container.innerHTML = `
-                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <h1 class="text-3xl font-extrabold mb-8 text-center">Secure Checkout</h1>
-                    
-                    <form id="checkoutForm" class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 space-y-6">
-                        <div>
-                            <h3 class="font-bold text-sm mb-4 uppercase text-indigo-600">1. Delivery Address</h3>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                                <div>
-                                    <label class="block font-semibold mb-1">Full Name</label>
-                                    <input type="text" required value="${appState.user.name}" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-                                </div>
-                                <div>
-                                    <label class="block font-semibold mb-1">Mobile Number</label>
-                                    <input type="text" required value="${appState.user.phone}" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-                                </div>
-                                <div class="sm:col-span-2">
-                                    <label class="block font-semibold mb-1">Shipping Address</label>
-                                    <input type="text" required value="${appState.user.address}" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="pt-4 border-t border-slate-100 dark:border-slate-700">
-                            <h3 class="font-bold text-sm mb-4 uppercase text-indigo-600">2. Payment Method</h3>
-                            <div class="space-y-3">
-                                <label class="flex items-center space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer">
-                                    <input type="radio" name="payment" value="cod" checked class="text-indigo-600">
-                                    <span class="text-xs font-bold">Cash on Delivery (COD)</span>
-                                </label>
-                                <label class="flex items-center space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer">
-                                    <input type="radio" name="payment" value="bank" class="text-indigo-600">
-                                    <span class="text-xs font-bold">Direct Bank Transfer / Mobile Wallet</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
-                            <div>
-                                <span class="text-xs text-slate-500">Total Payable Amount</span>
-                                <h4 class="text-xl font-black text-indigo-600">${formatPrice(totalPKR, totalUSD)}</h4>
-                            </div>
-                            <button type="submit" class="px-8 py-3.5 bg-indigo-600 text-white font-bold rounded-xl text-xs shadow-lg shadow-indigo-500/30">
-                                Place Order Now
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            `;
-
-            document.getElementById('checkoutForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const newOrder = {
-                    id: "ORD-" + Math.floor(10000 + Math.random() * 90000),
-                    date: new Date().toISOString().split('T')[0],
-                    totalPKR: totalPKR,
-                    totalUSD: totalUSD,
-                    status: "Processing",
-                    items: [...appState.cart],
-                    customer: { ...appState.user }
-                };
-                appState.orders.unshift(newOrder);
-                appState.cart = [];
-                saveState();
-                showToast("Order placed successfully!");
-                window.location.hash = `#/track-order?id=${newOrder.id}`;
-            });
-        }
-
-        // 6. ORDER TRACKING VIEW
-        function renderTrackOrderView(container, queryParams) {
-            const orderId = queryParams.get('id') || '';
-            const foundOrder = appState.orders.find(o => o.id === orderId);
-
-            container.innerHTML = `
-                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <h1 class="text-3xl font-extrabold mb-8 text-center">Track Your Order</h1>
-
-                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 mb-8">
-                        <form onsubmit="event.preventDefault(); window.location.hash='#/track-order?id=' + document.getElementById('trackIdInput').value;" class="flex space-x-3">
-                            <input type="text" id="trackIdInput" value="${orderId}" placeholder="Enter Order ID (e.g. ORD-98421)" class="w-full px-4 py-3 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none">
-                            <button type="submit" class="px-6 py-3 bg-indigo-600 text-white font-bold text-xs rounded-xl">Track</button>
-                        </form>
-                    </div>
-
-                    ${foundOrder ? `
-                        <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 space-y-6">
-                            <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-700 pb-4">
-                                <div>
-                                    <span class="text-xs text-slate-500">Order Reference</span>
-                                    <h3 class="font-bold text-base">${foundOrder.id}</h3>
-                                </div>
-                                <span class="px-3 py-1 bg-indigo-100 text-indigo-600 text-xs font-bold rounded-full">${foundOrder.status}</span>
-                            </div>
-
-                            <!-- Stepper Timeline -->
-                            <div class="py-6 flex items-center justify-between relative">
-                                <div class="text-center z-10">
-                                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center mx-auto text-xs font-bold"><i class="fa-solid fa-check"></i></div>
-                                    <span class="text-[11px] font-bold mt-2 block">Placed</span>
-                                </div>
-                                <div class="text-center z-10">
-                                    <div class="w-10 h-10 rounded-full ${['Processing','Dispatched','Delivered'].includes(foundOrder.status) ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-500'} flex items-center justify-center mx-auto text-xs font-bold"><i class="fa-solid fa-box-open"></i></div>
-                                    <span class="text-[11px] font-bold mt-2 block">Processing</span>
-                                </div>
-                                <div class="text-center z-10">
-                                    <div class="w-10 h-10 rounded-full ${['Dispatched','Delivered'].includes(foundOrder.status) ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-500'} flex items-center justify-center mx-auto text-xs font-bold"><i class="fa-solid fa-truck"></i></div>
-                                    <span class="text-[11px] font-bold mt-2 block">Dispatched</span>
-                                </div>
-                                <div class="text-center z-10">
-                                    <div class="w-10 h-10 rounded-full ${foundOrder.status === 'Delivered' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-500'} flex items-center justify-center mx-auto text-xs font-bold"><i class="fa-solid fa-house"></i></div>
-                                    <span class="text-[11px] font-bold mt-2 block">Delivered</span>
-                                </div>
-                            </div>
-                        </div>
-                    ` : orderId ? `
-                        <div class="text-center py-10 text-xs text-slate-500">No order details found for "${orderId}".</div>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        // 7. ADMIN DASHBOARD VIEW
-        function renderAdminView(container) {
-            container.innerHTML = `
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <div class="flex justify-between items-center mb-8">
-                        <div>
-                            <h1 class="text-3xl font-extrabold">Admin Dashboard</h1>
-                            <p class="text-xs text-slate-500">Manage catalog inventory, update prices, and process customer orders</p>
-                        </div>
-                        <button onclick="openAddProductModal()" class="px-4 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold">
-                            + Add New Product
-                        </button>
-                    </div>
-
-                    <!-- Products Table -->
-                    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden mb-10">
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 text-slate-500">
-                                <tr>
-                                    <th class="p-4">Product</th>
-                                    <th class="p-4">Category</th>
-                                    <th class="p-4">Price (PKR)</th>
-                                    <th class="p-4">Stock</th>
-                                    <th class="p-4 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
-                                ${appState.products.map(p => `
-                                    <tr>
-                                        <td class="p-4 font-bold flex items-center space-x-3">
-                                            <img src="${p.image}" class="w-8 h-8 rounded object-cover">
-                                            <span>${p.name}</span>
-                                        </td>
-                                        <td class="p-4">${p.category}</td>
-                                        <td class="p-4 font-mono font-bold">Rs. ${p.pricePKR.toLocaleString()}</td>
-                                        <td class="p-4"><span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 font-bold">${p.stock}</span></td>
-                                        <td class="p-4 text-right space-x-2">
-                                            <button onclick="deleteProduct('${p.id}')" class="text-rose-500 hover:underline">Delete</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        // 8. POLICIES VIEW
-        function renderPoliciesView(container, queryParams) {
-            const activeTab = queryParams.get('tab') || 'privacy';
-
-            container.innerHTML = `
-                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <h1 class="text-3xl font-extrabold mb-6 text-center">Store Policies & Help Center</h1>
-                    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 text-xs leading-relaxed space-y-4">
-                        <h3 class="font-bold text-sm uppercase text-indigo-600">${activeTab.toUpperCase()} POLICY</h3>
-                        <p>We take customer data protection, safe transactions, and transparent store guidelines seriously. All operational practices are governed under current e-commerce digital rights standard procedures.</p>
-                        <p>For official return claims, please verify product SKU and present your valid Order Reference ID to customer support within 7 business days of delivery.</p>
-                    </div>
-                </div>
-            `;
-        }
-
-        // 9. SERVICES VIEW
-        function renderServicesView(container) {
-            container.innerHTML = `
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-                    <h1 class="text-4xl font-extrabold mb-4">Custom Corporate Branding Services</h1>
-                    <p class="text-slate-500 max-w-2xl mx-auto text-sm mb-12">We provide bulk customized merchandise, engraved corporate gifts, and bespoke product branding for corporate clients across the globe.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
-                            <i class="fa-solid fa-stamp text-3xl text-indigo-600 mb-4"></i>
-                            <h3 class="font-bold text-lg mb-2">Laser Engraving</h3>
-                            <p class="text-xs text-slate-500">Custom logo placement on electronics & luxury watches.</p>
-                        </div>
-                        <div class="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
-                            <i class="fa-solid fa-boxes-packing text-3xl text-indigo-600 mb-4"></i>
-                            <h3 class="font-bold text-lg mb-2">Custom Packaging</h3>
-                            <p class="text-xs text-slate-500">Unboxing experience designed with custom brand graphics.</p>
-                        </div>
-                        <div class="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700">
-                            <i class="fa-solid fa-truck-ramp-box text-3xl text-indigo-600 mb-4"></i>
-                            <h3 class="font-bold text-lg mb-2">Bulk Logistics</h3>
-                            <p class="text-xs text-slate-500">Nationwide distribution for corporate events.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // 10. ABOUT VIEW
-        function renderAboutView(container) {
-            container.innerHTML = `
-                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-                    <h1 class="text-4xl font-extrabold mb-4">About ApexMart</h1>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-8">Founded with the mission to redefine online shopping experiences, ApexMart provides curated premium products paired with lightning-fast delivery infrastructure.</p>
-                </div>
-            `;
-        }
-
-        // 11. ACCOUNT VIEW
-        function renderAccountView(container, queryParams) {
-            container.innerHTML = `
-                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <h1 class="text-3xl font-extrabold mb-8">My Account</h1>
-                    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700">
-                        <div class="flex items-center space-x-4 mb-6">
-                            <div class="w-16 h-16 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-2xl">
-                                ${appState.user.name[0]}
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-lg">${appState.user.name}</h3>
-                                <p class="text-xs text-slate-500">${appState.user.email}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // 404 NOT FOUND VIEW
-        function renderNotFoundView(container) {
-            container.innerHTML = `
-                <div class="text-center py-20">
-                    <h1 class="text-6xl font-black text-indigo-600 mb-4">404</h1>
-                    <h2 class="text-xl font-bold mb-2">Page Not Found</h2>
-                    <a href="#/" class="text-xs font-bold text-indigo-600 hover:underline">&larr; Return Home</a>
-                </div>
-            `;
-        }
-
-        /**
-         * CART & WISHLIST MUTATION HANDLERS
-         */
-        function addToCart(productId) {
-            const product = appState.products.find(p => p.id === productId);
-            if (!product) return;
-
-            const existing = appState.cart.find(item => item.id === productId);
-            if (existing) {
-                existing.qty += 1;
-            } else {
-                appState.cart.push({ ...product, qty: 1 });
-            }
-
-            saveState();
-            showToast(`${product.name} added to cart!`);
-        }
-
-        function updateCartQty(productId, newQty) {
-            if (newQty <= 0) {
-                removeFromCart(productId);
-                return;
-            }
-            const item = appState.cart.find(i => i.id === productId);
-            if (item) {
-                item.qty = newQty;
-                saveState();
-                handleRoute();
-            }
-        }
-
-        function removeFromCart(productId) {
-            appState.cart = appState.cart.filter(i => i.id !== productId);
-            saveState();
-            handleRoute();
-            showToast("Item removed from cart");
-        }
-
-        function toggleWishlist(productId) {
-            const idx = appState.wishlist.indexOf(productId);
-            if (idx > -1) {
-                appState.wishlist.splice(idx, 1);
-                showToast("Removed from wishlist");
-            } else {
-                appState.wishlist.push(productId);
-                showToast("Added to wishlist");
-            }
-            saveState();
-            handleRoute();
-        }
-
-        function applyCoupon() {
-            const val = document.getElementById('couponInput').value.trim();
-            if (val === 'DISCOUNT15') {
-                appState.appliedCoupon = 'DISCOUNT15';
-                showToast("Coupon DISCOUNT15 applied (15% OFF)!");
-                handleRoute();
-            } else {
-                showToast("Invalid coupon code", "error");
-            }
-        }
-
-        function deleteProduct(id) {
-            appState.products = appState.products.filter(p => p.id !== id);
-            saveState();
-            handleRoute();
-            showToast("Product deleted from database");
-        }
-
-        function openAddProductModal() {
-            const name = prompt("Enter Product Name:");
-            if (!name) return;
-            const price = prompt("Enter Price in PKR:");
-            if (!price) return;
-
-            const newProd = {
-                id: "prod-" + Date.now(),
-                name: name,
-                category: "Electronics",
-                pricePKR: parseInt(price),
-                priceUSD: Math.round(parseInt(price) / 280),
-                rating: 5.0,
-                reviewsCount: 1,
-                sku: "APX-NEW-" + Math.floor(Math.random() * 90),
-                stock: 10,
-                image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80",
-                description: "Newly added store product."
-            };
-
-            appState.products.unshift(newProd);
-            saveState();
-            handleRoute();
-            showToast("New product published!");
-        }
-    </script>
+    function handleGlobalSearch(e) {
+      if (e.key === 'Enter') {
+        const query = e.target.value.toLowerCase().trim();
+        window.location.hash = `#/products?search=${encodeURIComponent(query)}`;
+      }
+    }
+  </script>
 </body>
 </html>
