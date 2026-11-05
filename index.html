@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HY STORE | Personalized Gifts & Printing Studio</title>
+    <title>HY STORE | Customized Printing & Gifts Studio</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,18 +12,15 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            900: '#1e3a8a',
+                        navy: {
+                            800: '#1b3240',
+                            900: '#11222c',
+                            950: '#0b161d',
                         },
-                        accent: {
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
-                            700: '#6d28d9',
+                        brand: {
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
                         }
                     },
                     fontFamily: {
@@ -36,95 +33,83 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
+        .bg-navy-gradient {
+            background: linear-gradient(135deg, #1b3240 0%, #11222c 100%);
+        }
         .clean-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
         }
-        .clean-card:hover {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f8fafc;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f8fafc; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-white text-slate-800 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white custom-scrollbar">
+<body class="bg-white text-slate-800 min-h-screen flex flex-col justify-between custom-scrollbar selection:bg-brand-500 selection:text-white">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <!-- MAIN NAVBAR -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
+    <!-- MAIN NAVBAR WITH DARK BLUE-GREY GRADIENT -->
+    <header class="sticky top-0 z-40 bg-navy-gradient text-white shadow-xl border-b border-slate-700/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Brand Logo -->
                 <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('home')">
-                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-600 to-accent-600 flex items-center justify-center shadow-lg shadow-brand-500/20 text-white font-black text-xl">
+                    <div class="w-11 h-11 rounded-2xl bg-brand-600 flex items-center justify-center shadow-lg text-white font-black text-xl border border-white/20">
                         HY
                     </div>
                     <div>
-                        <span class="text-xl font-black tracking-tight text-slate-900">HY STORE</span>
-                        <span class="text-xs text-brand-600 font-bold block tracking-wider uppercase">Custom Gift Workshop</span>
+                        <span class="text-xl font-black tracking-tight text-white">HY STORE</span>
+                        <span class="text-[10px] text-blue-300 font-bold block tracking-widest uppercase">Custom Gifts Studio</span>
                     </div>
                 </div>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 text-sm font-semibold">
-                    <button onclick="navigate('home')" class="nav-btn px-3.5 py-2 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Home</button>
-                    <button onclick="navigate('products')" class="nav-btn px-3.5 py-2 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Products Catalog</button>
-                    <button onclick="navigate('customize')" class="nav-btn px-3.5 py-2 rounded-xl text-brand-600 bg-brand-50 hover:bg-brand-100 transition flex items-center gap-1.5 font-bold">
+                <nav class="hidden md:flex items-center space-x-2 text-sm font-semibold">
+                    <button onclick="navigate('home')" class="nav-btn px-4 py-2 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 transition">Home</button>
+                    <button onclick="navigate('products')" class="nav-btn px-4 py-2 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 transition">Products</button>
+                    <button onclick="navigate('customize')" class="nav-btn px-4 py-2 rounded-xl text-white bg-brand-600 hover:bg-brand-500 transition flex items-center gap-1.5 font-bold shadow-md">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> Gift Customizer
                     </button>
-                    <button onclick="navigate('track')" class="nav-btn px-3.5 py-2 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Track Order</button>
-                    <button onclick="navigate('about')" class="nav-btn px-3.5 py-2 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">About Us</button>
+                    <button onclick="navigate('track')" class="nav-btn px-4 py-2 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 transition">Track Order</button>
+                    <button onclick="navigate('about')" class="nav-btn px-4 py-2 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 transition">About Us</button>
                 </nav>
 
                 <!-- Header Actions -->
                 <div class="flex items-center gap-3">
-                    <!-- Google Sheet ERP Config Trigger -->
-                    <button onclick="openConfigModal()" title="Google Sheet ERP Settings" class="p-2.5 text-slate-500 hover:text-brand-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition border border-slate-200">
+                    <button onclick="openConfigModal()" title="ERP Config" class="p-2.5 text-slate-300 hover:text-white bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
                         <i class="fa-solid fa-database text-lg"></i>
                     </button>
 
-                    <!-- Cart Button -->
-                    <button onclick="navigate('cart')" class="relative p-2.5 text-slate-700 hover:text-brand-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition border border-slate-200">
+                    <button onclick="navigate('cart')" class="relative p-2.5 text-slate-300 hover:text-white bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
                         <i class="fa-solid fa-bag-shopping text-lg"></i>
-                        <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-brand-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                        <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-brand-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
                     </button>
 
-                    <!-- User Account / Auth Toggle -->
                     <div id="auth-nav-container">
-                        <button onclick="navigate('login')" class="px-4 py-2 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition shadow-md">
+                        <button onclick="navigate('login')" class="px-4 py-2 text-sm font-bold text-slate-900 bg-white hover:bg-slate-100 rounded-xl transition shadow-md">
                             Sign In
                         </button>
                     </div>
 
-                    <!-- Mobile Menu Button -->
-                    <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 text-slate-600 hover:text-slate-900 bg-slate-100 rounded-xl">
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 text-white bg-white/10 rounded-xl">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-4 space-y-2">
-            <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 font-medium">Home</button>
-            <button onclick="navigate('products'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 font-medium">Products Catalog</button>
-            <button onclick="navigate('customize'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-brand-600 bg-brand-50 font-bold">Gift Customizer</button>
-            <button onclick="navigate('track'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 font-medium">Track Order</button>
-            <button onclick="navigate('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 font-medium">About Us</button>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-700 bg-navy-950 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-200 hover:bg-white/10 font-medium">Home</button>
+            <button onclick="navigate('products'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-200 hover:bg-white/10 font-medium">Products</button>
+            <button onclick="navigate('customize'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-white bg-brand-600 font-bold">Gift Customizer</button>
+            <button onclick="navigate('track'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-200 hover:bg-white/10 font-medium">Track Order</button>
+            <button onclick="navigate('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-200 hover:bg-white/10 font-medium">About Us</button>
         </div>
     </header>
 
@@ -132,41 +117,36 @@
     <main id="app-viewport" class="flex-grow">
         <!-- 1. HOME VIEW -->
         <section id="view-home" class="spa-view">
-            <!-- HERO CAROUSEL / BANNER SECTION -->
-            <div class="relative bg-gradient-to-b from-slate-50 via-white to-white py-12 lg:py-20 overflow-hidden border-b border-slate-100">
+            <!-- HERO BANNER -->
+            <div class="relative bg-navy-gradient text-white py-16 lg:py-24 overflow-hidden border-b border-slate-800">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                        <!-- Hero Left Content -->
                         <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-100 text-brand-700 border border-brand-200">
-                                <i class="fa-solid fa-bolt text-brand-600"></i> Premium Customized Printing & Gifts
+                            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-400/30">
+                                <i class="fa-solid fa-bolt"></i> Premium Customized Gifts & Printing
                             </span>
-                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
-                                Turn Your Photos Into <span class="bg-gradient-to-r from-brand-600 to-accent-600 bg-clip-text text-transparent">Unforgettable Gifts</span>
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+                                Turn Memories Into <span class="text-blue-400">Custom Printed Art</span>
                             </h1>
-                            <p class="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-medium">
-                                Create Magic Reveal Photo Frames, Customized Thermal Mugs, Acrylic LED Displays, Keychains & Canvas Wall Prints with fast nationwide delivery!
+                            <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-medium">
+                                High quality Magic Reveal Frames, Custom Thermal Mugs, Acrylic LED Displays, and Personalized Accessories delivered nationwide.
                             </p>
                             <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
-                                <button onclick="navigate('customize')" class="px-8 py-4 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-500 hover:to-brand-600 text-white font-bold rounded-2xl shadow-xl shadow-brand-600/20 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                <button onclick="navigate('customize')" class="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-2xl shadow-xl transition flex items-center justify-center gap-2">
                                     <i class="fa-solid fa-wand-magic-sparkles"></i> Customize Your Gift Now
                                 </button>
-                                <button onclick="navigate('products')" class="px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-2xl border border-slate-200 transition flex items-center justify-center gap-2">
-                                    Browse All Catalog
+                                <button onclick="navigate('products')" class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl border border-white/20 transition">
+                                    Browse Catalog
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Hero Right Image Showcase Carousel -->
                         <div class="lg:col-span-5 relative flex justify-center">
-                            <div class="w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden clean-card p-4 relative shadow-2xl">
-                                <img id="hero-slider-img" src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Hero Gift Preview" class="w-full h-full object-cover rounded-2xl transition duration-700">
-                                <div class="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200/80 shadow-lg flex items-center justify-between">
-                                    <div>
-                                        <h4 id="hero-slider-title" class="text-sm font-bold text-slate-900">Thermal Magic Photo Frame</h4>
-                                        <p id="hero-slider-price" class="text-xs text-brand-600 font-extrabold">Starting Rs. 1,499</p>
-                                    </div>
-                                    <button onclick="openCustomizerFor(1)" class="px-4 py-2 bg-brand-600 text-white text-xs font-bold rounded-xl hover:bg-brand-500">Customize</button>
+                            <div class="w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden p-4 relative shadow-2xl bg-white/10 backdrop-blur-md border border-white/20">
+                                <div id="hero-placeholder-box" class="w-full h-full bg-slate-800 rounded-2xl flex flex-col items-center justify-center p-6 text-center">
+                                    <i class="fa-solid fa-gift text-5xl text-blue-400 mb-3"></i>
+                                    <h4 class="text-lg font-bold text-white">Customized Printing Studio</h4>
+                                    <p class="text-xs text-slate-300 mt-1">Managed directly via Google Sheets ERP</p>
                                 </div>
                             </div>
                         </div>
@@ -174,65 +154,29 @@
                 </div>
             </div>
 
-            <!-- Categories Section -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div class="flex justify-between items-end mb-10">
-                    <div>
-                        <h2 class="text-3xl font-black text-slate-900">Shop By Categories</h2>
-                        <p class="text-sm text-slate-500 mt-1 font-medium">Pick a category to start personalizing your favorite products</p>
-                    </div>
+            <!-- CENTERED CATEGORIES SECTION -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+                <div class="max-w-2xl mx-auto mb-10">
+                    <h2 class="text-3xl font-black text-slate-900">Shop By Categories</h2>
+                    <p class="text-sm text-slate-500 mt-1 font-medium">Choose a category to start customizing your favorite items</p>
                 </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5" id="home-categories-grid">
-                    <!-- Populated JS -->
+                <div class="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto" id="home-categories-grid">
+                    <!-- Populated via JS -->
                 </div>
             </div>
 
-            <!-- Featured Products -->
+            <!-- FEATURED PRODUCTS -->
             <div class="bg-slate-50 py-16 border-y border-slate-100">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center mb-10">
                         <div>
                             <h2 class="text-3xl font-black text-slate-900">Top Best Sellers</h2>
-                            <p class="text-sm text-slate-500 mt-1 font-medium">Most loved custom gifts ordered by our happy customers</p>
+                            <p class="text-sm text-slate-500 mt-1 font-medium">Most popular customized gifts</p>
                         </div>
-                        <button onclick="navigate('products')" class="text-sm text-brand-600 font-bold hover:underline">View Full Catalog <i class="fa-solid fa-arrow-right"></i></button>
+                        <button onclick="navigate('products')" class="text-sm text-brand-600 font-bold hover:underline">View All Catalog <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="home-featured-products">
                         <!-- Dynamic Featured Items -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Trust Features Bar -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-brand-100 text-brand-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-truck-fast"></i></div>
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm">Fast Dispatch</h4>
-                            <p class="text-xs text-slate-500">2-3 Days Nationwide Delivery</p>
-                        </div>
-                    </div>
-                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-accent-100 text-accent-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-thumbs-up"></i></div>
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm">HD Print Proofing</h4>
-                            <p class="text-xs text-slate-500">WhatsApp Proof before printing</p>
-                        </div>
-                    </div>
-                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-shield-check"></i></div>
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm">Safe Packaging</h4>
-                            <p class="text-xs text-slate-500">Bubble wrapped break-proof items</p>
-                        </div>
-                    </div>
-                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-headset"></i></div>
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm">24/7 Support</h4>
-                            <p class="text-xs text-slate-500">Direct WhatsApp Order Help</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -242,28 +186,19 @@
         <section id="view-products" class="spa-view hidden py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-black text-slate-900">Personalized Gift Collection</h2>
-                    <p class="text-slate-500 text-sm font-medium mt-1">Select any item to customize with your photos & text</p>
+                    <h2 class="text-3xl font-black text-slate-900">Products Catalog</h2>
+                    <p class="text-slate-500 text-sm font-medium mt-1">Pick any product to customize with your photos & text</p>
                 </div>
 
-                <!-- Filter & Search Bar -->
                 <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-8">
-                    <!-- Search Input -->
                     <div class="relative w-full md:w-80">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
-                        <input type="text" id="catalog-search" onkeyup="filterProducts()" placeholder="Search frames, mugs, keychains..." class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-brand-500 shadow-sm">
+                        <input type="text" id="catalog-search" onkeyup="filterProducts()" placeholder="Search frames, mugs, plaques..." class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-brand-500 shadow-sm">
                     </div>
-
-                    <!-- Category Pills -->
-                    <div class="flex flex-wrap gap-2 w-full md:w-auto" id="category-filter-pills">
-                        <!-- Dynamic Pills -->
-                    </div>
+                    <div class="flex flex-wrap gap-2 w-full md:w-auto" id="category-filter-pills"></div>
                 </div>
 
-                <!-- Product Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="catalog-products-grid">
-                    <!-- Dynamic Products -->
-                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="catalog-products-grid"></div>
             </div>
         </section>
 
@@ -274,44 +209,29 @@
                     <h2 class="text-3xl font-black text-slate-900 flex items-center gap-2">
                         <i class="fa-solid fa-wand-magic-sparkles text-brand-600"></i> Gift Personalization Studio
                     </h2>
-                    <p class="text-slate-500 text-sm font-medium mt-1">Upload your photo, add custom message text, select frame options and see real-time preview.</p>
+                    <p class="text-slate-500 text-sm font-medium mt-1">Upload your picture, text message and select custom print styles.</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    <!-- Preview Area -->
                     <div class="lg:col-span-7 bg-slate-50 p-6 rounded-3xl border border-slate-200 flex flex-col items-center justify-center relative min-h-[440px]">
-                        <div id="canvas-preview-container" class="relative w-full max-w-md aspect-square bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 flex items-center justify-center">
-                            <!-- Base Image -->
-                            <img id="customizer-base-img" src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Base Mockup" class="w-full h-full object-cover">
-                            
-                            <!-- User Uploaded Photo Overlay -->
-                            <div id="user-photo-overlay" class="absolute inset-10 border-2 border-dashed border-brand-500 rounded-xl overflow-hidden flex items-center justify-center bg-white/70 backdrop-blur-xs">
+                        <div id="canvas-preview-container" class="relative w-full max-w-md aspect-square bg-slate-900 rounded-2xl overflow-hidden shadow-xl border border-slate-700 flex items-center justify-center">
+                            <div id="user-photo-overlay" class="absolute inset-8 border-2 border-dashed border-blue-400 rounded-xl overflow-hidden flex items-center justify-center bg-slate-800/80">
                                 <img id="user-uploaded-img" src="" class="hidden w-full h-full object-cover">
-                                <span id="user-photo-placeholder" class="text-xs text-brand-700 font-bold text-center p-4">
-                                    <i class="fa-solid fa-cloud-arrow-up text-2xl block mb-2 text-brand-600"></i> Upload Your High-Resolution Photo Here
+                                <span id="user-photo-placeholder" class="text-xs text-blue-300 font-bold text-center p-4">
+                                    <i class="fa-solid fa-cloud-arrow-up text-3xl block mb-2 text-blue-400"></i> Upload Picture For Live Preview
                                 </span>
                             </div>
-
-                            <!-- User Text Overlay -->
-                            <div id="user-text-overlay" class="absolute bottom-4 left-4 right-4 text-center px-4 py-2 bg-slate-900/80 backdrop-blur-md rounded-lg text-white font-bold text-xs tracking-wide hidden">
-                                Sample Custom Text
-                            </div>
+                            <div id="user-text-overlay" class="absolute bottom-4 left-4 right-4 text-center px-4 py-2 bg-slate-950/80 rounded-lg text-white font-bold text-xs tracking-wide hidden"></div>
                         </div>
-                        <span class="text-xs text-slate-400 mt-4 flex items-center gap-1 font-medium">
-                            <i class="fa-solid fa-circle-info"></i> Digital mockup representation. Final print design proof will be sent on WhatsApp.
-                        </span>
                     </div>
 
-                    <!-- Customization Control Panel -->
                     <div class="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5">
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Select Item Type</label>
                             <select id="customizer-item-select" onchange="onCustomizerProductChange()" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 text-sm focus:border-brand-500 focus:outline-none font-semibold">
-                                <!-- Options populated JS -->
                             </select>
                         </div>
 
-                        <!-- Image Upload Control -->
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Upload Photo For Printing</label>
                             <input type="file" id="custom-image-file" accept="image/*" onchange="handleImageUpload(event)" class="hidden">
@@ -320,13 +240,11 @@
                             </label>
                         </div>
 
-                        <!-- Custom Message Input -->
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Custom Text / Name / Special Date</label>
-                            <input type="text" id="custom-text-input" oninput="updateCustomizerText()" placeholder="e.g. Happy Birthday Ali / 12-10-2026" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-brand-500 focus:outline-none font-medium">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Custom Text / Name / Date</label>
+                            <input type="text" id="custom-text-input" oninput="updateCustomizerText()" placeholder="e.g. Happy Birthday Ali" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-brand-500 focus:outline-none font-medium">
                         </div>
 
-                        <!-- Size & Frame Option -->
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Select Size</label>
@@ -346,20 +264,18 @@
                             </div>
                         </div>
 
-                        <!-- Special Instructions -->
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Special Printing Notes</label>
-                            <textarea id="custom-notes" rows="2" placeholder="e.g. Remove background, edit brightness, send WhatsApp proof first." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:border-brand-500 focus:outline-none"></textarea>
+                            <textarea id="custom-notes" rows="2" placeholder="e.g. Edit brightness, remove background" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:border-brand-500 focus:outline-none"></textarea>
                         </div>
 
-                        <!-- Pricing & Action Button -->
                         <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
                             <div>
-                                <span class="text-xs text-slate-500 font-semibold block">Total Item Price</span>
+                                <span class="text-xs text-slate-500 font-semibold block">Total Price</span>
                                 <span id="customizer-calculated-price" class="text-2xl font-black text-brand-600">Rs. 1,499</span>
                             </div>
-                            <button onclick="addCustomizedToCart()" class="px-6 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-600/20 transition flex items-center gap-2">
-                                <i class="fa-solid fa-cart-plus"></i> Add To Order Cart
+                            <button onclick="addCustomizedToCart()" class="px-6 py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2">
+                                <i class="fa-solid fa-cart-plus"></i> Add To Cart
                             </button>
                         </div>
                     </div>
@@ -367,27 +283,24 @@
             </div>
         </section>
 
-        <!-- 4. TRACK ORDER VIEW -->
+        <!-- 4. LIVE TRACK ORDER VIEW (AUTO-POLLING REFRESH) -->
         <section id="view-track" class="spa-view hidden py-12">
             <div class="max-w-3xl mx-auto px-4 sm:px-6">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl font-black text-slate-900">Live Order Tracking</h2>
-                    <p class="text-slate-500 text-sm mt-1 font-medium">Enter your Order ID (e.g. HY-1001) or Registered Phone Number to check real-time printing status.</p>
+                    <p class="text-slate-500 text-sm mt-1 font-medium">Real-time sync with Google Sheets (auto-updates live without reload).</p>
                 </div>
 
-                <!-- Search Box -->
                 <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 shadow-sm mb-8">
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <input type="text" id="track-input-id" placeholder="Enter Order ID (HY-1001 or 0300...)" class="flex-grow bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-800 font-semibold focus:border-brand-500 focus:outline-none shadow-sm">
-                        <button onclick="searchOrderTracking()" class="px-7 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition flex items-center justify-center gap-2">
+                        <input type="text" id="track-input-id" placeholder="Enter Order ID (HY-1001 or Phone)" class="flex-grow bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-800 font-semibold focus:border-brand-500 focus:outline-none shadow-sm">
+                        <button onclick="searchOrderTracking()" class="px-7 py-3.5 bg-navy-800 hover:bg-navy-900 text-white font-bold rounded-xl transition flex items-center justify-center gap-2">
                             <i class="fa-solid fa-location-dot"></i> Track Status
                         </button>
                     </div>
                 </div>
 
-                <!-- Tracking Pipeline Status Container -->
                 <div id="tracking-result-box" class="hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-lg">
-                    <!-- Status Header -->
                     <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100">
                         <div>
                             <span class="text-xs text-slate-400 uppercase font-bold">Order ID</span>
@@ -399,24 +312,22 @@
                         </div>
                         <div>
                             <span class="text-xs text-slate-400 uppercase font-bold">Current Status</span>
-                            <span id="track-res-status-badge" class="block px-3 py-1 bg-brand-100 text-brand-700 border border-brand-200 rounded-full text-xs font-bold text-center mt-0.5">Printing in Progress</span>
+                            <span id="track-res-status-badge" class="block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full text-xs font-bold text-center mt-0.5">Order Placed</span>
                         </div>
                     </div>
 
-                    <!-- Pipeline Visual Steps -->
                     <div class="py-10">
                         <div class="relative flex items-center justify-between">
                             <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-100 z-0"></div>
-                            <div id="track-progress-bar" class="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-brand-600 transition-all duration-500 z-0" style="width: 50%;"></div>
+                            <div id="track-progress-bar" class="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-brand-600 transition-all duration-500 z-0" style="width: 0%;"></div>
 
-                            <!-- Steps -->
                             <div class="track-step relative z-10 text-center flex flex-col items-center">
                                 <div id="step-1-icon" class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold shadow-md">1</div>
                                 <span class="text-xs font-bold text-slate-700 mt-2">Placed</span>
                             </div>
                             <div class="track-step relative z-10 text-center flex flex-col items-center">
-                                <div id="step-2-icon" class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold shadow-md">2</div>
-                                <span class="text-xs font-bold text-slate-700 mt-2">Proofing</span>
+                                <div id="step-2-icon" class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold">2</div>
+                                <span class="text-xs font-bold text-slate-500 mt-2">Proofing</span>
                             </div>
                             <div class="track-step relative z-10 text-center flex flex-col items-center">
                                 <div id="step-3-icon" class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold">3</div>
@@ -429,69 +340,60 @@
                         </div>
                     </div>
 
-                    <!-- Order Details Summary -->
                     <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-2 font-medium">
                         <div class="flex justify-between text-slate-600">
-                            <span>Item Name:</span> <span id="track-res-item" class="text-slate-900 font-bold">Magic Photo Frame</span>
+                            <span>Item Details:</span> <span id="track-res-item" class="text-slate-900 font-bold">Custom Frame</span>
                         </div>
                         <div class="flex justify-between text-slate-600">
-                            <span>Estimated Delivery:</span> <span id="track-res-date" class="text-brand-600 font-bold">2-3 Business Days</span>
-                        </div>
-                        <div class="flex justify-between text-slate-600">
-                            <span>Shipping Address:</span> <span id="track-res-address" class="text-slate-900">Mandi Bahauddin, Punjab</span>
+                            <span>Shipping Address:</span> <span id="track-res-address" class="text-slate-900">Mandi Bahauddin</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. SHOPPING CART & CHECKOUT VIEW -->
+        <!-- 5. SHOPPING CART & STRICT CHECKOUT VIEW -->
         <section id="view-cart" class="spa-view hidden py-12">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-black text-slate-900 mb-8">Your Order Cart</h2>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    <!-- Cart Items List -->
-                    <div class="lg:col-span-7 space-y-4" id="cart-items-container">
-                        <!-- Populated JS -->
-                    </div>
+                    <div class="lg:col-span-7 space-y-4" id="cart-items-container"></div>
 
-                    <!-- Checkout Form & Order Summary -->
                     <div class="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-lg space-y-5">
                         <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">Delivery & Checkout</h3>
 
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 mb-1">Full Name *</label>
-                                <input type="text" id="checkout-name" placeholder="Muhammad Ahmad" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                                <input type="text" id="checkout-name" oninput="validateCheckoutForm()" placeholder="Muhammad Ahmad" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 mb-1">WhatsApp Phone Number *</label>
-                                <input type="text" id="checkout-phone" placeholder="03001234567" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                                <label class="block text-xs font-bold text-slate-500 mb-1">Mobile Phone (11 Digits, No 03 at start) *</label>
+                                <input type="text" id="checkout-phone" oninput="validateCheckoutForm()" placeholder="42093066721 (11 digits)" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                                <span id="chk-phone-error" class="text-[11px] text-rose-500 font-bold hidden">Must be 11 digits & cannot start with 03</span>
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 mb-1">Complete Delivery Address *</label>
-                                <textarea id="checkout-address" rows="2" placeholder="House/Shop #, Street, City, Punjab..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500"></textarea>
+                                <textarea id="checkout-address" rows="2" oninput="validateCheckoutForm()" placeholder="House/Shop #, Street, City..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500"></textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 mb-1">Select Payment Method</label>
+                                <label class="block text-xs font-bold text-slate-500 mb-1">Payment Method</label>
                                 <select id="checkout-payment" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-semibold rounded-xl p-3 text-sm focus:outline-none focus:border-brand-500">
                                     <option value="Cash on Delivery">Cash on Delivery (COD)</option>
-                                    <option value="JazzCash">JazzCash Direct Mobile Transfer</option>
+                                    <option value="JazzCash">JazzCash Direct Transfer</option>
                                     <option value="EasyPaisa">EasyPaisa Mobile Wallet</option>
-                                    <option value="Bank Transfer">Direct Bank Account Transfer</option>
                                 </select>
                             </div>
                         </div>
 
-                        <!-- Price Breakdown -->
                         <div class="space-y-2 pt-4 border-t border-slate-100 text-sm">
                             <div class="flex justify-between text-slate-500 font-medium">
                                 <span>Subtotal</span>
                                 <span id="summary-subtotal" class="text-slate-900 font-bold">Rs. 0</span>
                             </div>
                             <div class="flex justify-between text-slate-500 font-medium">
-                                <span>Nationwide Delivery Charges</span>
+                                <span>Delivery</span>
                                 <span id="summary-shipping" class="text-slate-900 font-bold">Rs. 200</span>
                             </div>
                             <div class="flex justify-between text-base font-black text-slate-900 pt-3 border-t border-slate-100">
@@ -500,41 +402,46 @@
                             </div>
                         </div>
 
-                        <button onclick="processFinalOrder()" class="w-full py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-xl transition flex items-center justify-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-xl"></i> Confirm Order On WhatsApp
+                        <!-- HIDDEN UNTIL FORM & CART VALID -->
+                        <button id="btn-checkout" onclick="processFinalOrder()" class="hidden w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-xl transition flex items-center justify-center gap-2">
+                            Check Out
                         </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 6. USER LOGIN / REGISTER VIEW -->
+        <!-- 6. AUTHENTICATION (STRICT PHONE RULES) -->
         <section id="view-login" class="spa-view hidden py-16">
             <div class="max-w-md mx-auto px-4">
                 <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-xl">
                     <div class="text-center mb-6">
-                        <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-100 text-brand-600 flex items-center justify-center mx-auto mb-3 text-xl font-bold">
                             <i class="fa-solid fa-user-lock"></i>
                         </div>
-                        <h2 id="auth-title" class="text-2xl font-black text-slate-900">Sign In To Your Account</h2>
-                        <p class="text-xs text-slate-500 mt-1 font-medium">Track your custom printing orders and save preferences</p>
+                        <h2 id="auth-title" class="text-2xl font-black text-slate-900">Sign In To Account</h2>
                     </div>
 
                     <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
                         <div id="auth-name-group" class="hidden">
                             <label class="block text-xs font-bold text-slate-500 mb-1">Full Name</label>
-                            <input type="text" id="auth-name" placeholder="Ali Raza" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                            <input type="text" id="auth-name" placeholder="Ali Raza" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-medium">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 mb-1">Email Address</label>
-                            <input type="email" id="auth-email" required placeholder="name@domain.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                            <input type="email" id="auth-email" required placeholder="hystoreofficial@gmail.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Mobile Phone (11 Digits, No 03 start)</label>
+                            <input type="text" id="auth-phone" required oninput="validatePhoneInput(this, 'auth-phone-err')" placeholder="32093066721 (11 digits)" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-medium">
+                            <span id="auth-phone-err" class="text-[11px] text-rose-500 font-bold hidden">Must be 11 digits & cannot start with 03</span>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 mb-1">Password</label>
-                            <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                            <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-medium">
                         </div>
 
-                        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition shadow-lg">
+                        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-navy-800 hover:bg-navy-900 text-white font-bold rounded-xl transition shadow-lg">
                             Sign In
                         </button>
                     </form>
@@ -547,7 +454,7 @@
             </div>
         </section>
 
-        <!-- 7. USER DASHBOARD VIEW -->
+        <!-- 7. USER DASHBOARD -->
         <section id="view-account" class="spa-view hidden py-12">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 flex flex-wrap items-center justify-between gap-4 mb-8">
@@ -556,315 +463,233 @@
                             <span id="user-avatar-initial">U</span>
                         </div>
                         <div>
-                            <h2 id="user-profile-name" class="text-xl font-bold text-slate-900">User Name</h2>
-                            <p id="user-profile-email" class="text-xs text-slate-500 font-medium">user@domain.com</p>
+                            <h2 id="user-profile-name" class="text-xl font-bold text-slate-900">User</h2>
+                            <p id="user-profile-email" class="text-xs text-slate-500 font-medium">hystoreofficial@gmail.com</p>
                         </div>
                     </div>
                     <button onclick="logoutUser()" class="px-4 py-2 bg-white hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
                         <i class="fa-solid fa-right-from-bracket"></i> Logout
                     </button>
                 </div>
-
-                <h3 class="text-xl font-black text-slate-900 mb-4">My Past Orders</h3>
-                <div id="user-orders-list" class="space-y-4">
-                    <!-- Populated JS -->
-                </div>
             </div>
         </section>
 
-        <!-- 8. ABOUT US VIEW -->
+        <!-- 8. ABOUT US -->
         <section id="view-about" class="spa-view hidden py-16">
             <div class="max-w-4xl mx-auto px-4 text-center">
-                <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                <div class="w-16 h-16 bg-navy-800 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
                     <i class="fa-solid fa-print"></i>
                 </div>
-                <h2 class="text-3xl font-black text-slate-900">About HY STORE Workshop</h2>
+                <h2 class="text-3xl font-black text-slate-900">About HY STORE Studio</h2>
                 <p class="text-slate-600 text-sm mt-3 max-w-2xl mx-auto leading-relaxed font-medium">
-                    We are a modern custom gift printing studio offering top-quality photo frames, magic reveal mugs, crystal acrylic LED plaques, custom keychains, and personalized accessories with high-definition non-fading print quality.
+                    We specialize in high definition customized printing, magic reveal frames, thermal color mugs, crystal LED displays, and custom merchandise.
                 </p>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                        <i class="fa-solid fa-bolt text-brand-600 text-xl mb-3"></i>
-                        <h4 class="font-bold text-slate-900 text-base">Rapid Dispatch</h4>
-                        <p class="text-xs text-slate-500 mt-1 font-medium">Quick processing and delivery across all cities in Pakistan.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                        <i class="fa-solid fa-gem text-accent-600 text-xl mb-3"></i>
-                        <h4 class="font-bold text-slate-900 text-base">HD Quality Prints</h4>
-                        <p class="text-xs text-slate-500 mt-1 font-medium">Glossy water-proof thermal coating that never fades.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                        <i class="fa-solid fa-comments text-brand-600 text-xl mb-3"></i>
-                        <h4 class="font-bold text-slate-900 text-base">WhatsApp Proofs</h4>
-                        <p class="text-xs text-slate-500 mt-1 font-medium">We send digital design previews before printing your gift.</p>
-                    </div>
-                </div>
             </div>
         </section>
     </main>
 
-    <!-- FLOATING WHATSAPP BUTTON -->
-    <a href="https://wa.me/923000000000?text=Hi,%20I%20have%20a%20custom%20gift%20printing%20query" target="_blank" class="fixed bottom-6 right-6 z-40 w-14 h-14 bg-brand-600 hover:bg-brand-700 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition duration-300">
-        <i class="fa-brands fa-whatsapp text-3xl"></i>
-    </a>
-
-    <!-- GOOGLE SHEET ERP INTEGRATION MODAL -->
-    <div id="config-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-white w-full max-w-lg p-6 rounded-3xl border border-slate-200 shadow-2xl space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 class="font-bold text-slate-900 flex items-center gap-2">
-                    <i class="fa-solid fa-database text-brand-600"></i> Google Sheets ERP Configuration
-                </h3>
-                <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">
-                Connect your live **Google Apps Script Web App URL** below to write orders directly into your Google Sheet ERP database.
-            </p>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">Google Apps Script Web App URL</label>
-                <input type="text" id="gas-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 font-medium focus:outline-none focus:border-brand-500">
-            </div>
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-[11px] text-slate-600 space-y-1">
-                <p class="font-bold text-brand-700">Google Sheet Tabs Schema Required:</p>
-                <ul class="list-disc pl-4 space-y-0.5">
-                    <li><code class="text-slate-800 font-bold">Products</code> (ID, Name, Price, Category, Image)</li>
-                    <li><code class="text-slate-800 font-bold">Orders</code> (OrderID, Name, Phone, Items, Total, Status)</li>
-                    <li><code class="text-slate-800 font-bold">Users</code> (Email, Name, Password)</li>
-                </ul>
-            </div>
-            <div class="flex justify-end gap-2 pt-2">
-                <button onclick="closeConfigModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-xl text-xs font-bold">Cancel</button>
-                <button onclick="saveGasConfig()" class="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold">Save Settings</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer class="bg-slate-50 border-t border-slate-200 py-10 mt-16">
+    <!-- FOOTER WITH DARK BLUE-GREY GRADIENT -->
+    <footer class="bg-navy-gradient text-white border-t border-slate-800 py-12 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white font-black">
                         HY
                     </div>
-                    <span class="text-base font-black text-slate-900">HY STORE</span>
+                    <span class="text-base font-black text-white">HY STORE</span>
                 </div>
-                <div class="flex flex-wrap gap-6 text-xs text-slate-600 font-bold">
-                    <button onclick="navigate('home')" class="hover:text-brand-600">Home</button>
-                    <button onclick="navigate('products')" class="hover:text-brand-600">Products</button>
-                    <button onclick="navigate('customize')" class="hover:text-brand-600">Gift Customizer</button>
-                    <button onclick="navigate('track')" class="hover:text-brand-600">Order Tracking</button>
-                    <button onclick="navigate('about')" class="hover:text-brand-600">About Us</button>
+                <div class="flex flex-wrap gap-6 text-xs text-slate-300 font-bold">
+                    <button onclick="navigate('home')" class="hover:text-white">Home</button>
+                    <button onclick="navigate('products')" class="hover:text-white">Products</button>
+                    <button onclick="navigate('customize')" class="hover:text-white">Gift Customizer</button>
+                    <button onclick="navigate('track')" class="hover:text-white">Order Tracking</button>
+                    <button onclick="navigate('about')" class="hover:text-white">About Us</button>
                 </div>
-                <p class="text-xs text-slate-400 font-medium">© 2026 HY STORE Pakistan. All Rights Reserved.</p>
+                <div class="text-right text-xs text-slate-400">
+                    <p>© 2026 HY STORE Pakistan. All Rights Reserved.</p>
+                    <p class="text-[11px] text-slate-500 mt-1">Contact: 03209306672 | hystoreofficial@gmail.com</p>
+                </div>
             </div>
         </div>
     </footer>
 
+    <!-- CONFIG MODAL -->
+    <div id="config-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-lg p-6 rounded-3xl border border-slate-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-database text-brand-600"></i> Google Sheets ERP Settings
+                </h3>
+                <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Google Apps Script Web App URL</label>
+                <input type="text" id="gas-url-input" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 font-medium">
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeConfigModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-xl text-xs font-bold">Cancel</button>
+                <button onclick="saveGasConfig()" class="px-5 py-2 bg-brand-600 text-white rounded-xl text-xs font-bold">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
     <!-- CLIENT SCRIPT ENGINE -->
     <script>
-        /* -------------------------------------------------------------------------- */
-        /* 1. MOCK DATABASE & ERP ENGINE                                              */
-        /* -------------------------------------------------------------------------- */
-        const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbwSSdY1mCnckn3B1aS-4T7sy7Q9Xmm0bMiIHBZY4WKu2awPV28WpM59_xbbfjvxT0x-/exec";
+        const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbwB0_c3QV-Z9rO8rV8cqjFs4Dvq2v5rMCC6lfH9JYvDwWScJA7ZLoQHoLJ6cMYNIiFL/exec";
 
         const DEFAULT_PRODUCTS = [
-            {
-                id: 1,
-                name: "Heat Magic Reveal Frame",
-                category: "Magic Frames",
-                price: 1499,
-                originalPrice: 1999,
-                image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
-                badge: "Hot Seller"
-            },
-            {
-                id: 2,
-                name: "Custom Magic Color Mug",
-                category: "Customized Mugs",
-                price: 899,
-                originalPrice: 1200,
-                image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
-                badge: "Popular"
-            },
-            {
-                id: 3,
-                name: "Acrylic LED Photo Stand",
-                category: "Acrylic Prints",
-                price: 2199,
-                originalPrice: 2800,
-                image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80",
-                badge: "Trending"
-            },
-            {
-                id: 4,
-                name: "Metal Metallic Keychain",
-                category: "Keychains",
-                price: 499,
-                originalPrice: 750,
-                image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-                badge: "Best Gift"
-            },
-            {
-                id: 5,
-                name: "Personalized Velvet Cushion",
-                category: "Cushions",
-                price: 1299,
-                originalPrice: 1600,
-                image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=800&q=80",
-                badge: "New"
-            },
-            {
-                id: 6,
-                name: "3D Crystal Engraved Block",
-                category: "Acrylic Prints",
-                price: 3499,
-                originalPrice: 4200,
-                image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
-                badge: "Premium"
-            }
-        ];
-
-        const DEFAULT_ORDERS = [
-            {
-                id: "HY-1001",
-                name: "Muhammad Ali",
-                phone: "03001234567",
-                item: "Heat Magic Photo Frame (8x12)",
-                status: "Printing",
-                step: 3,
-                address: "Mandi Bahauddin, Punjab",
-                total: 1699,
-                date: "2026-11-05"
-            }
+            { id: 1, name: "Heat Magic Reveal Frame", category: "Magic Frames", price: 1499, originalPrice: 1999, badge: "Hot Seller" },
+            { id: 2, name: "Custom Magic Color Mug", category: "Customized Mugs", price: 899, originalPrice: 1200, badge: "Popular" },
+            { id: 3, name: "Acrylic LED Photo Stand", category: "Acrylic Prints", price: 2199, originalPrice: 2800, badge: "Trending" },
+            { id: 4, name: "Metal Metallic Keychain", category: "Keychains", price: 499, originalPrice: 750, badge: "Best Gift" }
         ];
 
         if (!localStorage.getItem('gas_api_url')) localStorage.setItem('gas_api_url', DEFAULT_GAS_URL);
         if (!localStorage.getItem('pst_products')) localStorage.setItem('pst_products', JSON.stringify(DEFAULT_PRODUCTS));
-        if (!localStorage.getItem('pst_orders')) localStorage.setItem('pst_orders', JSON.stringify(DEFAULT_ORDERS));
         if (!localStorage.getItem('pst_cart')) localStorage.setItem('pst_cart', JSON.stringify([]));
 
         let currentCart = JSON.parse(localStorage.getItem('pst_cart'));
         let currentUser = JSON.parse(localStorage.getItem('pst_user')) || null;
         let selectedCategory = "All";
+        let liveUploadedBase64Image = "";
+        let pollingTimer = null;
 
-        /* -------------------------------------------------------------------------- */
-        /* 2. SPA ROUTER SYSTEM                                                      */
-        /* -------------------------------------------------------------------------- */
-        function navigate(viewId) {
-            document.querySelectorAll('.spa-view').forEach(view => view.classList.add('hidden'));
-            const target = document.getElementById(`view-${viewId}`);
-            if (target) {
-                target.classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-
-            if (viewId === 'account' && !currentUser) {
-                navigate('login');
-                return;
-            }
-
-            if (viewId === 'products' || viewId === 'home') renderCatalog();
-            if (viewId === 'cart') renderCart();
-            if (viewId === 'account') renderAccountView();
+        /* REAL CLEAN ROUTER & RELOAD PATH PRESERVATION */
+        function navigate(pathName) {
+            window.history.pushState({}, "", "/" + pathName);
+            renderView(pathName);
         }
+
+        function renderView(pathName) {
+            document.querySelectorAll('.spa-view').forEach(v => v.classList.add('hidden'));
+            
+            let targetId = "view-" + pathName;
+            let targetEl = document.getElementById(targetId);
+            if (!targetEl) {
+                pathName = "home";
+                targetEl = document.getElementById("view-home");
+            }
+
+            targetEl.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (pathName === 'home' || pathName === 'products') renderCatalog();
+            if (pathName === 'cart') renderCart();
+            if (pathName === 'account') renderAccountView();
+        }
+
+        window.onpopstate = function() {
+            let path = window.location.pathname.replace("/", "") || "home";
+            renderView(path);
+        };
 
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        /* -------------------------------------------------------------------------- */
-        /* 3. CATALOG & HERO CAROUSEL ENGINE                                         */
-        /* -------------------------------------------------------------------------- */
+        /* STRICT 11 DIGIT AND NO '03' START VALIDATION */
+        function isValidPakistaniPhone(phone) {
+            phone = phone.trim();
+            if (phone.length !== 11) return false;
+            if (phone.startsWith("03")) return false;
+            return /^\d{11}$/.test(phone);
+        }
+
+        function validatePhoneInput(inputEl, errId) {
+            const val = inputEl.value.trim();
+            const errEl = document.getElementById(errId);
+            if (val === "" || isValidPakistaniPhone(val)) {
+                errEl.classList.add('hidden');
+                return true;
+            } else {
+                errEl.classList.remove('hidden');
+                return false;
+            }
+        }
+
+        function validateCheckoutForm() {
+            const name = document.getElementById('checkout-name').value.trim();
+            const phone = document.getElementById('checkout-phone').value.trim();
+            const address = document.getElementById('checkout-address').value.trim();
+            const btn = document.getElementById('btn-checkout');
+            const isPhoneValid = isValidPakistaniPhone(phone);
+            
+            const errEl = document.getElementById('chk-phone-error');
+            if (phone !== "" && !isPhoneValid) errEl.classList.remove('hidden');
+            else errEl.classList.add('hidden');
+
+            if (currentCart.length > 0 && name !== "" && isPhoneValid && address !== "") {
+                btn.classList.remove('hidden');
+            } else {
+                btn.classList.add('hidden');
+            }
+        }
+
+        /* CATALOG & CENTERED CATEGORIES */
         function renderCatalog() {
             const products = JSON.parse(localStorage.getItem('pst_products'));
             const categories = ["All", ...new Set(products.map(p => p.category))];
 
-            // Categories Grid (Home)
             const homeCatGrid = document.getElementById('home-categories-grid');
             if (homeCatGrid) {
                 homeCatGrid.innerHTML = categories.filter(c => c !== 'All').map(cat => `
-                    <div onclick="filterCategoryFromHome('${cat}')" class="bg-white p-5 rounded-2xl border border-slate-200 text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition">
-                        <i class="fa-solid fa-gift text-brand-600 text-2xl mb-2 block"></i>
+                    <div onclick="filterCategoryFromHome('${cat}')" class="bg-white p-6 rounded-2xl border border-slate-200 text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition w-40">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
                         <h4 class="text-xs font-bold text-slate-800">${cat}</h4>
                     </div>
                 `).join('');
             }
 
-            // Category Filter Pills (Catalog)
             const pillsContainer = document.getElementById('category-filter-pills');
             if (pillsContainer) {
                 pillsContainer.innerHTML = categories.map(cat => `
-                    <button onclick="setCategoryFilter('${cat}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${selectedCategory === cat ? 'bg-brand-600 text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}">
+                    <button onclick="setCategoryFilter('${cat}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${selectedCategory === cat ? 'bg-brand-600 text-white shadow-md' : 'bg-white text-slate-600 border border-slate-200'}">
                         ${cat}
                     </button>
                 `).join('');
             }
 
-            // Filter Logic
-            const searchVal = (document.getElementById('catalog-search')?.value || '').toLowerCase();
-            const filtered = products.filter(p => {
-                const matchesCat = selectedCategory === "All" || p.category === selectedCategory;
-                const matchesSearch = p.name.toLowerCase().includes(searchVal);
-                return matchesCat && matchesSearch;
-            });
-
-            // Featured Products (Home)
+            const catalogGrid = document.getElementById('catalog-products-grid');
+            if (catalogGrid) {
+                catalogGrid.innerHTML = products.map(p => createProductCardHTML(p)).join('');
+            }
             const homeFeaturedGrid = document.getElementById('home-featured-products');
             if (homeFeaturedGrid) {
                 homeFeaturedGrid.innerHTML = products.slice(0, 4).map(p => createProductCardHTML(p)).join('');
-            }
-
-            // Catalog Grid
-            const catalogGrid = document.getElementById('catalog-products-grid');
-            if (catalogGrid) {
-                catalogGrid.innerHTML = filtered.map(p => createProductCardHTML(p)).join('');
             }
         }
 
         function createProductCardHTML(p) {
             return `
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-xl transition group">
-                    <div class="relative aspect-square overflow-hidden bg-slate-100">
-                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <span class="absolute top-3 left-3 bg-brand-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm">
-                            ${p.badge}
-                        </span>
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-xl transition group p-4">
+                    <div class="w-full aspect-square bg-slate-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-gift text-4xl text-slate-300"></i>
                     </div>
-                    <div class="p-4 flex-grow flex flex-col justify-between">
-                        <div>
-                            <span class="text-[10px] font-bold text-brand-600 uppercase tracking-wider">${p.category}</span>
-                            <h3 class="text-sm font-bold text-slate-900 mt-1 leading-snug">${p.name}</h3>
-                        </div>
-                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs text-slate-400 line-through font-medium">Rs. ${p.originalPrice}</span>
-                                <span class="text-base font-black text-slate-900 block">Rs. ${p.price}</span>
-                            </div>
-                            <button onclick="openCustomizerFor(${p.id})" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
-                                <i class="fa-solid fa-paintbrush"></i> Design
-                            </button>
-                        </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-brand-600 uppercase">${p.category}</span>
+                        <h3 class="text-sm font-bold text-slate-900 mt-1">${p.name}</h3>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                        <span class="text-base font-black text-slate-900">Rs. ${p.price}</span>
+                        <button onclick="openCustomizerFor(${p.id})" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-sm">
+                            Design
+                        </button>
                     </div>
                 </div>
             `;
         }
 
-        function filterProducts() { renderCatalog(); }
         function setCategoryFilter(cat) { selectedCategory = cat; renderCatalog(); }
         function filterCategoryFromHome(cat) { selectedCategory = cat; navigate('products'); }
 
-        /* -------------------------------------------------------------------------- */
-        /* 4. CUSTOMIZER STUDIO ENGINE                                               */
-        /* -------------------------------------------------------------------------- */
+        /* CUSTOMIZER & BASE64 IMAGE CONVERSION */
         function populateCustomizerSelect() {
             const products = JSON.parse(localStorage.getItem('pst_products'));
             const select = document.getElementById('customizer-item-select');
             if (select) {
-                select.innerHTML = products.map(p => `
-                    <option value="${p.id}">${p.name} - Rs. ${p.price}</option>
-                `).join('');
+                select.innerHTML = products.map(p => `<option value="${p.id}">${p.name} - Rs. ${p.price}</option>`).join('');
             }
         }
 
@@ -873,18 +698,6 @@
             populateCustomizerSelect();
             const select = document.getElementById('customizer-item-select');
             if (select) select.value = productId;
-            onCustomizerProductChange();
-        }
-
-        function onCustomizerProductChange() {
-            const products = JSON.parse(localStorage.getItem('pst_products'));
-            const selectedId = parseInt(document.getElementById('customizer-item-select').value);
-            const product = products.find(p => p.id === selectedId);
-
-            if (product) {
-                document.getElementById('customizer-base-img').src = product.image;
-                calculateCustomizerPrice();
-            }
         }
 
         function handleImageUpload(event) {
@@ -892,6 +705,7 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
+                    liveUploadedBase64Image = e.target.result;
                     const img = document.getElementById('user-uploaded-img');
                     img.src = e.target.result;
                     img.classList.remove('hidden');
@@ -918,11 +732,7 @@
             const selectedId = parseInt(document.getElementById('customizer-item-select')?.value || 1);
             const product = products.find(p => p.id === selectedId);
             const size = document.getElementById('customizer-size-select')?.value;
-
-            let extra = 0;
-            if (size === 'large') extra = 400;
-            if (size === 'xlarge') extra = 900;
-
+            let extra = size === 'large' ? 400 : size === 'xlarge' ? 900 : 0;
             const total = (product ? product.price : 1499) + extra;
             document.getElementById('customizer-calculated-price').innerText = `Rs. ${total}`;
             return total;
@@ -932,32 +742,26 @@
             const products = JSON.parse(localStorage.getItem('pst_products'));
             const selectedId = parseInt(document.getElementById('customizer-item-select').value);
             const product = products.find(p => p.id === selectedId);
-            const price = calculateCustomizerPrice();
 
-            const customItem = {
+            currentCart.push({
                 cartId: Date.now(),
-                productId: product.id,
                 name: product.name,
-                price: price,
+                price: calculateCustomizerPrice(),
                 customText: document.getElementById('custom-text-input').value,
-                notes: document.getElementById('custom-notes').value,
                 size: document.getElementById('customizer-size-select').value,
-                frameColor: document.getElementById('customizer-frame-color').value,
-                photoUploaded: !document.getElementById('user-uploaded-img').classList.contains('hidden')
-            };
+                imageUrl: liveUploadedBase64Image
+            });
 
-            currentCart.push(customItem);
             saveCart();
-            showToast("Customized item added to your cart!");
+            showToast("Item added to cart!");
             navigate('cart');
         }
 
-        /* -------------------------------------------------------------------------- */
-        /* 5. SHOPPING CART & CHECKOUT ENGINE                                        */
-        /* -------------------------------------------------------------------------- */
+        /* CART & CHECKOUT */
         function saveCart() {
             localStorage.setItem('pst_cart', JSON.stringify(currentCart));
             updateCartBadge();
+            validateCheckoutForm();
         }
 
         function updateCartBadge() {
@@ -972,274 +776,174 @@
         function renderCart() {
             const container = document.getElementById('cart-items-container');
             if (currentCart.length === 0) {
-                container.innerHTML = `
-                    <div class="bg-slate-50 p-12 rounded-3xl border border-slate-200 text-center">
-                        <i class="fa-solid fa-bag-shopping text-4xl text-slate-300 mb-3"></i>
-                        <h3 class="text-lg font-bold text-slate-800">Your Cart is Empty</h3>
-                        <p class="text-xs text-slate-500 mt-1 font-medium">Select a gift item and start customizing!</p>
-                        <button onclick="navigate('products')" class="mt-4 px-5 py-2.5 bg-brand-600 text-white text-xs font-bold rounded-xl shadow-md">Browse Catalog</button>
-                    </div>
-                `;
+                container.innerHTML = `<div class="p-8 text-center bg-slate-50 rounded-2xl">Cart is empty</div>`;
                 updateSummary(0);
+                validateCheckoutForm();
                 return;
             }
 
-            container.innerHTML = currentCart.map(item => `
+            container.innerHTML = currentCart.map((item, idx) => `
                 <div class="bg-white p-4 rounded-2xl border border-slate-200 flex justify-between items-center shadow-sm">
-                    <div class="space-y-1">
+                    <div>
                         <h4 class="text-sm font-bold text-slate-900">${item.name}</h4>
-                        <p class="text-xs text-brand-600 font-semibold">Size: ${item.size.toUpperCase()} | Frame: ${item.frameColor}</p>
-                        ${item.customText ? `<p class="text-[11px] text-slate-500 italic">"Text: ${item.customText}"</p>` : ''}
-                        ${item.photoUploaded ? `<span class="inline-block text-[10px] text-brand-600 font-bold"><i class="fa-solid fa-check"></i> Photo Attached</span>` : ''}
+                        <span class="text-xs text-brand-600 font-semibold">Size: ${item.size.toUpperCase()}</span>
                     </div>
                     <div class="text-right">
                         <span class="text-sm font-black text-slate-900 block">Rs. ${item.price}</span>
-                        <button onclick="removeFromCart(${item.cartId})" class="text-xs text-rose-500 hover:underline mt-1 font-semibold">Remove</button>
+                        <button onclick="removeFromCart(${idx})" class="text-xs text-rose-500 font-bold">Remove</button>
                     </div>
                 </div>
             `).join('');
 
             const subtotal = currentCart.reduce((sum, i) => sum + i.price, 0);
             updateSummary(subtotal);
+            validateCheckoutForm();
         }
 
-        function removeFromCart(cartId) {
-            currentCart = currentCart.filter(c => c.cartId !== cartId);
+        function removeFromCart(idx) {
+            currentCart.splice(idx, 1);
             saveCart();
             renderCart();
         }
 
         function updateSummary(subtotal) {
-            const shipping = subtotal > 0 ? 200 : 0;
             document.getElementById('summary-subtotal').innerText = `Rs. ${subtotal}`;
-            document.getElementById('summary-shipping').innerText = `Rs. ${shipping}`;
-            document.getElementById('summary-total').innerText = `Rs. ${subtotal + shipping}`;
+            document.getElementById('summary-total').innerText = `Rs. ${subtotal + (subtotal > 0 ? 200 : 0)}`;
         }
 
-        function processFinalOrder() {
-            if (currentCart.length === 0) {
-                showToast("Your cart is empty!", "error");
-                return;
-            }
-
+        async function processFinalOrder() {
             const name = document.getElementById('checkout-name').value.trim();
             const phone = document.getElementById('checkout-phone').value.trim();
             const address = document.getElementById('checkout-address').value.trim();
             const payment = document.getElementById('checkout-payment').value;
 
-            if (!name || !phone || !address) {
-                showToast("Please fill out all required delivery fields!", "error");
-                return;
-            }
+            if (!isValidPakistaniPhone(phone)) return showToast("Invalid Phone Number!", "error");
 
-            const orders = JSON.parse(localStorage.getItem('pst_orders'));
             const newOrderId = "HY-" + Math.floor(1000 + Math.random() * 9000);
             const subtotal = currentCart.reduce((sum, i) => sum + i.price, 0);
-            const total = subtotal + 200;
 
-            const newOrder = {
+            const payload = {
                 action: 'createOrder',
                 order_id: newOrderId,
                 customer_name: name,
                 customer_phone: phone,
                 shipping_address: address,
                 items_summary: currentCart.map(c => c.name).join(', '),
-                total_amount: total,
-                payment_method: payment,
-                status: "Order Placed",
-                step: 1,
-                date: new Date().toISOString().split('T')[0]
+                custom_image_url: currentCart[0]?.imageUrl || "",
+                total_amount: subtotal + 200,
+                payment_method: payment
             };
 
-            orders.unshift(newOrder);
-            localStorage.setItem('pst_orders', JSON.stringify(orders));
-
-            // Sync to Google Sheet API
             const gasUrl = localStorage.getItem('gas_api_url') || DEFAULT_GAS_URL;
-            if (gasUrl) {
-                fetch(gasUrl, {
+            try {
+                await fetch(gasUrl, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(newOrder)
-                }).catch(err => console.log('GAS API Sync:', err));
-            }
+                    body: JSON.stringify(payload)
+                });
+            } catch (e) {}
 
-            // WhatsApp Message
-            let waMsg = `*NEW CUSTOM PRINTING ORDER - ${newOrderId}*\n\n`;
-            waMsg += `*Customer:* ${name}\n`;
-            waMsg += `*Phone:* ${phone}\n`;
-            waMsg += `*Delivery Address:* ${address}\n`;
-            waMsg += `*Payment:* ${payment}\n\n`;
-            waMsg += `*ORDER ITEMS:*\n`;
-            currentCart.forEach((item, idx) => {
-                waMsg += `${idx + 1}. ${item.name} (${item.size}) - Rs. ${item.price}\n`;
-                if(item.customText) waMsg += `   - Printed Text: ${item.customText}\n`;
-            });
-            waMsg += `\n*TOTAL:* Rs. ${total}\n`;
-
+            showToast("Order placed successfully! ID: " + newOrderId);
             currentCart = [];
             saveCart();
-
-            const targetPhone = "923000000000"; // Admin Phone Number
-            window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(waMsg)}`, '_blank');
-
             document.getElementById('track-input-id').value = newOrderId;
             navigate('track');
             searchOrderTracking();
         }
 
-        /* -------------------------------------------------------------------------- */
-        /* 6. ORDER TRACKING LOGIC                                                    */
-        /* -------------------------------------------------------------------------- */
-        function searchOrderTracking() {
-            const query = document.getElementById('track-input-id').value.trim().toLowerCase();
-            const orders = JSON.parse(localStorage.getItem('pst_orders'));
+        /* LIVE ORDER TRACKING & AUTO-POLLING FROM GOOGLE SHEETS */
+        async function searchOrderTracking() {
+            const query = document.getElementById('track-input-id').value.trim();
+            if (!query) return;
 
-            const found = orders.find(o => (o.id && o.id.toLowerCase() === query) || (o.order_id && o.order_id.toLowerCase() === query) || (o.phone && o.phone.includes(query)) || (o.customer_phone && o.customer_phone.includes(query)));
-            const resultBox = document.getElementById('tracking-result-box');
+            if (pollingTimer) clearInterval(pollingTimer);
+            fetchLiveStatus(query);
 
-            if (!found) {
-                showToast("Order not found! Verify ID or Phone.", "error");
-                resultBox.classList.add('hidden');
-                return;
-            }
-
-            resultBox.classList.remove('hidden');
-            document.getElementById('track-res-id').innerText = found.id || found.order_id;
-            document.getElementById('track-res-name').innerText = found.name || found.customer_name;
-            document.getElementById('track-res-item').innerText = found.item || found.items_summary;
-            document.getElementById('track-res-address').innerText = found.address || found.shipping_address;
-            document.getElementById('track-res-status-badge').innerText = found.status || "Order Placed";
-
-            const step = found.step || 1;
-            const progressPct = ((step - 1) / 3) * 100;
-            document.getElementById('track-progress-bar').style.width = `${progressPct}%`;
-
-            for (let i = 1; i <= 4; i++) {
-                const stepIcon = document.getElementById(`step-${i}-icon`);
-                if (i <= step) {
-                    stepIcon.className = "w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold shadow-md";
-                } else {
-                    stepIcon.className = "w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold";
-                }
-            }
+            // Auto refresh status every 5 seconds without page reload
+            pollingTimer = setInterval(() => {
+                fetchLiveStatus(query);
+            }, 5000);
         }
 
-        /* -------------------------------------------------------------------------- */
-        /* 7. AUTHENTICATION & USER MANAGEMENT                                      */
-        /* -------------------------------------------------------------------------- */
-        let isSignUpMode = false;
+        async function fetchLiveStatus(query) {
+            const gasUrl = localStorage.getItem('gas_api_url') || DEFAULT_GAS_URL;
+            const resultBox = document.getElementById('tracking-result-box');
 
+            try {
+                const res = await fetch(gasUrl + "?action=getOrders");
+                const orders = await res.json();
+                const found = orders.find(o => String(o.order_id) === query || String(o.customer_phone) === query);
+
+                if (found) {
+                    resultBox.classList.remove('hidden');
+                    document.getElementById('track-res-id').innerText = found.order_id;
+                    document.getElementById('track-res-name').innerText = found.customer_name;
+                    document.getElementById('track-res-item').innerText = found.items_summary;
+                    document.getElementById('track-res-address').innerText = found.shipping_address;
+                    document.getElementById('track-res-status-badge').innerText = found.status || "Order Placed";
+
+                    let step = 1;
+                    const st = String(found.status).toLowerCase();
+                    if (st.includes('proof')) step = 2;
+                    else if (st.includes('print')) step = 3;
+                    else if (st.includes('dispatch') || st.includes('deliver')) step = 4;
+
+                    document.getElementById('track-progress-bar').style.width = `${((step - 1) / 3) * 100}%`;
+                    for (let i = 1; i <= 4; i++) {
+                        const icon = document.getElementById(`step-${i}-icon`);
+                        icon.className = i <= step ? "w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold shadow-md" : "w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold";
+                    }
+                }
+            } catch (e) {}
+        }
+
+        /* AUTH & CONFIG MODAL */
+        let isSignUpMode = false;
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
-            document.getElementById('auth-title').innerText = isSignUpMode ? "Create Account" : "Sign In To Your Account";
-            document.getElementById('auth-submit-btn').innerText = isSignUpMode ? "Create Account" : "Sign In";
+            document.getElementById('auth-title').innerText = isSignUpMode ? "Create Account" : "Sign In";
             document.getElementById('auth-name-group').classList.toggle('hidden', !isSignUpMode);
-            document.getElementById('auth-switch-text').innerText = isSignUpMode ? "Already have an account?" : "Don't have an account?";
-            document.getElementById('auth-switch-btn').innerText = isSignUpMode ? "Sign In" : "Create Account";
         }
 
         function handleAuthSubmit(e) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value.trim();
-            const name = document.getElementById('auth-name').value.trim() || email.split('@')[0];
+            const phone = document.getElementById('auth-phone').value.trim();
+            if (!isValidPakistaniPhone(phone)) return showToast("Phone must be 11 digits & no 03 at start!", "error");
 
-            currentUser = { email, name };
+            currentUser = { email, phone, name: email.split('@')[0] };
             localStorage.setItem('pst_user', JSON.stringify(currentUser));
-            updateAuthUI();
-            showToast(`Welcome ${name}!`);
-            navigate('account');
-        }
-
-        function updateAuthUI() {
-            const container = document.getElementById('auth-nav-container');
-            if (currentUser) {
-                container.innerHTML = `
-                    <button onclick="navigate('account')" class="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-800">
-                        <div class="w-6 h-6 rounded-md bg-brand-600 text-white flex items-center justify-center text-[10px]">
-                            ${currentUser.name.charAt(0).toUpperCase()}
-                        </div>
-                        <span>${currentUser.name.split(' ')[0]}</span>
-                    </button>
-                `;
-            } else {
-                container.innerHTML = `
-                    <button onclick="navigate('login')" class="px-4 py-2 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition shadow-md">
-                        Sign In
-                    </button>
-                `;
-            }
-        }
-
-        function renderAccountView() {
-            if (!currentUser) return;
-            document.getElementById('user-profile-name').innerText = currentUser.name;
-            document.getElementById('user-profile-email').innerText = currentUser.email;
-            document.getElementById('user-avatar-initial').innerText = currentUser.name.charAt(0).toUpperCase();
-
-            const orders = JSON.parse(localStorage.getItem('pst_orders'));
-            const container = document.getElementById('user-orders-list');
-
-            container.innerHTML = orders.map(o => `
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 flex justify-between items-center shadow-sm">
-                    <div>
-                        <span class="text-xs font-bold text-brand-600">${o.id || o.order_id}</span>
-                        <h4 class="text-sm font-bold text-slate-900 mt-0.5">${o.item || o.items_summary}</h4>
-                        <span class="text-[11px] text-slate-400 font-medium">${o.date || ''}</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="px-2.5 py-1 bg-brand-100 text-brand-700 rounded-lg text-[10px] font-bold block mb-1">${o.status || 'Placed'}</span>
-                        <span class="text-xs font-black text-slate-900">Rs. ${o.total || o.total_amount}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function logoutUser() {
-            currentUser = null;
-            localStorage.removeItem('pst_user');
-            updateAuthUI();
-            showToast("Logged out successfully");
+            showToast("Welcome!");
             navigate('home');
         }
 
-        /* -------------------------------------------------------------------------- */
-        /* 8. CONFIG MODAL & TOAST SYSTEM                                             */
-        /* -------------------------------------------------------------------------- */
         function openConfigModal() {
             document.getElementById('gas-url-input').value = localStorage.getItem('gas_api_url') || DEFAULT_GAS_URL;
             document.getElementById('config-modal').classList.remove('hidden');
         }
 
-        function closeConfigModal() {
-            document.getElementById('config-modal').classList.add('hidden');
-        }
-
+        function closeConfigModal() { document.getElementById('config-modal').classList.add('hidden'); }
         function saveGasConfig() {
-            const url = document.getElementById('gas-url-input').value.trim();
-            localStorage.setItem('gas_api_url', url);
-            showToast("Google Sheets ERP URL Saved!");
+            localStorage.setItem('gas_api_url', document.getElementById('gas-url-input').value.trim());
+            showToast("Saved!");
             closeConfigModal();
         }
 
-        function showToast(message, type = "success") {
+        function showToast(msg, type = "success") {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `px-4 py-3 rounded-xl text-xs font-bold text-white shadow-2xl flex items-center gap-2 pointer-events-auto ${type === 'error' ? 'bg-rose-600' : 'bg-slate-900'}`;
-            toast.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-circle-exclamation text-rose-200' : 'fa-circle-check text-brand-400'}"></i> ${message}`;
+            toast.className = `px-4 py-3 rounded-xl text-xs font-bold text-white shadow-2xl flex items-center gap-2 ${type === 'error' ? 'bg-rose-600' : 'bg-slate-900'}`;
+            toast.innerText = msg;
             container.appendChild(toast);
-
-            setTimeout(() => { toast.remove(); }, 3500);
+            setTimeout(() => toast.remove(), 3000);
         }
 
-        /* -------------------------------------------------------------------------- */
-        /* 9. INITIALIZATION                                                          */
-        /* -------------------------------------------------------------------------- */
+        /* INITIAL LOAD ON PAGE REFRESH */
         window.onload = function() {
-            renderCatalog();
+            let path = window.location.pathname.replace("/", "") || "home";
+            renderView(path);
             updateCartBadge();
-            updateAuthUI();
             populateCustomizerSelect();
         };
     </script>
