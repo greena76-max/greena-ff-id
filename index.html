@@ -1,605 +1,1241 @@
 <!DOCTYPE html>
 <html lang="en" class="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>HY STORE OFFICIAL - Gifts & Printing Services</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#fff7ed',
-              100: '#ffedd5',
-              500: '#f97316',
-              600: '#ea580c',
-              700: '#c2410c',
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintStudio Pro | Personalized Gifts & Printing</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            900: '#064e3b',
+                        },
+                        accent: {
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-    .glass-nav { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px); }
-    .dark .glass-nav { background: rgba(15, 23, 42, 0.98); }
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .hero-pattern { background-image: radial-gradient(rgba(234, 88, 12, 0.08) 1px, transparent 1px); background-size: 20px 20px; }
-  </style>
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .clean-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+        }
+        .clean-card:hover {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+<body class="bg-white text-slate-800 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white custom-scrollbar">
 
-  <!-- Toast Notification Container -->
-  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- Top Announcement Bar -->
-  <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 text-white text-[11px] sm:text-xs py-2 px-3 shadow-sm">
-    <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-1.5 text-center sm:text-left">
-      <div class="flex items-center justify-center gap-1.5 font-semibold">
-        <i class="fa-solid fa-truck-fast text-yellow-300"></i>
-        <span>Free Shipping Across Pakistan on Orders Above PKR 5,000!</span>
-      </div>
-      <div class="flex items-center justify-center gap-3 text-[10px] sm:text-[11px] font-medium">
-        <a href="tel:03209306672" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-phone"></i> 0320 9306672</a>
-        <a href="mailto:hybusinessprint@gmail.com" class="hover:underline hidden xs:flex items-center gap-1"><i class="fa-solid fa-envelope"></i> hybusinessprint@gmail.com</a>
-        <button onclick="toggleDarkMode()" class="p-1 rounded bg-black/20 hover:bg-black/40 transition"><i id="theme-icon" class="fa-solid fa-moon"></i></button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Header & Navigation -->
-  <header class="sticky top-0 z-40 glass-nav border-b border-slate-200 dark:border-slate-800 shadow-sm">
-    <div class="container mx-auto px-3 sm:px-4 py-3 flex items-center justify-between gap-2 sm:gap-4">
-      <a href="#/" class="flex items-center gap-2.5 shrink-0 group">
-        <img src="logo.png" alt="HY Store Logo" class="h-10 w-auto object-contain max-h-10" onerror="this.onerror=null; this.src='https://placehold.co/120x40?text=HY+STORE';">
-        <div class="h-8 w-[2px] bg-slate-300 dark:bg-slate-700 hidden sm:block"></div>
-        <div class="hidden sm:block">
-          <span class="text-xs font-black tracking-wider block leading-tight">HY STORE</span>
-          <span class="text-[9px] font-extrabold tracking-widest text-slate-500 uppercase block">OFFICIAL</span>
-        </div>
-      </a>
-
-      <!-- Search Bar -->
-      <div class="flex-1 max-w-md relative hidden md:block">
-        <div class="relative flex items-center">
-          <i class="fa-solid fa-magnifying-glass absolute left-4 text-slate-400 text-sm"></i>
-          <input type="text" id="main-search" placeholder="Search gifts, mugs, t-shirts, printing..." class="w-full pl-10 pr-12 py-2 rounded-full border-2 border-orange-500 dark:bg-slate-900 text-xs outline-none">
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="flex items-center gap-2">
-        <a href="https://wa.me/923209306672" target="_blank" class="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-full text-xs font-bold shadow-md shadow-emerald-600/20 transition">
-          <i class="fa-brands fa-whatsapp text-sm"></i>
-          <span class="hidden sm:inline">WhatsApp Order</span>
-        </a>
-        <button onclick="openLoginModal()" class="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 text-white px-3.5 py-2 rounded-full text-xs font-bold transition">
-          <i class="fa-solid fa-user"></i>
-          <span id="header-username">Client Login</span>
-        </button>
-        <a href="#/cart" class="relative p-2.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 transition">
-          <i class="fa-solid fa-cart-shopping text-xs"></i>
-          <span id="cart-badge" class="absolute -top-1 -right-1 bg-orange-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Centered Navigation Pills -->
-    <div class="border-t border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80">
-      <div class="container mx-auto px-2">
-        <nav id="nav-pills-container" class="flex items-center justify-start sm:justify-center gap-2 py-2 overflow-x-auto hide-scrollbar text-xs font-bold">
-          <a href="#/" data-route="#/" class="nav-pill px-4 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0 hover:border-orange-500 transition"><i class="fa-solid fa-house text-orange-500 mr-1"></i> Home</a>
-          <a href="#/products" data-route="#/products" class="nav-pill px-4 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0 hover:border-orange-500 transition"><i class="fa-solid fa-box-open text-orange-500 mr-1"></i> Shop / Products</a>
-          <a href="#/services" data-route="#/services" class="nav-pill px-4 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0 hover:border-orange-500 transition"><i class="fa-solid fa-gear text-orange-500 mr-1"></i> Printing Services</a>
-          <a href="#/track-order" data-route="#/track-order" class="nav-pill px-4 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0 hover:border-orange-500 transition"><i class="fa-solid fa-location-dot text-orange-500 mr-1"></i> Track Order</a>
-          <a href="#/policies" data-route="#/policies" class="nav-pill px-4 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0 hover:border-orange-500 transition"><i class="fa-solid fa-file-shield text-orange-500 mr-1"></i> Policies</a>
-          <a href="#/about" data-route="#/about" class="nav-pill px-4 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0 hover:border-orange-500 transition"><i class="fa-solid fa-circle-info text-orange-500 mr-1"></i> About Us</a>
-          <a href="#/contact" data-route="#/contact" class="nav-pill px-4 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0 hover:border-orange-500 transition"><i class="fa-solid fa-envelope text-orange-500 mr-1"></i> Contact Us</a>
-        </nav>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main View Container -->
-  <main id="app-view" class="flex-grow container mx-auto px-3 sm:px-4 py-6"></main>
-
-  <!-- Login & Registration Modal -->
-  <div id="login-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
-      <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-      
-      <!-- Login View -->
-      <div id="auth-form-view">
-        <h3 class="text-lg font-black mb-1">Customer Account Login</h3>
-        <p class="text-xs text-slate-500 mb-4">Enter email & password to manage your orders.</p>
-        <form onsubmit="handleLoginSubmit(event)" class="space-y-3">
-          <div><label class="block text-xs font-bold mb-1">Email Address</label><input type="email" id="login-email" required placeholder="hybusinessprint@gmail.com" class="w-full px-3 py-2.5 rounded-xl border dark:bg-slate-800 text-xs"></div>
-          <div><label class="block text-xs font-bold mb-1">Password</label><input type="password" id="login-pass" required placeholder="••••••••" class="w-full px-3 py-2.5 rounded-xl border dark:bg-slate-800 text-xs"></div>
-          <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 rounded-xl text-xs shadow-lg">Secure Login</button>
-        </form>
-        <div class="mt-4 text-center text-xs text-slate-500">
-          Don't have an account? <button onclick="switchAuthMode('register')" class="text-orange-600 font-bold hover:underline">Create Account</button>
-        </div>
-      </div>
-
-      <!-- Registration View -->
-      <div id="auth-register-view" class="hidden">
-        <h3 class="text-lg font-black mb-1">Create New Account</h3>
-        <p class="text-xs text-slate-500 mb-4">Fill in your details to register on HY Store Official.</p>
-        <form onsubmit="handleRegisterSubmit(event)" class="space-y-3">
-          <div><label class="block text-xs font-bold mb-1">Full Name</label><input type="text" id="reg-name" required placeholder="Muhammad Ali" class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800 text-xs"></div>
-          <div><label class="block text-xs font-bold mb-1">Upload Profile Picture (Optional)</label><input type="file" id="reg-pic" accept="image/*" class="w-full px-2 py-1.5 rounded-xl border dark:bg-slate-800 text-xs file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-orange-100 file:text-orange-700 file:text-xs"></div>
-          <div><label class="block text-xs font-bold mb-1">Mobile Number</label><input type="tel" id="reg-phone" required placeholder="0320 9306672" class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800 text-xs"></div>
-          <div><label class="block text-xs font-bold mb-1">Email Address</label><input type="email" id="reg-email" required placeholder="hybusinessprint@gmail.com" class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800 text-xs"></div>
-          <div><label class="block text-xs font-bold mb-1">Password</label><input type="password" id="reg-pass" required placeholder="••••••••" class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800 text-xs"></div>
-          <div><label class="block text-xs font-bold mb-1">Confirm Password</label><input type="password" id="reg-cpass" required placeholder="••••••••" class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800 text-xs"></div>
-          <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 rounded-xl text-xs shadow-lg">Register & Login</button>
-        </form>
-        <div class="mt-4 text-center text-xs text-slate-500">
-          Already have an account? <button onclick="switchAuthMode('login')" class="text-orange-600 font-bold hover:underline">Login here</button>
-        </div>
-      </div>
-
-      <!-- Profile View -->
-      <div id="auth-profile-view" class="hidden text-center">
-        <div id="profile-avatar" class="w-16 h-16 bg-orange-600 text-white font-black text-2xl rounded-full flex items-center justify-center mx-auto mb-3 overflow-hidden shadow-md">HY</div>
-        <h3 id="profile-name-display" class="font-bold text-sm mb-1"></h3>
-        <p id="profile-email-display" class="text-xs text-slate-500 mb-1"></p>
-        <p id="profile-phone-display" class="text-xs text-slate-500 mb-4"></p>
-        <button onclick="handleLogout()" class="w-full bg-red-600 text-white font-bold py-2 rounded-xl text-xs">Logout Account</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Checkout Modal / Panel -->
-  <div id="checkout-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
-      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-      <h3 class="text-xl font-black mb-1">Complete Your Order</h3>
-      <p class="text-xs text-slate-500 mb-4">Please enter your shipping & contact details for order processing.</p>
-      
-      <form onsubmit="submitOrderToSheet(event)" class="space-y-3 text-xs">
-        <div><label class="block font-bold mb-1">Full Name</label><input type="text" id="chk-name" required placeholder="Muhammad Ali" class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800"></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div><label class="block font-bold mb-1">Mobile Number</label><input type="tel" id="chk-phone" required placeholder="0320 9306672" class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800"></div>
-          <div><label class="block font-bold mb-1">Email Address</label><input type="email" id="chk-email" required placeholder="hybusinessprint@gmail.com" class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800"></div>
-        </div>
-        <div><label class="block font-bold mb-1">Shipping Address / Street</label><textarea id="chk-address" required placeholder="House #123, Street #4, City..." class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800 h-20"></textarea></div>
-        <div>
-          <label class="block font-bold mb-1">Payment Method</label>
-          <select id="chk-payment" class="w-full px-3 py-2 rounded-xl border dark:bg-slate-800 font-bold">
-            <option value="Cash on Delivery">Cash on Delivery (COD)</option>
-            <option value="Bank Transfer / JazzCash">Bank Transfer / EasyPaisa / JazzCash</option>
-          </select>
-        </div>
-        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl text-xs shadow-lg mt-4">Place Order Now</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="bg-slate-900 text-slate-300 mt-auto border-t border-slate-800 text-xs">
-    <div class="container mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
-      <div>
-        <div class="flex items-center gap-2 mb-3">
-          <span class="text-xl font-black text-red-500 italic">HY</span>
-          <span class="font-black text-white">STORE OFFICIAL</span>
-        </div>
-        <p class="text-slate-400 text-xs leading-relaxed mb-4">Your premier destination for customized gifts, mug printing, t-shirt printing, corporate branding & stationery in Pakistan.</p>
-        <div class="flex gap-2">
-          <a href="https://wa.me/923209306672" target="_blank" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-600 text-white"><i class="fa-brands fa-whatsapp"></i></a>
-          <a href="mailto:hybusinessprint@gmail.com" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-orange-600 text-white"><i class="fa-solid fa-envelope"></i></a>
-        </div>
-      </div>
-      <div>
-        <h5 class="text-white font-extrabold uppercase mb-3 text-[11px] tracking-wider">Quick Links</h5>
-        <ul class="space-y-2 text-slate-400">
-          <li><a href="#/" class="hover:text-orange-400">Home</a></li>
-          <li><a href="#/products" class="hover:text-orange-400">Shop / Products</a></li>
-          <li><a href="#/services" class="hover:text-orange-400">Printing Services</a></li>
-          <li><a href="#/track-order" class="hover:text-orange-400">Order Tracking</a></li>
-          <li><a href="#/contact" class="hover:text-orange-400">Contact Us</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5 class="text-white font-extrabold uppercase mb-3 text-[11px] tracking-wider">Customer Service</h5>
-        <ul class="space-y-2 text-slate-400">
-          <li><a href="#/cart" class="hover:text-orange-400">Shopping Cart</a></li>
-          <li><a href="#/policies" class="hover:text-orange-400">FAQ & Help Center</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5 class="text-white font-extrabold uppercase mb-3 text-[11px] tracking-wider">Policies</h5>
-        <ul class="space-y-2 text-slate-400">
-          <li><a href="#/policies" class="hover:text-orange-400">Privacy Policy</a></li>
-          <li><a href="#/policies" class="hover:text-orange-400">Terms & Conditions</a></li>
-          <li><a href="#/policies" class="hover:text-orange-400">Return & Refund Policy</a></li>
-          <li><a href="#/policies" class="hover:text-orange-400">Shipping Policy</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5 class="text-white font-extrabold uppercase mb-3 text-[11px] tracking-wider">Contact Information</h5>
-        <div class="space-y-2 text-slate-400">
-          <p><i class="fa-solid fa-phone text-orange-500 mr-1.5"></i> 0320 9306672</p>
-          <p><i class="fa-solid fa-envelope text-orange-500 mr-1.5"></i> hybusinessprint@gmail.com</p>
-          <a href="https://wa.me/923209306672" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl mt-2"><i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp Support</a>
-        </div>
-      </div>
-    </div>
-    <div class="border-t border-slate-800 py-4 text-center text-slate-500 text-[11px]">
-      &copy; 2026 HY Store Official (Gifts & Printing Services). All Rights Reserved.
-    </div>
-  </footer>
-
-  <script>
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx87AzWniRtNqU0v4g7FRstfbtTKsE1-Gk4QdNYYH0mhin63_UfhU8zoGS7pOLvyfJ9/exec";
-
-    const defaultProducts = [
-      { id: 101, name: "Custom Magic Mug", category: "Mug Printing", price: 850, image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400", description: "Color-changing heat sensitive magic mug with custom photo printing." },
-      { id: 102, name: "Custom Printed T-Shirt", category: "T-Shirts", price: 1250, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400", description: "Premium cotton customized t-shirt with DTG high-resolution print." },
-      { id: 103, name: "Visiting Business Cards (100 Pcs)", category: "Stationery", price: 1500, image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400", description: "Heavy matte laminated premium business cards." },
-      { id: 104, name: "Executive Corporate Gift Box", category: "Corporate Gifts", price: 4500, image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400", description: "Luxury gift set including customized diary, pen, mug, and keychain." }
-    ];
-
-    let products = defaultProducts;
-    let cart = JSON.parse(localStorage.getItem('hy_cart')) || [];
-    let currentUser = JSON.parse(localStorage.getItem('hy_user') || 'null');
-    let registeredUsers = JSON.parse(localStorage.getItem('hy_all_users')) || [];
-
-    async function fetchProductsFromSheet() {
-      try {
-        const res = await fetch(GOOGLE_SCRIPT_URL);
-        const data = await res.json();
-        if (data && data.length > 0) {
-          products = data.map((item, index) => ({
-            id: index + 1,
-            name: item.name || "Product",
-            price: parseFloat(item.price) || 0,
-            category: item.category || "General",
-            image: item.image || "https://placehold.co/400x300?text=Product",
-            description: item.description || ""
-          }));
-          renderApp();
-        }
-      } catch (err) {
-        console.log("Sheet fetch error:", err);
-      }
-    }
-
-    function saveState() {
-      localStorage.setItem('hy_cart', JSON.stringify(cart));
-      updateBadge();
-    }
-
-    function updateBadge() {
-      const badge = document.getElementById('cart-badge');
-      if (badge) badge.innerText = cart.reduce((acc, i) => acc + i.qty, 0);
-      const userBtn = document.getElementById('header-username');
-      if (userBtn && currentUser) userBtn.innerText = currentUser.name.split(' ')[0];
-    }
-
-    function showToast(msg) {
-      const container = document.getElementById('toast-container');
-      const t = document.createElement('div');
-      t.className = 'bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-2xl';
-      t.innerText = msg;
-      container.appendChild(t);
-      setTimeout(() => t.remove(), 2500);
-    }
-
-    function renderApp() {
-      const hash = window.location.hash || '#/';
-      const main = document.getElementById('app-view');
-      window.scrollTo(0, 0);
-
-      document.querySelectorAll('.nav-pill').forEach(pill => {
-        const route = pill.getAttribute('data-route');
-        if (hash === route || (hash === '' && route === '#/')) {
-          pill.classList.add('border-orange-500', 'text-orange-600', 'bg-orange-50', 'dark:bg-orange-950/40', 'shadow-sm');
-          pill.classList.remove('border-slate-300', 'dark:border-slate-700', 'bg-white', 'dark:bg-slate-800');
-        } else {
-          pill.classList.remove('border-orange-500', 'text-orange-600', 'bg-orange-50', 'dark:bg-orange-950/40', 'shadow-sm');
-          pill.classList.add('border-slate-300', 'dark:border-slate-700', 'bg-white', 'dark:bg-slate-800');
-        }
-      });
-
-      if (hash === '#/' || hash === '') {
-        main.innerHTML = `
-          <div class="relative bg-gradient-to-r from-orange-100 via-amber-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 rounded-3xl p-6 sm:p-12 border border-orange-200 dark:border-slate-800 mb-10 text-center shadow-md hero-pattern overflow-hidden">
-            <div class="relative z-10">
-              <h1 class="text-3xl sm:text-5xl font-black mb-3 text-slate-900 dark:text-white">Customized Gifts & Corporate Printing</h1>
-              <p class="text-slate-600 dark:text-slate-300 max-w-xl mx-auto mb-6 text-xs sm:text-sm">Mug Printing, T-Shirts, Visiting Cards, Banners, and Corporate Gift Boxes tailored to perfection.</p>
-              <div class="flex justify-center gap-3">
-                <a href="#/products" class="bg-orange-600 hover:bg-orange-700 text-white font-bold px-6 py-3 rounded-xl text-xs shadow-lg">Browse Products</a>
-                <a href="https://wa.me/923209306672" target="_blank" class="bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl text-xs shadow-lg"><i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp Order</a>
-              </div>
-            </div>
-          </div>
-
-          <h2 class="text-2xl font-black mb-6">Trending Products & Gifts</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            ${products.map(p => `
-              <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
-                <div>
-                  <img src="${p.image}" class="w-full h-44 object-cover rounded-xl mb-3" alt="${p.name}">
-                  <span class="text-[9px] font-black uppercase text-orange-600 bg-orange-100 dark:bg-orange-950 px-2.5 py-1 rounded-full">${p.category}</span>
-                  <h3 class="font-bold text-sm mt-2 mb-1">${p.name}</h3>
-                  <p class="text-xs text-slate-500 mb-2 line-clamp-2">${p.description}</p>
-                  <div class="text-base font-black text-orange-600 mb-3">PKR ${p.price.toLocaleString()}</div>
-                </div>
-                <button onclick="addToCart(${p.id})" class="w-full bg-slate-900 dark:bg-slate-800 hover:bg-orange-600 text-white font-bold py-2 rounded-xl text-xs transition">Add to Cart</button>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      } else if (hash === '#/products') {
-        main.innerHTML = `
-          <h1 class="text-3xl font-black mb-6">Product Catalog & Shop</h1>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            ${products.map(p => `
-              <div class="bg-white dark:bg-slate-900 border rounded-2xl p-4 flex flex-col justify-between shadow-sm">
-                <div>
-                  <img src="${p.image}" class="w-full h-52 object-cover rounded-xl mb-3">
-                  <span class="text-[9px] font-black uppercase text-orange-600 bg-orange-100 dark:bg-orange-950 px-2.5 py-1 rounded-full">${p.category}</span>
-                  <h3 class="font-bold text-base mt-2">${p.name}</h3>
-                  <p class="text-xs text-slate-500 my-2">${p.description}</p>
-                  <div class="text-lg font-black text-orange-600 mb-3">PKR ${p.price.toLocaleString()}</div>
-                </div>
-                <button onclick="addToCart(${p.id})" class="w-full bg-orange-600 text-white font-bold py-2.5 rounded-xl text-xs">Add to Cart</button>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      } else if (hash === '#/services') {
-        main.innerHTML = `
-          <div class="max-w-3xl mx-auto bg-white dark:bg-slate-900 border p-8 rounded-3xl space-y-6 text-xs leading-relaxed">
-            <h1 class="text-3xl font-black mb-4">Professional Printing Services</h1>
-            <p class="text-slate-500">At HY Store Official, we offer state-of-the-art commercial and custom printing services tailored for individuals, events, and corporate businesses.</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="border p-4 rounded-2xl"><h4 class="font-bold text-sm mb-1">Mug & Gift Printing</h4><p class="text-slate-500">Magic mugs, crystal mugs, cushions, keychains with high durability.</p></div>
-              <div class="border p-4 rounded-2xl"><h4 class="font-bold text-sm mb-1">Apparel Printing</h4><p class="text-slate-500">Custom t-shirts, hoodies, and caps with DTG & screen printing.</p></div>
-              <div class="border p-4 rounded-2xl"><h4 class="font-bold text-sm mb-1">Business Stationery</h4><p class="text-slate-500">Visiting cards, letterheads, flyers, brochures, and envelopes.</p></div>
-              <div class="border p-4 rounded-2xl"><h4 class="font-bold text-sm mb-1">Corporate Branding</h4><p class="text-slate-500">Acrylic standees, promotional banners, flex, and gift boxes.</p></div>
-            </div>
-          </div>
-        `;
-      } else if (hash === '#/cart') {
-        if (cart.length === 0) {
-          main.innerHTML = `<div class="text-center py-20"><i class="fa-solid fa-cart-shopping text-5xl text-slate-300 mb-4"></i><h2 class="text-2xl font-black mb-2">Your Cart is Empty</h2><a href="#/products" class="bg-orange-600 text-white font-bold px-6 py-3 rounded-xl text-xs">Browse Shop</a></div>`;
-        } else {
-          const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
-          main.innerHTML = `
-            <h1 class="text-3xl font-black mb-6">Shopping Cart</h1>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div class="lg:col-span-2 space-y-3">
-                ${cart.map(item => `
-                  <div class="bg-white dark:bg-slate-900 border p-4 rounded-2xl flex items-center justify-between gap-4">
-                    <img src="${item.image}" class="w-16 h-16 object-cover rounded-xl">
-                    <div class="flex-1"><h4 class="font-bold text-sm">${item.name}</h4><div class="text-orange-600 font-bold text-xs">PKR ${item.price.toLocaleString()}</div></div>
-                    <div class="flex items-center gap-2">
-                      <button onclick="updateQty(${item.id}, -1)" class="w-7 h-7 bg-slate-100 dark:bg-slate-800 rounded font-bold">-</button>
-                      <span class="text-xs font-bold">${item.qty}</span>
-                      <button onclick="updateQty(${item.id}, 1)" class="w-7 h-7 bg-slate-100 dark:bg-slate-800 rounded font-bold">+</button>
+    <!-- MAIN NAVBAR -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('home')">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-600 to-accent-600 flex items-center justify-center shadow-lg shadow-brand-500/20 text-white">
+                        <i class="fa-solid fa-gift text-xl"></i>
                     </div>
-                    <button onclick="removeFromCart(${item.id})" class="text-red-500"><i class="fa-solid fa-trash"></i></button>
-                  </div>
-                `).join('')}
-              </div>
-              <div class="bg-white dark:bg-slate-900 border p-6 rounded-2xl h-fit">
-                <h3 class="text-lg font-black mb-4">Cart Summary</h3>
-                <div class="flex justify-between text-xs mb-2"><span>Subtotal:</span><span class="font-bold">PKR ${subtotal.toLocaleString()}</span></div>
-                <div class="flex justify-between text-xs mb-4"><span>Shipping:</span><span class="font-bold text-emerald-600">FREE</span></div>
-                <div class="border-t pt-4 flex justify-between font-black text-base mb-6"><span>Total:</span><span class="text-orange-600">PKR ${subtotal.toLocaleString()}</span></div>
-                <button onclick="openCheckoutModal()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl text-xs shadow-lg">Proceed to Checkout</button>
-              </div>
+                    <div>
+                        <span class="text-xl font-black tracking-tight text-slate-900">PRINTSTUDIO</span>
+                        <span class="text-xs text-brand-600 font-bold block tracking-wider uppercase">Custom Gift Workshop</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 text-sm font-semibold">
+                    <button onclick="navigate('home')" class="nav-btn px-3.5 py-2 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Home</button>
+                    <button onclick="navigate('products')" class="nav-btn px-3.5 py-2 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Products Catalog</button>
+                    <button onclick="navigate('customize')" class="nav-btn px-3.5 py-2 rounded-xl text-brand-600 bg-brand-50 hover:bg-brand-100 transition flex items-center gap-1.5 font-bold">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Gift Customizer
+                    </button>
+                    <button onclick="navigate('track')" class="nav-btn px-3.5 py-2 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Track Order</button>
+                    <button onclick="navigate('about')" class="nav-btn px-3.5 py-2 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">About Us</button>
+                </nav>
+
+                <!-- Header Actions -->
+                <div class="flex items-center gap-3">
+                    <!-- Google Sheet ERP Config Trigger -->
+                    <button onclick="openConfigModal()" title="Google Sheet ERP Settings" class="p-2.5 text-slate-500 hover:text-brand-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition border border-slate-200">
+                        <i class="fa-solid fa-database text-lg"></i>
+                    </button>
+
+                    <!-- Cart Button -->
+                    <button onclick="navigate('cart')" class="relative p-2.5 text-slate-700 hover:text-brand-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition border border-slate-200">
+                        <i class="fa-solid fa-bag-shopping text-lg"></i>
+                        <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-brand-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+
+                    <!-- User Account / Auth Toggle -->
+                    <div id="auth-nav-container">
+                        <button onclick="navigate('login')" class="px-4 py-2 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition shadow-md">
+                            Sign In
+                        </button>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 text-slate-600 hover:text-slate-900 bg-slate-100 rounded-xl">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
-          `;
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-4 space-y-2">
+            <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 font-medium">Home</button>
+            <button onclick="navigate('products'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 font-medium">Products Catalog</button>
+            <button onclick="navigate('customize'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-brand-600 bg-brand-50 font-bold">Gift Customizer</button>
+            <button onclick="navigate('track'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 font-medium">Track Order</button>
+            <button onclick="navigate('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 font-medium">About Us</button>
+        </div>
+    </header>
+
+    <!-- SPA VIEW CONTAINERS -->
+    <main id="app-viewport" class="flex-grow">
+        <!-- 1. HOME VIEW -->
+        <section id="view-home" class="spa-view">
+            <!-- HERO CAROUSEL / BANNER SECTION -->
+            <div class="relative bg-gradient-to-b from-slate-50 via-white to-white py-12 lg:py-20 overflow-hidden border-b border-slate-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                        <!-- Hero Left Content -->
+                        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-100 text-brand-700 border border-brand-200">
+                                <i class="fa-solid fa-bolt text-brand-600"></i> Premium Customized Printing & Gifts
+                            </span>
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+                                Turn Your Photos Into <span class="bg-gradient-to-r from-brand-600 to-accent-600 bg-clip-text text-transparent">Unforgettable Gifts</span>
+                            </h1>
+                            <p class="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-medium">
+                                Create Magic Reveal Photo Frames, Customized Thermal Mugs, Acrylic LED Displays, Keychains & Canvas Wall Prints with fast nationwide delivery!
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                                <button onclick="navigate('customize')" class="px-8 py-4 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-500 hover:to-brand-600 text-white font-bold rounded-2xl shadow-xl shadow-brand-600/20 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Customize Your Gift Now
+                                </button>
+                                <button onclick="navigate('products')" class="px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-2xl border border-slate-200 transition flex items-center justify-center gap-2">
+                                    Browse All Catalog
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Hero Right Image Showcase Carousel -->
+                        <div class="lg:col-span-5 relative flex justify-center">
+                            <div class="w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden clean-card p-4 relative shadow-2xl">
+                                <img id="hero-slider-img" src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Hero Gift Preview" class="w-full h-full object-cover rounded-2xl transition duration-700">
+                                <div class="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200/80 shadow-lg flex items-center justify-between">
+                                    <div>
+                                        <h4 id="hero-slider-title" class="text-sm font-bold text-slate-900">Thermal Magic Photo Frame</h4>
+                                        <p id="hero-slider-price" class="text-xs text-brand-600 font-extrabold">Starting Rs. 1,499</p>
+                                    </div>
+                                    <button onclick="openCustomizerFor(1)" class="px-4 py-2 bg-brand-600 text-white text-xs font-bold rounded-xl hover:bg-brand-500">Customize</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="flex justify-between items-end mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-900">Shop By Categories</h2>
+                        <p class="text-sm text-slate-500 mt-1 font-medium">Pick a category to start personalizing your favorite products</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5" id="home-categories-grid">
+                    <!-- Populated JS -->
+                </div>
+            </div>
+
+            <!-- Featured Products -->
+            <div class="bg-slate-50 py-16 border-y border-slate-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center mb-10">
+                        <div>
+                            <h2 class="text-3xl font-black text-slate-900">Top Best Sellers</h2>
+                            <p class="text-sm text-slate-500 mt-1 font-medium">Most loved custom gifts ordered by our happy customers</p>
+                        </div>
+                        <button onclick="navigate('products')" class="text-sm text-brand-600 font-bold hover:underline">View Full Catalog <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="home-featured-products">
+                        <!-- Dynamic Featured Items -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust Features Bar -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-100 text-brand-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-truck-fast"></i></div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Fast Dispatch</h4>
+                            <p class="text-xs text-slate-500">2-3 Days Nationwide Delivery</p>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-accent-100 text-accent-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-thumbs-up"></i></div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">HD Print Proofing</h4>
+                            <p class="text-xs text-slate-500">WhatsApp Proof before printing</p>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-shield-check"></i></div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Safe Packaging</h4>
+                            <p class="text-xs text-slate-500">Bubble wrapped break-proof items</p>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-headset"></i></div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">24/7 Support</h4>
+                            <p class="text-xs text-slate-500">Direct WhatsApp Order Help</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PRODUCTS CATALOG VIEW -->
+        <section id="view-products" class="spa-view hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-black text-slate-900">Personalized Gift Collection</h2>
+                    <p class="text-slate-500 text-sm font-medium mt-1">Select any item to customize with your photos & text</p>
+                </div>
+
+                <!-- Filter & Search Bar -->
+                <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-8">
+                    <!-- Search Input -->
+                    <div class="relative w-full md:w-80">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+                        <input type="text" id="catalog-search" onkeyup="filterProducts()" placeholder="Search frames, mugs, keychains..." class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-brand-500 shadow-sm">
+                    </div>
+
+                    <!-- Category Pills -->
+                    <div class="flex flex-wrap gap-2 w-full md:w-auto" id="category-filter-pills">
+                        <!-- Dynamic Pills -->
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="catalog-products-grid">
+                    <!-- Dynamic Products -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. GIFT PERSONALIZER STUDIO VIEW -->
+        <section id="view-customize" class="spa-view hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-black text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-brand-600"></i> Gift Personalization Studio
+                    </h2>
+                    <p class="text-slate-500 text-sm font-medium mt-1">Upload your photo, add custom message text, select frame options and see real-time preview.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- Preview Area -->
+                    <div class="lg:col-span-7 bg-slate-50 p-6 rounded-3xl border border-slate-200 flex flex-col items-center justify-center relative min-h-[440px]">
+                        <div id="canvas-preview-container" class="relative w-full max-w-md aspect-square bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 flex items-center justify-center">
+                            <!-- Base Image -->
+                            <img id="customizer-base-img" src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Base Mockup" class="w-full h-full object-cover">
+                            
+                            <!-- User Uploaded Photo Overlay -->
+                            <div id="user-photo-overlay" class="absolute inset-10 border-2 border-dashed border-brand-500 rounded-xl overflow-hidden flex items-center justify-center bg-white/70 backdrop-blur-xs">
+                                <img id="user-uploaded-img" src="" class="hidden w-full h-full object-cover">
+                                <span id="user-photo-placeholder" class="text-xs text-brand-700 font-bold text-center p-4">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl block mb-2 text-brand-600"></i> Upload Your High-Resolution Photo Here
+                                </span>
+                            </div>
+
+                            <!-- User Text Overlay -->
+                            <div id="user-text-overlay" class="absolute bottom-4 left-4 right-4 text-center px-4 py-2 bg-slate-900/80 backdrop-blur-md rounded-lg text-white font-bold text-xs tracking-wide hidden">
+                                Sample Custom Text
+                            </div>
+                        </div>
+                        <span class="text-xs text-slate-400 mt-4 flex items-center gap-1 font-medium">
+                            <i class="fa-solid fa-circle-info"></i> Digital mockup representation. Final print design proof will be sent on WhatsApp.
+                        </span>
+                    </div>
+
+                    <!-- Customization Control Panel -->
+                    <div class="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Select Item Type</label>
+                            <select id="customizer-item-select" onchange="onCustomizerProductChange()" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 text-sm focus:border-brand-500 focus:outline-none font-semibold">
+                                <!-- Options populated JS -->
+                            </select>
+                        </div>
+
+                        <!-- Image Upload Control -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Upload Photo For Printing</label>
+                            <input type="file" id="custom-image-file" accept="image/*" onchange="handleImageUpload(event)" class="hidden">
+                            <label for="custom-image-file" class="w-full flex items-center justify-center gap-3 bg-slate-50 hover:bg-slate-100 border border-dashed border-slate-300 rounded-xl py-3.5 px-4 text-sm font-bold text-slate-700 cursor-pointer transition">
+                                <i class="fa-solid fa-image text-brand-600"></i> <span id="file-upload-label">Choose Picture From Gallery</span>
+                            </label>
+                        </div>
+
+                        <!-- Custom Message Input -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Custom Text / Name / Special Date</label>
+                            <input type="text" id="custom-text-input" oninput="updateCustomizerText()" placeholder="e.g. Happy Birthday Ali / 12-10-2026" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-brand-500 focus:outline-none font-medium">
+                        </div>
+
+                        <!-- Size & Frame Option -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Select Size</label>
+                                <select id="customizer-size-select" onchange="calculateCustomizerPrice()" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-3 py-2.5 text-xs font-semibold focus:border-brand-500 focus:outline-none">
+                                    <option value="standard">Standard (6x8 inch)</option>
+                                    <option value="large">Large (8x12 inch) +Rs 400</option>
+                                    <option value="xlarge">Jumbo (12x18 inch) +Rs 900</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Frame Border</label>
+                                <select id="customizer-frame-color" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-3 py-2.5 text-xs font-semibold focus:border-brand-500 focus:outline-none">
+                                    <option value="black">Classic Black</option>
+                                    <option value="gold">Royal Gold</option>
+                                    <option value="white">Minimal White</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Special Instructions -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Special Printing Notes</label>
+                            <textarea id="custom-notes" rows="2" placeholder="e.g. Remove background, edit brightness, send WhatsApp proof first." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:border-brand-500 focus:outline-none"></textarea>
+                        </div>
+
+                        <!-- Pricing & Action Button -->
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-slate-500 font-semibold block">Total Item Price</span>
+                                <span id="customizer-calculated-price" class="text-2xl font-black text-brand-600">Rs. 1,499</span>
+                            </div>
+                            <button onclick="addCustomizedToCart()" class="px-6 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-600/20 transition flex items-center gap-2">
+                                <i class="fa-solid fa-cart-plus"></i> Add To Order Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. TRACK ORDER VIEW -->
+        <section id="view-track" class="spa-view hidden py-12">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-black text-slate-900">Live Order Tracking</h2>
+                    <p class="text-slate-500 text-sm mt-1 font-medium">Enter your Order ID (e.g. PST-1001) or Registered Phone Number to check real-time printing status.</p>
+                </div>
+
+                <!-- Search Box -->
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 shadow-sm mb-8">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="track-input-id" placeholder="Enter Order ID (PST-1001 or 0300...)" class="flex-grow bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-800 font-semibold focus:border-brand-500 focus:outline-none shadow-sm">
+                        <button onclick="searchOrderTracking()" class="px-7 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-location-dot"></i> Track Status
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tracking Pipeline Status Container -->
+                <div id="tracking-result-box" class="hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-lg">
+                    <!-- Status Header -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100">
+                        <div>
+                            <span class="text-xs text-slate-400 uppercase font-bold">Order ID</span>
+                            <h3 id="track-res-id" class="text-xl font-extrabold text-slate-900">PST-1001</h3>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 uppercase font-bold">Customer Name</span>
+                            <p id="track-res-name" class="text-sm font-semibold text-slate-700">Customer Name</p>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 uppercase font-bold">Current Status</span>
+                            <span id="track-res-status-badge" class="block px-3 py-1 bg-brand-100 text-brand-700 border border-brand-200 rounded-full text-xs font-bold text-center mt-0.5">Printing in Progress</span>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline Visual Steps -->
+                    <div class="py-10">
+                        <div class="relative flex items-center justify-between">
+                            <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-100 z-0"></div>
+                            <div id="track-progress-bar" class="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-brand-600 transition-all duration-500 z-0" style="width: 50%;"></div>
+
+                            <!-- Steps -->
+                            <div class="track-step relative z-10 text-center flex flex-col items-center">
+                                <div id="step-1-icon" class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold shadow-md">1</div>
+                                <span class="text-xs font-bold text-slate-700 mt-2">Placed</span>
+                            </div>
+                            <div class="track-step relative z-10 text-center flex flex-col items-center">
+                                <div id="step-2-icon" class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold shadow-md">2</div>
+                                <span class="text-xs font-bold text-slate-700 mt-2">Proofing</span>
+                            </div>
+                            <div class="track-step relative z-10 text-center flex flex-col items-center">
+                                <div id="step-3-icon" class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold">3</div>
+                                <span class="text-xs font-bold text-slate-500 mt-2">Printing</span>
+                            </div>
+                            <div class="track-step relative z-10 text-center flex flex-col items-center">
+                                <div id="step-4-icon" class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold">4</div>
+                                <span class="text-xs font-bold text-slate-500 mt-2">Dispatched</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Details Summary -->
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-2 font-medium">
+                        <div class="flex justify-between text-slate-600">
+                            <span>Item Name:</span> <span id="track-res-item" class="text-slate-900 font-bold">Magic Photo Frame</span>
+                        </div>
+                        <div class="flex justify-between text-slate-600">
+                            <span>Estimated Delivery:</span> <span id="track-res-date" class="text-brand-600 font-bold">2-3 Business Days</span>
+                        </div>
+                        <div class="flex justify-between text-slate-600">
+                            <span>Shipping Address:</span> <span id="track-res-address" class="text-slate-900">Mandi Bahauddin, Punjab</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. SHOPPING CART & CHECKOUT VIEW -->
+        <section id="view-cart" class="spa-view hidden py-12">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-black text-slate-900 mb-8">Your Order Cart</h2>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Cart Items List -->
+                    <div class="lg:col-span-7 space-y-4" id="cart-items-container">
+                        <!-- Populated JS -->
+                    </div>
+
+                    <!-- Checkout Form & Order Summary -->
+                    <div class="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-lg space-y-5">
+                        <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">Delivery & Checkout</h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1">Full Name *</label>
+                                <input type="text" id="checkout-name" placeholder="Muhammad Ahmad" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1">WhatsApp Phone Number *</label>
+                                <input type="text" id="checkout-phone" placeholder="03001234567" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1">Complete Delivery Address *</label>
+                                <textarea id="checkout-address" rows="2" placeholder="House/Shop #, Street, City, Punjab..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1">Select Payment Method</label>
+                                <select id="checkout-payment" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-semibold rounded-xl p-3 text-sm focus:outline-none focus:border-brand-500">
+                                    <option value="Cash on Delivery">Cash on Delivery (COD)</option>
+                                    <option value="JazzCash">JazzCash Direct Mobile Transfer</option>
+                                    <option value="EasyPaisa">EasyPaisa Mobile Wallet</option>
+                                    <option value="Bank Transfer">Direct Bank Account Transfer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Price Breakdown -->
+                        <div class="space-y-2 pt-4 border-t border-slate-100 text-sm">
+                            <div class="flex justify-between text-slate-500 font-medium">
+                                <span>Subtotal</span>
+                                <span id="summary-subtotal" class="text-slate-900 font-bold">Rs. 0</span>
+                            </div>
+                            <div class="flex justify-between text-slate-500 font-medium">
+                                <span>Nationwide Delivery Charges</span>
+                                <span id="summary-shipping" class="text-slate-900 font-bold">Rs. 200</span>
+                            </div>
+                            <div class="flex justify-between text-base font-black text-slate-900 pt-3 border-t border-slate-100">
+                                <span>Total Amount</span>
+                                <span id="summary-total" class="text-brand-600">Rs. 200</span>
+                            </div>
+                        </div>
+
+                        <button onclick="processFinalOrder()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-xl"></i> Confirm Order On WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. USER LOGIN / REGISTER VIEW -->
+        <section id="view-login" class="spa-view hidden py-16">
+            <div class="max-w-md mx-auto px-4">
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-xl">
+                    <div class="text-center mb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                            <i class="fa-solid fa-user-lock"></i>
+                        </div>
+                        <h2 id="auth-title" class="text-2xl font-black text-slate-900">Sign In To Your Account</h2>
+                        <p class="text-xs text-slate-500 mt-1 font-medium">Track your custom printing orders and save preferences</p>
+                    </div>
+
+                    <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                        <div id="auth-name-group" class="hidden">
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Full Name</label>
+                            <input type="text" id="auth-name" placeholder="Ali Raza" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Email Address</label>
+                            <input type="email" id="auth-email" required placeholder="name@domain.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Password</label>
+                            <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+                        </div>
+
+                        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition shadow-lg">
+                            Sign In
+                        </button>
+                    </form>
+
+                    <div class="mt-6 text-center text-xs text-slate-500 font-medium">
+                        <span id="auth-switch-text">Don't have an account?</span>
+                        <button onclick="toggleAuthMode()" id="auth-switch-btn" class="text-brand-600 font-bold ml-1 hover:underline">Create Account</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. USER DASHBOARD VIEW -->
+        <section id="view-account" class="spa-view hidden py-12">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 flex flex-wrap items-center justify-between gap-4 mb-8">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center font-black text-2xl shadow-md">
+                            <span id="user-avatar-initial">U</span>
+                        </div>
+                        <div>
+                            <h2 id="user-profile-name" class="text-xl font-bold text-slate-900">User Name</h2>
+                            <p id="user-profile-email" class="text-xs text-slate-500 font-medium">user@domain.com</p>
+                        </div>
+                    </div>
+                    <button onclick="logoutUser()" class="px-4 py-2 bg-white hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+
+                <h3 class="text-xl font-black text-slate-900 mb-4">My Past Orders</h3>
+                <div id="user-orders-list" class="space-y-4">
+                    <!-- Populated JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. ABOUT US VIEW -->
+        <section id="view-about" class="spa-view hidden py-16">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                    <i class="fa-solid fa-print"></i>
+                </div>
+                <h2 class="text-3xl font-black text-slate-900">About PrintStudio Workshop</h2>
+                <p class="text-slate-600 text-sm mt-3 max-w-2xl mx-auto leading-relaxed font-medium">
+                    We are a modern custom gift printing studio offering top-quality photo frames, magic reveal mugs, crystal acrylic LED plaques, custom keychains, and personalized accessories with high-definition non-fading print quality.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <i class="fa-solid fa-bolt text-brand-600 text-xl mb-3"></i>
+                        <h4 class="font-bold text-slate-900 text-base">Rapid Dispatch</h4>
+                        <p class="text-xs text-slate-500 mt-1 font-medium">Quick processing and delivery across all cities in Pakistan.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <i class="fa-solid fa-gem text-accent-600 text-xl mb-3"></i>
+                        <h4 class="font-bold text-slate-900 text-base">HD Quality Prints</h4>
+                        <p class="text-xs text-slate-500 mt-1 font-medium">Glossy water-proof thermal coating that never fades.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <i class="fa-solid fa-comments text-emerald-600 text-xl mb-3"></i>
+                        <h4 class="font-bold text-slate-900 text-base">WhatsApp Proofs</h4>
+                        <p class="text-xs text-slate-500 mt-1 font-medium">We send digital design previews before printing your gift.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/923000000000?text=Hi,%20I%20have%20a%20custom%20gift%20printing%20query" target="_blank" class="fixed bottom-6 right-6 z-40 w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition duration-300">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- GOOGLE SHEET ERP INTEGRATION MODAL -->
+    <div id="config-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-lg p-6 rounded-3xl border border-slate-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-database text-brand-600"></i> Google Sheets ERP Configuration
+                </h3>
+                <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed font-medium">
+                Connect your live **Google Apps Script Web App URL** below to write orders directly into your Google Sheet ERP database.
+            </p>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Google Apps Script Web App URL</label>
+                <input type="text" id="gas-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 font-medium focus:outline-none focus:border-brand-500">
+            </div>
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-[11px] text-slate-600 space-y-1">
+                <p class="font-bold text-brand-700">Google Sheet Tabs Schema Required:</p>
+                <ul class="list-disc pl-4 space-y-0.5">
+                    <li><code class="text-slate-800 font-bold">Products</code> (ID, Name, Price, Category, Image)</li>
+                    <li><code class="text-slate-800 font-bold">Orders</code> (OrderID, Name, Phone, Items, Total, Status)</li>
+                    <li><code class="text-slate-800 font-bold">Users</code> (Email, Name, Password)</li>
+                </ul>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeConfigModal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-xl text-xs font-bold">Cancel</button>
+                <button onclick="saveGasConfig()" class="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-50 border-t border-slate-200 py-10 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white">
+                        <i class="fa-solid fa-gift text-sm"></i>
+                    </div>
+                    <span class="text-base font-black text-slate-900">PRINTSTUDIO</span>
+                </div>
+                <div class="flex flex-wrap gap-6 text-xs text-slate-600 font-bold">
+                    <button onclick="navigate('home')" class="hover:text-brand-600">Home</button>
+                    <button onclick="navigate('products')" class="hover:text-brand-600">Products</button>
+                    <button onclick="navigate('customize')" class="hover:text-brand-600">Gift Customizer</button>
+                    <button onclick="navigate('track')" class="hover:text-brand-600">Order Tracking</button>
+                    <button onclick="navigate('about')" class="hover:text-brand-600">About Us</button>
+                </div>
+                <p class="text-xs text-slate-400 font-medium">© 2026 PrintStudio Pakistan. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CLIENT SCRIPT ENGINE -->
+    <script>
+        /* -------------------------------------------------------------------------- */
+        /* 1. MOCK DATABASE & ERP ENGINE                                              */
+        /* -------------------------------------------------------------------------- */
+        const DEFAULT_PRODUCTS = [
+            {
+                id: 1,
+                name: "Heat Magic Reveal Frame",
+                category: "Magic Frames",
+                price: 1499,
+                originalPrice: 1999,
+                image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
+                badge: "Hot Seller"
+            },
+            {
+                id: 2,
+                name: "Custom Magic Color Mug",
+                category: "Customized Mugs",
+                price: 899,
+                originalPrice: 1200,
+                image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+                badge: "Popular"
+            },
+            {
+                id: 3,
+                name: "Acrylic LED Photo Stand",
+                category: "Acrylic Prints",
+                price: 2199,
+                originalPrice: 2800,
+                image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80",
+                badge: "Trending"
+            },
+            {
+                id: 4,
+                name: "Metal Metallic Keychain",
+                category: "Keychains",
+                price: 499,
+                originalPrice: 750,
+                image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+                badge: "Best Gift"
+            },
+            {
+                id: 5,
+                name: "Personalized Velvet Cushion",
+                category: "Cushions",
+                price: 1299,
+                originalPrice: 1600,
+                image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=800&q=80",
+                badge: "New"
+            },
+            {
+                id: 6,
+                name: "3D Crystal Engraved Block",
+                category: "Acrylic Prints",
+                price: 3499,
+                originalPrice: 4200,
+                image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
+                badge: "Premium"
+            }
+        ];
+
+        const DEFAULT_ORDERS = [
+            {
+                id: "PST-1001",
+                name: "Muhammad Ali",
+                phone: "03001234567",
+                item: "Heat Magic Photo Frame (8x12)",
+                status: "Printing",
+                step: 3,
+                address: "Mandi Bahauddin, Punjab",
+                total: 1699,
+                date: "2026-11-05"
+            }
+        ];
+
+        if (!localStorage.getItem('pst_products')) localStorage.setItem('pst_products', JSON.stringify(DEFAULT_PRODUCTS));
+        if (!localStorage.getItem('pst_orders')) localStorage.setItem('pst_orders', JSON.stringify(DEFAULT_ORDERS));
+        if (!localStorage.getItem('pst_cart')) localStorage.setItem('pst_cart', JSON.stringify([]));
+
+        let currentCart = JSON.parse(localStorage.getItem('pst_cart'));
+        let currentUser = JSON.parse(localStorage.getItem('pst_user')) || null;
+        let selectedCategory = "All";
+
+        /* -------------------------------------------------------------------------- */
+        /* 2. SPA ROUTER SYSTEM                                                      */
+        /* -------------------------------------------------------------------------- */
+        function navigate(viewId) {
+            document.querySelectorAll('.spa-view').forEach(view => view.classList.add('hidden'));
+            const target = document.getElementById(`view-${viewId}`);
+            if (target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            if (viewId === 'account' && !currentUser) {
+                navigate('login');
+                return;
+            }
+
+            if (viewId === 'products' || viewId === 'home') renderCatalog();
+            if (viewId === 'cart') renderCart();
+            if (viewId === 'account') renderAccountView();
         }
-      } else if (hash === '#/track-order') {
-        main.innerHTML = `
-          <div class="max-w-md mx-auto bg-white dark:bg-slate-900 border p-8 rounded-3xl shadow-xl text-center">
-            <h1 class="text-2xl font-black mb-2">Order Tracking</h1>
-            <p class="text-xs text-slate-500 mb-6">Enter Order ID (e.g. HY-1024)</p>
-            <div class="flex gap-2 mb-6">
-              <input type="text" id="track-input" placeholder="Order ID..." class="flex-1 px-4 py-2.5 border rounded-xl text-xs dark:bg-slate-800">
-              <button onclick="document.getElementById('track-timeline').classList.remove('hidden')" class="bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs">Track</button>
-            </div>
-            <div id="track-timeline" class="hidden text-left space-y-3 text-xs border-t pt-4">
-              <p class="font-bold text-emerald-600"><i class="fa-solid fa-check-circle mr-2"></i> Order Confirmed</p>
-              <p class="font-bold text-orange-600"><i class="fa-solid fa-sync mr-2"></i> Printing & Customization in Progress</p>
-              <p class="text-slate-400"><i class="fa-solid fa-clock mr-2"></i> Out for Delivery</p>
-            </div>
-          </div>
-        `;
-      } else if (hash === '#/about') {
-        main.innerHTML = `
-          <div class="max-w-2xl mx-auto bg-white dark:bg-slate-900 border p-8 rounded-3xl text-center space-y-4">
-            <h1 class="text-3xl font-black">About HY Store Official</h1>
-            <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">HY Store Official is Pakistan's trusted platform for customized gifts and professional commercial printing services. We aim to deliver top-tier quality items with exceptional customer support.</p>
-            <p class="text-xs text-slate-500 font-bold">Contact: 0320 9306672 | Email: hybusinessprint@gmail.com</p>
-          </div>
-        `;
-      } else if (hash === '#/contact') {
-        main.innerHTML = `
-          <div class="max-w-md mx-auto bg-white dark:bg-slate-900 border p-8 rounded-3xl text-center">
-            <h1 class="text-2xl font-black mb-3">Contact Us</h1>
-            <p class="text-xs text-slate-500 mb-4">Phone / WhatsApp: 0320 9306672<br>Email: hybusinessprint@gmail.com</p>
-            <a href="https://wa.me/923209306672" target="_blank" class="inline-block bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl text-xs"><i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp Chat</a>
-          </div>
-        `;
-      } else {
-        main.innerHTML = `
-          <div class="text-center py-20">
-            <h1 class="text-3xl font-black mb-3">HY STORE OFFICIAL</h1>
-            <p class="text-slate-500 text-xs mb-4">Gifts & Printing Services | Contact: 0320 9306672</p>
-            <a href="#/" class="bg-orange-600 text-white font-bold px-6 py-3 rounded-xl text-xs">Back to Home</a>
-          </div>
-        `;
-      }
-    }
 
-    function addToCart(id) {
-      const p = products.find(x => x.id === id);
-      const exist = cart.find(x => x.id === id);
-      if (exist) exist.qty += 1;
-      else cart.push({ ...p, qty: 1 });
-      saveState();
-      showToast(`${p.name} added to cart!`);
-    }
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
 
-    function updateQty(id, chg) {
-      const item = cart.find(x => x.id === id);
-      if (item) {
-        item.qty += chg;
-        if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
-      }
-      saveState();
-      renderApp();
-    }
+        /* -------------------------------------------------------------------------- */
+        /* 3. CATALOG & HERO CAROUSEL ENGINE                                         */
+        /* -------------------------------------------------------------------------- */
+        function renderCatalog() {
+            const products = JSON.parse(localStorage.getItem('pst_products'));
+            const categories = ["All", ...new Set(products.map(p => p.category))];
 
-    function removeFromCart(id) {
-      cart = cart.filter(x => x.id !== id);
-      saveState();
-      renderApp();
-    }
+            // Categories Grid (Home)
+            const homeCatGrid = document.getElementById('home-categories-grid');
+            if (homeCatGrid) {
+                homeCatGrid.innerHTML = categories.filter(c => c !== 'All').map(cat => `
+                    <div onclick="filterCategoryFromHome('${cat}')" class="bg-white p-5 rounded-2xl border border-slate-200 text-center cursor-pointer hover:border-brand-500 hover:shadow-md transition">
+                        <i class="fa-solid fa-gift text-brand-600 text-2xl mb-2 block"></i>
+                        <h4 class="text-xs font-bold text-slate-800">${cat}</h4>
+                    </div>
+                `).join('');
+            }
 
-    // Checkout Modal Handling
-    function openCheckoutModal() {
-      if (cart.length === 0) return alert("Cart is empty!");
-      if (currentUser) {
-        document.getElementById('chk-name').value = currentUser.name || '';
-        document.getElementById('chk-email').value = currentUser.email || '';
-        document.getElementById('chk-phone').value = currentUser.phone || '';
-      }
-      document.getElementById('checkout-modal').classList.remove('hidden');
-    }
+            // Category Filter Pills (Catalog)
+            const pillsContainer = document.getElementById('category-filter-pills');
+            if (pillsContainer) {
+                pillsContainer.innerHTML = categories.map(cat => `
+                    <button onclick="setCategoryFilter('${cat}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${selectedCategory === cat ? 'bg-brand-600 text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}">
+                        ${cat}
+                    </button>
+                `).join('');
+            }
 
-    function closeCheckoutModal() {
-      document.getElementById('checkout-modal').classList.add('hidden');
-    }
+            // Filter Logic
+            const searchVal = (document.getElementById('catalog-search')?.value || '').toLowerCase();
+            const filtered = products.filter(p => {
+                const matchesCat = selectedCategory === "All" || p.category === selectedCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchVal);
+                return matchesCat && matchesSearch;
+            });
 
-    // Google Sheet mein Order Bhejna with full details
-    async function submitOrderToSheet(e) {
-      e.preventDefault();
-      const orderId = 'HY-' + Math.floor(1000 + Math.random() * 9000);
-      const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            // Featured Products (Home)
+            const homeFeaturedGrid = document.getElementById('home-featured-products');
+            if (homeFeaturedGrid) {
+                homeFeaturedGrid.innerHTML = products.slice(0, 4).map(p => createProductCardHTML(p)).join('');
+            }
 
-      const orderData = {
-        orderId: orderId,
-        name: document.getElementById('chk-name').value,
-        phone: document.getElementById('chk-phone').value,
-        email: document.getElementById('chk-email').value,
-        address: document.getElementById('chk-address').value,
-        items: cart.map(i => `${i.name} (x${i.qty})`).join(", "),
-        totalPrice: "PKR " + subtotal + " (" + document.getElementById('chk-payment').value + ")"
-      };
+            // Catalog Grid
+            const catalogGrid = document.getElementById('catalog-products-grid');
+            if (catalogGrid) {
+                catalogGrid.innerHTML = filtered.map(p => createProductCardHTML(p)).join('');
+            }
+        }
 
-      showToast("Saving Order to Google Sheet...");
+        function createProductCardHTML(p) {
+            return `
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-xl transition group">
+                    <div class="relative aspect-square overflow-hidden bg-slate-100">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-3 left-3 bg-brand-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm">
+                            ${p.badge}
+                        </span>
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-bold text-brand-600 uppercase tracking-wider">${p.category}</span>
+                            <h3 class="text-sm font-bold text-slate-900 mt-1 leading-snug">${p.name}</h3>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-slate-400 line-through font-medium">Rs. ${p.originalPrice}</span>
+                                <span class="text-base font-black text-slate-900 block">Rs. ${p.price}</span>
+                            </div>
+                            <button onclick="openCustomizerFor(${p.id})" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-paintbrush"></i> Design
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
 
-      try {
-        await fetch(GOOGLE_SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(orderData)
-        });
-      } catch (e) { 
-        console.log(e); 
-      }
+        function filterProducts() { renderCatalog(); }
+        function setCategoryFilter(cat) { selectedCategory = cat; renderCatalog(); }
+        function filterCategoryFromHome(cat) { selectedCategory = cat; navigate('products'); }
 
-      alert(`Order Placed Successfully!\nOrder ID: ${orderId}\nData saved to Google Sheet.`);
-      cart = [];
-      saveState();
-      closeCheckoutModal();
-      window.location.hash = '#/track-order';
-    }
+        /* -------------------------------------------------------------------------- */
+        /* 4. CUSTOMIZER STUDIO ENGINE                                               */
+        /* -------------------------------------------------------------------------- */
+        function populateCustomizerSelect() {
+            const products = JSON.parse(localStorage.getItem('pst_products'));
+            const select = document.getElementById('customizer-item-select');
+            if (select) {
+                select.innerHTML = products.map(p => `
+                    <option value="${p.id}">${p.name} - Rs. ${p.price}</option>
+                `).join('');
+            }
+        }
 
-    function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
-    function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
-    
-    function switchAuthMode(m) {
-      if(m==='register'){
-        document.getElementById('auth-form-view').classList.add('hidden');
-        document.getElementById('auth-register-view').classList.remove('hidden');
-      }else{
-        document.getElementById('auth-form-view').classList.remove('hidden');
-        document.getElementById('auth-register-view').classList.add('hidden');
-      }
-    }
+        function openCustomizerFor(productId) {
+            navigate('customize');
+            populateCustomizerSelect();
+            const select = document.getElementById('customizer-item-select');
+            if (select) select.value = productId;
+            onCustomizerProductChange();
+        }
 
-    // Login with Strict Email & Password check
-    function handleLoginSubmit(e) {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
-      const pass = document.getElementById('login-pass').value;
+        function onCustomizerProductChange() {
+            const products = JSON.parse(localStorage.getItem('pst_products'));
+            const selectedId = parseInt(document.getElementById('customizer-item-select').value);
+            const product = products.find(p => p.id === selectedId);
 
-      const found = registeredUsers.find(u => u.email.toLowerCase() === email.toLowerCase() && u.pass === pass);
-      if (found) {
-        currentUser = found;
-        localStorage.setItem('hy_user', JSON.stringify(currentUser));
-        updateBadge();
-        closeLoginModal();
-        showToast('Login Successful!');
-      } else {
-        alert('Galat Email ya Password! Pehle account banayein ya sahi details enter karein.');
-      }
-    }
+            if (product) {
+                document.getElementById('customizer-base-img').src = product.image;
+                calculateCustomizerPrice();
+            }
+        }
 
-    // Register with Unique Email Rule
-    function handleRegisterSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('reg-name').value;
-      const phone = document.getElementById('reg-phone').value;
-      const email = document.getElementById('reg-email').value.trim();
-      const pass = document.getElementById('reg-pass').value;
-      const cpass = document.getElementById('reg-cpass').value;
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('user-uploaded-img');
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    document.getElementById('user-photo-placeholder').classList.add('hidden');
+                    document.getElementById('file-upload-label').innerText = file.name.substring(0, 15) + '...';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
 
-      if (pass !== cpass) {
-        alert('Passwords match nahi kar rahe!');
-        return;
-      }
+        function updateCustomizerText() {
+            const text = document.getElementById('custom-text-input').value;
+            const overlay = document.getElementById('user-text-overlay');
+            if (text.trim() !== "") {
+                overlay.innerText = text;
+                overlay.classList.remove('hidden');
+            } else {
+                overlay.classList.add('hidden');
+            }
+        }
 
-      const existing = registeredUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
-      if (existing) {
-        alert('Is email se pehle hi account bana hua hai! Dusri email use karein.');
-        return;
-      }
+        function calculateCustomizerPrice() {
+            const products = JSON.parse(localStorage.getItem('pst_products'));
+            const selectedId = parseInt(document.getElementById('customizer-item-select')?.value || 1);
+            const product = products.find(p => p.id === selectedId);
+            const size = document.getElementById('customizer-size-select')?.value;
 
-      const newUser = { name, email, phone, pass };
-      registeredUsers.push(newUser);
-      localStorage.setItem('hy_all_users', JSON.stringify(registeredUsers));
+            let extra = 0;
+            if (size === 'large') extra = 400;
+            if (size === 'xlarge') extra = 900;
 
-      currentUser = newUser;
-      localStorage.setItem('hy_user', JSON.stringify(currentUser));
+            const total = (product ? product.price : 1499) + extra;
+            document.getElementById('customizer-calculated-price').innerText = `Rs. ${total}`;
+            return total;
+        }
 
-      updateBadge();
-      closeLoginModal();
-      showToast('Account Created & Logged In Successfully!');
-    }
+        function addCustomizedToCart() {
+            const products = JSON.parse(localStorage.getItem('pst_products'));
+            const selectedId = parseInt(document.getElementById('customizer-item-select').value);
+            const product = products.find(p => p.id === selectedId);
+            const price = calculateCustomizerPrice();
 
-    function handleLogout() {
-      currentUser = null;
-      localStorage.removeItem('hy_user');
-      updateBadge();
-      closeLoginModal();
-      showToast('Logged out!');
-    }
+            const customItem = {
+                cartId: Date.now(),
+                productId: product.id,
+                name: product.name,
+                price: price,
+                customText: document.getElementById('custom-text-input').value,
+                notes: document.getElementById('custom-notes').value,
+                size: document.getElementById('customizer-size-select').value,
+                frameColor: document.getElementById('customizer-frame-color').value,
+                photoUploaded: !document.getElementById('user-uploaded-img').classList.contains('hidden')
+            };
 
-    function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
+            currentCart.push(customItem);
+            saveCart();
+            showToast("Customized item added to your cart!");
+            navigate('cart');
+        }
 
-    window.addEventListener('hashchange', renderApp);
-    window.addEventListener('DOMContentLoaded', () => { 
-      updateBadge(); 
-      fetchProductsFromSheet();
-      renderApp(); 
-    });
-  </script>
+        /* -------------------------------------------------------------------------- */
+        /* 5. SHOPPING CART & CHECKOUT ENGINE                                        */
+        /* -------------------------------------------------------------------------- */
+        function saveCart() {
+            localStorage.setItem('pst_cart', JSON.stringify(currentCart));
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            if (badge) {
+                badge.innerText = currentCart.length;
+                if (currentCart.length > 0) badge.classList.remove('hidden');
+                else badge.classList.add('hidden');
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            if (currentCart.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-slate-50 p-12 rounded-3xl border border-slate-200 text-center">
+                        <i class="fa-solid fa-bag-shopping text-4xl text-slate-300 mb-3"></i>
+                        <h3 class="text-lg font-bold text-slate-800">Your Cart is Empty</h3>
+                        <p class="text-xs text-slate-500 mt-1 font-medium">Select a gift item and start customizing!</p>
+                        <button onclick="navigate('products')" class="mt-4 px-5 py-2.5 bg-brand-600 text-white text-xs font-bold rounded-xl shadow-md">Browse Catalog</button>
+                    </div>
+                `;
+                updateSummary(0);
+                return;
+            }
+
+            container.innerHTML = currentCart.map(item => `
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 flex justify-between items-center shadow-sm">
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-bold text-slate-900">${item.name}</h4>
+                        <p class="text-xs text-brand-600 font-semibold">Size: ${item.size.toUpperCase()} | Frame: ${item.frameColor}</p>
+                        ${item.customText ? `<p class="text-[11px] text-slate-500 italic">"Text: ${item.customText}"</p>` : ''}
+                        ${item.photoUploaded ? `<span class="inline-block text-[10px] text-emerald-600 font-bold"><i class="fa-solid fa-check"></i> Photo Attached</span>` : ''}
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-black text-slate-900 block">Rs. ${item.price}</span>
+                        <button onclick="removeFromCart(${item.cartId})" class="text-xs text-rose-500 hover:underline mt-1 font-semibold">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const subtotal = currentCart.reduce((sum, i) => sum + i.price, 0);
+            updateSummary(subtotal);
+        }
+
+        function removeFromCart(cartId) {
+            currentCart = currentCart.filter(c => c.cartId !== cartId);
+            saveCart();
+            renderCart();
+        }
+
+        function updateSummary(subtotal) {
+            const shipping = subtotal > 0 ? 200 : 0;
+            document.getElementById('summary-subtotal').innerText = `Rs. ${subtotal}`;
+            document.getElementById('summary-shipping').innerText = `Rs. ${shipping}`;
+            document.getElementById('summary-total').innerText = `Rs. ${subtotal + shipping}`;
+        }
+
+        function processFinalOrder() {
+            if (currentCart.length === 0) {
+                showToast("Your cart is empty!", "error");
+                return;
+            }
+
+            const name = document.getElementById('checkout-name').value.trim();
+            const phone = document.getElementById('checkout-phone').value.trim();
+            const address = document.getElementById('checkout-address').value.trim();
+            const payment = document.getElementById('checkout-payment').value;
+
+            if (!name || !phone || !address) {
+                showToast("Please fill out all required delivery fields!", "error");
+                return;
+            }
+
+            const orders = JSON.parse(localStorage.getItem('pst_orders'));
+            const newOrderId = "PST-" + Math.floor(1000 + Math.random() * 9000);
+            const subtotal = currentCart.reduce((sum, i) => sum + i.price, 0);
+            const total = subtotal + 200;
+
+            const newOrder = {
+                id: newOrderId,
+                name: name,
+                phone: phone,
+                item: currentCart.map(c => c.name).join(', '),
+                status: "Order Placed",
+                step: 1,
+                address: address,
+                total: total,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            orders.unshift(newOrder);
+            localStorage.setItem('pst_orders', JSON.stringify(orders));
+
+            // Optional Sync to Google Sheet API
+            const gasUrl = localStorage.getItem('gas_api_url');
+            if (gasUrl) {
+                fetch(gasUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newOrder)
+                }).catch(err => console.log('GAS API Sync:', err));
+            }
+
+            // WhatsApp Message
+            let waMsg = `*NEW CUSTOM PRINTING ORDER - ${newOrderId}*\n\n`;
+            waMsg += `*Customer:* ${name}\n`;
+            waMsg += `*Phone:* ${phone}\n`;
+            waMsg += `*Delivery Address:* ${address}\n`;
+            waMsg += `*Payment:* ${payment}\n\n`;
+            waMsg += `*ORDER ITEMS:*\n`;
+            currentCart.forEach((item, idx) => {
+                waMsg += `${idx + 1}. ${item.name} (${item.size}) - Rs. ${item.price}\n`;
+                if(item.customText) waMsg += `   - Printed Text: ${item.customText}\n`;
+            });
+            waMsg += `\n*TOTAL:* Rs. ${total}\n`;
+
+            currentCart = [];
+            saveCart();
+
+            const targetPhone = "923000000000"; // Admin Phone Number
+            window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(waMsg)}`, '_blank');
+
+            document.getElementById('track-input-id').value = newOrderId;
+            navigate('track');
+            searchOrderTracking();
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* 6. ORDER TRACKING LOGIC                                                    */
+        /* -------------------------------------------------------------------------- */
+        function searchOrderTracking() {
+            const query = document.getElementById('track-input-id').value.trim().toLowerCase();
+            const orders = JSON.parse(localStorage.getItem('pst_orders'));
+
+            const found = orders.find(o => o.id.toLowerCase() === query || o.phone.includes(query));
+            const resultBox = document.getElementById('tracking-result-box');
+
+            if (!found) {
+                showToast("Order not found! Verify ID or Phone.", "error");
+                resultBox.classList.add('hidden');
+                return;
+            }
+
+            resultBox.classList.remove('hidden');
+            document.getElementById('track-res-id').innerText = found.id;
+            document.getElementById('track-res-name').innerText = found.name;
+            document.getElementById('track-res-item').innerText = found.item;
+            document.getElementById('track-res-address').innerText = found.address;
+            document.getElementById('track-res-status-badge').innerText = found.status;
+
+            const progressPct = ((found.step - 1) / 3) * 100;
+            document.getElementById('track-progress-bar').style.width = `${progressPct}%`;
+
+            for (let i = 1; i <= 4; i++) {
+                const stepIcon = document.getElementById(`step-${i}-icon`);
+                if (i <= found.step) {
+                    stepIcon.className = "w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold shadow-md";
+                } else {
+                    stepIcon.className = "w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold";
+                }
+            }
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* 7. AUTHENTICATION & USER MANAGEMENT                                      */
+        /* -------------------------------------------------------------------------- */
+        let isSignUpMode = false;
+
+        function toggleAuthMode() {
+            isSignUpMode = !isSignUpMode;
+            document.getElementById('auth-title').innerText = isSignUpMode ? "Create Account" : "Sign In To Your Account";
+            document.getElementById('auth-submit-btn').innerText = isSignUpMode ? "Create Account" : "Sign In";
+            document.getElementById('auth-name-group').classList.toggle('hidden', !isSignUpMode);
+            document.getElementById('auth-switch-text').innerText = isSignUpMode ? "Already have an account?" : "Don't have an account?";
+            document.getElementById('auth-switch-btn').innerText = isSignUpMode ? "Sign In" : "Create Account";
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value.trim();
+            const name = document.getElementById('auth-name').value.trim() || email.split('@')[0];
+
+            currentUser = { email, name };
+            localStorage.setItem('pst_user', JSON.stringify(currentUser));
+            updateAuthUI();
+            showToast(`Welcome ${name}!`);
+            navigate('account');
+        }
+
+        function updateAuthUI() {
+            const container = document.getElementById('auth-nav-container');
+            if (currentUser) {
+                container.innerHTML = `
+                    <button onclick="navigate('account')" class="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-800">
+                        <div class="w-6 h-6 rounded-md bg-brand-600 text-white flex items-center justify-center text-[10px]">
+                            ${currentUser.name.charAt(0).toUpperCase()}
+                        </div>
+                        <span>${currentUser.name.split(' ')[0]}</span>
+                    </button>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button onclick="navigate('login')" class="px-4 py-2 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition shadow-md">
+                        Sign In
+                    </button>
+                `;
+            }
+        }
+
+        function renderAccountView() {
+            if (!currentUser) return;
+            document.getElementById('user-profile-name').innerText = currentUser.name;
+            document.getElementById('user-profile-email').innerText = currentUser.email;
+            document.getElementById('user-avatar-initial').innerText = currentUser.name.charAt(0).toUpperCase();
+
+            const orders = JSON.parse(localStorage.getItem('pst_orders'));
+            const container = document.getElementById('user-orders-list');
+
+            container.innerHTML = orders.map(o => `
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 flex justify-between items-center shadow-sm">
+                    <div>
+                        <span class="text-xs font-bold text-brand-600">${o.id}</span>
+                        <h4 class="text-sm font-bold text-slate-900 mt-0.5">${o.item}</h4>
+                        <span class="text-[11px] text-slate-400 font-medium">${o.date}</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="px-2.5 py-1 bg-brand-100 text-brand-700 rounded-lg text-[10px] font-bold block mb-1">${o.status}</span>
+                        <span class="text-xs font-black text-slate-900">Rs. ${o.total}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('pst_user');
+            updateAuthUI();
+            showToast("Logged out successfully");
+            navigate('home');
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* 8. CONFIG MODAL & TOAST SYSTEM                                             */
+        /* -------------------------------------------------------------------------- */
+        function openConfigModal() {
+            document.getElementById('gas-url-input').value = localStorage.getItem('gas_api_url') || '';
+            document.getElementById('config-modal').classList.remove('hidden');
+        }
+
+        function closeConfigModal() {
+            document.getElementById('config-modal').classList.add('hidden');
+        }
+
+        function saveGasConfig() {
+            const url = document.getElementById('gas-url-input').value.trim();
+            localStorage.setItem('gas_api_url', url);
+            showToast("Google Sheets ERP URL Saved!");
+            closeConfigModal();
+        }
+
+        function showToast(message, type = "success") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-3 rounded-xl text-xs font-bold text-white shadow-2xl flex items-center gap-2 pointer-events-auto ${type === 'error' ? 'bg-rose-600' : 'bg-slate-900'}`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-circle-exclamation text-rose-200' : 'fa-circle-check text-emerald-400'}"></i> ${message}`;
+            container.appendChild(toast);
+
+            setTimeout(() => { toast.remove(); }, 3500);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* 9. INITIALIZATION                                                          */
+        /* -------------------------------------------------------------------------- */
+        window.onload = function() {
+            renderCatalog();
+            updateCartBadge();
+            updateAuthUI();
+            populateCustomizerSelect();
+        };
+    </script>
 </body>
 </html>
