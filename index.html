@@ -36,35 +36,35 @@
 <body class="bg-slate-50 font-sans text-gray-800 antialiased min-h-screen flex flex-col justify-between">
 
     <!-- TOP ANNOUNCEMENT BAR (CENTERED) -->
-    <div class="bg-gray-900 text-white text-xs md:text-sm py-2.5 px-4 shadow-inner">
-        <div class="max-w-[1600px] mx-auto flex flex-wrap justify-center items-center gap-6 text-center font-medium">
+    <div class="bg-gray-900 text-white text-xs md:text-sm py-2 px-3 shadow-inner">
+        <div class="max-w-[1600px] mx-auto flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-center font-medium">
             <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-brandOrange"></i> Fast turnaround</span>
-            <span class="text-gray-600">•</span>
+            <span class="hidden sm:inline text-gray-600">•</span>
             <span class="flex items-center gap-1.5"><i class="fa-solid fa-palette text-brandOrange"></i> Color-true printing</span>
-            <span class="text-gray-600">•</span>
+            <span class="hidden sm:inline text-gray-600">•</span>
             <span class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-brandOrange"></i> Live order tracking</span>
-            <span class="text-gray-600">•</span>
-            <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-brandOrange"></i> Premium Quality Guarantee</span>
+            <span class="hidden sm:inline text-gray-600">•</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-brandOrange"></i> Quality Guarantee</span>
         </div>
     </div>
 
-    <!-- MAIN NAVBAR (DESKTOP WIDE LANDSCAPE) -->
+    <!-- MAIN NAVBAR -->
     <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-[1600px] mx-auto px-6 lg:px-12">
-            <div class="flex justify-between items-center h-20">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="flex justify-between items-center h-16 sm:h-20">
                 <!-- Logo -->
-                <a href="#/home" onclick="navigateTo('home')" class="flex items-center gap-3 group">
-                    <div class="bg-gradient-to-tr from-brandOrange to-orange-400 text-white w-12 h-12 rounded-xl flex items-center justify-center font-extrabold text-xl shadow-lg shadow-orange-500/30 group-hover:scale-105 transition">
+                <a href="#/home" onclick="navigateTo('home')" class="flex items-center gap-2.5 sm:gap-3 group">
+                    <div class="bg-gradient-to-tr from-brandOrange to-orange-400 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center font-extrabold text-lg sm:text-xl shadow-lg shadow-orange-500/30 group-hover:scale-105 transition">
                         HY
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-extrabold text-2xl tracking-tight text-gray-900 leading-none">HY STORE</span>
-                        <span class="text-xs text-brandOrange font-semibold tracking-wider uppercase mt-1">Gifting & Printing</span>
+                        <span class="font-extrabold text-xl sm:text-2xl tracking-tight text-gray-900 leading-none">HY STORE</span>
+                        <span class="text-[10px] sm:text-xs text-brandOrange font-semibold tracking-wider uppercase mt-0.5 sm:mt-1">Gifting & Printing</span>
                     </div>
                 </a>
 
-                <!-- Navigation Links -->
-                <nav class="hidden md:flex items-center gap-10 font-semibold text-gray-700 text-sm">
+                <!-- Navigation Links (Desktop) -->
+                <nav class="hidden md:flex items-center gap-8 lg:gap-10 font-semibold text-gray-700 text-sm">
                     <a href="#/home" id="nav-home" onclick="navigateTo('home')" class="hover:text-brandOrange transition py-2">Home</a>
                     <a href="#/services" id="nav-services" onclick="navigateTo('services')" class="hover:text-brandOrange transition py-2">Services</a>
                     <a href="#/products" id="nav-products" onclick="navigateTo('products')" class="hover:text-brandOrange transition py-2">Products</a>
@@ -73,23 +73,23 @@
                 </nav>
 
                 <!-- User Actions -->
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 sm:gap-4">
                     <!-- Cart Button -->
-                    <button onclick="navigateTo('cart')" class="relative p-2.5 text-gray-700 hover:text-brandOrange bg-gray-100 hover:bg-orange-50 rounded-xl transition">
-                        <i class="fa-solid fa-cart-shopping text-lg"></i>
-                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-brandOrange text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                    <button onclick="navigateTo('cart')" class="relative p-2 sm:p-2.5 text-gray-700 hover:text-brandOrange bg-gray-100 hover:bg-orange-50 rounded-xl transition">
+                        <i class="fa-solid fa-cart-shopping text-base sm:text-lg"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-brandOrange text-white text-[10px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
                     </button>
 
                     <!-- Auth Buttons -->
-                    <div id="auth-nav-container" class="flex gap-2">
-                        <button onclick="navigateTo('login')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold text-sm px-5 py-2.5 rounded-xl transition">Log In</button>
-                        <button onclick="navigateTo('signup')" class="bg-brandOrange hover:bg-brandOrangeHover text-white font-semibold text-sm px-6 py-2.5 rounded-xl shadow-md shadow-orange-500/20 transition">Sign Up</button>
+                    <div id="auth-nav-container" class="flex gap-1.5 sm:gap-2">
+                        <button onclick="navigateTo('login')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold text-xs sm:text-sm px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl transition">Log In</button>
+                        <button onclick="navigateTo('signup')" class="bg-brandOrange hover:bg-brandOrangeHover text-white font-semibold text-xs sm:text-sm px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-xl shadow-md shadow-orange-500/20 transition">Sign Up</button>
                     </div>
 
                     <!-- Logged-in User Profile Button -->
                     <div id="user-nav-container" class="hidden">
-                        <button onclick="navigateTo('profile')" class="flex items-center gap-2 bg-orange-50 border border-orange-200 text-brandOrange font-semibold text-sm px-4 py-2.5 rounded-xl">
-                            <i class="fa-solid fa-user-circle text-lg"></i>
+                        <button onclick="navigateTo('profile')" class="flex items-center gap-2 bg-orange-50 border border-orange-200 text-brandOrange font-semibold text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl">
+                            <i class="fa-solid fa-user-circle text-base sm:text-lg"></i>
                             <span id="user-nav-name">Account</span>
                         </button>
                     </div>
@@ -98,119 +98,119 @@
         </div>
     </header>
 
-    <!-- DYNAMIC PAGES -->
-    <main id="app-content" class="flex-grow max-w-[1600px] w-full mx-auto px-6 lg:px-12 py-8">
+    <!-- DYNAMIC PAGES CONTAINER -->
+    <main id="app-content" class="flex-grow max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-12 py-4 sm:py-8">
         
         <!-- HOME PAGE -->
-        <section id="page-home" class="page-view space-y-12">
-            <!-- HERO SLIDER BANNER (BANNER 1, 2, 3) -->
-            <div class="relative bg-gray-900 text-white overflow-hidden shadow-2xl rounded-3xl">
+        <section id="page-home" class="page-view space-y-8 sm:space-y-12">
+            <!-- HERO SLIDER BANNER -->
+            <div class="relative bg-gray-900 text-white overflow-hidden shadow-xl sm:shadow-2xl rounded-2xl sm:rounded-3xl">
                 <div id="hero-slider" class="flex transition-transform duration-700 ease-in-out">
                     <!-- Slide 1 -->
-                    <div class="w-full flex-shrink-0 relative min-h-[500px] flex items-center">
+                    <div class="w-full flex-shrink-0 relative min-h-[360px] sm:min-h-[500px] flex items-center">
                         <img src="banner1.png" alt="Banner 1" class="absolute inset-0 w-full h-full object-cover opacity-60">
                         <div class="absolute inset-0 bg-gradient-to-r from-gray-950 via-gray-900/80 to-transparent"></div>
-                        <div class="relative z-10 p-12 lg:p-20 max-w-2xl space-y-6">
-                            <span class="inline-block bg-brandOrange text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md">Featured Banner 1</span>
-                            <h1 class="text-4xl lg:text-6xl font-extrabold leading-tight text-white">WEDDING CARDS & <span class="text-brandOrange">GIFTING</span></h1>
-                            <p class="text-gray-200 text-base lg:text-lg">Make your special events memorable with exclusive customized printing and luxury packaging.</p>
+                        <div class="relative z-10 p-6 sm:p-12 lg:p-20 max-w-2xl space-y-3 sm:space-y-6">
+                            <span class="inline-block bg-brandOrange text-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest shadow-md">Featured Banner 1</span>
+                            <h1 class="text-2xl sm:text-4xl lg:text-6xl font-extrabold leading-tight text-white">WEDDING CARDS & <span class="text-brandOrange">GIFTING</span></h1>
+                            <p class="text-gray-200 text-xs sm:text-base lg:text-lg">Make your special events memorable with exclusive customized printing and luxury packaging.</p>
                             <div>
-                                <a href="#/products" onclick="navigateTo('products')" class="inline-block bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-8 py-4 rounded-xl shadow-lg transition text-base">Explore Collection</a>
+                                <a href="#/products" onclick="navigateTo('products')" class="inline-block bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-5 py-2.5 sm:px-8 sm:py-4 rounded-xl shadow-lg transition text-xs sm:text-base">Explore Collection</a>
                             </div>
                         </div>
                     </div>
                     <!-- Slide 2 -->
-                    <div class="w-full flex-shrink-0 relative min-h-[500px] flex items-center">
+                    <div class="w-full flex-shrink-0 relative min-h-[360px] sm:min-h-[500px] flex items-center">
                         <img src="banner2.png" alt="Banner 2" class="absolute inset-0 w-full h-full object-cover opacity-60">
                         <div class="absolute inset-0 bg-gradient-to-r from-gray-950 via-gray-900/80 to-transparent"></div>
-                        <div class="relative z-10 p-12 lg:p-20 max-w-2xl space-y-6">
-                            <span class="inline-block bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md">Featured Banner 2</span>
-                            <h1 class="text-4xl lg:text-6xl font-extrabold leading-tight text-white">PERSONALIZED <span class="text-brandOrange">MUGS & FRAMES</span></h1>
-                            <p class="text-gray-200 text-base lg:text-lg">High quality custom photo printed gifts and acrylic LED frames with 24/7 support.</p>
+                        <div class="relative z-10 p-6 sm:p-12 lg:p-20 max-w-2xl space-y-3 sm:space-y-6">
+                            <span class="inline-block bg-blue-600 text-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest shadow-md">Featured Banner 2</span>
+                            <h1 class="text-2xl sm:text-4xl lg:text-6xl font-extrabold leading-tight text-white">PERSONALIZED <span class="text-brandOrange">MUGS & FRAMES</span></h1>
+                            <p class="text-gray-200 text-xs sm:text-base lg:text-lg">High quality custom photo printed gifts and acrylic LED frames with 24/7 support.</p>
                             <div>
-                                <a href="#/products" onclick="navigateTo('products')" class="inline-block bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-8 py-4 rounded-xl shadow-lg transition text-base">Order Custom Gift</a>
+                                <a href="#/products" onclick="navigateTo('products')" class="inline-block bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-5 py-2.5 sm:px-8 sm:py-4 rounded-xl shadow-lg transition text-xs sm:text-base">Order Custom Gift</a>
                             </div>
                         </div>
                     </div>
                     <!-- Slide 3 -->
-                    <div class="w-full flex-shrink-0 relative min-h-[500px] flex items-center">
+                    <div class="w-full flex-shrink-0 relative min-h-[360px] sm:min-h-[500px] flex items-center">
                         <img src="banner3.png" alt="Banner 3" class="absolute inset-0 w-full h-full object-cover opacity-60">
                         <div class="absolute inset-0 bg-gradient-to-r from-gray-950 via-gray-900/80 to-transparent"></div>
-                        <div class="relative z-10 p-12 lg:p-20 max-w-2xl space-y-6">
-                            <span class="inline-block bg-brandOrange text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md">Featured Banner 3</span>
-                            <h1 class="text-4xl lg:text-6xl font-extrabold leading-tight text-white">CORPORATE <span class="text-brandOrange">BRANDING & BOXES</span></h1>
-                            <p class="text-gray-200 text-base lg:text-lg">Professional corporate business cards, letterheads, and customized branding material.</p>
+                        <div class="relative z-10 p-6 sm:p-12 lg:p-20 max-w-2xl space-y-3 sm:space-y-6">
+                            <span class="inline-block bg-brandOrange text-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest shadow-md">Featured Banner 3</span>
+                            <h1 class="text-2xl sm:text-4xl lg:text-6xl font-extrabold leading-tight text-white">CORPORATE <span class="text-brandOrange">BRANDING & BOXES</span></h1>
+                            <p class="text-gray-200 text-xs sm:text-base lg:text-lg">Professional corporate business cards, letterheads, and customized branding material.</p>
                             <div>
-                                <a href="#/services" onclick="navigateTo('services')" class="inline-block bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-8 py-4 rounded-xl shadow-lg transition text-base">View Services</a>
+                                <a href="#/services" onclick="navigateTo('services')" class="inline-block bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-5 py-2.5 sm:px-8 sm:py-4 rounded-xl shadow-lg transition text-xs sm:text-base">View Services</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Slider Controls -->
-                <button onclick="prevSlide()" class="absolute left-6 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-brandOrange text-white w-12 h-12 rounded-full flex items-center justify-center text-lg transition"><i class="fa-solid fa-chevron-left"></i></button>
-                <button onclick="nextSlide()" class="absolute right-6 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-brandOrange text-white w-12 h-12 rounded-full flex items-center justify-center text-lg transition"><i class="fa-solid fa-chevron-right"></i></button>
+                <button onclick="prevSlide()" class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-brandOrange text-white w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-sm sm:text-lg transition"><i class="fa-solid fa-chevron-left"></i></button>
+                <button onclick="nextSlide()" class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-brandOrange text-white w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-sm sm:text-lg transition"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <!-- FEATURED PRODUCTS -->
-            <div class="space-y-6">
+            <div class="space-y-4 sm:space-y-6">
                 <div class="flex justify-between items-end">
                     <div>
-                        <h2 class="text-3xl font-extrabold text-gray-900">Featured Products</h2>
-                        <p class="text-gray-500 text-sm">Select any item to view custom options and pricing</p>
+                        <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900">Featured Products</h2>
+                        <p class="text-gray-500 text-xs sm:text-sm">Select any item to view custom options and pricing</p>
                     </div>
-                    <a href="#/products" onclick="navigateTo('products')" class="text-brandOrange font-bold text-sm hover:underline">View All Products →</a>
+                    <a href="#/products" onclick="navigateTo('products')" class="text-brandOrange font-bold text-xs sm:text-sm hover:underline">View All →</a>
                 </div>
-                <div id="home-featured-products" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+                <div id="home-featured-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8"></div>
             </div>
         </section>
 
         <!-- PRODUCTS PAGE -->
-        <section id="page-products" class="page-view hidden space-y-8">
-            <div class="text-center max-w-2xl mx-auto space-y-2">
-                <h1 class="text-4xl font-extrabold text-gray-900">Custom Products Catalog</h1>
-                <p class="text-gray-500 text-base">Choose a product, view details, customize quantity, and order online.</p>
+        <section id="page-products" class="page-view hidden space-y-6 sm:space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-1 sm:space-y-2">
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-gray-900">Custom Products Catalog</h1>
+                <p class="text-gray-500 text-xs sm:text-base">Choose a product, view details, customize quantity, and order online.</p>
             </div>
-            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+            <div id="products-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8"></div>
         </section>
 
         <!-- SERVICES PAGE -->
-        <section id="page-services" class="page-view hidden space-y-8">
-            <div class="text-center max-w-2xl mx-auto space-y-2">
-                <h1 class="text-4xl font-extrabold text-gray-900">Our Professional Services</h1>
-                <p class="text-gray-500 text-base">High quality custom graphic design, printing, and personalized gifting services.</p>
+        <section id="page-services" class="page-view hidden space-y-6 sm:space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-1 sm:space-y-2">
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-gray-900">Our Professional Services</h1>
+                <p class="text-gray-500 text-xs sm:text-base">High quality custom graphic design, printing, and personalized gifting services.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-4">
-                    <div class="w-14 h-14 bg-orange-100 text-brandOrange rounded-2xl flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-print"></i></div>
-                    <h3 class="font-bold text-xl text-gray-900">Custom Printing</h3>
-                    <p class="text-gray-500 text-sm">High-resolution offset & digital printing for wedding cards, flex, vinyl, mugs, and shirts.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm space-y-3 sm:space-y-4">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-orange-100 text-brandOrange rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-bold"><i class="fa-solid fa-print"></i></div>
+                    <h3 class="font-bold text-lg sm:text-xl text-gray-900">Custom Printing</h3>
+                    <p class="text-gray-500 text-xs sm:text-sm">High-resolution offset & digital printing for wedding cards, flex, vinyl, mugs, and shirts.</p>
                 </div>
-                <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-4">
-                    <div class="w-14 h-14 bg-blue-100 text-brandBlue rounded-2xl flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-gift"></i></div>
-                    <h3 class="font-bold text-xl text-gray-900">Personalized Gifting</h3>
-                    <p class="text-gray-500 text-sm">Custom acrylic LED lamps, memory boxes, engraved gifts, and custom birthday packages.</p>
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm space-y-3 sm:space-y-4">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-100 text-brandBlue rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-bold"><i class="fa-solid fa-gift"></i></div>
+                    <h3 class="font-bold text-lg sm:text-xl text-gray-900">Personalized Gifting</h3>
+                    <p class="text-gray-500 text-xs sm:text-sm">Custom acrylic LED lamps, memory boxes, engraved gifts, and custom birthday packages.</p>
                 </div>
-                <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-4">
-                    <div class="w-14 h-14 bg-orange-100 text-brandOrange rounded-2xl flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-pen-nib"></i></div>
-                    <h3 class="font-bold text-xl text-gray-900">Graphic Designing</h3>
-                    <p class="text-gray-500 text-sm">Professional logo design, vector tracing, card designs, and branding mockups.</p>
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm space-y-3 sm:space-y-4">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-orange-100 text-brandOrange rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-bold"><i class="fa-solid fa-pen-nib"></i></div>
+                    <h3 class="font-bold text-lg sm:text-xl text-gray-900">Graphic Designing</h3>
+                    <p class="text-gray-500 text-xs sm:text-sm">Professional logo design, vector tracing, card designs, and branding mockups.</p>
                 </div>
             </div>
         </section>
 
         <!-- TRACK ORDER PAGE -->
-        <section id="page-track" class="page-view hidden max-w-2xl mx-auto py-10">
-            <div class="bg-white p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6">
-                <div class="text-center space-y-2">
-                    <h2 class="text-3xl font-extrabold text-gray-900">Track Order Status</h2>
-                    <p class="text-gray-500 text-sm">Enter your Order ID to see real-time updates</p>
+        <section id="page-track" class="page-view hidden max-w-2xl mx-auto py-6 sm:py-10">
+            <div class="bg-white p-6 sm:p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6">
+                <div class="text-center space-y-1">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Track Order Status</h2>
+                    <p class="text-gray-500 text-xs sm:text-sm">Enter your Order ID to see real-time updates</p>
                 </div>
-                <div class="flex gap-3">
-                    <input type="text" id="track-id-input" placeholder="e.g. HY-8921" class="flex-grow px-5 py-4 rounded-xl border border-gray-200 text-base focus:border-brandOrange focus:outline-none">
-                    <button onclick="trackOrder()" class="bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-8 py-4 rounded-xl shadow-md transition">Search</button>
+                <div class="flex gap-2 sm:gap-3">
+                    <input type="text" id="track-id-input" placeholder="e.g. HY-8921" class="flex-grow px-4 sm:px-5 py-3 sm:py-4 rounded-xl border border-gray-200 text-sm sm:text-base focus:border-brandOrange focus:outline-none">
+                    <button onclick="trackOrder()" class="bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-5 sm:px-8 py-3 sm:py-4 rounded-xl shadow-md transition text-xs sm:text-base">Search</button>
                 </div>
                 <div id="track-result" class="hidden border-t pt-6 space-y-4">
-                    <div class="flex justify-between font-bold text-base">
+                    <div class="flex justify-between font-bold text-sm sm:text-base">
                         <span>Status: <span id="track-status-text" class="text-brandOrange">In Printing</span></span>
                         <span id="track-id-display" class="text-gray-400">HY-8921</span>
                     </div>
@@ -222,22 +222,22 @@
         </section>
 
         <!-- CONTACT PAGE -->
-        <section id="page-contact" class="page-view hidden max-w-2xl mx-auto py-10">
-            <div class="bg-white p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6 text-center">
-                <h2 class="text-3xl font-extrabold text-gray-900">Contact HY STORE</h2>
+        <section id="page-contact" class="page-view hidden max-w-2xl mx-auto py-6 sm:py-10">
+            <div class="bg-white p-6 sm:p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6 text-center">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Contact HY STORE</h2>
                 <div class="space-y-4 pt-2 text-left">
-                    <div class="flex items-center gap-5 p-5 bg-gray-50 rounded-2xl">
-                        <i class="fa-solid fa-phone text-brandOrange text-2xl"></i>
+                    <div class="flex items-center gap-4 sm:gap-5 p-4 sm:p-5 bg-gray-50 rounded-2xl">
+                        <i class="fa-solid fa-phone text-brandOrange text-xl sm:text-2xl"></i>
                         <div>
                             <span class="text-xs text-gray-500 block">Phone / WhatsApp</span>
-                            <span class="font-bold text-gray-900 text-lg">03209306672 / 03478306672</span>
+                            <span class="font-bold text-gray-900 text-sm sm:text-lg">03209306672 / 03478306672</span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-5 p-5 bg-gray-50 rounded-2xl">
-                        <i class="fa-solid fa-envelope text-brandOrange text-2xl"></i>
+                    <div class="flex items-center gap-4 sm:gap-5 p-4 sm:p-5 bg-gray-50 rounded-2xl">
+                        <i class="fa-solid fa-envelope text-brandOrange text-xl sm:text-2xl"></i>
                         <div>
                             <span class="text-xs text-gray-500 block">Email Address</span>
-                            <span class="font-bold text-gray-900 text-lg">hystoreofficial@gmail.com</span>
+                            <span class="font-bold text-gray-900 text-sm sm:text-lg">hystoreofficial@gmail.com</span>
                         </div>
                     </div>
                 </div>
@@ -245,25 +245,25 @@
         </section>
 
         <!-- LOGIN PAGE -->
-        <section id="page-login" class="page-view hidden max-w-lg mx-auto py-10">
-            <div class="bg-white p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6">
-                <div class="text-center space-y-2">
-                    <h2 class="text-3xl font-extrabold text-gray-900">Welcome Back</h2>
-                    <p class="text-gray-500 text-sm">Log in to manage orders and checkout</p>
+        <section id="page-login" class="page-view hidden max-w-lg mx-auto py-6 sm:py-10">
+            <div class="bg-white p-6 sm:p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6">
+                <div class="text-center space-y-1">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Welcome Back</h2>
+                    <p class="text-gray-500 text-xs sm:text-sm">Log in to manage orders and checkout</p>
                 </div>
-                <form id="login-form" onsubmit="handleLogin(event)" class="space-y-5">
+                <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Email or Phone Number</label>
-                        <input type="text" id="login-id" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="email@example.com / 03001234567">
+                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Email or Phone Number</label>
+                        <input type="text" id="login-id" required class="w-full px-4 sm:px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="email@example.com / 03001234567">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Password</label>
-                        <input type="password" id="login-pass" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="••••••••">
+                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Password</label>
+                        <input type="password" id="login-pass" required class="w-full px-4 sm:px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="••••••••">
                     </div>
                     <div class="flex justify-end">
                         <button type="button" onclick="navigateTo('forgot')" class="text-xs text-brandOrange font-semibold hover:underline">Forgot Password?</button>
                     </div>
-                    <button type="submit" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-500/20 transition text-base">Log In</button>
+                    <button type="submit" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-3.5 sm:py-4 rounded-xl shadow-lg shadow-orange-500/20 transition text-sm sm:text-base">Log In</button>
                 </form>
                 <div class="text-center text-xs text-gray-500 pt-2">
                     Don't have an account? <button onclick="navigateTo('signup')" class="text-brandOrange font-bold hover:underline">Sign Up</button>
@@ -271,103 +271,113 @@
             </div>
         </section>
 
-        <!-- SIGNUP PAGE -->
-        <section id="page-signup" class="page-view hidden max-w-lg mx-auto py-10">
-            <div class="bg-white p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6">
-                <div class="text-center space-y-2">
-                    <h2 class="text-3xl font-extrabold text-gray-900">Create Account</h2>
-                    <p class="text-gray-500 text-sm">Register to place orders and sync history</p>
+        <!-- SIGNUP PAGE (LANDSCAPE WIDE FOR DESKTOP, RESPONSIVE FOR MOBILE) -->
+        <section id="page-signup" class="page-view hidden max-w-4xl mx-auto py-4 sm:py-8">
+            <div class="bg-white p-6 sm:p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6">
+                <div class="text-center space-y-1 border-b pb-4">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Create Account</h2>
+                    <p class="text-gray-500 text-xs sm:text-sm">Register to place orders and sync history</p>
                 </div>
                 <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Full Name</label>
-                        <input type="text" id="signup-name" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="John Doe">
+                    <!-- Landscape 2-Column Grid on Desktop -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Full Name</label>
+                            <input type="text" id="signup-name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Email Address (Unique)</label>
+                            <input type="email" id="signup-email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="name@domain.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Phone Number (Unique)</label>
+                            <input type="tel" id="signup-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="03001234567">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Security PIN (4 Digits)</label>
+                            <input type="text" id="signup-pin" maxlength="4" pattern="\d{4}" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="1234">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Password</label>
+                            <input type="password" id="signup-pass" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="••••••••">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Confirm Password</label>
+                            <input type="password" id="signup-cpass" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="••••••••">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Email Address (Unique)</label>
-                        <input type="email" id="signup-email" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="name@domain.com">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Phone Number (Unique)</label>
-                        <input type="tel" id="signup-phone" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="03001234567">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Security PIN Code (4 Digits - Password Reset)</label>
-                        <input type="text" id="signup-pin" maxlength="4" pattern="\d{4}" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="1234">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Password</label>
-                        <input type="password" id="signup-pass" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="••••••••">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Confirm Password</label>
-                        <input type="password" id="signup-cpass" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="••••••••">
-                    </div>
-                    <button type="submit" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-500/20 transition text-base">Create Account</button>
+
+                    <button type="submit" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-3.5 sm:py-4 rounded-xl shadow-lg shadow-orange-500/20 transition text-sm sm:text-base mt-2">Create Account</button>
                 </form>
-                <div class="text-center text-xs text-gray-500 pt-2">
+                <div class="text-center text-xs text-gray-500 pt-2 border-t">
                     Already have an account? <button onclick="navigateTo('login')" class="text-brandOrange font-bold hover:underline">Log In</button>
                 </div>
             </div>
         </section>
 
         <!-- FORGOT PASSWORD PAGE -->
-        <section id="page-forgot" class="page-view hidden max-w-lg mx-auto py-10">
-            <div class="bg-white p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6">
-                <div class="text-center space-y-2">
-                    <h2 class="text-3xl font-extrabold text-gray-900">Reset Password</h2>
-                    <p class="text-gray-500 text-sm">Enter registered detail & Security PIN</p>
+        <section id="page-forgot" class="page-view hidden max-w-xl mx-auto py-4 sm:py-8">
+            <div class="bg-white p-6 sm:p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6">
+                <div class="text-center space-y-1 border-b pb-4">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Reset Password</h2>
+                    <p class="text-gray-500 text-xs sm:text-sm">Enter detail & Security PIN to set new password</p>
                 </div>
                 <form id="forgot-form" onsubmit="handleForgotReset(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Email or Phone Number</label>
-                        <input type="text" id="forgot-id" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="email@example.com / phone">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Email or Phone</label>
+                            <input type="text" id="forgot-id" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="email / phone">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Security PIN Code</label>
+                            <input type="text" id="forgot-pin" maxlength="4" pattern="\d{4}" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="1234">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">New Password</label>
+                            <input type="password" id="forgot-newpass" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="••••••••">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Confirm New Password</label>
+                            <input type="password" id="forgot-cnewpass" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="••••••••">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Security PIN Code</label>
-                        <input type="text" id="forgot-pin" maxlength="4" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="1234">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">New Password</label>
-                        <input type="password" id="forgot-newpass" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="••••••••">
-                    </div>
-                    <button type="submit" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-4 rounded-xl shadow-lg transition text-base">Reset Password</button>
+                    <button type="submit" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-3.5 sm:py-4 rounded-xl shadow-lg transition text-sm sm:text-base mt-2">Reset & Save Password</button>
                 </form>
             </div>
         </section>
 
         <!-- CART PAGE -->
-        <section id="page-cart" class="page-view hidden max-w-5xl mx-auto py-10 space-y-6">
-            <h1 class="text-3xl font-extrabold text-gray-900">Your Shopping Cart</h1>
-            <div id="cart-items-list" class="space-y-4"></div>
-            <div id="cart-summary" class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm flex justify-between items-center">
+        <section id="page-cart" class="page-view hidden max-w-4xl mx-auto py-6 sm:py-10 space-y-6">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Your Shopping Cart</h1>
+            <div id="cart-items-list" class="space-y-3 sm:space-y-4"></div>
+            <div id="cart-summary" class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
-                    <span class="text-gray-500 text-sm block">Total Amount</span>
-                    <span id="cart-total-price" class="text-3xl font-extrabold text-brandOrange">PKR 0</span>
+                    <span class="text-gray-500 text-xs sm:text-sm block">Total Amount</span>
+                    <span id="cart-total-price" class="text-2xl sm:text-3xl font-extrabold text-brandOrange">PKR 0</span>
                 </div>
-                <button onclick="proceedToCheckout()" class="bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-10 py-4 rounded-xl shadow-lg transition text-base">Proceed to Checkout →</button>
+                <button onclick="proceedToCheckout()" class="bg-brandOrange hover:bg-brandOrangeHover text-white font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl shadow-lg transition text-sm sm:text-base w-full sm:w-auto">Proceed to Checkout →</button>
             </div>
         </section>
 
         <!-- CHECKOUT & PAYMENT PAGE -->
-        <section id="page-checkout" class="page-view hidden max-w-5xl mx-auto py-10">
-            <div class="bg-white p-10 rounded-3xl border border-gray-100 shadow-xl space-y-8">
+        <section id="page-checkout" class="page-view hidden max-w-4xl mx-auto py-6 sm:py-10">
+            <div class="bg-white p-6 sm:p-10 rounded-3xl border border-gray-100 shadow-xl space-y-6 sm:space-y-8">
                 <div class="border-b pb-4">
-                    <h1 class="text-3xl font-extrabold text-gray-900">Checkout & Delivery Details</h1>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Checkout & Delivery Details</h1>
                 </div>
 
-                <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)" class="space-y-8">
-                    <div class="space-y-6">
-                        <h3 class="font-bold text-gray-900 text-xl flex items-center gap-3"><i class="fa-solid fa-truck text-brandOrange"></i> Delivery Address</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)" class="space-y-6">
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-gray-900 text-lg sm:text-xl flex items-center gap-2"><i class="fa-solid fa-truck text-brandOrange"></i> Delivery Address</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Recipient Name</label>
-                                <input type="text" id="co-name" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
+                                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Recipient Name</label>
+                                <input type="text" id="co-name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
                             </div>
                             <div class="flex gap-2">
                                 <div class="w-1/3">
-                                    <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Code</label>
-                                    <select id="co-country-code" class="w-full px-2 py-3.5 rounded-xl border border-gray-200 text-xs focus:border-brandOrange focus:outline-none">
+                                    <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Code</label>
+                                    <select id="co-country-code" class="w-full px-2 py-3 rounded-xl border border-gray-200 text-xs focus:border-brandOrange focus:outline-none">
                                         <option value="+92">+92 (PK)</option>
                                         <option value="+1">+1 (US)</option>
                                         <option value="+44">+44 (UK)</option>
@@ -375,126 +385,125 @@
                                     </select>
                                 </div>
                                 <div class="w-2/3">
-                                    <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Phone</label>
-                                    <input type="tel" id="co-phone" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
+                                    <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Phone</label>
+                                    <input type="tel" id="co-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
-                                <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Country</label>
-                                <select id="co-country" onchange="updateStates()" class="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
+                                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Country</label>
+                                <select id="co-country" onchange="updateStates()" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
                                     <option value="Pakistan">Pakistan</option>
                                     <option value="International">International</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">State</label>
-                                <select id="co-state" onchange="updateCities()" class="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none"></select>
+                                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">State</label>
+                                <select id="co-state" onchange="updateCities()" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none"></select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">City</label>
-                                <select id="co-city" class="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none"></select>
+                                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">City</label>
+                                <select id="co-city" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none"></select>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Full Street Address</label>
-                            <textarea id="co-address" rows="3" required class="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none" placeholder="House #, Street, Area..."></textarea>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Full Street Address</label>
+                            <textarea id="co-address" rows="2" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none" placeholder="House #, Street, Area..."></textarea>
                         </div>
                     </div>
 
                     <!-- Payment Options -->
-                    <div class="space-y-6 pt-6 border-t">
-                        <h3 class="font-bold text-gray-900 text-xl flex items-center gap-3"><i class="fa-solid fa-credit-card text-brandOrange"></i> Payment Method</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <label class="border-2 border-gray-200 p-6 rounded-2xl flex items-center gap-4 cursor-pointer hover:border-brandOrange transition">
-                                <input type="radio" name="paymethod" value="COD" checked onclick="togglePaymentSection('COD')" class="accent-brandOrange w-5 h-5">
+                    <div class="space-y-4 pt-4 border-t">
+                        <h3 class="font-bold text-gray-900 text-lg sm:text-xl flex items-center gap-2"><i class="fa-solid fa-credit-card text-brandOrange"></i> Payment Method</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <label class="border-2 border-gray-200 p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-brandOrange transition">
+                                <input type="radio" name="paymethod" value="COD" checked onclick="togglePaymentSection('COD')" class="accent-brandOrange w-4 h-4">
                                 <div>
-                                    <span class="font-bold text-gray-900 block text-base">Cash on Delivery (COD)</span>
+                                    <span class="font-bold text-gray-900 block text-sm">Cash on Delivery (COD)</span>
                                     <span class="text-xs text-gray-500">Pay cash upon delivery</span>
                                 </div>
                             </label>
-                            <label class="border-2 border-gray-200 p-6 rounded-2xl flex items-center gap-4 cursor-pointer hover:border-brandOrange transition">
-                                <input type="radio" name="paymethod" value="ONLINE" onclick="togglePaymentSection('ONLINE')" class="accent-brandOrange w-5 h-5">
+                            <label class="border-2 border-gray-200 p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-brandOrange transition">
+                                <input type="radio" name="paymethod" value="ONLINE" onclick="togglePaymentSection('ONLINE')" class="accent-brandOrange w-4 h-4">
                                 <div>
-                                    <span class="font-bold text-gray-900 block text-base">JazzCash / EasyPaisa / Bank</span>
+                                    <span class="font-bold text-gray-900 block text-sm">JazzCash / EasyPaisa / Bank</span>
                                     <span class="text-xs text-gray-500">Online transfer & verification</span>
                                 </div>
                             </label>
                         </div>
 
-                        <!-- Online Payment Verification Panel -->
-                        <div id="online-payment-panel" class="hidden bg-orange-50/60 p-8 rounded-3xl border border-orange-200 space-y-6">
-                            <div class="bg-white p-6 rounded-2xl border border-orange-100 flex items-center justify-between">
+                        <div id="online-payment-panel" class="hidden bg-orange-50/60 p-6 rounded-3xl border border-orange-200 space-y-4">
+                            <div class="bg-white p-4 rounded-2xl border border-orange-100 flex items-center justify-between">
                                 <div>
                                     <span class="text-xs text-gray-500 block uppercase font-bold">Official Account</span>
-                                    <span class="font-extrabold text-brandOrange text-2xl">0347 8306672</span>
-                                    <span class="text-xs text-gray-700 block font-semibold mt-1">Title: HY STORE</span>
+                                    <span class="font-extrabold text-brandOrange text-xl sm:text-2xl">0347 8306672</span>
+                                    <span class="text-xs text-gray-700 block font-semibold">Title: HY STORE</span>
                                 </div>
-                                <span class="bg-orange-100 text-brandOrange text-xs font-bold px-4 py-2 rounded-full">JazzCash / EasyPaisa</span>
+                                <span class="bg-orange-100 text-brandOrange text-xs font-bold px-3 py-1.5 rounded-full">JazzCash / EasyPaisa</span>
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Your Account Title</label>
-                                    <input type="text" id="pay-title" class="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
+                                    <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Your Account Title</label>
+                                    <input type="text" id="pay-title" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase text-gray-600 mb-1.5">Transaction ID (TRX)</label>
-                                    <input type="text" id="pay-trx" class="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
+                                    <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Transaction ID (TRX)</label>
+                                    <input type="text" id="pay-trx" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-brandOrange focus:outline-none">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-extrabold py-4 rounded-xl shadow-lg transition text-lg">Confirm & Place Order</button>
+                    <button type="submit" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-extrabold py-3.5 sm:py-4 rounded-xl shadow-lg transition text-base">Confirm & Place Order</button>
                 </form>
             </div>
         </section>
 
         <!-- USER PROFILE PAGE -->
-        <section id="page-profile" class="page-view hidden max-w-5xl mx-auto py-10 space-y-8">
-            <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm flex justify-between items-center">
+        <section id="page-profile" class="page-view hidden max-w-4xl mx-auto py-6 sm:py-10 space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm flex justify-between items-center">
                 <div>
-                    <h1 class="text-3xl font-extrabold text-gray-900" id="prof-name">User Account</h1>
-                    <p class="text-gray-500 text-sm mt-1" id="prof-email">user@domain.com</p>
+                    <h1 class="text-xl sm:text-3xl font-extrabold text-gray-900" id="prof-name">User Account</h1>
+                    <p class="text-gray-500 text-xs sm:text-sm mt-0.5" id="prof-email">user@domain.com</p>
                 </div>
-                <button onclick="handleLogout()" class="bg-red-50 text-red-600 font-bold px-6 py-3 rounded-xl hover:bg-red-100 text-sm transition">Log Out</button>
+                <button onclick="handleLogout()" class="bg-red-50 text-red-600 font-bold px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-red-100 text-xs sm:text-sm transition">Log Out</button>
             </div>
 
-            <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
-                <h3 class="font-bold text-gray-900 text-xl">Your Order History</h3>
-                <div id="profile-orders-list" class="space-y-4"></div>
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm space-y-4">
+                <h3 class="font-bold text-gray-900 text-lg sm:text-xl">Your Order History</h3>
+                <div id="profile-orders-list" class="space-y-3"></div>
             </div>
         </section>
 
     </main>
 
     <!-- PRODUCT DETAIL MODAL -->
-    <div id="product-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-6">
-        <div class="bg-white rounded-3xl max-w-3xl w-full p-8 lg:p-10 space-y-8 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeProductModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 text-2xl font-bold w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">✕</button>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
-                <img id="modal-img" src="" alt="Product" class="w-full h-80 object-cover rounded-2xl shadow-md">
-                <div class="space-y-6">
-                    <h2 id="modal-title" class="text-3xl font-extrabold text-gray-900"></h2>
-                    <p id="modal-desc" class="text-gray-500 text-sm"></p>
-                    <div class="text-3xl font-extrabold text-brandOrange" id="modal-price"></div>
+    <div id="product-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 sm:p-6">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">✕</button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                <img id="modal-img" src="" alt="Product" class="w-full h-56 sm:h-72 object-cover rounded-2xl shadow-md">
+                <div class="space-y-4">
+                    <h2 id="modal-title" class="text-xl sm:text-2xl font-extrabold text-gray-900"></h2>
+                    <p id="modal-desc" class="text-gray-500 text-xs sm:text-sm"></p>
+                    <div class="text-2xl font-extrabold text-brandOrange" id="modal-price"></div>
 
                     <!-- Quantity Adjuster -->
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-xs font-bold uppercase text-gray-600">Quantity</label>
-                        <div class="flex items-center gap-4">
-                            <button onclick="changeModalQty(-1)" class="w-12 h-12 rounded-xl border border-gray-300 font-bold text-xl hover:bg-gray-100">-</button>
-                            <span id="modal-qty" class="font-extrabold text-2xl w-10 text-center">1</span>
-                            <button onclick="changeModalQty(1)" class="w-12 h-12 rounded-xl border border-gray-300 font-bold text-xl hover:bg-gray-100">+</button>
+                        <div class="flex items-center gap-3">
+                            <button onclick="changeModalQty(-1)" class="w-10 h-10 rounded-xl border border-gray-300 font-bold text-lg hover:bg-gray-100">-</button>
+                            <span id="modal-qty" class="font-extrabold text-xl w-8 text-center">1</span>
+                            <button onclick="changeModalQty(1)" class="w-10 h-10 rounded-xl border border-gray-300 font-bold text-lg hover:bg-gray-100">+</button>
                         </div>
                     </div>
 
-                    <div class="pt-4">
-                        <button onclick="addModalToCart()" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-4 rounded-xl shadow-lg transition text-lg">Add to Cart</button>
+                    <div class="pt-2">
+                        <button onclick="addModalToCart()" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-3.5 rounded-xl shadow-lg transition text-sm sm:text-base">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -502,36 +511,36 @@
     </div>
 
     <!-- ORDER CONFIRMATION MODAL -->
-    <div id="order-success-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-6">
-        <div class="bg-white rounded-3xl max-w-md w-full p-10 text-center space-y-6">
-            <div class="w-20 h-20 bg-orange-100 text-brandOrange rounded-full flex items-center justify-center text-4xl font-bold mx-auto">✓</div>
-            <h2 class="text-3xl font-extrabold text-gray-900">Order Placed Successfully!</h2>
+    <div id="order-success-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 sm:p-6">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-10 text-center space-y-6">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-orange-100 text-brandOrange rounded-full flex items-center justify-center text-3xl sm:text-4xl font-bold mx-auto">✓</div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Order Placed Successfully!</h2>
             
-            <div class="bg-gray-50 p-6 rounded-2xl space-y-2">
+            <div class="bg-gray-50 p-4 sm:p-6 rounded-2xl space-y-2">
                 <span class="text-xs text-gray-500 block uppercase font-bold">Your Unique Order ID</span>
                 <div class="flex items-center justify-center gap-3">
-                    <span id="success-order-id" class="font-extrabold text-2xl text-brandOrange">HY-9982</span>
+                    <span id="success-order-id" class="font-extrabold text-xl sm:text-2xl text-brandOrange">HY-9982</span>
                     <button onclick="copyOrderId()" class="text-xs bg-orange-100 text-brandOrange px-3 py-1.5 rounded-lg font-bold hover:bg-orange-200">Copy</button>
                 </div>
             </div>
 
-            <div id="timer-box-24h" class="hidden bg-orange-50 border border-orange-200 p-5 rounded-2xl text-xs text-orange-900 space-y-1">
-                <p class="font-bold text-sm">Verification In Progress (24 Hours)</p>
+            <div id="timer-box-24h" class="hidden bg-orange-50 border border-orange-200 p-4 rounded-2xl text-xs text-orange-900 space-y-1">
+                <p class="font-bold text-xs sm:text-sm">Verification In Progress (24 Hours)</p>
                 <p>Payment details submitted. Your order status will update after verification.</p>
             </div>
 
-            <button onclick="closeSuccessModal()" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-4 rounded-xl shadow-md transition text-base">Go to My Orders</button>
+            <button onclick="closeSuccessModal()" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-3.5 rounded-xl shadow-md transition text-sm sm:text-base">Go to My Orders</button>
         </div>
     </div>
 
     <!-- FOOTER -->
-    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800 text-sm mt-16">
-        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 flex flex-col sm:flex-row justify-between items-center gap-6">
+    <footer class="bg-gray-900 text-gray-400 py-8 sm:py-12 border-t border-gray-800 text-xs sm:text-sm mt-12">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
             <div class="flex items-center gap-3">
-                <div class="bg-brandOrange text-white w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-base">HY</div>
-                <span class="text-white font-bold text-base">HY STORE Gifting & Designing Services</span>
+                <div class="bg-brandOrange text-white w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-extrabold text-sm sm:text-base">HY</div>
+                <span class="text-white font-bold text-sm sm:text-base">HY STORE Gifting & Designing Services</span>
             </div>
-            <div class="text-xs text-gray-500">
+            <div class="text-[10px] sm:text-xs text-gray-500">
                 © 2026 HY STORE. All rights reserved.
             </div>
         </div>
@@ -610,28 +619,28 @@
             const homeGrid = document.getElementById('home-featured-products');
             
             const html = PRODUCTS.map(p => `
-                <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg transition overflow-hidden group flex flex-col justify-between">
+                <div class="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg transition overflow-hidden group flex flex-col justify-between">
                     <div>
-                        <img src="${p.img}" class="w-full h-60 object-cover group-hover:scale-105 transition duration-300">
-                        <div class="p-6 space-y-3">
-                            <h3 class="font-bold text-gray-900 text-lg">${p.name}</h3>
-                            <div class="text-brandOrange font-extrabold text-xl">PKR ${p.price} <span class="text-xs text-gray-400 font-normal">/ ${p.unit}</span></div>
+                        <img src="${p.img}" class="w-full h-36 sm:h-56 object-cover group-hover:scale-105 transition duration-300">
+                        <div class="p-3 sm:p-5 space-y-1 sm:space-y-2">
+                            <h3 class="font-bold text-gray-900 text-xs sm:text-base leading-tight">${p.name}</h3>
+                            <div class="text-brandOrange font-extrabold text-sm sm:text-lg">PKR ${p.price} <span class="text-[10px] text-gray-400 font-normal">/ ${p.unit}</span></div>
                         </div>
                     </div>
-                    <div class="p-6 pt-0">
-                        <button onclick="openProductModal(${p.id})" class="w-full bg-gray-100 hover:bg-brandOrange hover:text-white text-gray-800 font-bold py-3.5 rounded-xl transition text-base">View Details</button>
+                    <div class="p-3 sm:p-5 pt-0">
+                        <button onclick="openProductModal(${p.id})" class="w-full bg-gray-100 hover:bg-brandOrange hover:text-white text-gray-800 font-bold py-2 sm:py-3 rounded-xl transition text-xs sm:text-sm">Details</button>
                     </div>
                 </div>
             `).join('');
 
             if (grid) grid.innerHTML = html;
             if (homeGrid) homeGrid.innerHTML = PRODUCTS.slice(0, 4).map(p => `
-                <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 space-y-4">
-                    <img src="${p.img}" class="w-full h-48 object-cover rounded-2xl">
-                    <h4 class="font-bold text-gray-900 text-lg">${p.name}</h4>
-                    <div class="flex justify-between items-center">
-                        <span class="text-brandOrange font-extrabold text-base">PKR ${p.price}</span>
-                        <button onclick="openProductModal(${p.id})" class="text-sm bg-orange-100 text-brandOrange font-bold px-4 py-2 rounded-xl">Details</button>
+                <div class="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm p-3 sm:p-5 space-y-2 sm:space-y-3 flex flex-col justify-between">
+                    <img src="${p.img}" class="w-full h-32 sm:h-44 object-cover rounded-xl">
+                    <h4 class="font-bold text-gray-900 text-xs sm:text-base leading-tight">${p.name}</h4>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                        <span class="text-brandOrange font-extrabold text-xs sm:text-base">PKR ${p.price}</span>
+                        <button onclick="openProductModal(${p.id})" class="w-full sm:w-auto text-xs bg-orange-100 text-brandOrange font-bold px-3 py-1.5 rounded-lg">Details</button>
                     </div>
                 </div>
             `).join('');
@@ -734,6 +743,12 @@
             const id = document.getElementById('forgot-id').value;
             const pin = document.getElementById('forgot-pin').value;
             const newpass = document.getElementById('forgot-newpass').value;
+            const cnewpass = document.getElementById('forgot-cnewpass').value;
+
+            if (newpass !== cnewpass) {
+                alert('New password and confirm password do not match!');
+                return;
+            }
 
             let users = JSON.parse(localStorage.getItem('hy_users')) || [];
             const idx = users.findIndex(u => (u.email === id || u.phone === id) && u.pin === pin);
@@ -744,7 +759,7 @@
                 alert('Password reset successful! Please log in with your new password.');
                 navigateTo('login');
             } else {
-                alert('Incorrect ID or Security PIN Code!');
+                alert('Incorrect Email/Phone or Security PIN Code!');
             }
         }
 
@@ -769,7 +784,7 @@
         function renderCart() {
             const list = document.getElementById('cart-items-list');
             if (cart.length === 0) {
-                list.innerHTML = `<div class="bg-white p-10 rounded-3xl text-center text-gray-500 text-base">Your cart is empty. <a href="#/products" onclick="navigateTo('products')" class="text-brandOrange font-bold">Shop Now</a></div>`;
+                list.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center text-gray-500 text-sm">Your cart is empty. <a href="#/products" onclick="navigateTo('products')" class="text-brandOrange font-bold">Shop Now</a></div>`;
                 document.getElementById('cart-total-price').innerText = 'PKR 0';
                 return;
             }
@@ -779,17 +794,17 @@
                 const subtotal = item.price * item.qty;
                 total += subtotal;
                 return `
-                    <div class="bg-white p-6 rounded-3xl border border-gray-100 flex items-center justify-between gap-6">
-                        <div class="flex items-center gap-6">
-                            <img src="${item.img}" class="w-20 h-20 object-cover rounded-2xl">
+                    <div class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gray-100 flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3 sm:gap-6">
+                            <img src="${item.img}" class="w-14 h-14 sm:w-20 sm:h-20 object-cover rounded-xl sm:rounded-2xl">
                             <div>
-                                <h4 class="font-bold text-gray-900 text-lg">${item.name}</h4>
-                                <span class="text-xs text-gray-400">PKR ${item.price} each • Qty: ${item.qty}</span>
+                                <h4 class="font-bold text-gray-900 text-sm sm:text-lg leading-tight">${item.name}</h4>
+                                <span class="text-[10px] sm:text-xs text-gray-400">PKR ${item.price} • Qty: ${item.qty}</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-6">
-                            <span class="font-extrabold text-brandOrange text-xl">PKR ${subtotal}</span>
-                            <button onclick="removeCartItem(${index})" class="text-red-500 hover:text-red-700 text-base font-bold">✕</button>
+                        <div class="flex items-center gap-3 sm:gap-6">
+                            <span class="font-extrabold text-brandOrange text-sm sm:text-xl">PKR ${subtotal}</span>
+                            <button onclick="removeCartItem(${index})" class="text-red-500 text-sm font-bold">✕</button>
                         </div>
                     </div>
                 `;
@@ -885,18 +900,18 @@
             const container = document.getElementById('profile-orders-list');
 
             if (myOrders.length === 0) {
-                container.innerHTML = `<p class="text-sm text-gray-400">No orders placed yet.</p>`;
+                container.innerHTML = `<p class="text-xs text-gray-400">No orders placed yet.</p>`;
                 return;
             }
 
             container.innerHTML = myOrders.map(o => `
-                <div class="border border-gray-100 p-6 rounded-2xl flex justify-between items-center">
+                <div class="border border-gray-100 p-4 sm:p-6 rounded-2xl flex justify-between items-center">
                     <div>
-                        <span class="font-extrabold text-brandOrange text-lg">${o.id}</span>
-                        <span class="text-xs text-gray-400 block mt-1">${o.date} • ${o.items.length} Items</span>
+                        <span class="font-extrabold text-brandOrange text-base sm:text-lg">${o.id}</span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 block mt-0.5">${o.date} • ${o.items.length} Items</span>
                         <span class="text-xs font-bold text-gray-700 mt-1 block">${o.status}</span>
                     </div>
-                    <span class="font-extrabold text-gray-900 text-xl">PKR ${o.total}</span>
+                    <span class="font-extrabold text-gray-900 text-base sm:text-xl">PKR ${o.total}</span>
                 </div>
             `).join('');
         }
