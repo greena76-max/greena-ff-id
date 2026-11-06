@@ -1,173 +1,774 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HY STORE OFFICIAL</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HY STORE - Gifting & Designing Services</title>
 
-:root{--orange:#f36b21;--orange2:#ff914f;--dark:#30343a;--mid:#697078;--gray:#f1f2f3;--line:#e2e4e6;--white:#fff;--text:#25292d;--green:#16865b;--shadow:0 10px 28px rgba(32,38,43,.09)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f6f7f8;color:var(--text);font-family:Inter,Arial,Helvetica,sans-serif}button,input,select,textarea{font:inherit}button,a{cursor:pointer}a{text-decoration:none;color:inherit}
-.announce{background:var(--dark);color:#fff;text-align:center;padding:9px 14px;font-size:11px;letter-spacing:1.2px;font-weight:800}
-header{background:#fff;position:sticky;top:0;z-index:30;box-shadow:0 3px 14px #0000000b}
-.head{max-width:1280px;margin:auto;padding:16px 24px;display:grid;grid-template-columns:auto minmax(230px,1fr) auto;align-items:center;gap:22px}
-.brand{font-size:25px;font-weight:950;letter-spacing:-1px;white-space:nowrap}.brand .hy{color:var(--dark)}.brand .store{color:var(--orange)}
-.search{display:flex;min-width:0;height:46px;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:#f8f9fa}.search input{min-width:0;flex:1;border:0;outline:0;background:transparent;padding:0 15px}.search button{border:0;background:var(--orange);color:#fff;padding:0 23px;font-weight:800}
-.head-actions{display:flex;align-items:center;gap:8px}.head-actions button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:10px 12px;font-size:13px;font-weight:800;white-space:nowrap}.head-actions button:hover{border-color:var(--orange);color:var(--orange)}.count{display:inline-grid;place-items:center;background:var(--orange);color:#fff;border-radius:50%;min-width:20px;height:20px;font-size:11px;margin-left:4px}
-.navwrap{border-top:1px solid #f0f0f0}.nav{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:center;gap:7px;padding:8px 18px;flex-wrap:wrap}.nav a{padding:11px 16px;border-radius:5px;font-size:13px;font-weight:800;color:#515960;white-space:nowrap}.nav a:hover,.nav a.active{background:#fff0e7;color:#d6530e}.mobile-toggle{display:none;border:1px solid var(--line);background:#fff;border-radius:6px;padding:9px 12px}
-main{max-width:1280px;margin:auto;padding:27px 24px 64px}
-.hero{height:clamp(390px,39vw,510px);min-height:390px;position:relative;overflow:hidden;background:linear-gradient(120deg,#30343a,#535b63 55%,#f36b21);border-radius:12px;box-shadow:var(--shadow)}
-.slides,.slide{position:absolute;inset:0}.slide{opacity:0;visibility:hidden;transition:opacity .75s ease;display:flex;align-items:center;padding:55px 8%;color:#fff;background:linear-gradient(115deg,#252a30 0%,#555d65 58%,#f36b21 100%)}.slide:nth-child(2){background:linear-gradient(115deg,#f36b21,#ffad72 60%,#30343a)}.slide:nth-child(3){background:linear-gradient(115deg,#3b424a,#777f86 60%,#f36b21)}.slide.active{opacity:1;visibility:visible}
-.slide picture{position:absolute;inset:0}.slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.slide:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,23,27,.78),rgba(20,23,27,.28) 67%,rgba(20,23,27,.08));pointer-events:none}
-.hero-copy{position:relative;z-index:2;max-width:620px}.hero-kicker{font-size:13px;letter-spacing:3px;font-weight:900;color:#ffd2b8}.hero h1{font-size:clamp(38px,5vw,66px);line-height:1.02;margin:17px 0}.hero p{line-height:1.75;color:#f4f4f4;max-width:520px;font-size:16px}.primary{display:inline-block;background:var(--orange);border:0;color:#fff;padding:14px 22px;border-radius:6px;font-weight:900;margin-top:12px}.slide:nth-child(2) .primary{background:var(--dark)}.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:46px;height:46px;border:1px solid #ffffff80;border-radius:50%;background:#ffffffd9;color:#30343a;font-size:25px}.hero-arrow.prev{left:18px}.hero-arrow.next{right:18px}.hero-dots{position:absolute;z-index:4;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:9px}.hero-dots button{width:10px;height:10px;border:0;border-radius:50%;background:#ffffff88;padding:0}.hero-dots button.active{background:#fff;width:28px;border-radius:10px}.banner-upload{position:absolute;z-index:5;right:14px;top:14px;background:#fff;color:#333;padding:8px 11px;border-radius:5px;font-size:11px;font-weight:800;opacity:.94}.banner-upload input{display:none}
-.section{margin-top:48px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:19px}.eyebrow{color:var(--orange);font-size:11px;font-weight:950;letter-spacing:2px;text-transform:uppercase}h2{font-size:27px;margin:6px 0 0;letter-spacing:-.6px}.viewall{font-size:13px;font-weight:900;color:#d85b17;white-space:nowrap}
-.offer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.offer{background:#fff;border:1px solid var(--line);border-radius:9px;overflow:hidden;display:grid;grid-template-columns:40% 1fr;min-height:175px;box-shadow:0 5px 18px #00000008;transition:.2s}.offer:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.offer-art{display:grid;place-items:center;background:linear-gradient(145deg,#ffe1cf,#f0f1f2);font-size:55px;min-height:175px}.offer-copy{padding:17px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px}.offer-copy small{font-size:10px;letter-spacing:1.3px;color:var(--orange);font-weight:950}.offer-copy strong{font-size:16px;line-height:1.3}.price{color:#d85b17;font-weight:950}.old{font-size:12px;color:#999;text-decoration:line-through;margin-left:6px}
-.cat-slider{position:relative}.cat-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 72px)/7);gap:12px;overflow:hidden;scroll-behavior:smooth}.category{background:#fff;border:1px solid var(--line);border-radius:9px;text-align:center;padding:19px 9px;min-width:0;transition:.2s}.category:hover,.product:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.cat-icon{width:70px;height:70px;border-radius:50%;margin:0 auto 12px;background:#f1f2f3;display:grid;place-items:center;font-size:31px}.category strong{font-size:13px}.cat-controls{display:flex;gap:7px}.cat-controls button{width:35px;height:35px;border:1px solid var(--line);background:white;border-radius:50%;font-size:19px}.cat-controls button:hover{background:var(--orange);color:#fff}
-.product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}.product{background:#fff;border:1px solid var(--line);border-radius:9px;overflow:hidden;transition:.2s}.product-art{height:205px;background:linear-gradient(145deg,#f1f2f3,#e3e5e7);display:grid;place-items:center;font-size:64px}.product-info{padding:15px}.product-info small{color:#858b90;font-size:11px}.product-info h3{font-size:15px;margin:8px 0 12px;min-height:36px}.product-row{display:flex;align-items:center;justify-content:space-between;gap:8px}.product-actions{display:flex;gap:6px;margin-top:13px}.btn{border:0;border-radius:5px;padding:10px 11px;font-size:11px;font-weight:900}.btn-orange{background:var(--orange);color:#fff}.btn-dark{background:var(--dark);color:#fff}.btn-light{background:#f0f1f2;color:#30343a}
-.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.benefit{background:#fff;border:1px solid var(--line);padding:19px;border-radius:7px;font-size:13px;font-weight:800}.benefit span{font-size:22px;margin-right:8px}
-.page-title{background:#eceeef;padding:29px;border-left:5px solid var(--orange);margin-bottom:23px;border-radius:7px}.page-title h1{margin:0 0 7px;font-size:30px}.page-title p{margin:0;color:#697178;font-size:14px}.content-card{background:#fff;border:1px solid var(--line);padding:24px;border-radius:8px;margin-bottom:16px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:900;color:#51585e}.field input,.field textarea,.field select{border:1px solid #d9dcdf;border-radius:5px;padding:13px;outline:none;background:#fff;width:100%}.field input:focus,.field textarea:focus{border-color:var(--orange)}.notice{padding:14px;background:#fff5ee;border:1px solid #ffddc8;color:#8d431c;border-radius:6px;font-size:13px;line-height:1.65}.cart-line{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}.cart-line button{border:0;background:#f0f1f2;padding:8px 11px;border-radius:5px}.total{display:flex;justify-content:space-between;font-size:19px;font-weight:950;padding:18px 0}.empty{background:#fff;border:1px solid var(--line);padding:42px;text-align:center;color:#687177;border-radius:7px}.detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px}.detail-art{min-height:350px;background:#eceeef;display:grid;place-items:center;font-size:110px;border-radius:7px}.detail-copy h1{margin:7px 0 12px}.detail-copy p{color:#626970;line-height:1.75}.qty{display:flex;align-items:center;gap:10px;margin:18px 0}.qty button{border:1px solid var(--line);background:#fff;padding:9px 14px;border-radius:5px}
-.footer{background:#30343a;color:#e8e9ea;padding:42px 24px 0}.footer-inner{max-width:1280px;margin:auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px;padding-bottom:32px}.footer h3{color:#fff;font-size:16px}.footer p,.footer a{font-size:13px;color:#c1c5c8;line-height:1.9;display:block}.footer a:hover{color:#ff9a60}.footer-bottom{border-top:1px solid #555b61;text-align:center;padding:16px;color:#c1c5c8;font-size:12px}
-@media(max-width:1000px){.head{grid-template-columns:auto 1fr;gap:12px}.search{grid-column:1/-1;grid-row:2}.head-actions{justify-self:end}.nav{gap:0}.nav a{padding:10px 12px}.cat-track{grid-auto-columns:calc((100% - 48px)/5)}.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:680px){
- .announce{font-size:9px;letter-spacing:.65px;padding:8px 9px}
- .head{padding:12px 13px;grid-template-columns:1fr auto;gap:10px}
- .brand{font-size:20px;letter-spacing:-.7px}
- .head-actions{gap:5px}.head-actions button{padding:9px 8px;font-size:11px}.head-actions .account-text{display:none}
- .search{grid-column:1/-1;grid-row:2;height:43px}.search button{padding:0 16px}
- .mobile-toggle{display:block}
- .nav{display:none;padding:8px 10px 12px;justify-content:center;gap:5px}
- .nav.open{display:flex}
- .nav a{flex:1 1 30%;text-align:center;font-size:11px;padding:11px 5px;background:#f6f7f8;border:1px solid #eceeef}
- .navwrap{border-top:0}
- main{padding:14px 12px 44px}
- .hero{height:auto;min-height:0;aspect-ratio:4/5;border-radius:10px}
- .slide{padding:30px 9% 48px;align-items:flex-end}
- .slide:after{background:linear-gradient(0deg,rgba(15,18,22,.88),rgba(15,18,22,.38) 58%,rgba(15,18,22,.08))}
- .hero-copy{max-width:100%;padding-bottom:10px}
- .hero-kicker{font-size:10px;letter-spacing:2px}
- .hero h1{font-size:clamp(30px,8.5vw,42px);line-height:1.04;margin:11px 0}
- .hero p{font-size:13px;line-height:1.55;margin:8px 0;max-width:100%}
- .hero .primary{padding:12px 15px;font-size:12px}
- .hero-arrow{width:34px;height:34px;font-size:19px;top:43%}.hero-arrow.prev{left:8px}.hero-arrow.next{right:8px}
- .hero-dots{bottom:13px}.hero-dots button{width:8px;height:8px}.hero-dots button.active{width:23px}
- .banner-upload{top:8px;right:8px;font-size:9px;padding:6px}
- .section{margin-top:34px}.section-head{align-items:center;margin-bottom:14px}h2{font-size:22px}
- .offer-grid{display:flex;overflow-x:auto;gap:11px;padding:2px 1px 10px;scroll-snap-type:x mandatory}
- .offer{min-width:88%;scroll-snap-align:start;min-height:145px;grid-template-columns:37% 1fr}
- .offer-art{font-size:42px;min-height:145px}.offer-copy{padding:12px;gap:6px}.offer-copy strong{font-size:14px}
- .cat-track{grid-auto-columns:calc((100% - 12px)/2);gap:12px;overflow-x:auto;padding:2px 2px 10px;scroll-snap-type:x mandatory}
- .category{padding:16px 7px;scroll-snap-align:start}.cat-icon{width:58px;height:58px;font-size:27px}
- .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- .product-art{height:clamp(135px,42vw,190px);font-size:48px}.product-info{padding:10px}.product-info h3{font-size:13px;min-height:34px}
- .product-actions{gap:5px;flex-wrap:wrap}.btn{padding:9px 8px;font-size:10px}
- .benefits{grid-template-columns:repeat(2,1fr);gap:8px}.benefit{padding:12px;font-size:11px}
- .page-title{padding:20px}.page-title h1{font-size:24px}.content-card{padding:15px}
- .form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
- .detail-layout{grid-template-columns:1fr;gap:17px}.detail-art{min-height:230px;font-size:78px}
- .cart-line{grid-template-columns:1fr auto;gap:7px}.cart-line .line-price{grid-column:1}
- .footer{padding:29px 15px 0}.footer-inner{grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
- .footer h3{font-size:14px}.footer p,.footer a{font-size:12px}
-}
-@media(max-width:370px){.brand{font-size:18px}.head-actions button{font-size:10px;padding:8px 6px}.hero h1{font-size:29px}.offer{min-width:94%}}
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#FF5100',
+                        brandOrangeDark: '#D94500',
+                        brandDark: '#121316',
+                        brandGray: '#F7F8FA'
+                    },
+                    boxShadow: {
+                        'glow-orange': '0 4px 20px rgba(255, 81, 0, 0.35)',
+                        'card': '0 10px 30px -5px rgba(0, 0, 0, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
 
-</style></head>
-<body>
-<div class="announce">WELCOME TO HY STORE OFFICIAL &nbsp; • &nbsp; QUALITY GIFTS & CUSTOM PRINTS</div>
-<header>
- <div class="head">
-  <a class="brand" href="?page=home"><span class="hy">HY</span> <span class="store">STORE</span> OFFICIAL</a>
-  <form class="search" id="searchForm"><input id="searchInput" placeholder="Search products..." aria-label="Search products"><button>Search</button></form>
-  <div class="head-actions"><button onclick="go('account')"><span class="account-text">Client Login</span><span class="account-short">Login</span></button><button onclick="go('wishlist')">♡ <span class="count" id="wishCount">0</span></button><button onclick="go('cart')">Cart <span class="count" id="cartCount">0</span></button></div>
-  <button class="mobile-toggle" id="mobileToggle">☰ Menu</button>
- </div>
- <div class="navwrap"><nav class="nav" id="nav">
-  <a href="?page=home" data-nav="home">Home</a><a href="?page=shop" data-nav="shop">Shop</a><a href="?page=categories" data-nav="categories">Categories</a><a href="?page=sale" data-nav="sale">Sale & Offers</a><a href="?page=tracking" data-nav="tracking">Track Order</a><a href="?page=about" data-nav="about">About</a><a href="?page=contact" data-nav="contact">Contact</a>
- </nav></div>
-</header>
-<main id="app"></main>
-<footer class="footer"><div class="footer-inner">
- <div><h3>HY STORE OFFICIAL</h3><p>Gifts, personalized products and custom printing. Make your moments memorable.</p><p>Quality gifts • Custom prints</p><p>Desktop banners: banner1.png, banner2.png, banner3.png<br>Mobile banners: mobilebanner1.jpg, mobilebanner2.jpg, mobilebanner3.jpg</p></div>
- <div><h3>Shop</h3><a href="?page=shop">All Products</a><a href="?page=categories">Categories</a><a href="?page=sale">Sale & Offers</a><a href="?page=wishlist">Wishlist</a></div>
- <div><h3>Customer Service</h3><a href="?page=tracking">Track Your Order</a><a href="?page=contact">Contact Us</a><a href="?page=faq">FAQs</a><a href="?page=account">My Account</a></div>
- <div><h3>Information</h3><a href="?page=about">About Us</a><a href="?page=shipping">Shipping Policy</a><a href="?page=returns">Return & Refund</a><a href="?page=privacy">Privacy Policy</a><a href="?page=terms">Terms & Conditions</a></div>
- </div><div class="footer-bottom">© <span id="year"></span> HY STORE OFFICIAL · All Rights Reserved</div></footer>
-<script>
-const PRODUCTS=[
-{id:'HY101',name:'Personalized Magic Mug',cat:'Mugs',icon:'☕',price:650,old:800,desc:'A personalized magic mug for your favourite photo, name or custom design.'},
-{id:'HY102',name:'Custom Photo Frame',cat:'Photo Frames',icon:'🖼️',price:850,old:1000,desc:'A beautiful custom photo frame for memories, gifts and special occasions.'},
-{id:'HY103',name:'Printed T-Shirt',cat:'T-Shirts',icon:'👕',price:1200,old:1450,desc:'Custom printed T-shirt. Share your artwork or text for printing.'},
-{id:'HY104',name:'Custom Name Cap',cat:'Caps',icon:'🧢',price:700,old:850,desc:'A cap customized with your name, logo or design.'},
-{id:'HY105',name:'Photo Keychain',cat:'Keychains',icon:'🔑',price:250,old:350,desc:'A personalized photo keychain, ideal for small gifts.'},
-{id:'HY106',name:'Ceramic Mug',cat:'Mugs',icon:'☕',price:550,old:650,desc:'A ceramic mug with your selected print or artwork.'},
-{id:'HY107',name:'Custom Print Gift',cat:'Custom Prints',icon:'🎁',price:900,old:1100,desc:'A customized printed gift made using your chosen design.'},
-{id:'HY108',name:'Personalized Frame',cat:'Photo Frames',icon:'🖼️',price:1000,old:1200,desc:'Personalized frame for a photo, name or message.'},
-{id:'HY109',name:'PVC ID Card',cat:'Custom Prints',icon:'🪪',price:300,old:400,desc:'Custom PVC card printing. Share the required details and design.'},
-{id:'HY110',name:'Custom Mug Gift Set',cat:'Mugs',icon:'🎁',price:1100,old:1300,desc:'A custom mug gift option for birthdays and celebrations.'}
-];
-const CATEGORIES=[['Mugs','☕'],['Photo Frames','🖼️'],['T-Shirts','👕'],['Caps','🧢'],['Keychains','🔑'],['Custom Prints','🎨'],['PVC Cards','🪪'],['Gift Items','🎁']];
-const OFFERS=[['Magic Mug Special','☕',499,650,'HY101'],['Photo Frame Offer','🖼️',699,850,'HY102'],['Keychain Deal','🔑',199,250,'HY105']];
-const app=document.getElementById('app');
-let cart=JSON.parse(localStorage.getItem('hy_cart')||'[]'),wishlist=JSON.parse(localStorage.getItem('hy_wishlist')||'[]'),currentProduct=null,detailQty=1,categoryTimer=null;
-const money=n=>'Rs. '+Number(n).toLocaleString('en-PK');
-function save(){localStorage.setItem('hy_cart',JSON.stringify(cart));localStorage.setItem('hy_wishlist',JSON.stringify(wishlist));updateCounts()}
-function updateCounts(){document.getElementById('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0);document.getElementById('wishCount').textContent=wishlist.length}
-function go(page,extra=''){history.pushState({},'',`?page=${page}${extra}`);render();window.scrollTo(0,0)}
-function productCard(p){return `<article class="product"><div class="product-art">${p.icon}</div><div class="product-info"><small>${p.cat}</small><h3>${p.name}</h3><div class="product-row"><span class="price">${money(p.price)}</span><span class="old">${money(p.old)}</span></div><div class="product-actions"><button class="btn btn-light" onclick="showProduct('${p.id}')">View Details</button><button class="btn btn-orange" onclick="addCart('${p.id}')">Add to Cart</button><button class="btn btn-light" title="Add to wishlist" onclick="toggleWish('${p.id}')">♡</button></div></div></article>`}
-function offerCard(o){let p=PRODUCTS.find(x=>x.id===o[4]);return `<article class="offer"><div class="offer-art">${o[1]}</div><div class="offer-copy"><small>LIMITED TIME OFFER</small><strong>${o[0]}</strong><div><span class="price">${money(o[2])}</span><span class="old">${money(o[3])}</span></div><button class="btn btn-orange" onclick="showProduct('${p.id}')">View Product</button></div></article>`}
-function catCard(c){return `<a class="category" href="?page=category&name=${encodeURIComponent(c[0])}"><div class="cat-icon">${c[1]}</div><strong>${c[0]}</strong></a>`}
-function homePage(){return `<section class="hero" id="hero"><div class="slides">
- <div class="slide active"><picture><source media="(max-width:680px)" srcset="mobilebanner1.jpg"><img src="banner1.png" alt="HY Store banner 1" onerror="this.style.display='none'"></picture><div class="hero-copy"><div class="hero-kicker">HY STORE OFFICIAL</div><h1>Make it yours.<br>Make it memorable.</h1><p>Personalized mugs, frames, apparel and custom printed gifts for every occasion.</p><button class="primary" onclick="go('shop')">Shop All Products →</button></div></div>
- <div class="slide"><picture><source media="(max-width:680px)" srcset="mobilebanner2.jpg"><img src="banner2.png" alt="HY Store banner 2" onerror="this.style.display='none'"></picture><div class="hero-copy"><div class="hero-kicker">SPECIAL OFFERS</div><h1>Gifts that feel special.</h1><p>Explore our sale collection and find something memorable.</p><button class="primary" onclick="go('sale')">Explore Offers →</button></div></div>
- <div class="slide"><picture><source media="(max-width:680px)" srcset="mobilebanner3.jpg"><img src="banner3.png" alt="HY Store banner 3" onerror="this.style.display='none'"></picture><div class="hero-copy"><div class="hero-kicker">YOUR IDEA · OUR PRINT</div><h1>Turn your idea into a gift.</h1><p>Choose your product and share your design with us.</p><button class="primary" onclick="go('categories')">Browse Categories →</button></div></div>
- </div><button class="hero-arrow prev" onclick="moveSlide(-1)">‹</button><button class="hero-arrow next" onclick="moveSlide(1)">›</button><div class="hero-dots"><button class="active" onclick="setSlide(0)"></button><button onclick="setSlide(1)"></button><button onclick="setSlide(2)"></button></div><div class="banner-upload">3 AUTO SLIDES · 5 SEC</div></section>
- <section class="section"><div class="section-head"><div><div class="eyebrow">Hot Deals</div><h2>Sale & Offers</h2></div><a class="viewall" href="?page=sale">View all offers →</a></div><div class="offer-grid">${OFFERS.map(offerCard).join('')}</div></section>
- <section class="section"><div class="section-head"><div><div class="eyebrow">Explore our collection</div><h2>Shop by Category</h2></div><div class="cat-controls"><button onclick="slideCats(-1)">‹</button><button onclick="slideCats(1)">›</button></div></div><div class="cat-slider"><div class="cat-track" id="catTrack">${CATEGORIES.map(catCard).join('')}</div></div></section>
- <section class="section"><div class="section-head"><div><div class="eyebrow">Popular picks</div><h2>Featured Products</h2></div><a class="viewall" href="?page=shop">View all products →</a></div><div class="product-grid">${PRODUCTS.slice(0,4).map(productCard).join('')}</div></section>
- <section class="section benefits"><div class="benefit"><span>🚚</span> Delivery Available</div><div class="benefit"><span>🎨</span> Custom Designs</div><div class="benefit"><span>🎁</span> Personalized Gifts</div><div class="benefit"><span>💬</span> Customer Support</div></section>`}
-let slideIndex=0,slideInterval=null,categoryInterval=null;
-function setSlide(i){let slides=[...document.querySelectorAll('.slide')],dots=[...document.querySelectorAll('.hero-dots button')];if(!slides.length)return;slideIndex=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===slideIndex));dots.forEach((d,k)=>d.classList.toggle('active',k===slideIndex))}
-function moveSlide(n){setSlide(slideIndex+n)}
-function startSlides(){if(slideInterval)clearInterval(slideInterval);slideInterval=setInterval(()=>{if(document.querySelector('.slide'))moveSlide(1)},5500)}
-function slideCats(dir){let el=document.getElementById('catTrack');if(el)el.scrollBy({left:dir*(el.clientWidth*.72),behavior:'smooth'})}
-function showProduct(id){currentProduct=PRODUCTS.find(p=>p.id===id);detailQty=1;go('product','&id='+id)}
-function toggleWish(id){wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];save();toast(wishlist.includes(id)?'Added to wishlist':'Removed from wishlist')}
-function addCart(id,qty=1){let p=PRODUCTS.find(x=>x.id===id);if(!p)return;let line=cart.find(x=>x.id===id);if(line)line.qty+=qty;else cart.push({id,qty});save();toast(p.name+' added to cart')}
-function removeCart(id){cart=cart.filter(x=>x.id!==id);save();render()}
-function setQty(id,delta){let line=cart.find(x=>x.id===id);if(!line)return;line.qty=Math.max(1,line.qty+delta);save();render()}
-function toast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#30343a;color:#fff;padding:12px 18px;border-radius:5px;z-index:99;font-size:13px;box-shadow:0 5px 20px #0003';document.body.append(t)}t.textContent=msg;t.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display='none',2200)}
-function cartPage(){if(!cart.length)return `<div class="page-title"><h1>Your Cart</h1><p>Review your selected products.</p></div><div class="empty">Your cart is empty.<br><button class="primary" onclick="go('shop')">Continue Shopping</button></div>`;let total=0;let lines=cart.map(l=>{let p=PRODUCTS.find(x=>x.id===l.id);let sub=p.price*l.qty;total+=sub;return `<div class="cart-line"><div><b>${p.name}</b><div style="font-size:12px;color:#777">${money(p.price)} each</div></div><div><button onclick="setQty('${p.id}',-1)">−</button> ${l.qty} <button onclick="setQty('${p.id}',1)">+</button></div><div class="line-price"><b>${money(sub)}</b> <button onclick="removeCart('${p.id}')">Remove</button></div></div>`}).join('');return `<div class="page-title"><h1>Your Shopping Cart</h1><p>Check your products and proceed to checkout.</p></div><div class="content-card">${lines}<div class="total"><span>Subtotal</span><span>${money(total)}</span></div><button class="primary" onclick="go('checkout')">Proceed to Checkout →</button></div>`}
-function checkoutPage(){if(!JSON.parse(localStorage.getItem('hy_user')||'null'))return `<div class="page-title"><h1>Login Required</h1><p>Please create an account or login before placing an order.</p></div><div class="content-card"><div class="notice">To continue checkout, first sign in to your HY Store account.</div><button class="primary" onclick="go('account')">Login / Create Account</button></div>`;if(!cart.length)return `<div class="page-title"><h1>Checkout</h1></div><div class="empty">Your cart is empty. <button class="primary" onclick="go('shop')">Shop Now</button></div>`;let total=cart.reduce((s,l)=>s+PRODUCTS.find(p=>p.id===l.id).price*l.qty,0);return `<div class="page-title"><h1>Checkout</h1><p>Enter your delivery details to place your order.</p></div><div class="content-card"><h3>Order Summary</h3>${cart.map(l=>{let p=PRODUCTS.find(x=>x.id===l.id);return `<p>${p.name} × ${l.qty} <b style="float:right">${money(p.price*l.qty)}</b></p>`}).join('')}<div class="total"><span>Grand Total</span><span>${money(total)}</span></div></div><form id="checkoutForm" class="content-card"><h3>Customer & Delivery Details</h3><div class="form-grid"><div class="field"><label>Customer Name *</label><input name="name" required></div><div class="field"><label>Mobile / WhatsApp *</label><input name="phone" required type="tel"></div><div class="field"><label>Email (optional)</label><input name="email" type="email"></div><div class="field"><label>City *</label><input name="city" required></div><div class="field full"><label>Complete Delivery Address *</label><textarea name="address" required rows="3"></textarea></div><div class="field"><label>Payment Method *</label><select name="payment" required><option value="">Select payment</option><option>Cash on Delivery</option><option>Bank / Mobile Transfer</option></select></div><div class="field"><label>Order Note (optional)</label><input name="note"></div></div><div class="notice" style="margin-top:15px">Demo checkout: this form creates an order ID in this browser only. Actual order submission and payment verification require backend connection.</div><button class="primary" type="submit">Place Order →</button></form>`}
-function productPage(id){let p=PRODUCTS.find(x=>x.id===id);if(!p)return `<div class="empty">Product not found. <button class="primary" onclick="go('shop')">Back to Shop</button></div>`;return `<div class="page-title"><h1>Product Details</h1><p>Explore product information and choose your order option.</p></div><div class="content-card detail-layout"><div class="detail-art">${p.icon}</div><div class="detail-copy"><div class="eyebrow">${p.cat}</div><h1>${p.name}</h1><div class="price" style="font-size:23px">${money(p.price)} <span class="old">${money(p.old)}</span></div><p>${p.desc}</p><p><b>Product ID:</b> ${p.id}</p><div class="qty"><span>Quantity</span><button onclick="detailQty=Math.max(1,detailQty-1);document.getElementById('detailQty').textContent=detailQty">−</button><b id="detailQty">1</b><button onclick="detailQty++;document.getElementById('detailQty').textContent=detailQty">+</button></div><button class="btn btn-orange" onclick="addCart('${p.id}',detailQty)">Add to Cart</button> <button class="btn btn-dark" onclick="addCart('${p.id}',detailQty);go('checkout')">Buy Now</button><p style="font-size:12px">Custom design/photo details can be shared after order placement.</p></div></div>`}
-function accountPage(){let user=JSON.parse(localStorage.getItem('hy_user')||'null');if(user)return `<div class="page-title"><h1>My Account</h1><p>Welcome, ${escapeHTML(user.name)}.</p></div><div class="content-card"><p><b>Email:</b> ${escapeHTML(user.email)}</p><button class="btn btn-orange" onclick="go('myorders')">My Orders</button> <button class="btn btn-dark" onclick="logout()">Logout</button></div>`;return `<div class="page-title"><h1>Client Login / Create Account</h1><p>Sign in or create a demo account on this device.</p></div><div class="content-card"><div class="form-grid"><form id="loginForm"><h3>Login</h3><div class="field"><label>Email</label><input name="email" type="email" autocomplete="email" required></div><div class="field" style="margin-top:12px"><label>Password</label><input name="password" type="password" required></div><button class="primary">Login</button></form><form id="signupForm"><h3>Create Account</h3><div class="field"><label>Full Name</label><input name="name" required></div><div class="field" style="margin-top:12px"><label>Email</label><input name="email" type="email" required></div><div class="field" style="margin-top:12px"><label>Password (minimum 8 characters)</label><input name="password" type="password" minlength="8" autocomplete="new-password" required></div><div class="field" style="margin-top:12px"><label>Confirm Password</label><input name="confirmPassword" type="password" minlength="8" autocomplete="new-password" required></div><button class="primary">Create Account</button></form></div><div class="notice" style="margin-top:18px">DEMO ONLY: accounts and passwords are stored in this browser for preview. This is not secure production authentication. Real email verification, encrypted password storage and cross-device login require a secure backend.</div></div>`}
-function trackingPage(){return `<div class="page-title"><h1>Track Your Order</h1><p>Enter the Order ID shown after checkout.</p></div><form id="trackForm" class="content-card"><div class="field"><label>Order ID</label><input name="id" placeholder="e.g. HY-2026-123456" required></div><button class="primary">Track Order</button><div id="trackResult"></div></form>`}
-function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function render(){if(slideInterval)clearInterval(slideInterval);let q=new URLSearchParams(location.search),page=q.get('page')||'home',id=q.get('id'),name=q.get('name')||'';document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===page));
-if(page==='home')app.innerHTML=homePage();
-else if(page==='shop')app.innerHTML=`<div class="page-title"><h1>Shop All Products</h1><p>Browse the HY Store collection.</p></div><div class="product-grid">${PRODUCTS.map(productCard).join('')}</div>`;
-else if(page==='categories')app.innerHTML=`<div class="page-title"><h1>All Categories</h1><p>Choose a category to view its products.</p></div><div class="product-grid">${CATEGORIES.map(c=>`<a class="category" href="?page=category&name=${encodeURIComponent(c[0])}"><div class="cat-icon">${c[1]}</div><strong>${c[0]}</strong></a>`).join('')}</div>`;
-else if(page==='category'){let list=PRODUCTS.filter(p=>p.cat===name||(name==='PVC Cards'&&p.id==='HY109')||(name==='Gift Items'&&p.cat==='Custom Prints'));app.innerHTML=`<div class="page-title"><h1>${escapeHTML(name)}</h1><p>Products in this category.</p></div><div class="product-grid">${list.length?list.map(productCard).join(''):'<div class="empty">Products will be added to this category soon.</div>'}</div>`}
-else if(page==='sale')app.innerHTML=`<div class="page-title"><h1>Sale & Offers</h1><p>Special deals on selected products.</p></div><div class="offer-grid">${OFFERS.map(offerCard).join('')}</div>`;
-else if(page==='product')app.innerHTML=productPage(id);
-else if(page==='cart')app.innerHTML=cartPage();
-else if(page==='checkout')app.innerHTML=checkoutPage();
-else if(page==='account')app.innerHTML=accountPage();
-else if(page==='tracking')app.innerHTML=trackingPage();
-else if(page==='wishlist'){let list=PRODUCTS.filter(p=>wishlist.includes(p.id));app.innerHTML=`<div class="page-title"><h1>My Wishlist</h1><p>Your saved products.</p></div><div class="product-grid">${list.length?list.map(productCard).join(''):'<div class="empty">No saved products yet.</div>'}</div>`}
-else if(page==='myorders'){let orders=JSON.parse(localStorage.getItem('hy_orders')||'[]');app.innerHTML=`<div class="page-title"><h1>My Orders</h1><p>Orders created on this browser.</p></div>${orders.length?orders.map(o=>`<div class="content-card"><b>${o.id}</b><p>${o.customer.name} · ${money(o.total)} · ${o.status}</p><button class="btn btn-orange" onclick="go('tracking')">Track Order</button></div>`).join(''):'<div class="empty">No orders found on this device.</div>'}`}
-else {let labels={about:['About HY Store Official','Gifts, personalized products and custom printing.'],contact:['Contact Us','For orders and support, contact hybusinessprint@gmail.com.'],faq:['Frequently Asked Questions','Contact customer support for product customization, delivery and order questions.'],shipping:['Shipping Policy','Delivery timelines and charges will be confirmed according to the order destination.'],returns:['Return & Refund Policy','Please contact customer support if your order has a problem. Final terms must be confirmed by the store owner.'],privacy:['Privacy Policy','Customer information should only be used to process orders and provide support.'],terms:['Terms & Conditions','Orders are subject to product availability and confirmation by HY Store Official.']};let x=labels[page]||['HY Store Official',''];app.innerHTML=`<div class="page-title"><h1>${x[0]}</h1><p>${x[1]}</p></div><div class="content-card"><p>For assistance: <a style="color:var(--orange);font-weight:bold" href="mailto:hybusinessprint@gmail.com">hybusinessprint@gmail.com</a></p><button class="primary" onclick="go('shop')">Continue Shopping</button></div>`}
-updateCounts();if(categoryInterval)clearInterval(categoryInterval);if(page==='home'){startSlides();categoryInterval=setInterval(()=>{let track=document.getElementById('catTrack');if(!track){clearInterval(categoryInterval);return}let max=track.scrollWidth-track.clientWidth;if(max>5){if(track.scrollLeft>=max-5)track.scrollTo({left:0,behavior:'smooth'});else track.scrollBy({left:track.clientWidth*.7,behavior:'smooth'})}},4200)}
-document.getElementById('nav').classList.remove('open');bindForms(page)}
-function bindForms(page){
-let cf=document.getElementById('checkoutForm');if(cf)cf.onsubmit=e=>{e.preventDefault();let fd=new FormData(cf),customer=Object.fromEntries(fd.entries()),orders=JSON.parse(localStorage.getItem('hy_orders')||'[]'),total=cart.reduce((s,l)=>s+PRODUCTS.find(p=>p.id===l.id).price*l.qty,0),order={id:'HY-'+new Date().getFullYear()+'-'+Math.floor(100000+Math.random()*900000),customer,items:cart,total,status:'Order Confirmed',date:new Date().toISOString()};orders.unshift(order);localStorage.setItem('hy_orders',JSON.stringify(orders));cart=[];save();history.pushState({},'',`?page=confirmation&id=${order.id}`);render();};
-let lf=document.getElementById('loginForm');if(lf)lf.onsubmit=e=>{e.preventDefault();let fd=new FormData(lf),email=String(fd.get('email')||'').trim().toLowerCase(),password=String(fd.get('password')||''),users=JSON.parse(localStorage.getItem('hy_users')||'[]');if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){alert('Valid email address enter karein.');return}if(!password){alert('Password enter karein.');return}let u=users.find(x=>x.email.toLowerCase()===email&&x.password===password);if(!u){alert('Account nahi mila ya password ghalat hai. Pehle Create Account karein.');return}localStorage.setItem('hy_user',JSON.stringify(u));render()};
-let sf=document.getElementById('signupForm');if(sf)sf.onsubmit=e=>{e.preventDefault();let fd=new FormData(sf),name=String(fd.get('name')||'').trim(),email=String(fd.get('email')||'').trim().toLowerCase(),password=String(fd.get('password')||''),confirm=String(fd.get('confirmPassword')||''),users=JSON.parse(localStorage.getItem('hy_users')||'[]');if(name.length<2){alert('Please enter your full name.');return}if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){alert('Valid email address enter karein.');return}if(password.length<8){alert('Password kam az kam 8 characters ka hona chahiye.');return}if(password!==confirm){alert('Password aur Confirm Password match nahi karte.');return}if(users.some(x=>x.email.toLowerCase()===email)){alert('Is email se account pehle se maujood hai.');return}let u={name,email,password};users.push(u);localStorage.setItem('hy_users',JSON.stringify(users));localStorage.setItem('hy_user',JSON.stringify(u));render()};
-let tf=document.getElementById('trackForm');if(tf)tf.onsubmit=e=>{e.preventDefault();let id=new FormData(tf).get('id').trim(),orders=JSON.parse(localStorage.getItem('hy_orders')||'[]'),o=orders.find(x=>x.id.toLowerCase()===id.toLowerCase()),r=document.getElementById('trackResult');r.innerHTML=o?`<div class="notice" style="margin-top:15px"><b>Order Found: ${o.id}</b><br>Status: ${o.status}<br>Total: ${money(o.total)}<br>Customer: ${escapeHTML(o.customer.name)}</div>`:'<div class="notice" style="margin-top:15px">Is browser mein ye Order ID nahi mili. Backend connect hone par online order tracking available hogi.</div>'};
-let search=document.getElementById('searchForm');if(search)search.onsubmit=e=>{e.preventDefault();let term=document.getElementById('searchInput').value.trim().toLowerCase();let matches=PRODUCTS.filter(p=>(p.name+' '+p.cat).toLowerCase().includes(term));history.pushState({},'','?page=search&q='+encodeURIComponent(term));app.innerHTML=`<div class="page-title"><h1>Search Results</h1><p>Results for "${escapeHTML(term)}"</p></div><div class="product-grid">${matches.length?matches.map(productCard).join(''):'<div class="empty">No matching products found.</div>'}</div>`;window.scrollTo(0,0)};
-}
-function logout(){localStorage.removeItem('hy_user');render()}
-document.getElementById('mobileToggle').onclick=()=>document.getElementById('nav').classList.toggle('open');
-document.addEventListener('click',e=>{let a=e.target.closest('a[href^="?page="]');if(a){e.preventDefault();history.pushState({},'',a.getAttribute('href'));render();window.scrollTo(0,0)}});
-window.addEventListener('popstate',render);
-const originalRender=render;
-render=function(){originalRender();let q=new URLSearchParams(location.search);if(q.get('page')==='confirmation'){let id=q.get('id'),orders=JSON.parse(localStorage.getItem('hy_orders')||'[]'),o=orders.find(x=>x.id===id);app.innerHTML=`<div class="page-title"><h1>Order Confirmed ✓</h1><p>Thank you for shopping with HY STORE OFFICIAL.</p></div><div class="content-card"><div class="notice"><b>Your order has been placed in this demo.</b><br>Order ID: <strong style="font-size:20px">${id}</strong><br>Please save this Order ID for tracking.</div><p><b>Customer:</b> ${escapeHTML(o?.customer.name||'')}</p><p><b>Total:</b> ${money(o?.total||0)}</p><p><b>Status:</b> Order Confirmed (local demo)</p><button class="primary" onclick="go('tracking')">Track Order</button> <button class="btn btn-dark" onclick="go('shop')">Continue Shopping</button></div>`}};
-document.getElementById('year').textContent=new Date().getFullYear();updateCounts();render();
-</script></body></html>
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: #121316;
+        }
+
+        .bg-orange-gradient {
+            background: linear-gradient(135deg, #FF5100 0%, #FF7338 100%);
+        }
+
+        /* Slide Animation transition */
+        .slide-fade {
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        /* Active Nav Link Indicator */
+        .nav-link.active-nav {
+            color: #FF5100;
+            font-weight: 700;
+            border-bottom: 2px solid #FF5100;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F1F1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF5100;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900 antialiased selection:bg-brandOrange selection:text-white">
+
+    <!-- ================= TOP ANNOUNCEMENT BAR (IMAGE REFERENCE MATCH) ================= -->
+    <div class="bg-brandDark text-white py-2 px-4 text-xs font-semibold overflow-x-auto">
+        <div class="max-w-7xl mx-auto flex items-center justify-between min-w-[700px] sm:min-w-0">
+            <div class="flex items-center gap-6 mx-auto sm:mx-0">
+                <span class="flex items-center gap-1.5"><span class="bg-brandOrange text-white text-[10px] p-1 rounded-md"><i class="fa-solid fa-bolt"></i></span> Fast turnaround</span>
+                <span class="flex items-center gap-1.5"><span class="bg-brandOrange text-white text-[10px] p-1 rounded-md"><i class="fa-solid fa-bullseye"></i></span> Color-true printing</span>
+                <span class="flex items-center gap-1.5"><span class="bg-brandOrange text-white text-[10px] p-1 rounded-md"><i class="fa-solid fa-location-dot"></i></span> Live order tracking</span>
+                <span class="flex items-center gap-1.5"><span class="bg-brandOrange text-white text-[10px] p-1 rounded-md"><i class="fa-solid fa-shield-halved"></i></span> Premium Quality Guarantee</span>
+            </div>
+            <div class="hidden md:flex items-center gap-3 text-gray-300">
+                <a href="tel:03209306672" class="hover:text-brandOrange transition-colors"><i class="fa-solid fa-phone text-brandOrange mr-1"></i> 03209306672</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= HEADER / NAVIGATION BAR ================= -->
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo (Amazon Printings Layout Style) -->
+            <a href="#/home" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-2xl bg-orange-gradient flex items-center justify-center text-white shadow-glow-orange transition-transform duration-300 group-hover:scale-105">
+                    <i class="fa-solid font-black text-2xl fa-print"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-black tracking-tight text-gray-900 uppercase">HY <span class="text-brandOrange">STORE</span></span>
+                    <span class="block text-[10px] font-bold tracking-widest text-gray-400 uppercase">Gifting & Printing Services</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links with SPA Hash URLs -->
+            <nav class="hidden lg:flex items-center gap-8 font-semibold text-sm text-gray-700">
+                <a href="#/home" id="nav-home" class="nav-link hover:text-brandOrange py-2 transition-colors">Home</a>
+                <a href="#/services" id="nav-services" class="nav-link hover:text-brandOrange py-2 transition-colors">Services</a>
+                <a href="#/products" id="nav-products" class="nav-link hover:text-brandOrange py-2 transition-colors">Products</a>
+                <a href="#/track" id="nav-track" class="nav-link hover:text-brandOrange py-2 transition-colors">Track Order</a>
+                <a href="#/contact" id="nav-contact" class="nav-link hover:text-brandOrange py-2 transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions (Cart, Login, Signup Buttons) -->
+            <div class="hidden sm:flex items-center gap-3">
+                <button onclick="navigate('#/products')" class="w-10 h-10 rounded-full bg-gray-100 text-gray-800 hover:bg-brandOrange hover:text-white flex items-center justify-center relative transition-all">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="absolute -top-1 -right-1 bg-brandOrange text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+                <a href="#/order" class="px-5 py-2.5 rounded-full text-sm font-bold text-gray-800 border-2 border-gray-900 hover:border-brandOrange hover:text-brandOrange transition-all">Log in</a>
+                <a href="#/order" class="px-6 py-2.5 rounded-full text-sm font-bold text-white bg-brandOrange hover:bg-brandOrangeDark shadow-glow-orange transition-all">Sign up</a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobileMenuBtn" class="lg:hidden text-gray-900 text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileDrawer" class="hidden lg:hidden bg-white border-b border-gray-200 px-6 py-4">
+            <nav class="flex flex-col gap-4 text-base font-semibold text-gray-800">
+                <a href="#/home" class="mobile-nav-link hover:text-brandOrange">Home</a>
+                <a href="#/services" class="mobile-nav-link hover:text-brandOrange">Services</a>
+                <a href="#/products" class="mobile-nav-link hover:text-brandOrange">Products</a>
+                <a href="#/track" class="mobile-nav-link hover:text-brandOrange">Track Order</a>
+                <a href="#/contact" class="mobile-nav-link hover:text-brandOrange">Contact Us</a>
+                <div class="pt-3 border-t border-gray-100 flex gap-3">
+                    <a href="#/order" class="flex-1 py-2.5 text-center font-bold text-gray-800 border-2 border-gray-900 rounded-full">Log in</a>
+                    <a href="#/order" class="flex-1 py-2.5 text-center font-bold text-white bg-brandOrange rounded-full shadow-glow-orange">Sign up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- ================= DYNAMIC PAGE CONTENT CONTAINER ================= -->
+    <main id="app">
+
+        <!-- ================= HOME PAGE VIEW (SLIDER + SERVICES + PRODUCTS + TRACKING) ================= -->
+        <div id="view-home" class="page-view">
+            
+            <!-- 1. HERO BANNER SLIDER (3 SLIDES - MATCHING SCREENSHOT LAYOUT) -->
+            <section class="relative bg-brandGray py-6 overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="relative rounded-3xl overflow-hidden shadow-card border border-gray-200 min-h-[420px] sm:min-h-[480px] bg-white flex items-center">
+                        
+                        <!-- Slide 1: Wedding Cards Printing -->
+                        <div class="hero-slide slide-fade flex flex-col-reverse lg:flex-row items-center justify-between w-full p-8 sm:p-12 gap-8">
+                            <div class="max-w-xl space-y-5 text-left">
+                                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100 text-brandOrange text-xs font-bold uppercase tracking-wider">
+                                    <i class="fa-solid fa-check-circle"></i> Authorized Printing Partner
+                                </div>
+                                <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-gray-900 leading-tight">
+                                    WEDDING CARDS <span class="text-brandOrange">PRINTING</span>
+                                </h1>
+                                <p class="text-gray-600 text-base sm:text-lg font-medium">
+                                    Make Your Special Day More Memorable with Beautiful Custom Velvet & Foiled Wedding Cards.
+                                </p>
+                                <!-- Specs Badges -->
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 py-2">
+                                    <div class="flex items-center gap-2 text-xs font-bold text-gray-800">
+                                        <i class="fa-solid fa-pen-nib text-brandOrange"></i> Custom Designs
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs font-bold text-gray-800">
+                                        <i class="fa-solid fa-layer-group text-brandOrange"></i> Premium Quality
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs font-bold text-gray-800">
+                                        <i class="fa-solid fa-swatchbook text-brandOrange"></i> Wide Variety
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs font-bold text-gray-800">
+                                        <i class="fa-solid fa-truck-fast text-brandOrange"></i> Fast Delivery
+                                    </div>
+                                </div>
+                                <div class="pt-2 flex gap-4">
+                                    <a href="#/products" class="px-8 py-3.5 rounded-full text-sm font-bold text-white bg-brandOrange hover:bg-brandOrangeDark shadow-glow-orange transition-all">Order Wedding Cards</a>
+                                    <a href="#/order" class="px-6 py-3.5 rounded-full text-sm font-bold text-gray-800 bg-gray-100 hover:bg-gray-200 transition-all">Custom Quote</a>
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-1/2 h-64 sm:h-80 rounded-2xl overflow-hidden bg-gray-100 border border-gray-100">
+                                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Wedding Cards Showcase" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/700x450/FF5100/FFFFFF?text=Wedding+Cards+Printing'">
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Customized Gifts & Mugs -->
+                        <div class="hero-slide slide-fade hidden flex flex-col-reverse lg:flex-row items-center justify-between w-full p-8 sm:p-12 gap-8">
+                            <div class="max-w-xl space-y-5 text-left">
+                                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100 text-brandOrange text-xs font-bold uppercase tracking-wider">
+                                    <i class="fa-solid fa-gift"></i> Personalized Gifting Solutions
+                                </div>
+                                <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-gray-900 leading-tight">
+                                    CUSTOM GIFTS & <span class="text-brandOrange">MUGS PRINTING</span>
+                                </h1>
+                                <p class="text-gray-600 text-base sm:text-lg font-medium">
+                                    HD Sublimation Magic Mugs, Custom T-Shirts, Acrylic Song Frames, and Personalised Gift Boxes.
+                                </p>
+                                <div class="pt-2 flex gap-4">
+                                    <a href="#/products" class="px-8 py-3.5 rounded-full text-sm font-bold text-white bg-brandOrange hover:bg-brandOrangeDark shadow-glow-orange transition-all">Explore Custom Gifts</a>
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-1/2 h-64 sm:h-80 rounded-2xl overflow-hidden bg-gray-100 border border-gray-100">
+                                <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" alt="Custom Gifts Showcase" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/700x450/FF5100/FFFFFF?text=Custom+Gifts+Store'">
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: Graphic Design & Branding -->
+                        <div class="hero-slide slide-fade hidden flex flex-col-reverse lg:flex-row items-center justify-between w-full p-8 sm:p-12 gap-8">
+                            <div class="max-w-xl space-y-5 text-left">
+                                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100 text-brandOrange text-xs font-bold uppercase tracking-wider">
+                                    <i class="fa-solid fa-palette"></i> Professional Branding
+                                </div>
+                                <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-gray-900 leading-tight">
+                                    GRAPHIC DESIGN & <span class="text-brandOrange">PROMO KITS</span>
+                                </h1>
+                                <p class="text-gray-600 text-base sm:text-lg font-medium">
+                                    Stand out with unique logo designs, business cards, corporate stationery, and vinyl labels.
+                                </p>
+                                <div class="pt-2 flex gap-4">
+                                    <a href="#/services" class="px-8 py-3.5 rounded-full text-sm font-bold text-white bg-brandOrange hover:bg-brandOrangeDark shadow-glow-orange transition-all">View Branding Kits</a>
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-1/2 h-64 sm:h-80 rounded-2xl overflow-hidden bg-gray-100 border border-gray-100">
+                                <img src="https://images.unsplash.com/photo-1542744094-3a31216914fc?auto=format&fit=crop&w=800&q=80" alt="Graphic Design Showcase" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/700x450/121316/FFFFFF?text=Corporate+Branding'">
+                            </div>
+                        </div>
+
+                        <!-- Slider Navigation Buttons -->
+                        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-gray-900 shadow-md flex items-center justify-center transition-all">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-gray-900 shadow-md flex items-center justify-center transition-all">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                        <!-- Slide Indicators (Dots) -->
+                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                            <button onclick="goToSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-brandOrange transition-all"></button>
+                            <button onclick="goToSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-gray-300 transition-all"></button>
+                            <button onclick="goToSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-gray-300 transition-all"></button>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. QUICK SERVICES SUMMARY ON HOME -->
+            <section class="py-16 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+                        <div>
+                            <span class="text-brandOrange font-bold text-xs uppercase tracking-widest">Our Expertise</span>
+                            <h2 class="text-3xl font-black text-gray-900 mt-1">Featured <span class="text-brandOrange">Services</span></h2>
+                        </div>
+                        <a href="#/services" class="mt-4 sm:mt-0 font-bold text-sm text-brandOrange hover:underline flex items-center gap-2">
+                            View All Services <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-brandGray rounded-2xl p-8 border border-gray-100 hover:border-brandOrange transition-all duration-300 group">
+                            <div class="w-14 h-14 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-2xl mb-6 group-hover:bg-brandOrange group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-stamp"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900">Custom Printing</h3>
+                            <p class="text-gray-500 text-sm mt-2 leading-relaxed">High precision printing on T-Shirts, Hoodies, Mugs, Cards, and Vinyl Labels.</p>
+                            <a href="#/products" class="inline-block mt-4 text-xs font-bold text-brandOrange uppercase tracking-wider">Explore Category &rarr;</a>
+                        </div>
+                        <div class="bg-brandGray rounded-2xl p-8 border border-gray-100 hover:border-brandOrange transition-all duration-300 group">
+                            <div class="w-14 h-14 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-2xl mb-6 group-hover:bg-brandOrange group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-gift"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900">Personalized Gifts</h3>
+                            <p class="text-gray-500 text-sm mt-2 leading-relaxed">Bespoke hamper boxes, acrylic Spotify plaques, LED frames, and wedding gifts.</p>
+                            <a href="#/products" class="inline-block mt-4 text-xs font-bold text-brandOrange uppercase tracking-wider">Explore Category &rarr;</a>
+                        </div>
+                        <div class="bg-brandGray rounded-2xl p-8 border border-gray-100 hover:border-brandOrange transition-all duration-300 group">
+                            <div class="w-14 h-14 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-2xl mb-6 group-hover:bg-brandOrange group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-pen-ruler"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900">Graphic Designing</h3>
+                            <p class="text-gray-500 text-sm mt-2 leading-relaxed">Creative logo artwork, brand identities, social media banners, and print graphics.</p>
+                            <a href="#/services" class="inline-block mt-4 text-xs font-bold text-brandOrange uppercase tracking-wider">Explore Category &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ================= SERVICES DEDICATED PAGE VIEW (`#/services`) ================= -->
+        <div id="view-services" class="page-view hidden py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-brandOrange font-bold text-xs uppercase tracking-widest bg-orange-50 px-4 py-1.5 rounded-full">Full Service Catalog</span>
+                    <h1 class="text-4xl font-black text-gray-900 mt-3">Professional <span class="text-brandOrange">Designing & Printing</span></h1>
+                    <p class="text-gray-600 mt-2">Comprehensive tailored design and high-grade printing services for individuals and corporate brands.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service Item 1 -->
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">01</div>
+                        <h3 class="text-xl font-bold text-gray-900">Wedding & Event Cards Printing</h3>
+                        <p class="text-gray-500 text-sm mt-2">Luxurious gold foiled, acrylic, and textured paper wedding invitations with customized envelopes.</p>
+                        <a href="#/order" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    </div>
+                    <!-- Service Item 2 -->
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">02</div>
+                        <h3 class="text-xl font-bold text-gray-900">Customized Sublimation Mugs</h3>
+                        <p class="text-gray-500 text-sm mt-2">Magic heat-changing mugs, standard ceramic cups, and inner-color customized mugs.</p>
+                        <a href="#/order" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    </div>
+                    <!-- Service Item 3 -->
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">03</div>
+                        <h3 class="text-xl font-bold text-gray-900">Acrylic Song & Photo Plaques</h3>
+                        <p class="text-gray-500 text-sm mt-2">Laser-cut acrylic Spotify music plaques with wooden LED glowing stands for anniversaries.</p>
+                        <a href="#/order" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    </div>
+                    <!-- Service Item 4 -->
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">04</div>
+                        <h3 class="text-xl font-bold text-gray-900">Corporate Branding & Promo Kits</h3>
+                        <p class="text-gray-500 text-sm mt-2">Logos, visiting cards, metallic pens, branded diaries, and staff lanyard ID cards.</p>
+                        <a href="#/order" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    </div>
+                    <!-- Service Item 5 -->
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">05</div>
+                        <h3 class="text-xl font-bold text-gray-900">Apparel Printing (T-Shirts & Hoodies)</h3>
+                        <p class="text-gray-500 text-sm mt-2">Vibrant Direct-To-Film (DTF) & Screen printing on premium cotton hoodies and t-shirts.</p>
+                        <a href="#/order" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    </div>
+                    <!-- Service Item 6 -->
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">06</div>
+                        <h3 class="text-xl font-bold text-gray-900">Vinyl Stickers & Label Press</h3>
+                        <p class="text-gray-500 text-sm mt-2">Waterproof product packaging labels, die-cut custom stickers, and laptop decals.</p>
+                        <a href="#/order" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ================= PRODUCTS DEDICATED PAGE VIEW (`#/products`) ================= -->
+        <div id="view-products" class="page-view hidden py-12 bg-brandGray">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+                    <div>
+                        <span class="text-brandOrange font-bold text-xs uppercase tracking-widest">Catalog</span>
+                        <h1 class="text-4xl font-black text-gray-900 mt-1">Our Featured <span class="text-brandOrange">Products</span></h1>
+                    </div>
+                    <!-- Category Pills -->
+                    <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                        <button class="px-4 py-2 rounded-full text-xs font-bold bg-brandOrange text-white">All Products</button>
+                        <button class="px-4 py-2 rounded-full text-xs font-bold bg-white text-gray-700 hover:bg-gray-100">Wedding Cards</button>
+                        <button class="px-4 py-2 rounded-full text-xs font-bold bg-white text-gray-700 hover:bg-gray-100">Custom Mugs</button>
+                        <button class="px-4 py-2 rounded-full text-xs font-bold bg-white text-gray-700 hover:bg-gray-100">Gift Hampers</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Product 1 -->
+                    <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all group">
+                        <div class="h-56 bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80" alt="Royal Wedding Invitation Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300/FF5100/FFFFFF?text=Wedding+Card'">
+                            <span class="absolute top-3 right-3 bg-brandOrange text-white text-[10px] font-bold px-2.5 py-1 rounded-full">Bestseller</span>
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[11px] font-bold text-brandOrange uppercase">Cards & Invitations</span>
+                            <h3 class="text-base font-bold text-gray-900 mt-1">Royal Foil Wedding Card</h3>
+                            <p class="text-xs text-gray-500 mt-1">Custom gold foil & velvet finish box card.</p>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-lg font-black text-gray-900">Custom Quote</span>
+                                <a href="#/order" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-brandOrange hover:bg-brandOrangeDark transition-all">Order Custom</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all group">
+                        <div class="h-56 bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80" alt="Custom Ceramic Mug" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300/FF5100/FFFFFF?text=Printed+Mugs'">
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[11px] font-bold text-brandOrange uppercase">Custom Printing</span>
+                            <h3 class="text-base font-bold text-gray-900 mt-1">Printed Photo Magic Mug</h3>
+                            <p class="text-xs text-gray-500 mt-1">Heat sensitive black magic ceramic mug.</p>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-lg font-black text-gray-900">Custom Quote</span>
+                                <a href="#/order" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-brandOrange hover:bg-brandOrangeDark transition-all">Order Custom</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all group">
+                        <div class="h-56 bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80" alt="Curated Birthday Hamper" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300/FF5100/FFFFFF?text=Gift+Hamper'">
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[11px] font-bold text-brandOrange uppercase">Gift Boxes</span>
+                            <h3 class="text-base font-bold text-gray-900 mt-1">Luxury Birthday Hamper</h3>
+                            <p class="text-xs text-gray-500 mt-1">Includes LED frame, custom keychain & chocolates.</p>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-lg font-black text-gray-900">Custom Quote</span>
+                                <a href="#/order" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-brandOrange hover:bg-brandOrangeDark transition-all">Order Custom</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all group">
+                        <div class="h-56 bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80" alt="Custom DTF T-Shirt" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300/FF5100/FFFFFF?text=Printed+T-Shirt'">
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[11px] font-bold text-brandOrange uppercase">Apparel</span>
+                            <h3 class="text-base font-bold text-gray-900 mt-1">Printed Cotton T-Shirt</h3>
+                            <p class="text-xs text-gray-500 mt-1">Custom graphic artwork DTF front & back print.</p>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-lg font-black text-gray-900">Custom Quote</span>
+                                <a href="#/order" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-brandOrange hover:bg-brandOrangeDark transition-all">Order Custom</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ================= LIVE TRACKING PAGE VIEW (`#/track`) ================= -->
+        <div id="view-track" class="page-view hidden py-16 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-xl mx-auto mb-10">
+                    <span class="text-brandOrange font-bold text-xs uppercase tracking-widest bg-orange-50 px-4 py-1.5 rounded-full">Live Tracker</span>
+                    <h1 class="text-4xl font-black text-gray-900 mt-3">Track Your <span class="text-brandOrange">Order Status</span></h1>
+                    <p class="text-gray-500 text-sm mt-2">Enter your Tracking ID (e.g., HY-1001) or Phone Number to view real-time updates.</p>
+                </div>
+
+                <div class="bg-brandGray rounded-3xl p-8 border border-gray-200 shadow-card">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <input type="text" id="trackInputPage" placeholder="Enter Tracking ID (e.g. HY-1001 or HY-2024)" class="flex-1 px-5 py-3.5 rounded-xl border border-gray-300 focus:border-brandOrange text-sm outline-none">
+                        <button onclick="executeTrack()" class="px-8 py-3.5 rounded-xl font-bold text-white bg-brandOrange hover:bg-brandOrangeDark shadow-glow-orange transition-all">Track Order</button>
+                    </div>
+
+                    <!-- Progress Results Box -->
+                    <div id="trackResultsArea" class="hidden mt-8 pt-8 border-t border-gray-200">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <span class="text-xs font-bold text-gray-400">TRACKING NUMBER</span>
+                                <p id="trackResultID" class="text-xl font-black text-gray-900">HY-1001</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-bold text-gray-400">ESTIMATED DISPATCH</span>
+                                <p class="text-sm font-bold text-brandOrange">24-48 Hours</p>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden mb-8">
+                            <div id="trackProgressBar" class="bg-brandOrange h-full w-2/4 transition-all duration-700"></div>
+                        </div>
+
+                        <!-- Step Icons -->
+                        <div class="grid grid-cols-4 gap-2 text-center text-xs">
+                            <div>
+                                <div class="w-10 h-10 rounded-full bg-brandOrange text-white mx-auto flex items-center justify-center font-bold mb-2"><i class="fa-solid fa-check"></i></div>
+                                <span class="font-bold">Placed</span>
+                            </div>
+                            <div>
+                                <div class="w-10 h-10 rounded-full bg-brandOrange text-white mx-auto flex items-center justify-center font-bold mb-2"><i class="fa-solid fa-pen-ruler"></i></div>
+                                <span class="font-bold">Design Proof</span>
+                            </div>
+                            <div>
+                                <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-2"><i class="fa-solid fa-print"></i></div>
+                                <span class="text-gray-400">Printing</span>
+                            </div>
+                            <div>
+                                <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-2"><i class="fa-solid fa-box-open"></i></div>
+                                <span class="text-gray-400">Dispatched</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ================= ORDER FORM / CUSTOM QUOTE PAGE VIEW (`#/order`) ================= -->
+        <div id="view-order" class="page-view hidden py-16 bg-white">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-3xl p-8 sm:p-12 border border-gray-200 shadow-2xl relative">
+                    <div class="text-center max-w-xl mx-auto mb-8">
+                        <span class="text-brandOrange font-bold text-xs uppercase tracking-widest bg-orange-50 px-4 py-1.5 rounded-full">Custom Order</span>
+                        <h2 class="text-3xl font-black text-gray-900 mt-3">Submit Order Details</h2>
+                        <p class="text-gray-500 text-sm mt-1">Fill in your requirements below for instant review & WhatsApp confirmation.</p>
+                    </div>
+
+                    <form id="orderFormSPA" class="space-y-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Your Full Name *</label>
+                            <input type="text" required placeholder="Enter your full name" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-brandOrange text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-2">WhatsApp / Phone Number *</label>
+                            <input type="tel" required placeholder="03209306672" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-brandOrange text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Select Service *</label>
+                            <select required class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-brandOrange text-sm outline-none">
+                                <option value="Wedding Cards Printing">Wedding & Event Cards Printing</option>
+                                <option value="Custom Ceramic Mugs">Custom Ceramic & Magic Mugs</option>
+                                <option value="Acrylic Song Plaques">Acrylic Spotify / Photo Plaques</option>
+                                <option value="Corporate Branding">Corporate Promo Kits & Logos</option>
+                                <option value="Printed Apparel">Printed T-Shirts & Hoodies</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Custom Text & Specific Instructions *</label>
+                            <textarea rows="4" required placeholder="Write custom names, dates, quotes, or colors here..." class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-brandOrange text-sm outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 rounded-xl font-bold text-white bg-brandOrange hover:bg-brandOrangeDark shadow-glow-orange transition-all">
+                            Submit Order Details
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ================= CONTACT PAGE VIEW (`#/contact`) ================= -->
+        <div id="view-contact" class="page-view hidden py-16 bg-brandGray">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-xl mx-auto mb-12">
+                    <span class="text-brandOrange font-bold text-xs uppercase tracking-widest bg-orange-50 px-4 py-1.5 rounded-full">Reach Us</span>
+                    <h1 class="text-4xl font-black text-gray-900 mt-3">Contact <span class="text-brandOrange">HY STORE</span></h1>
+                    <p class="text-gray-600 mt-2">Get in touch for bulk order quotes, custom graphic designs, or partnership inquiries.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl border border-gray-200 text-center space-y-4">
+                        <div class="w-14 h-14 bg-orange-100 text-brandOrange rounded-full flex items-center justify-center mx-auto text-2xl font-bold"><i class="fa-solid fa-phone"></i></div>
+                        <h3 class="font-bold text-gray-900">Phone & WhatsApp</h3>
+                        <p class="text-sm text-gray-600">03209306672</p>
+                        <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-4 py-2 rounded-full text-xs font-bold bg-brandOrange text-white">Chat Now</a>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-gray-200 text-center space-y-4">
+                        <div class="w-14 h-14 bg-orange-100 text-brandOrange rounded-full flex items-center justify-center mx-auto text-2xl font-bold"><i class="fa-solid fa-envelope"></i></div>
+                        <h3 class="font-bold text-gray-900">Email Address</h3>
+                        <p class="text-sm text-gray-600">hystoreofficial@gmail.com</p>
+                        <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-4 py-2 rounded-full text-xs font-bold bg-gray-900 text-white">Send Mail</a>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-gray-200 text-center space-y-4">
+                        <div class="w-14 h-14 bg-orange-100 text-brandOrange rounded-full flex items-center justify-center mx-auto text-2xl font-bold"><i class="fa-solid fa-clock"></i></div>
+                        <h3 class="font-bold text-gray-900">Working Hours</h3>
+                        <p class="text-sm text-gray-600">Mon - Sat: 10:00 AM - 09:00 PM</p>
+                        <span class="inline-block text-xs text-brandOrange font-bold">Fast Turnaround</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-brandDark text-white pt-16 pb-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-brandOrange flex items-center justify-center text-white font-bold">
+                            <i class="fa-solid fa-print"></i>
+                        </div>
+                        <span class="text-xl font-black uppercase">HY <span class="text-brandOrange">STORE</span></span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">Your authorized custom printing & gifting partner. High quality prints with fast turnaround nationwide.</p>
+                </div>
+                <div>
+                    <h5 class="text-xs font-black uppercase tracking-widest text-brandOrange mb-4">Quick Navigation</h5>
+                    <ul class="space-y-2 text-xs font-semibold text-gray-400">
+                        <li><a href="#/home" class="hover:text-white">Home</a></li>
+                        <li><a href="#/services" class="hover:text-white">Services Catalog</a></li>
+                        <li><a href="#/products" class="hover:text-white">Featured Products</a></li>
+                        <li><a href="#/track" class="hover:text-white">Track Order</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-xs font-black uppercase tracking-widest text-brandOrange mb-4">Services</h5>
+                    <ul class="space-y-2 text-xs font-semibold text-gray-400">
+                        <li>Wedding Card Printing</li>
+                        <li>Sublimation Magic Mugs</li>
+                        <li>Spotify Acrylic Plaques</li>
+                        <li>Corporate Logo & Branding</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-xs font-black uppercase tracking-widest text-brandOrange mb-4">Support Contact</h5>
+                    <p class="text-xs text-gray-400">Phone: 03209306672</p>
+                    <p class="text-xs text-gray-400 mt-1">Email: hystoreofficial@gmail.com</p>
+                    <a href="https://wa.me/923209306672" target="_blank" class="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full text-xs font-bold bg-brandOrange text-white">
+                        <i class="fa-brands fa-whatsapp"></i> Instant WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-800 text-center text-xs text-gray-500">
+                &copy; 2026 HY STORE - Gifting & Designing Services. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // --- 1. SPA HASH ROUTING LOGIC (`#/home`, `#/products`, `#/services`, `#/track`, `#/contact`) ---
+        function handleRouting() {
+            let hash = window.location.hash || '#/home';
+            
+            // Normalize Hash
+            if (hash === '#' || hash === '') hash = '#/home';
+
+            // Hide all views
+            const views = document.querySelectorAll('.page-view');
+            views.forEach(v => v.classList.add('hidden'));
+
+            // Remove active class from nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active-nav'));
+
+            // Route matching
+            let targetViewId = 'view-home';
+            let activeNavId = 'nav-home';
+
+            if (hash.includes('/services')) {
+                targetViewId = 'view-services';
+                activeNavId = 'nav-services';
+            } else if (hash.includes('/products')) {
+                targetViewId = 'view-products';
+                activeNavId = 'nav-products';
+            } else if (hash.includes('/track')) {
+                targetViewId = 'view-track';
+                activeNavId = 'nav-track';
+            } else if (hash.includes('/contact')) {
+                targetViewId = 'view-contact';
+                activeNavId = 'nav-contact';
+            } else if (hash.includes('/order')) {
+                targetViewId = 'view-order';
+            }
+
+            // Display target view
+            const targetView = document.getElementById(targetViewId);
+            if (targetView) targetView.classList.remove('hidden');
+
+            // Highlight nav link
+            const activeNav = document.getElementById(activeNavId);
+            if (activeNav) activeNav.classList.add('active-nav');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('hashchange', handleRouting);
+        window.addEventListener('load', handleRouting);
+
+        function navigate(hashUrl) {
+            window.location.hash = hashUrl;
+        }
+
+        // --- 2. HERO SLIDER BANNER INTERACTION ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.slide-dot');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.remove('hidden');
+                } else {
+                    slide.classList.add('hidden');
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.remove('bg-gray-300');
+                    dot.classList.add('bg-brandOrange');
+                } else {
+                    dot.classList.remove('bg-brandOrange');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let nextIndex = (currentSlide + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+
+        function prevSlide() {
+            let prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(prevIndex);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+        }
+
+        // Auto slide change every 4 seconds
+        setInterval(nextSlide, 4000);
+
+        // --- 3. MOBILE MENU TOGGLE ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileDrawer.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileDrawer.classList.add('hidden');
+            });
+        });
+
+        // --- 4. TRACKING LOGIC ---
+        function executeTrack() {
+            const inputVal = document.getElementById('trackInputPage').value.trim();
+            const resultsArea = document.getElementById('trackResultsArea');
+            const resultID = document.getElementById('trackResultID');
+
+            if (!inputVal) {
+                alert('Please enter a valid Tracking ID or Phone Number!');
+                return;
+            }
+
+            resultID.innerText = inputVal.toUpperCase();
+            resultsArea.classList.remove('hidden');
+        }
+
+        // --- 5. ORDER FORM SUBMIT ---
+        document.getElementById('orderFormSPA')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Order Details Submitted Successfully! Our team will contact you on WhatsApp shorty.');
+            navigate('#/home');
+        });
+    </script>
+</body>
+</html>
