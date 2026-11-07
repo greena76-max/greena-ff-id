@@ -57,6 +57,22 @@
             border-bottom: 2px solid #FF5100;
         }
 
+        /* Toast Animation */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .toast-enter {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        .toast-exit {
+            animation: fadeOut 0.3s ease-in forwards;
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -71,6 +87,9 @@
     </style>
 </head>
 <body class="bg-white text-gray-900 antialiased selection:bg-brandOrange selection:text-white min-h-screen flex flex-col justify-between">
+
+    <!-- ================= PROFESSIONAL AUTO-HIDING TOAST CONTAINER ================= -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- ================= TOP ANNOUNCEMENT BAR (CENTERED) ================= -->
     <div class="bg-brandDark text-white py-2 px-4 text-xs font-semibold overflow-x-auto">
@@ -89,7 +108,7 @@
 
 
     <!-- ================= HEADER / NAVIGATION BAR ================= -->
-    <header class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <header class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             
             <!-- Logo -->
@@ -161,7 +180,7 @@
         <!-- ================= HOME PAGE VIEW ================= -->
         <div id="view-home" class="page-view">
             
-            <!-- 1. HERO BANNER SLIDER (BANNER 1, 2, 3) -->
+            <!-- 1. HERO BANNER SLIDER (3 SLIDES) -->
             <section class="relative bg-brandGray py-6 overflow-hidden">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     
@@ -227,7 +246,7 @@
                             </div>
                         </div>
 
-                        <!-- Slider Navigation Buttons -->
+                        <!-- Slider Controls -->
                         <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-gray-900 shadow-md flex items-center justify-center transition-all z-20">
                             <i class="fa-solid fa-chevron-left"></i>
                         </button>
@@ -235,7 +254,6 @@
                             <i class="fa-solid fa-chevron-right"></i>
                         </button>
 
-                        <!-- Slide Indicators -->
                         <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
                             <button onclick="goToSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-brandOrange transition-all"></button>
                             <button onclick="goToSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-gray-300 transition-all"></button>
@@ -246,7 +264,7 @@
                 </div>
             </section>
 
-            <!-- 2. QUICK SERVICES SUMMARY ON HOME -->
+            <!-- 2. SERVICES SUMMARY -->
             <section class="py-16 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
@@ -301,7 +319,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Service Items -->
                     <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
                         <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">01</div>
                         <h3 class="text-xl font-bold text-gray-900">Wedding & Event Cards Printing</h3>
@@ -318,6 +335,24 @@
                         <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">03</div>
                         <h3 class="text-xl font-bold text-gray-900">Acrylic Song & Photo Plaques</h3>
                         <p class="text-gray-500 text-sm mt-2">Laser-cut acrylic Spotify music plaques with wooden LED glowing stands for anniversaries.</p>
+                        <a href="#/products" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">04</div>
+                        <h3 class="text-xl font-bold text-gray-900">Corporate Branding & Promo Kits</h3>
+                        <p class="text-gray-500 text-sm mt-2">Logos, visiting cards, metallic pens, branded diaries, and staff lanyard ID cards.</p>
+                        <a href="#/products" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">05</div>
+                        <h3 class="text-xl font-bold text-gray-900">Apparel Printing (T-Shirts & Hoodies)</h3>
+                        <p class="text-gray-500 text-sm mt-2">Vibrant Direct-To-Film (DTF) & Screen printing on premium cotton hoodies and t-shirts.</p>
+                        <a href="#/products" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-xl mb-4 font-bold">06</div>
+                        <h3 class="text-xl font-bold text-gray-900">Vinyl Stickers & Label Press</h3>
+                        <p class="text-gray-500 text-sm mt-2">Waterproof product packaging labels, die-cut custom stickers, and laptop decals.</p>
                         <a href="#/products" class="inline-flex items-center gap-2 mt-6 text-sm font-bold text-brandOrange">Order Service <i class="fa-solid fa-chevron-right text-xs"></i></a>
                     </div>
                 </div>
@@ -794,6 +829,29 @@
 
     <!-- ================= JAVASCRIPT ENGINE ================= -->
     <script>
+        // --- PROFESSIONAL TOAST NOTIFICATION ENGINE (AUTOMATIC 3-SECOND HIDE) ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgClass = type === 'success' ? 'bg-brandDark text-white border-brandOrange' : 'bg-red-600 text-white border-red-700';
+            let icon = type === 'success' ? 'fa-circle-check text-brandOrange' : 'fa-circle-exclamation text-white';
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl border-2 ${bgClass} toast-enter text-sm font-bold min-w-[280px]`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icon} text-lg"></i>
+                <span class="flex-1">${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
         const PRODUCTS = [
             { id: 1, name: "Royal Foil Wedding Card", price: 150, unit: "per card", img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80", desc: "Custom gold foil & velvet finish box card." },
             { id: 2, name: "Printed Photo Magic Mug", price: 850, unit: "per piece", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80", desc: "Heat sensitive black magic ceramic mug." },
@@ -925,7 +983,7 @@
         function addModalToCart() {
             if (!currentUser) {
                 closeProductModal();
-                alert('Please Log In or Sign Up first!');
+                showToast('Please Log In or Sign Up first!', 'error');
                 navigate('#/login');
                 return;
             }
@@ -936,7 +994,7 @@
             localStorage.setItem('hy_cart', JSON.stringify(cart));
             updateCartBadge();
             closeProductModal();
-            alert('Added to Cart!');
+            showToast('Item added to cart successfully!');
         }
 
         function updateCartBadge() {
@@ -944,7 +1002,7 @@
             document.getElementById('cart-badge').innerText = count;
         }
 
-        // AUTH SYSTEM
+        // AUTH SYSTEM WITH TOASTS
         function handleSignup(e) {
             e.preventDefault();
             const name = document.getElementById('signup-name').value;
@@ -954,11 +1012,11 @@
             const pass = document.getElementById('signup-pass').value;
             const cpass = document.getElementById('signup-cpass').value;
 
-            if (pass !== cpass) { alert('Passwords do not match!'); return; }
+            if (pass !== cpass) { showToast('Passwords do not match!', 'error'); return; }
 
             const users = JSON.parse(localStorage.getItem('hy_users')) || [];
             if (users.some(u => u.email === email || u.phone === phone)) {
-                alert('Account with this Email or Phone already exists!');
+                showToast('Account with this Email or Phone already exists!', 'error');
                 return;
             }
 
@@ -969,7 +1027,7 @@
             currentUser = newUser;
             localStorage.setItem('hy_user', JSON.stringify(currentUser));
             updateAuthUI();
-            alert('Account created successfully!');
+            showToast('Account created successfully!');
             navigate('#/home');
         }
 
@@ -985,10 +1043,10 @@
                 currentUser = user;
                 localStorage.setItem('hy_user', JSON.stringify(currentUser));
                 updateAuthUI();
-                alert(`Welcome back, ${user.name}!`);
+                showToast(`Welcome back, ${user.name}!`);
                 navigate('#/home');
             } else {
-                alert('Invalid Credentials!');
+                showToast('Invalid Email/Phone or Password!', 'error');
             }
         }
 
@@ -999,7 +1057,7 @@
             const newpass = document.getElementById('forgot-newpass').value;
             const cnewpass = document.getElementById('forgot-cnewpass').value;
 
-            if (newpass !== cnewpass) { alert('New password & confirm password do not match!'); return; }
+            if (newpass !== cnewpass) { showToast('New passwords do not match!', 'error'); return; }
 
             let users = JSON.parse(localStorage.getItem('hy_users')) || [];
             const idx = users.findIndex(u => (u.email === id || u.phone === id) && u.pin === pin);
@@ -1007,10 +1065,10 @@
             if (idx !== -1) {
                 users[idx].pass = newpass;
                 localStorage.setItem('hy_users', JSON.stringify(users));
-                alert('Password reset successful! Log in with your new password.');
+                showToast('Password reset successful! Please log in.');
                 navigate('#/login');
             } else {
-                alert('Incorrect ID or Security PIN Code!');
+                showToast('Incorrect ID or Security PIN Code!', 'error');
             }
         }
 
@@ -1018,6 +1076,7 @@
             currentUser = null;
             localStorage.removeItem('hy_user');
             updateAuthUI();
+            showToast('Logged out successfully.');
             navigate('#/home');
         }
 
@@ -1032,7 +1091,7 @@
             }
         }
 
-        // CART & CHECKOUT
+        // CART & CHECKOUT LOGIC
         function renderCart() {
             const list = document.getElementById('cart-items-list');
             if (cart.length === 0) {
@@ -1070,15 +1129,16 @@
             localStorage.setItem('hy_cart', JSON.stringify(cart));
             updateCartBadge();
             renderCart();
+            showToast('Item removed from cart.');
         }
 
         function proceedToCheckout() {
             if (!currentUser) {
-                alert('Please Log In to proceed to checkout!');
+                showToast('Please Log In to proceed to checkout!', 'error');
                 navigate('#/login');
                 return;
             }
-            if (cart.length === 0) { alert('Cart is empty!'); return; }
+            if (cart.length === 0) { showToast('Cart is empty!', 'error'); return; }
             navigate('#/checkout');
         }
 
@@ -1132,7 +1192,7 @@
         function copyOrderId() {
             const id = document.getElementById('success-order-id').innerText;
             navigator.clipboard.writeText(id);
-            alert('Order ID Copied: ' + id);
+            showToast('Order ID copied to clipboard!');
         }
 
         function closeSuccessModal() {
@@ -1167,9 +1227,13 @@
 
         function executeTrack() {
             const inputVal = document.getElementById('trackInputPage').value.trim();
-            if (!inputVal) return;
+            if (!inputVal) {
+                showToast('Please enter a valid Tracking ID!', 'error');
+                return;
+            }
             document.getElementById('trackResultID').innerText = inputVal.toUpperCase();
             document.getElementById('trackResultsArea').classList.remove('hidden');
+            showToast('Tracking details loaded.');
         }
 
         // MOBILE DRAWER
