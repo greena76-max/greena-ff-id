@@ -45,32 +45,44 @@
             background: linear-gradient(135deg, #FF5100 0%, #FF7338 100%);
         }
 
-        /* Slide Animation transition */
         .slide-fade {
             transition: opacity 0.6s ease-in-out;
         }
 
-        /* Active Nav Link Indicator */
+        /* Nav Link Styling with Orange Outline & Glow */
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            border-color: #FF5100;
+            color: #FF5100;
+            box-shadow: 0 4px 14px rgba(255, 81, 0, 0.2);
+        }
         .nav-link.active-nav {
             color: #FF5100;
-            font-weight: 700;
-            border-bottom: 2px solid #FF5100;
+            font-weight: 800;
+            border: 1.5px solid #FF5100;
+            box-shadow: 0 4px 15px rgba(255, 81, 0, 0.25);
+            background-color: rgba(255, 81, 0, 0.05);
         }
 
-        /* Toast Animation */
-        @keyframes slideIn {
+        /* Top-Right Toast Animation */
+        @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
-        @keyframes fadeOut {
+        @keyframes fadeOutRight {
             from { opacity: 1; }
-            to { opacity: 0; }
+            to { opacity: 0; transform: translateX(20px); }
         }
         .toast-enter {
-            animation: slideIn 0.3s ease-out forwards;
+            animation: slideInRight 0.3s ease-out forwards;
         }
         .toast-exit {
-            animation: fadeOut 0.3s ease-in forwards;
+            animation: fadeOutRight 0.3s ease-in forwards;
         }
 
         /* Custom Scrollbar */
@@ -86,10 +98,63 @@
         }
     </style>
 </head>
-<body class="bg-white text-gray-900 antialiased selection:bg-brandOrange selection:text-white min-h-screen flex flex-col justify-between">
+<body class="bg-white text-gray-900 antialiased selection:bg-brandOrange selection:text-white min-h-screen flex flex-col justify-between relative">
 
-    <!-- ================= PROFESSIONAL AUTO-HIDING TOAST CONTAINER ================= -->
-    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
+    <!-- ================= PROFESSIONAL TOP-RIGHT TOAST NOTIFICATION CONTAINER ================= -->
+    <div id="toast-container" class="fixed top-24 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- ================= FLOATING ACTION BUTTONS (WHATSAPP & AI ASSISTANT) ================= -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3 items-end">
+        <!-- WhatsApp Floating Icon -->
+        <a href="https://wa.me/923209306672" target="_blank" title="Chat on WhatsApp" class="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center text-2xl shadow-xl hover:scale-110 transition-transform duration-300 border-2 border-white">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+
+        <!-- HY STORE AI Assistant Button -->
+        <button onclick="toggleAiAssistant()" title="HY STORE AI Assistant" class="w-14 h-14 rounded-full bg-brandDark text-brandOrange border-2 border-brandOrange flex items-center justify-center text-2xl shadow-glow-orange hover:scale-110 transition-transform duration-300">
+            <i class="fa-solid fa-robot"></i>
+        </button>
+    </div>
+
+    <!-- ================= HY STORE AI ASSISTANT POPUP CHATBOX ================= -->
+    <div id="ai-assistant-modal" class="fixed bottom-24 right-6 z-50 hidden w-[360px] max-w-[90vw] bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col transition-all">
+        <!-- Chat Header -->
+        <div class="bg-brandDark text-white p-4 flex items-center justify-between border-b border-gray-800">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-brandOrange text-white flex items-center justify-center font-bold text-base">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h4 class="font-extrabold text-sm tracking-wide">HY STORE Assistant</h4>
+                    <span class="text-[10px] text-emerald-400 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span> Online assistant</span>
+                </div>
+            </div>
+            <button onclick="toggleAiAssistant()" class="text-gray-400 hover:text-white text-lg font-bold">✕</button>
+        </div>
+
+        <!-- Chat Body -->
+        <div id="ai-chat-body" class="p-4 h-80 overflow-y-auto space-y-4 bg-gray-50 text-xs">
+            <!-- Quick Suggestion Pills -->
+            <div class="flex flex-wrap gap-2 mb-2">
+                <button onclick="sendAiQuickMsg('Get a Quote')" class="px-3 py-1.5 rounded-full bg-white border border-gray-300 text-gray-800 font-bold hover:border-brandOrange hover:text-brandOrange shadow-sm">Get a Quote</button>
+                <button onclick="sendAiQuickMsg('Track Order')" class="px-3 py-1.5 rounded-full bg-white border border-gray-300 text-gray-800 font-bold hover:border-brandOrange hover:text-brandOrange shadow-sm">Track Order</button>
+                <button onclick="sendAiQuickMsg('Our Services')" class="px-3 py-1.5 rounded-full bg-white border border-gray-300 text-gray-800 font-bold hover:border-brandOrange hover:text-brandOrange shadow-sm">Our Services</button>
+                <button onclick="sendAiQuickMsg('WhatsApp')" class="px-3 py-1.5 rounded-full bg-white border border-gray-300 text-gray-800 font-bold hover:border-brandOrange hover:text-brandOrange shadow-sm">WhatsApp</button>
+            </div>
+
+            <!-- Bot Welcome Msg -->
+            <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm border border-gray-200 text-gray-700 leading-relaxed max-w-[85%]">
+                Hi! Ask about printing, wedding cards, custom mugs, acrylic frames, branding, or live order tracking.
+            </div>
+        </div>
+
+        <!-- Chat Input Footer -->
+        <form onsubmit="handleAiMessageSubmit(event)" class="p-3 bg-white border-t border-gray-200 flex items-center gap-2">
+            <input type="text" id="ai-input-text" placeholder="Type your question..." class="flex-1 px-4 py-2.5 rounded-full border border-gray-300 text-xs focus:outline-none focus:border-brandOrange">
+            <button type="submit" class="px-5 py-2.5 rounded-full bg-brandOrange hover:bg-brandOrangeDark text-white font-bold text-xs shadow-glow-orange transition-all">Send</button>
+        </form>
+    </div>
+
 
     <!-- ================= TOP ANNOUNCEMENT BAR (CENTERED) ================= -->
     <div class="bg-brandDark text-white py-2 px-4 text-xs font-semibold overflow-x-auto">
@@ -108,7 +173,7 @@
 
 
     <!-- ================= HEADER / NAVIGATION BAR ================= -->
-    <header class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
+    <header class="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             
             <!-- Logo -->
@@ -122,18 +187,18 @@
                 </div>
             </a>
 
-            <!-- Desktop Nav Links -->
-            <nav class="hidden lg:flex items-center gap-8 font-semibold text-sm text-gray-700">
-                <a href="#/home" id="nav-home" class="nav-link hover:text-brandOrange py-2 transition-colors">Home</a>
-                <a href="#/services" id="nav-services" class="nav-link hover:text-brandOrange py-2 transition-colors">Services</a>
-                <a href="#/products" id="nav-products" class="nav-link hover:text-brandOrange py-2 transition-colors">Products</a>
-                <a href="#/track" id="nav-track" class="nav-link hover:text-brandOrange py-2 transition-colors">Track Order</a>
-                <a href="#/contact" id="nav-contact" class="nav-link hover:text-brandOrange py-2 transition-colors">Contact</a>
+            <!-- Desktop Nav Links (With Spacing & Outlined Shadows) -->
+            <nav class="hidden lg:flex items-center gap-6 font-semibold text-sm text-gray-700">
+                <a href="#/home" id="nav-home" class="nav-link">Home</a>
+                <a href="#/services" id="nav-services" class="nav-link">Services</a>
+                <a href="#/products" id="nav-products" class="nav-link">Products</a>
+                <a href="#/track" id="nav-track" class="nav-link">Track Order</a>
+                <a href="#/contact" id="nav-contact" class="nav-link">Contact</a>
             </nav>
 
             <!-- Right Actions (Cart & Auth Buttons) -->
             <div class="hidden sm:flex items-center gap-3">
-                <button onclick="navigate('#/cart')" class="w-10 h-10 rounded-full bg-gray-100 text-gray-800 hover:bg-brandOrange hover:text-white flex items-center justify-center relative transition-all">
+                <button onclick="navigate('#/cart')" class="w-10 h-10 rounded-full bg-gray-100 text-gray-800 hover:bg-brandOrange hover:text-white flex items-center justify-center relative transition-all shadow-sm hover:shadow-glow-orange">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span id="cart-badge" class="absolute -top-1 -right-1 bg-brandOrange text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
                 </button>
@@ -144,7 +209,7 @@
                 </div>
 
                 <div id="user-nav-container" class="hidden">
-                    <button onclick="navigate('#/profile')" class="flex items-center gap-2 bg-orange-50 border border-orange-200 text-brandOrange font-bold text-sm px-4 py-2 rounded-full">
+                    <button onclick="navigate('#/profile')" class="flex items-center gap-2 bg-orange-50 border border-orange-200 text-brandOrange font-bold text-sm px-4 py-2 rounded-full hover:shadow-md transition">
                         <i class="fa-solid fa-user-circle"></i>
                         <span id="user-nav-name">Account</span>
                     </button>
@@ -278,7 +343,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="bg-brandGray rounded-2xl p-8 border border-gray-100 hover:border-brandOrange transition-all duration-300 group">
+                        <div class="bg-brandGray rounded-2xl p-8 border border-gray-100 hover:border-brandOrange transition-all duration-300 group shadow-sm">
                             <div class="w-14 h-14 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-2xl mb-6 group-hover:bg-brandOrange group-hover:text-white transition-colors">
                                 <i class="fa-solid fa-stamp"></i>
                             </div>
@@ -286,7 +351,7 @@
                             <p class="text-gray-500 text-sm mt-2 leading-relaxed">High precision printing on T-Shirts, Hoodies, Mugs, Cards, and Vinyl Labels.</p>
                             <a href="#/products" class="inline-block mt-4 text-xs font-bold text-brandOrange uppercase tracking-wider">Explore Category &rarr;</a>
                         </div>
-                        <div class="bg-brandGray rounded-2xl p-8 border border-gray-100 hover:border-brandOrange transition-all duration-300 group">
+                        <div class="bg-brandGray rounded-2xl p-8 border border-gray-100 hover:border-brandOrange transition-all duration-300 group shadow-sm">
                             <div class="w-14 h-14 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-2xl mb-6 group-hover:bg-brandOrange group-hover:text-white transition-colors">
                                 <i class="fa-solid fa-gift"></i>
                             </div>
@@ -294,7 +359,7 @@
                             <p class="text-gray-500 text-sm mt-2 leading-relaxed">Bespoke hamper boxes, acrylic Spotify plaques, LED frames, and wedding gifts.</p>
                             <a href="#/products" class="inline-block mt-4 text-xs font-bold text-brandOrange uppercase tracking-wider">Explore Category &rarr;</a>
                         </div>
-                        <div class="bg-brandGray rounded-2xl p-8 border border-gray-100 hover:border-brandOrange transition-all duration-300 group">
+                        <div class="bg-brandGray rounded-2xl p-8 border border-gray-100 hover:border-brandOrange transition-all duration-300 group shadow-sm">
                             <div class="w-14 h-14 rounded-xl bg-orange-100 text-brandOrange flex items-center justify-center text-2xl mb-6 group-hover:bg-brandOrange group-hover:text-white transition-colors">
                                 <i class="fa-solid fa-pen-ruler"></i>
                             </div>
@@ -361,7 +426,7 @@
         </div>
 
 
-        <!-- ================= PRODUCTS DEDICATED PAGE VIEW ================= -->
+        <!-- ================= PRODUCTS DEDICATED PAGE VIEW (8 DEMO PRODUCTS) ================= -->
         <div id="view-products" class="page-view hidden py-12 bg-brandGray">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 
@@ -449,7 +514,7 @@
                     <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Email or Phone Number</label>
-                            <input type="text" id="login-id" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="email@example.com / 03001234567">
+                            <input type="text" id="login-id" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="email@example.com / 03209306672">
                         </div>
                         <div>
                             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Password</label>
@@ -480,7 +545,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Full Name</label>
-                                <input type="text" id="signup-name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="John Doe">
+                                <input type="text" id="signup-name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="Full Name">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Email Address (Unique)</label>
@@ -488,7 +553,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Phone Number (Unique)</label>
-                                <input type="tel" id="signup-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="03001234567">
+                                <input type="tel" id="signup-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brandOrange text-sm" placeholder="03209306672">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Security PIN (4 Digits)</label>
@@ -513,7 +578,7 @@
         </div>
 
 
-        <!-- ================= FORGOT PASSWORD VIEW (LANDSCAPE) ================= -->
+        <!-- ================= FORGOT PASSWORD VIEW ================= -->
         <div id="view-forgot" class="page-view hidden py-12 bg-white">
             <div class="max-w-2xl mx-auto px-4">
                 <div class="bg-white p-8 rounded-3xl border border-gray-200 shadow-xl space-y-6">
@@ -699,21 +764,21 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-white p-8 rounded-2xl border border-gray-200 text-center space-y-4">
+                    <div class="bg-white p-8 rounded-2xl border border-gray-200 text-center space-y-4 shadow-sm">
                         <div class="w-14 h-14 bg-orange-100 text-brandOrange rounded-full flex items-center justify-center mx-auto text-2xl font-bold"><i class="fa-solid fa-phone"></i></div>
                         <h3 class="font-bold text-gray-900">Phone & WhatsApp</h3>
                         <p class="text-sm text-gray-600">03209306672</p>
                         <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-4 py-2 rounded-full text-xs font-bold bg-brandOrange text-white">Chat Now</a>
                     </div>
 
-                    <div class="bg-white p-8 rounded-2xl border border-gray-200 text-center space-y-4">
+                    <div class="bg-white p-8 rounded-2xl border border-gray-200 text-center space-y-4 shadow-sm">
                         <div class="w-14 h-14 bg-orange-100 text-brandOrange rounded-full flex items-center justify-center mx-auto text-2xl font-bold"><i class="fa-solid fa-envelope"></i></div>
                         <h3 class="font-bold text-gray-900">Email Address</h3>
                         <p class="text-sm text-gray-600">hystoreofficial@gmail.com</p>
                         <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-4 py-2 rounded-full text-xs font-bold bg-gray-900 text-white">Send Mail</a>
                     </div>
 
-                    <div class="bg-white p-8 rounded-2xl border border-gray-200 text-center space-y-4">
+                    <div class="bg-white p-8 rounded-2xl border border-gray-200 text-center space-y-4 shadow-sm">
                         <div class="w-14 h-14 bg-orange-100 text-brandOrange rounded-full flex items-center justify-center mx-auto text-2xl font-bold"><i class="fa-solid fa-clock"></i></div>
                         <h3 class="font-bold text-gray-900">Working Hours</h3>
                         <p class="text-sm text-gray-600">Mon - Sat: 10:00 AM - 09:00 PM</p>
@@ -829,7 +894,7 @@
 
     <!-- ================= JAVASCRIPT ENGINE ================= -->
     <script>
-        // --- PROFESSIONAL TOAST NOTIFICATION ENGINE (AUTOMATIC 3-SECOND HIDE) ---
+        // --- TOP-RIGHT AUTO-HIDING TOAST NOTIFICATIONS ---
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -837,7 +902,7 @@
             let bgClass = type === 'success' ? 'bg-brandDark text-white border-brandOrange' : 'bg-red-600 text-white border-red-700';
             let icon = type === 'success' ? 'fa-circle-check text-brandOrange' : 'fa-circle-exclamation text-white';
 
-            toast.className = `pointer-events-auto flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl border-2 ${bgClass} toast-enter text-sm font-bold min-w-[280px]`;
+            toast.className = `pointer-events-auto flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-glow-orange border-2 ${bgClass} toast-enter text-sm font-bold min-w-[280px]`;
             toast.innerHTML = `
                 <i class="fa-solid ${icon} text-lg"></i>
                 <span class="flex-1">${message}</span>
@@ -852,11 +917,71 @@
             }, 3000);
         }
 
+        // --- AI ASSISTANT WIDGET LOGIC ---
+        function toggleAiAssistant() {
+            const modal = document.getElementById('ai-assistant-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function sendAiQuickMsg(text) {
+            appendAiUserMsg(text);
+            respondAiBot(text);
+        }
+
+        function handleAiMessageSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('ai-input-text');
+            const val = input.value.trim();
+            if (!val) return;
+            appendAiUserMsg(val);
+            input.value = '';
+            respondAiBot(val);
+        }
+
+        function appendAiUserMsg(text) {
+            const chatBody = document.getElementById('ai-chat-body');
+            const userMsg = document.createElement('div');
+            userMsg.className = 'bg-brandDark text-white p-3 rounded-2xl rounded-tr-none shadow-sm ml-auto max-w-[85%] text-xs font-medium';
+            userMsg.innerText = text;
+            chatBody.appendChild(userMsg);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function respondAiBot(query) {
+            const chatBody = document.getElementById('ai-chat-body');
+            setTimeout(() => {
+                let responseText = "I can help with printing, branding, packaging, wedding cards, and order tracking — or use the WhatsApp Flow button.";
+                const q = query.toLowerCase();
+
+                if (q.includes('quote') || q.includes('price')) {
+                    responseText = "For custom printing quotes, please select a product from our Products page or contact us on WhatsApp (03209306672).";
+                } else if (q.includes('track')) {
+                    responseText = "You can track your live order by visiting our 'Track Order' page and entering your Order ID (e.g., HY-1001).";
+                } else if (q.includes('services')) {
+                    responseText = "We offer Wedding Card Printing, Sublimation Magic Mugs, Acrylic Spotify Plaques, DTF Apparel Printing, and Corporate Promo Kits!";
+                } else if (q.includes('whatsapp')) {
+                    responseText = "Opening WhatsApp support... You can also direct chat at 03209306672.";
+                    window.open("https://wa.me/923209306672", "_blank");
+                }
+
+                const botMsg = document.createElement('div');
+                botMsg.className = 'bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm border border-gray-200 text-gray-700 leading-relaxed max-w-[85%]';
+                botMsg.innerText = responseText;
+                chatBody.appendChild(botMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 500);
+        }
+
+        // --- 8 DEMO PRODUCTS ---
         const PRODUCTS = [
             { id: 1, name: "Royal Foil Wedding Card", price: 150, unit: "per card", img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80", desc: "Custom gold foil & velvet finish box card." },
             { id: 2, name: "Printed Photo Magic Mug", price: 850, unit: "per piece", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80", desc: "Heat sensitive black magic ceramic mug." },
-            { id: 3, name: "Luxury Birthday Hamper", price: 2450, unit: "per box", img: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80", desc: "Includes LED frame, custom keychain & chocolates." },
-            { id: 4, name: "Printed Cotton T-Shirt", price: 1450, unit: "per shirt", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80", desc: "Custom graphic artwork DTF front & back print." }
+            { id: 3, name: "Luxury Birthday Gift Hamper", price: 2450, unit: "per box", img: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80", desc: "Includes LED frame, custom keychain & chocolates." },
+            { id: 4, name: "Printed Cotton Graphic T-Shirt", price: 1450, unit: "per shirt", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80", desc: "Custom graphic artwork DTF front & back print." },
+            { id: 5, name: "Acrylic Spotify Song Plaque", price: 1850, unit: "per plaque", img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80", desc: "Laser-cut acrylic with wooden LED glowing base." },
+            { id: 6, name: "Custom Corporate Visiting Cards", price: 1200, unit: "per 100 cards", img: "https://images.unsplash.com/photo-1542744094-3a31216914fc?auto=format&fit=crop&w=600&q=80", desc: "Matte laminated 350GSM premium business cards." },
+            { id: 7, name: "Waterproof Packaging Vinyl Stickers", price: 950, unit: "per 50 stickers", img: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80", desc: "Die-cut custom logo stickers for packaging." },
+            { id: 8, name: "Custom Printed Fleece Hoodie", price: 2850, unit: "per hoodie", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80", desc: "Heavyweight cotton fleece custom hoodie." }
         ];
 
         const LOCATIONS = {
@@ -953,7 +1078,7 @@
                         </div>
                     </div>
                     <div class="p-5 pt-0">
-                        <button onclick="openProductModal(${p.id})" class="w-full py-2.5 rounded-xl text-xs font-bold text-white bg-brandOrange hover:bg-brandOrangeDark transition-all">View Details</button>
+                        <button onclick="openProductModal(${p.id})" class="w-full py-2.5 rounded-xl text-xs font-bold text-white bg-brandOrange hover:bg-brandOrangeDark shadow-glow-orange transition-all">View Details</button>
                     </div>
                 </div>
             `).join('');
