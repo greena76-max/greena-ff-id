@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HY STORE - Gifting & Designing </title>
+    <title>HY STORE - Gifting & Designing Services</title>
 
     <!-- Web Application Manifest (Inline PWA) -->
     <link rel="manifest" href='data:application/json,{"name":"HY STORE","short_name":"HY STORE","start_url":".","display":"standalone","background_color":"#FFFFFF","theme_color":"#FF5100","icons":[{"src":"logo.png","sizes":"192x192","type":"image/png"}]}'>
@@ -113,13 +113,13 @@
 
     <!-- ================= ENTRY POPUP BANNER ================= -->
     <div id="entry-popup-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="relative bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-gray-200 animate-bounce-short">
+        <div class="relative bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-gray-200">
             <!-- Close Button (X) -->
             <button onclick="closeEntryPopup()" class="absolute top-4 right-4 z-20 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center text-base font-bold shadow-lg transition">
                 ✕
             </button>
             <div class="relative">
-                <img src="popup-banner.png" alt="Special Offer" class="w-full h-72 object-cover" onerror="this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'">
+                <img src="popup-banner.png" alt="Special Offer" class="w-full h-64 sm:h-72 object-cover" onerror="this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'">
                 <div class="p-6 text-center space-y-3 bg-white">
                     <span class="bg-orange-100 text-brandOrange text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Welcome to HY STORE</span>
                     <h3 class="text-2xl font-black text-gray-900">Custom Printing & Graphic Services</h3>
@@ -136,7 +136,7 @@
     </div>
 
     <!-- ================= GLOBAL 4-5 SECONDS LOADING OVERLAY ================= -->
-    <div id="global-loader" class="fixed inset-0 bg-white/90 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center space-y-4">
+    <div id="global-loader" class="fixed inset-0 bg-white/95 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center space-y-4">
         <div class="relative w-24 h-24 flex items-center justify-center">
             <div class="absolute inset-0 border-4 border-gray-200 border-t-brandOrange rounded-full loader-spinner"></div>
             <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center overflow-hidden shadow-md">
@@ -353,7 +353,7 @@
                 </div>
             </section>
 
-            <!-- 3 Categories Box -->
+            <!-- 3 Categories Box Section -->
             <section class="py-12 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8">
@@ -395,7 +395,7 @@
                 </div>
             </section>
 
-            <!-- Home Page Featured Products Grid (2 columns on mobile, 4 columns on desktop) -->
+            <!-- Home Page Featured Products Grid (Strictly 2 columns on mobile, 4 columns on desktop) -->
             <section class="py-12 bg-brandGray border-t border-b border-gray-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between mb-8">
@@ -409,7 +409,7 @@
                 </div>
             </section>
 
-            <!-- Contact Page Items Block on Home Page -->
+            <!-- Contact Support Cards Block on Home Page -->
             <section class="py-14 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-xl mx-auto mb-10">
@@ -445,7 +445,7 @@
                 </div>
             </section>
 
-            <!-- Image 2 Style Orange Call-to-Action Banner -->
+            <!-- Orange Call-to-Action Banner -->
             <section class="py-8 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="bg-brandOrange text-white rounded-3xl p-8 sm:p-12 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
@@ -495,11 +495,12 @@
                         <h1 class="text-4xl font-black text-gray-900 mt-1">Our Featured <span class="text-brandOrange">Products</span></h1>
                     </div>
                 </div>
+                <!-- 2-column mobile / 4-column desktop grid -->
                 <div id="products-grid-list" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"></div>
             </div>
         </div>
 
-        <!-- LIVE TRACKING PAGE VIEW (UPDATED PROFESSIONAL PANEL WITH DYNAMIC STATUS & IMAGE 1 TIMELINE) -->
+        <!-- LIVE TRACKING PAGE VIEW WITH REAL-TIME TIMER / BLUE TICK BADGE -->
         <div id="view-track" class="page-view hidden py-16 bg-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-xl mx-auto mb-10">
@@ -516,7 +517,6 @@
 
                     <!-- Professional Order Tracking Output Panel -->
                     <div id="trackResultsArea" class="hidden pt-8 border-t border-gray-200 space-y-8">
-                        <!-- Order Detail Summary Card -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                             <div>
                                 <span class="text-gray-400 font-bold uppercase block">Customer Name</span>
@@ -536,16 +536,16 @@
                             </div>
                         </div>
 
-                        <!-- Image 1 Style Timeline Bar & Steps -->
+                        <!-- Timeline Bar & Steps -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm space-y-6">
-                            <div class="flex justify-between items-center">
+                            <div class="flex justify-between items-center flex-wrap gap-2">
                                 <div>
                                     <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">TRACKING NUMBER</span>
                                     <p id="trackResultID" class="text-2xl font-black text-gray-900">HY-1001</p>
                                 </div>
                                 <div class="text-right">
-                                    <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">ESTIMATED DISPATCH</span>
-                                    <p class="text-sm font-bold text-brandOrange">24-48 Hours</p>
+                                    <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">PAYMENT / DISPATCH STATUS</span>
+                                    <div id="trackTimerBadge" class="mt-1 font-bold text-sm text-brandOrange">--</div>
                                 </div>
                             </div>
 
@@ -554,7 +554,7 @@
                                 <div id="trackProgressBar" class="bg-brandOrange h-full w-1/4 transition-all duration-700"></div>
                             </div>
 
-                            <!-- Timeline Icons (First circle always active on order placement) -->
+                            <!-- Timeline Icons -->
                             <div class="grid grid-cols-4 gap-2 text-center text-xs">
                                 <div>
                                     <div id="step-placed" class="w-10 h-10 rounded-full bg-brandOrange text-white mx-auto flex items-center justify-center font-bold mb-2 shadow-md">
@@ -708,7 +708,7 @@
             </div>
         </div>
 
-        <!-- CHECKOUT VIEW (PROFESSIONAL DESIGN WITH STRICT FORM VALIDATION & WORLDWIDE CODES) -->
+        <!-- CHECKOUT VIEW -->
         <div id="view-checkout" class="page-view hidden py-12 bg-white">
             <div class="max-w-4xl mx-auto px-4">
                 <div class="bg-white p-8 sm:p-12 rounded-3xl border border-gray-200 shadow-xl space-y-8">
@@ -952,7 +952,7 @@
         </div>
     </div>
 
-    <!-- ================= ORDER CONFIRMATION MODAL ================= -->
+    <!-- ================= ORDER CONFIRMATION MODAL WITH REAL-TIME TIMER ================= -->
     <div id="order-success-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 sm:p-6">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-10 text-center space-y-6">
             <div class="w-16 h-16 sm:w-20 sm:h-20 bg-orange-100 text-brandOrange rounded-full flex items-center justify-center text-3xl sm:text-4xl font-bold mx-auto">✓</div>
@@ -967,8 +967,11 @@
             </div>
 
             <div id="timer-box-24h" class="hidden bg-orange-50 border border-orange-200 p-4 rounded-2xl text-xs text-orange-900 space-y-1">
-                <p class="font-bold text-xs sm:text-sm">Verification In Progress (24 Hours)</p>
-                <p>Payment details submitted. Your order status will update after verification.</p>
+                <p class="font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-clock animate-spin"></i> Payment Verification Counter (24h)
+                </p>
+                <div id="modal-live-timer" class="text-xl font-black text-brandOrange font-mono py-1">24:00:00</div>
+                <p class="text-[11px] text-gray-600">Timer will continue running even after refresh. Status will switch to Verified Blue Tick upon approval.</p>
             </div>
 
             <button onclick="closeSuccessModal()" class="w-full bg-brandOrange hover:bg-brandOrangeDark text-white font-bold py-3.5 rounded-xl shadow-md transition text-sm sm:text-base">Go to My Orders</button>
@@ -1016,15 +1019,15 @@
                 </div>
             </div>
             <div class="pt-8 border-t border-gray-800 text-center text-xs text-gray-500">
-                &copy; 2026 HY STORE - Gifting & Designing. All Rights Reserved.
+                &copy; 2026 HY STORE - Gifting & Designing Services. All Rights Reserved.
             </div>
         </div>
     </footer>
 
     <!-- ================= JAVASCRIPT ENGINE & GOOGLE SHEETS INTEGRATION ================= -->
     <script>
-        // GOOGLE APPS SCRIPT BACKEND DEPLOYMENT URL
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwAO44GPnB-rOA0dbwTMpARmaYQMS1ig7xAcASXlLhLmWzrSvXlH-K6rQ4Xn5RIi-AX/exec";
+        // UPDATED GOOGLE APPS SCRIPT BACKEND DEPLOYMENT URL (SUPPORTING 12 COLUMNS)
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUC-H6GtBRaTd2awzs0WYOr0inyEQA43WYLu5UstOeOh1_cYeiJXieAvvLcklVbgU_/exec";
 
         // CLOSE ENTRY POPUP BANNER
         function closeEntryPopup() {
@@ -1145,7 +1148,7 @@
             }, 500);
         }
 
-        // SERVICES LIST & CATEGORIES
+        // SERVICES LIST & CATEGORIES (No Prices, Direct WhatsApp Inquiry Flow)
         const SERVICES_DATA = [
             { id: 's1', category: 'printing', title: 'Wedding & Invitation Cards', desc: 'Custom Velvet, Gold Foil, & Textured Wedding Cards with tailored envelopes.', icon: 'fa-envelope-open-text' },
             { id: 's2', category: 'printing', title: 'Sublimation Photo Mugs', desc: 'Magic Heat Changing Mugs, White Ceramic & Inner Color Printed Mugs.', icon: 'fa-mug-hot' },
@@ -1192,9 +1195,10 @@
                 btn.classList.remove('bg-brandOrange', 'text-white', 'border-brandOrange');
                 btn.classList.add('bg-white', 'text-gray-700', 'border-gray-200');
             });
-            event.target.classList.remove('bg-white', 'text-gray-700', 'border-gray-200');
-            event.target.classList.add('bg-brandOrange', 'text-white', 'border-brandOrange');
-
+            if(event && event.target) {
+                event.target.classList.remove('bg-white', 'text-gray-700', 'border-gray-200');
+                event.target.classList.add('bg-brandOrange', 'text-white', 'border-brandOrange');
+            }
             renderServicesGrid(category);
         }
 
@@ -1210,12 +1214,12 @@
                         price: "Custom Quote"
                     });
                 }
-                const msg = encodeURIComponent(`Hi HY STORE! I am interested in your Service: *${serviceTitle}*. Please provide detail & quote.`);
+                const msg = encodeURIComponent(`Hi HY STORE! I am interested in your Service: *${serviceTitle}*. Please provide details & quote.`);
                 window.open(`https://wa.me/923209306672?text=${msg}`, '_blank');
             });
         }
 
-        // PRODUCTS LIST
+        // PRODUCTS LIST WITH REAL & CUT-OFF OLD PRICES
         const PRODUCTS = [
             { id: 1, name: "Royal Foil Wedding Card", price: 150, oldPrice: 200, unit: "per card", img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80", desc: "Custom gold foil & velvet finish box card." },
             { id: 2, name: "Printed Photo Magic Mug", price: 850, oldPrice: 1100, unit: "per piece", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80", desc: "Heat sensitive black magic ceramic mug." },
@@ -1269,6 +1273,7 @@
         let orders = JSON.parse(localStorage.getItem('hy_orders')) || [];
         let currentModalProduct = null;
         let modalQty = 1;
+        let timerIntervals = {};
 
         function handleRouting() {
             let hash = window.location.hash || '#/home';
@@ -1336,6 +1341,7 @@
         function goToSlide(index) { showSlide(index); }
         setInterval(nextSlide, 5000);
 
+        // RENDER PRODUCTS GRID (Strictly 2 columns on mobile)
         function renderProductsGrid() {
             const grid = document.getElementById('products-grid-list');
             if (!grid) return;
@@ -1479,7 +1485,10 @@
                         userEmail: orderData.user,
                         total: orderData.total,
                         payMethod: orderData.payMethod,
+                        payAccountTitle: orderData.payAccountTitle || "N/A",
+                        payTrxId: orderData.payTrxId || "N/A",
                         status: orderData.status,
+                        screenshotUrl: "N/A",
                         items: orderData.items
                     })
                 });
@@ -1674,6 +1683,49 @@
             panel.classList.toggle('hidden', type !== 'ONLINE');
         }
 
+        // PERSISTENT 24-HOUR TIMER LOGIC IN LOCALSTORAGE
+        function startPersistent24hTimer(orderId, displayElementId) {
+            const timerKey = `hy_timer_${orderId}`;
+            let expiryTime = localStorage.getItem(timerKey);
+
+            if (!expiryTime) {
+                expiryTime = Date.now() + (24 * 60 * 60 * 1000); // 24 Hours in ms
+                localStorage.setItem(timerKey, expiryTime);
+            } else {
+                expiryTime = parseInt(expiryTime, 10);
+            }
+
+            if (timerIntervals[orderId]) clearInterval(timerIntervals[orderId]);
+
+            function updateTimer() {
+                const now = Date.now();
+                const diff = expiryTime - now;
+
+                const elem = document.getElementById(displayElementId);
+
+                if (diff <= 0) {
+                    clearInterval(timerIntervals[orderId]);
+                    if (elem) {
+                        elem.innerHTML = `<span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-blue-600"></i> Payment Verified</span>`;
+                    }
+                    return;
+                }
+
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                if (elem) {
+                    elem.innerHTML = `<span class="text-brandOrange font-mono font-bold"><i class="fa-solid fa-clock animate-pulse"></i> ${formatted} Verification Remaining</span>`;
+                }
+            }
+
+            updateTimer();
+            timerIntervals[orderId] = setInterval(updateTimer, 1000);
+        }
+
         // STRICT FORM VALIDATION CHECKOUT SUBMISSION
         function handleCheckoutSubmit(e) {
             e.preventDefault();
@@ -1685,7 +1737,9 @@
             const city = document.getElementById('co-city').value;
             const payMethod = document.querySelector('input[name="paymethod"]:checked').value;
 
-            // Strict Validation Policy
+            let payAccountTitle = "";
+            let payTrxId = "";
+
             if (!recipientName || recipientName.length < 3) {
                 showToast('Please enter complete Recipient Full Name!', 'error');
                 return;
@@ -1700,10 +1754,10 @@
             }
 
             if (payMethod === 'ONLINE') {
-                const title = document.getElementById('pay-title').value.trim();
-                const trx = document.getElementById('pay-trx').value.trim();
-                if (!title || !trx) {
-                    showToast('Please fill Sender Title and TRX ID for online payment!', 'error');
+                payAccountTitle = document.getElementById('pay-title').value.trim();
+                payTrxId = document.getElementById('pay-trx').value.trim();
+                if (!payAccountTitle || !payTrxId) {
+                    showToast('Please fill Sender Account Title and TRX ID!', 'error');
                     return;
                 }
             }
@@ -1722,6 +1776,8 @@
                 user: currentUser.email,
                 total: cart.reduce((s, i) => s + (i.price * i.qty), 0),
                 payMethod,
+                payAccountTitle,
+                payTrxId,
                 status: payMethod === 'COD' ? 'Order Placed' : 'Payment Verification Pending (24h)',
                 date: new Date().toLocaleDateString()
             };
@@ -1736,7 +1792,14 @@
                 updateCartBadge();
 
                 document.getElementById('success-order-id').innerText = orderId;
-                document.getElementById('timer-box-24h').classList.toggle('hidden', payMethod !== 'ONLINE');
+
+                if (payMethod === 'ONLINE') {
+                    document.getElementById('timer-box-24h').classList.remove('hidden');
+                    startPersistent24hTimer(orderId, 'modal-live-timer');
+                } else {
+                    document.getElementById('timer-box-24h').classList.add('hidden');
+                }
+
                 document.getElementById('order-success-modal').classList.remove('hidden');
             });
         }
@@ -1765,19 +1828,33 @@
                 return;
             }
 
-            container.innerHTML = myOrders.map(o => `
-                <div class="border border-gray-200 p-4 rounded-2xl flex justify-between items-center">
-                    <div>
-                        <span class="font-extrabold text-brandOrange">${o.id}</span>
-                        <span class="text-xs text-gray-400 block">${o.date} • ${o.items.length} Items</span>
-                        <span class="text-xs font-bold text-gray-700">${o.status}</span>
+            container.innerHTML = myOrders.map(o => {
+                let badgeHtml = "";
+                const isVerified = o.status.toLowerCase().includes('verified') || o.status.toLowerCase().includes('dispatched');
+                
+                if (isVerified) {
+                    badgeHtml = `<span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-blue-600"></i> Verified Blue Tick</span>`;
+                } else if (o.payMethod === 'ONLINE') {
+                    badgeHtml = `<div id="prof-timer-${o.id}" class="text-xs font-bold text-brandOrange"></div>`;
+                    setTimeout(() => startPersistent24hTimer(o.id, `prof-timer-${o.id}`), 100);
+                } else {
+                    badgeHtml = `<span class="text-xs font-bold text-gray-700">${o.status}</span>`;
+                }
+
+                return `
+                    <div class="border border-gray-200 p-4 rounded-2xl flex justify-between items-center flex-wrap gap-2">
+                        <div>
+                            <span class="font-extrabold text-brandOrange">${o.id}</span>
+                            <span class="text-xs text-gray-400 block">${o.date} • ${o.items.length} Items</span>
+                            <div class="mt-1">${badgeHtml}</div>
+                        </div>
+                        <span class="font-extrabold text-gray-900">PKR ${o.total}</span>
                     </div>
-                    <span class="font-extrabold text-gray-900">PKR ${o.total}</span>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        // PROFESSIONAL ORDER TRACKING LOGIC WITH STATUS TIMELINE DYNAMICS
+        // LIVE ORDER TRACKING WITH DYNAMIC STATUS & BLUE TICK / PERSISTENT TIMER
         function executeTrack() {
             const inputVal = document.getElementById('trackInputPage').value.trim().toUpperCase();
             if (!inputVal) {
@@ -1790,6 +1867,7 @@
                     id: inputVal,
                     name: currentUser ? currentUser.name : "Valued Customer",
                     status: "Order Placed",
+                    payMethod: "ONLINE",
                     country: "Pakistan",
                     city: "Lahore"
                 };
@@ -1800,26 +1878,31 @@
                 document.getElementById('trackCountry').innerText = foundOrder.country || "Pakistan";
                 document.getElementById('trackCity').innerText = foundOrder.city || "Lahore";
 
+                // Blue Tick vs Countdown Timer display logic
+                const timerBadge = document.getElementById('trackTimerBadge');
+                const st = foundOrder.status.toLowerCase();
+                const isVerified = st.includes('verified') || st.includes('dispatched') || st.includes('printing');
+
+                if (isVerified) {
+                    timerBadge.innerHTML = `<span class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-circle-check text-blue-600 text-sm"></i> Payment Verified</span>`;
+                } else if (foundOrder.payMethod === 'ONLINE') {
+                    startPersistent24hTimer(foundOrder.id, 'trackTimerBadge');
+                } else {
+                    timerBadge.innerHTML = `<span class="text-xs font-bold text-gray-700">${foundOrder.status}</span>`;
+                }
+
                 // Timeline Bar & Step Colors Logic
                 const bar = document.getElementById('trackProgressBar');
                 const stepProof = document.getElementById('step-proof');
                 const stepPrint = document.getElementById('step-printing');
                 const stepDispatch = document.getElementById('step-dispatched');
-                
-                const labelProof = document.getElementById('label-proof');
-                const labelPrint = document.getElementById('label-printing');
-                const labelDispatch = document.getElementById('label-dispatched');
 
-                // Reset Timeline steps
                 bar.className = "h-full transition-all duration-700 bg-brandOrange w-1/4";
                 stepProof.className = "w-10 h-10 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-2";
                 stepPrint.className = "w-10 h-10 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-2";
                 stepDispatch.className = "w-10 h-10 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-2";
 
-                const st = foundOrder.status.toLowerCase();
-
                 if (st.includes('dispatched') || st.includes('delivered')) {
-                    // Turn line & icons green upon dispatch
                     bar.className = "h-full transition-all duration-700 bg-emerald-500 w-full";
                     stepProof.className = "w-10 h-10 rounded-full bg-emerald-500 text-white mx-auto flex items-center justify-center font-bold mb-2 shadow-md";
                     stepPrint.className = "w-10 h-10 rounded-full bg-emerald-500 text-white mx-auto flex items-center justify-center font-bold mb-2 shadow-md";
