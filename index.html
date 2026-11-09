@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HY STORE - Custom Gifts</title>
+    <title>HY STORE - Custom Gifts & Personalized Printing</title>
+
+    <!-- Web Application Manifest (Inline PWA using icon-192.png & icon-512.png) -->
+    <link rel="manifest" href='data:application/json,{"name":"HY STORE","short_name":"HY STORE","start_url":".","display":"standalone","background_color":"#171717","theme_color":"#c6a15b","icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"}]}'>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,522 +17,1565 @@
                     colors: {
                         gold: '#c6a15b',
                         goldDark: '#a88544',
+                        goldLight: '#e4cf9b',
                         darkBg: '#171717',
-                        cardBg: '#f4eee6'
+                        darkBgLight: '#242424',
+                        cardBeige: '#f4eee6'
+                    },
+                    boxShadow: {
+                        'glow-gold': '0 4px 20px rgba(198, 161, 91, 0.35)',
+                        'card': '0 10px 25px -5px rgba(0, 0, 0, 0.08)',
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome & Google Fonts -->
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FFFFFF; color: #171717; }
-        .font-serif-title { font-family: 'Playfair Display', serif; }
-        .product-img-box { object-fit: contain; background-color: #f4eee6; }
-        .pulse-slow {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FFFFFF;
+            color: #171717;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(1.05); }
+
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
         }
+
+        /* Product Card Image Box */
+        .product-img-box {
+            position: relative;
+            width: 100%;
+            background-color: #f4eee6;
+        }
+        .product-img-box img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Nav Link Styling */
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #c6a15b;
+        }
+        .nav-link.active-nav {
+            color: #c6a15b;
+            font-weight: 800;
+            background-color: rgba(198, 161, 91, 0.08);
+        }
+
+        /* Spinner animation */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader-spinner { animation: spin 1s linear infinite; }
+
+        /* Carousel transitions */
+        .slide-item {
+            transition: opacity 0.7s ease-in-out;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #171717; }
+        ::-webkit-scrollbar-thumb { background: #c6a15b; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-white min-h-screen flex flex-col justify-between selection:bg-gold selection:text-white">
+<body class="bg-white text-gray-900 antialiased selection:bg-gold selection:text-white min-h-screen flex flex-col justify-between relative">
 
-    <!-- WELCOME POPUP BANNER MODAL -->
-    <div id="entry-popup" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="relative bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-gold/30">
-            <button onclick="document.getElementById('entry-popup').classList.add('hidden')" class="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-darkBg/80 text-white flex items-center justify-center text-sm font-bold hover:bg-gold transition">✕</button>
-            <div class="p-2">
-                <div class="rounded-xl overflow-hidden bg-gray-100 max-h-[320px] flex items-center justify-center">
-                    <img src="popup-banner.png" alt="Special Offer" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-8 text-center text-gold font-serif-title text-xl font-bold bg-darkBg text-white w-full\'>HY STORE<br><span class=\'text-xs text-gold font-sans uppercase font-normal tracking-widest\'>Exclusive Custom Gifts</span></div>'">
+    <!-- WELCOME POPUP BANNER WITH popup-banner.png -->
+    <div id="entry-popup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="relative bg-white rounded-3xl max-w-sm sm:max-w-md w-full overflow-hidden shadow-2xl border border-gold/30">
+            <button onclick="closeEntryPopup()" class="absolute top-4 right-4 z-20 bg-darkBg text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-lg hover:bg-gold hover:text-darkBg transition">✕</button>
+            <div class="p-6 text-center space-y-3 bg-white">
+                <div class="w-full h-44 rounded-2xl overflow-hidden mb-3 border border-gold/20 bg-cardBeige">
+                    <img src="popup-banner.png" alt="Welcome Banner" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80';">
                 </div>
-                <div class="p-4 text-center">
-                    <button onclick="document.getElementById('entry-popup').classList.add('hidden')" class="w-full py-3 bg-gold text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg hover:bg-goldDark transition">Explore Gifts</button>
-                </div>
+                <button onclick="closeEntryPopup()" class="w-full py-3 rounded-xl bg-gold hover:bg-goldDark text-darkBg font-extrabold text-xs shadow-glow-gold transition text-center uppercase tracking-wider">Explore Gifts</button>
             </div>
         </div>
     </div>
 
-    <!-- NAVBAR -->
-    <nav class="sticky top-0 bg-white/95 backdrop-blur-md z-40 border-b border-gray-100 px-4 py-3">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <a href="#/home" class="flex items-center gap-3">
-                <img src="logo.png" alt="HY STORE" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
-                <div>
-                    <span class="font-extrabold text-xl text-darkBg tracking-tight font-serif-title block leading-none">HY STORE</span>
-                    <span class="text-[9px] font-bold text-gold uppercase tracking-widest block mt-0.5">CUSTOM GIFTS</span>
-                </div>
-            </a>
-            
-            <div class="flex items-center gap-6 text-xs font-bold uppercase tracking-wider text-gray-700">
-                <a href="#/home" class="hover:text-gold transition">Home</a>
-                <a href="#/products" class="hover:text-gold transition">Gift Catalog</a>
-                <a href="#/track" class="hover:text-gold transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-truck-fast text-gold"></i> Track Order
-                </a>
-                <button onclick="openCartModal()" class="relative text-darkBg hover:text-gold transition text-base">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span id="cart-count-badge" class="absolute -top-2 -right-2 bg-gold text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
-                </button>
+    <!-- GLOBAL LOADING OVERLAY -->
+    <div id="global-loader" class="fixed inset-0 bg-darkBg/95 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center space-y-4">
+        <div class="relative w-20 h-20 flex items-center justify-center">
+            <div class="absolute inset-0 border-4 border-darkBgLight border-t-gold rounded-full loader-spinner"></div>
+            <div class="w-10 h-10 rounded-xl bg-darkBg flex items-center justify-center">
+                <img src="logo.png" alt="Logo" class="w-8 h-8 object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/50/171717/c6a15b?text=HY';">
             </div>
         </div>
-    </nav>
+        <p id="loader-text" class="text-xs font-bold uppercase tracking-widest text-gold animate-pulse">Loading HY STORE...</p>
+    </div>
 
-    <!-- CONTENT WRAPPER -->
-    <main id="app-root" class="flex-grow w-full">
-        <!-- Dynamic Routes Render Here -->
-    </main>
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container" class="fixed top-24 right-4 sm:right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <!-- FLOATING ACTION BUTTONS -->
-    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
-        <a href="https://wa.me/923209306672" target="_blank" class="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-xl hover:scale-110 transition pulse-slow border-2 border-white overflow-hidden p-0">
-            <img src="whatsapp-logo.png" alt="WhatsApp" class="w-full h-full object-cover rounded-full" onerror="this.style.display='none';">
+    <!-- FLOATING ACTION BUTTONS (whatsapp-logo.png & ai-logo.png) -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3 items-end">
+        <a href="https://wa.me/923209306672" target="_blank" title="Chat on WhatsApp" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-gold text-darkBg flex items-center justify-center shadow-glow-gold hover:scale-105 transition duration-300">
+            <img src="whatsapp-logo.png" alt="WhatsApp" class="w-7 h-7 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
         </a>
-        <button onclick="alert('HY AI Gift Assistant is ready to help you choose the best customized present!')" class="w-14 h-14 rounded-full bg-darkBg text-gold flex items-center justify-center shadow-xl hover:scale-110 transition border-2 border-gold overflow-hidden p-0">
-            <img src="ai-logo.png" alt="AI Assistant" class="w-full h-full object-cover rounded-full" onerror="this.style.display='none';">
+        <button onclick="toggleAiAssistant()" title="HY STORE Assistant" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-darkBg text-gold border border-gold/40 flex items-center justify-center shadow-xl hover:scale-105 transition duration-300">
+            <img src="ai-logo.png" alt="AI Specialist" class="w-7 h-7 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png';">
         </button>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-darkBg text-white border-t border-gold/20 pt-10 pb-6 px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-                <div class="flex items-center gap-2 mb-3">
-                    <img src="logo.png" alt="HY STORE" class="h-8 w-auto" onerror="this.style.display='none'">
-                    <span class="font-serif-title font-bold text-lg text-gold">HY STORE</span>
+    <!-- AI ASSISTANT MODAL WITH ai-logo.png -->
+    <div id="ai-assistant-modal" class="fixed bottom-24 right-6 z-50 hidden w-[340px] max-w-[90vw] bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col">
+        <div class="bg-darkBg text-white p-4 flex items-center justify-between border-b border-gold/30">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
+                    <img src="ai-logo.png" alt="AI Logo" class="w-5 h-5 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png';">
                 </div>
-                <p class="text-xs text-gray-400 leading-relaxed">Exclusive personalized custom gifts, plush teddy toys, and handcrafted memory products with nationwide delivery across Pakistan.</p>
+                <div>
+                    <h4 class="font-extrabold text-xs text-gold">Gift Specialist Assistant</h4>
+                    <span class="text-[10px] text-gray-300 flex items-center gap-1 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-gold inline-block animate-pulse"></span> Active</span>
+                </div>
             </div>
-            <div>
-                <h4 class="text-xs font-bold uppercase tracking-widest text-gold mb-3">Quick Navigation</h4>
-                <ul class="text-xs text-gray-400 space-y-2">
-                    <li><a href="#/home" class="hover:text-white">Home</a></li>
-                    <li><a href="#/products" class="hover:text-white">Gift Catalog</a></li>
-                    <li><a href="#/track" class="hover:text-white">Track Order Status</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-xs font-bold uppercase tracking-widest text-gold mb-3">Popular Gifts</h4>
-                <ul class="text-xs text-gray-400 space-y-2">
-                    <li>Teddy Bear Plush Toys</li>
-                    <li>Personalized Gift Box</li>
-                    <li>Custom Photo Frame</li>
-                    <li>Magic Sublimation Mug</li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-xs font-bold uppercase tracking-widest text-gold mb-3">Support</h4>
-                <p class="text-xs text-gray-400 mb-2">Phone: 03209306672</p>
-                <p class="text-xs text-gray-400 mb-3">Email: hystoreofficial@gmail.com</p>
-                <a href="https://wa.me/923209306672" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-gold text-darkBg text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-goldDark transition">
-                    <img src="whatsapp-logo.png" class="w-4 h-4 object-cover rounded-full" onerror="this.style.display='none'"> WhatsApp Support
-                </a>
+            <button onclick="toggleAiAssistant()" class="text-gray-400 hover:text-gold text-sm font-bold">✕</button>
+        </div>
+        <div id="ai-chat-body" class="p-4 h-72 overflow-y-auto space-y-3 bg-gray-50 text-xs">
+            <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 text-gray-700 leading-relaxed max-w-[88%]">
+                Hi! Welcome to HY STORE. Looking for custom gift boxes, photo frames, plush toys, or personalized mugs today?
             </div>
         </div>
-        <div class="max-w-7xl mx-auto border-t border-gray-800 pt-4 text-center text-[11px] text-gray-500">
-            © 2026 HY STORE - Custom Gifts. All Rights Reserved.
-        </div>
-    </footer>
+        <form onsubmit="handleAiMessageSubmit(event)" class="p-3 bg-white border-t border-gray-100 flex items-center gap-2">
+            <input type="text" id="ai-input-text" placeholder="Ask about custom gifts..." class="flex-1 px-4 py-2 rounded-full border border-gray-200 text-xs focus:outline-none focus:border-gold">
+            <button type="submit" class="px-4 py-2 rounded-full bg-darkBg text-gold font-bold text-xs hover:bg-black transition">Send</button>
+        </form>
+    </div>
 
-    <!-- CART MODAL -->
-    <div id="cart-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex justify-end">
-        <div class="bg-white w-full max-w-md h-full flex flex-col justify-between p-6 overflow-y-auto">
-            <div>
-                <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-                    <h3 class="font-serif-title font-bold text-xl text-darkBg">Shopping Cart</h3>
-                    <button onclick="closeCartModal()" class="text-gray-400 hover:text-darkBg text-xl font-bold">✕</button>
-                </div>
-                <div id="cart-items-container" class="space-y-4">
-                    <!-- Cart Items List -->
-                </div>
-            </div>
-            <div class="border-t border-gray-100 pt-4 mt-6">
-                <div class="flex justify-between font-bold text-darkBg text-lg mb-4">
-                    <span>Total Amount:</span>
-                    <span id="cart-total-price" class="text-gold">Rs. 0</span>
-                </div>
-                <button onclick="closeCartModal(); window.location.hash='#/checkout';" class="w-full py-3.5 bg-gold text-white font-bold text-xs uppercase tracking-wider rounded-xl hover:bg-goldDark transition">Proceed to Checkout</button>
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-darkBg text-gold py-2 px-4 text-[11px] font-semibold uppercase tracking-wider overflow-x-auto whitespace-nowrap border-b border-gold/20">
+        <div class="max-w-7xl mx-auto flex items-center justify-center text-center">
+            <div class="inline-flex items-center gap-6">
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-gift"></i> Personalized Custom Gifts</span>
+                <span class="text-gray-700">•</span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-truck"></i> Fast Nationwide Delivery</span>
+                <span class="text-gray-700">•</span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-clock font-bold"></i> Live Order Tracking</span>
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        const PRODUCTS = [
-            { id: 1, name: "Teddy Bear / Pink", category: "PERSONALIZED GIFTS", price: 3100, oldPrice: 3800, badge: "BESTSELLER", image: "https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=600" },
-            { id: 2, name: "Teddy Bear / Blue", category: "PERSONALIZED GIFTS", price: 3010, oldPrice: 3500, badge: "CUSTOM MADE", image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=600" },
-            { id: 3, name: "Teddy Bear - Soft Plush Toy", category: "PERSONALIZED GIFTS", price: 4000, oldPrice: 4800, badge: "BESTSELLER", image: "https://images.unsplash.com/photo-1556012018-50c5c0da73bf?w=600" },
-            { id: 4, name: "Teddy Bear / Red", category: "PERSONALIZED GIFTS", price: 999, oldPrice: 1499, badge: "CUSTOM MADE", image: "https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?w=600" },
-            { id: 5, name: "Personalized Velvet Gift Box", category: "GIFT BOXES", price: 2499, oldPrice: 2999, badge: "BESTSELLER", image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600" },
-            { id: 6, name: "Custom Sublimation Magic Mug", category: "CUSTOM MUGS", price: 1250, oldPrice: 1600, badge: "POPULAR", image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600" }
-        ];
+    <!-- HEADER / NAVIGATION BAR WITH LOGO.PNG AND HY STORE BRANDING -->
+    <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- HEADER LOGO USING logo.png -->
+            <a href="#/home" class="flex items-center gap-3">
+                <img src="logo.png" alt="HY STORE Logo" class="h-10 sm:h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150x50/171717/c6a15b?text=HY+STORE';">
+                <div class="flex flex-col justify-center">
+                    <span class="text-xl sm:text-2xl font-black tracking-tight uppercase font-serif-title text-darkBg leading-none">
+                        HY <span class="text-gold">STORE</span>
+                    </span>
+                    <span class="text-[9px] sm:text-[10px] font-extrabold tracking-widest text-gold uppercase mt-1">
+                        CUSTOM GIFTS
+                    </span>
+                </div>
+            </a>
 
-        let cart = [];
-        let activeSlide = 0;
-        let bannerTimer = null;
+            <nav class="hidden lg:flex items-center gap-4 font-bold text-xs uppercase tracking-wider text-gray-700">
+                <a href="#/home" id="nav-home" class="nav-link">Home</a>
+                <a href="#/services" id="nav-services" class="nav-link">Gift Catalog</a>
+                <a href="#/products" id="nav-products" class="nav-link">Products</a>
+                <a href="#/track" id="nav-track" class="nav-link">Track Order</a>
+                <a href="#/contact" id="nav-contact" class="nav-link">Contact</a>
+            </nav>
 
-        window.addEventListener('hashchange', handleRoute);
-        window.addEventListener('load', () => {
-            if(!window.location.hash) window.location.hash = "#/home";
-            handleRoute();
-        });
+            <div class="hidden sm:flex items-center gap-3">
+                <button onclick="navigate('#/cart')" class="w-10 h-10 rounded-full bg-cardBeige text-darkBg border border-gold/30 hover:border-gold flex items-center justify-center relative transition shadow-sm">
+                    <i class="fa-solid fa-cart-shopping text-sm"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-gold text-darkBg text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+                
+                <div id="auth-nav-container" class="flex items-center gap-2">
+                    <a href="#/login" class="px-5 py-2 rounded-full text-xs font-bold text-darkBg border border-gray-300 hover:border-gold transition">Log in</a>
+                    <a href="#/signup" class="px-5 py-2 rounded-full text-xs font-bold text-white bg-darkBg hover:bg-black border border-gold/40 shadow-glow-gold transition">Sign up</a>
+                </div>
 
-        function handleRoute() {
-            const hash = window.location.hash || "#/home";
-            const root = document.getElementById('app-root');
-            clearInterval(bannerTimer);
+                <div id="user-nav-container" class="hidden">
+                    <button onclick="navigate('#/profile')" class="flex items-center gap-2 bg-cardBeige border border-gold/40 text-goldDark font-extrabold text-xs px-4 py-2 rounded-full">
+                        <i class="fa-solid fa-circle-user text-sm text-gold"></i>
+                        <span id="user-nav-name">Account</span>
+                    </button>
+                </div>
+            </div>
 
-            if(hash.startsWith("#/home")) {
-                renderHome(root);
-            } else if(hash.startsWith("#/products")) {
-                renderProducts(root);
-            } else if(hash.startsWith("#/checkout")) {
-                renderCheckout(root);
-            } else if(hash.startsWith("#/track")) {
-                renderTrack(root);
-            } else {
-                renderHome(root);
-            }
-            window.scrollTo(0, 0);
-        }
+            <button id="mobileMenuBtn" class="lg:hidden text-darkBg text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
 
-        function renderHome(container) {
-            container.innerHTML = `
-                <!-- 3 HERO BANNERS CAROUSEL WITH OVERLAY TEXT -->
-                <div class="relative w-full overflow-hidden bg-darkBg text-white">
-                    <div id="slider-wrapper" class="flex transition-transform duration-700 ease-in-out w-[300%]">
-                        <!-- Banner 1 -->
-                        <div class="w-1/3 relative min-h-[420px] md:min-h-[500px] flex items-center bg-cover bg-center" style="background-image: url('banner1.png');">
-                            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
-                            <div class="relative max-w-7xl mx-auto px-6 md:px-12 w-full py-12">
-                                <span class="text-xs font-bold text-gold tracking-widest uppercase mb-2 block">MAKE EVERY MOMENT MEMORABLE</span>
-                                <h1 class="text-3xl md:text-5xl font-extrabold font-serif-title max-w-xl leading-tight mb-4 text-white">
-                                    Your Memories.<br>Your Message.<br><span class="italic text-gold font-normal">Your Custom Gift.</span>
+        <div id="mobileDrawer" class="hidden lg:hidden bg-white border-b border-gray-200 px-6 py-4">
+            <nav class="flex flex-col gap-4 text-xs font-extrabold uppercase tracking-wider text-gray-800">
+                <a href="#/home" class="hover:text-gold">Home</a>
+                <a href="#/services" class="hover:text-gold">Gift Catalog</a>
+                <a href="#/products" class="hover:text-gold">Products</a>
+                <a href="#/track" class="hover:text-gold">Track Order</a>
+                <a href="#/contact" class="hover:text-gold">Contact Us</a>
+                <div id="mobile-auth-container" class="pt-3 border-t border-gray-100 flex gap-3">
+                    <a href="#/login" class="flex-1 py-2 text-center text-xs font-bold text-darkBg border border-gray-300 rounded-full">Log in</a>
+                    <a href="#/signup" class="flex-1 py-2 text-center text-xs font-bold text-white bg-darkBg rounded-full">Sign up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN ROUTER CONTAINER -->
+    <main id="app" class="flex-grow">
+
+        <!-- HOME PAGE VIEW -->
+        <div id="view-home" class="page-view">
+            
+            <!-- 1. FULL WIDTH END-TO-END 3-BANNER HERO SLIDER USING banner1.png, banner2.png, banner3.png -->
+            <section class="w-full bg-darkBg text-white relative overflow-hidden border-b border-gold/30">
+                <div id="hero-slider" class="relative w-full h-[380px] sm:h-[460px]">
+                    
+                    <!-- Slide 1 (banner1.png) -->
+                    <div class="slide-item absolute inset-0 opacity-100 flex items-center transition-opacity duration-700">
+                        <img src="banner1.png" alt="Banner 1" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
+                        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                            <div class="max-w-2xl space-y-4">
+                                <span class="text-gold font-bold text-xs uppercase tracking-widest block">Make Every Moment Memorable</span>
+                                <h1 class="text-3xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
+                                    Your Memories.<br>Your Message.<br><span class="italic text-gold">Your Custom Gift.</span>
                                 </h1>
-                                <p class="text-xs md:text-sm text-gray-200 max-w-md mb-6 leading-relaxed">Create one-of-a-kind gifts with names, photos, messages and designs made especially for the people you love.</p>
-                                <div class="flex flex-wrap gap-4">
-                                    <a href="#/products" class="px-6 py-3 bg-gold text-darkBg text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg hover:bg-goldDark transition">Shop Collection</a>
-                                    <a href="#/products" class="px-6 py-3 border border-gold text-gold hover:bg-gold hover:text-darkBg text-xs font-bold uppercase tracking-wider rounded-xl transition">Explore Gifts</a>
+                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-lg">
+                                    Create one-of-a-kind gifts with names, photos, messages and designs made especially for the people you love.
+                                </p>
+                                <div class="pt-2 flex flex-wrap gap-4">
+                                    <a href="#/products" class="px-8 py-3 font-extrabold text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Shop Collection</a>
+                                    <a href="#/services" class="px-8 py-3 font-extrabold text-xs uppercase tracking-widest text-gold border border-gold hover:bg-gold hover:text-darkBg transition">Explore Gifts</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 (banner2.png) -->
+                    <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
+                        <img src="banner2.png" alt="Banner 2" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1600&q=80';">
+                        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                            <div class="max-w-2xl space-y-4">
+                                <span class="text-gold font-bold text-xs uppercase tracking-widest block">Nationwide Delivery Across Pakistan</span>
+                                <h1 class="text-3xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
+                                    Magic Mugs &<br><span class="italic text-gold">Custom Memory Frames.</span>
+                                </h1>
+                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-lg">
+                                    High definition sublimation printing on heat reveal magic mugs and acrylic night lamps.
+                                </p>
+                                <div class="pt-2 flex flex-wrap gap-4">
+                                    <a href="#/products" class="px-8 py-3 font-extrabold text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Explore Magic Mugs</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 (banner3.png) -->
+                    <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
+                        <img src="banner3.png" alt="Banner 3" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=1600&q=80';">
+                        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                            <div class="max-w-2xl space-y-4">
+                                <span class="text-gold font-bold text-xs uppercase tracking-widest block">Handcrafted Luxury Teddy & Hampers</span>
+                                <h1 class="text-3xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
+                                    Soft Plush Toys &<br><span class="italic text-gold">Personalized Gift Boxes.</span>
+                                </h1>
+                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-lg">
+                                    Express your love with custom printed teddy bears, velvet surprise boxes, and memory cards.
+                                </p>
+                                <div class="pt-2 flex flex-wrap gap-4">
+                                    <a href="#/products" class="px-8 py-3 font-extrabold text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Order Gift Boxes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slider Controls -->
+                    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white border border-gold/30 hover:bg-gold hover:text-darkBg flex items-center justify-center transition z-20">❮</button>
+                    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white border border-gold/30 hover:bg-gold hover:text-darkBg flex items-center justify-center transition z-20">❯</button>
+
+                    <!-- Slider Indicators -->
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                        <button onclick="setSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-gold transition-all"></button>
+                        <button onclick="setSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+                        <button onclick="setSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- 2. BELOW BANNER: 4 CIRCULAR CATEGORY IMAGES (cat1.png, cat2.png, cat3.png, cat4.png) -->
+            <section class="py-12 bg-white border-b border-gray-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-lg mx-auto mb-8">
+                        <span class="text-gold font-bold text-xs uppercase tracking-widest">Featured Gift Categories</span>
+                        <h2 class="text-2xl font-bold font-serif-title text-darkBg mt-1">Shop By Category</h2>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
+                        <!-- Circle 1: Gift Box (cat1.png) -->
+                        <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
+                            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
+                                <img src="cat1.png" alt="Gift Boxes" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80';">
+                            </div>
+                            <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Gift Boxes</span>
+                        </a>
+
+                        <!-- Circle 2: Memory Frames (cat2.png) -->
+                        <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
+                            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
+                                <img src="cat2.png" alt="Memory Frames" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80';">
+                            </div>
+                            <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Memory Frames</span>
+                        </a>
+
+                        <!-- Circle 3: Mugs (cat3.png) -->
+                        <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
+                            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
+                                <img src="cat3.png" alt="Custom Mugs" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=400&q=80';">
+                            </div>
+                            <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Custom Mugs</span>
+                        </a>
+
+                        <!-- Circle 4: Keychains (cat4.png) -->
+                        <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
+                            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
+                                <img src="cat4.png" alt="Custom Keychains" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80';">
+                            </div>
+                            <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Custom Keychains</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. POPULAR PRODUCTS GRID (2-COLUMN MOBILE RESPONSIVE) -->
+            <section class="py-12 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-end justify-between mb-8">
+                        <div>
+                            <span class="text-gold font-bold text-xs uppercase tracking-widest">Handcrafted Gifts</span>
+                            <h2 class="text-2xl sm:text-3xl font-bold font-serif-title text-darkBg mt-1">Trending Gifts</h2>
+                        </div>
+                        <a href="#/products" class="font-extrabold text-xs text-gold uppercase tracking-wider hover:underline">View All &rarr;</a>
+                    </div>
+                    <div id="home-products-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+                </div>
+            </section>
+
+            <!-- CONTACT CARDS SECTION WITH whatsapp-logo.png, email-logo.png, clock-logo.png -->
+            <section class="py-12 bg-gray-50 border-t border-gray-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-xl mx-auto mb-8">
+                        <span class="text-gold font-bold text-xs uppercase tracking-widest">HY STORE Care</span>
+                        <h2 class="text-2xl font-bold font-serif-title text-darkBg mt-1">Customer Support</h2>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-gray-200 text-center space-y-2 shadow-sm">
+                            <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
+                                <img src="whatsapp-logo.png" alt="WhatsApp" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
+                            </div>
+                            <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">WhatsApp & Call</h4>
+                            <p class="text-xs text-gray-600">03209306672</p>
+                            <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-4 py-1.5 text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Chat Now</a>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-gray-200 text-center space-y-2 shadow-sm">
+                            <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
+                                <img src="email-logo.png" alt="Email" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/732/732200.png';">
+                            </div>
+                            <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">Email Address</h4>
+                            <p class="text-xs text-gray-600 break-all">hystoreofficial@gmail.com</p>
+                            <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-4 py-1.5 text-[11px] font-extrabold bg-darkBg text-white uppercase tracking-wider">Send Email</a>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-gray-200 text-center space-y-2 shadow-sm">
+                            <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
+                                <img src="clock-logo.png" alt="Hours" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2088/2088617.png';">
+                            </div>
+                            <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">Support Hours</h4>
+                            <p class="text-xs text-gray-600">Mon - Sat: 10AM - 9PM</p>
+                            <span class="inline-block px-3 py-1 rounded-full text-[10px] text-gold font-bold bg-cardBeige">Active</span>
+                        </div>
+                        <div class="bg-darkBg text-white p-5 rounded-2xl text-center space-y-2 shadow-md border border-gold/30">
+                            <div class="w-12 h-12 bg-white/10 text-gold rounded-full flex items-center justify-center mx-auto">
+                                <i class="fa-solid fa-mobile-screen text-lg text-gold"></i>
+                            </div>
+                            <h4 class="font-bold text-white text-xs uppercase tracking-wider">Mobile Web App</h4>
+                            <p class="text-[10px] text-gray-300">Fast 1-tap mobile experience.</p>
+                            <button onclick="showToast('Tap browser menu and select Add to Home Screen')" class="w-full py-1.5 text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Install App</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- GIFT CATALOG PAGE -->
+        <div id="view-services" class="page-view hidden py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+                <div class="text-center max-w-2xl mx-auto">
+                    <span class="text-gold font-bold text-xs uppercase tracking-widest bg-cardBeige px-4 py-1 rounded-full border border-gold/30">Gift Services</span>
+                    <h1 class="text-3xl font-bold font-serif-title text-darkBg mt-2">Custom <span class="text-gold">Gifting Catalog</span></h1>
+                    <p class="text-gray-500 text-xs mt-1">Explore our exclusive custom gifting options available for instant checkout.</p>
+                </div>
+
+                <div id="services-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </div>
+
+        <!-- PRODUCTS PAGE -->
+        <div id="view-products" class="page-view hidden py-12 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8">
+                    <div>
+                        <span class="text-gold font-bold text-xs uppercase tracking-widest">Full Catalog</span>
+                        <h1 class="text-3xl font-bold font-serif-title text-darkBg mt-1">Our <span class="text-gold">Custom Gifts</span></h1>
+                    </div>
+                </div>
+                <div id="products-grid-list" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+            </div>
+        </div>
+
+        <!-- LIVE TRACKING PAGE -->
+        <div id="view-track" class="page-view hidden py-12 bg-white">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-lg mx-auto mb-8">
+                    <span class="text-gold font-bold text-xs uppercase tracking-widest bg-cardBeige px-4 py-1 rounded-full border border-gold/30">Order Verification</span>
+                    <h1 class="text-3xl font-bold font-serif-title text-darkBg mt-2">Track Your <span class="text-gold">Gift Order</span></h1>
+                    <p class="text-gray-500 text-xs mt-1">Enter your Order ID (e.g. HY-1001) to verify live status.</p>
+                </div>
+
+                <div class="bg-gray-50 rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm space-y-6">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="trackInputPage" placeholder="Enter Order ID (e.g. HY-1001)" class="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:border-gold text-xs font-bold outline-none uppercase">
+                        <button onclick="executeTrack()" class="px-8 py-3 rounded-xl font-extrabold text-xs text-darkBg bg-gold hover:bg-goldDark transition uppercase tracking-wider shadow-glow-gold">Track Order</button>
+                    </div>
+
+                    <!-- Output Panel -->
+                    <div id="trackResultsArea" class="hidden pt-6 border-t border-gray-200 space-y-6">
+                        <div class="bg-white p-5 rounded-2xl border border-gray-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                            <div>
+                                <span class="text-gray-400 font-bold uppercase block text-[10px]">Customer Name</span>
+                                <span id="trackCustomerName" class="font-extrabold text-darkBg">--</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 font-bold uppercase block text-[10px]">Current Status</span>
+                                <span id="trackCurrentStatus" class="font-extrabold text-gold">Order Placed</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 font-bold uppercase block text-[10px]">Destination</span>
+                                <span id="trackCountry" class="font-extrabold text-darkBg">Pakistan</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 font-bold uppercase block text-[10px]">City</span>
+                                <span id="trackCity" class="font-extrabold text-darkBg">Lahore</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-gray-200 space-y-5">
+                            <div class="flex justify-between items-center flex-wrap gap-2">
+                                <div>
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase">TRACKING NO.</span>
+                                    <p id="trackResultID" class="text-xl font-black text-darkBg">HY-1001</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase block">VERIFICATION STATE</span>
+                                    <div id="trackTimerBadge" class="mt-0.5 font-bold text-xs text-gold">--</div>
+                                </div>
+                            </div>
+
+                            <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                                <div id="trackProgressBar" class="bg-gold h-full w-1/4 transition-all duration-500"></div>
+                            </div>
+
+                            <div class="grid grid-cols-4 gap-2 text-center text-[11px]">
+                                <div>
+                                    <div id="step-placed" class="w-8 h-8 rounded-full bg-gold text-darkBg mx-auto flex items-center justify-center font-bold mb-1 shadow-sm">
+                                        <i class="fa-solid fa-check text-xs"></i>
+                                    </div>
+                                    <span class="font-bold text-darkBg">Placed</span>
+                                </div>
+                                <div>
+                                    <div id="step-proof" class="w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1">
+                                        <i class="fa-solid fa-gift text-xs"></i>
+                                    </div>
+                                    <span id="label-proof" class="text-gray-400 font-medium">Crafting</span>
+                                </div>
+                                <div>
+                                    <div id="step-printing" class="w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1">
+                                        <i class="fa-solid fa-box text-xs"></i>
+                                    </div>
+                                    <span id="label-printing" class="text-gray-400 font-medium">Packaged</span>
+                                </div>
+                                <div>
+                                    <div id="step-dispatched" class="w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1">
+                                        <i class="fa-solid fa-truck text-xs"></i>
+                                    </div>
+                                    <span id="label-dispatched" class="text-gray-400 font-medium">Dispatched</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOGIN VIEW -->
+        <div id="view-login" class="page-view hidden py-12 bg-white">
+            <div class="max-w-sm mx-auto px-4">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-xl space-y-5">
+                    <div class="text-center space-y-1">
+                        <h2 class="text-2xl font-bold font-serif-title text-darkBg">Welcome Back</h2>
+                        <p class="text-gray-500 text-xs">Log in to track custom gift orders</p>
+                    </div>
+                    <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Email or Mobile Phone</label>
+                            <input type="text" id="login-id" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-gold" placeholder="03209306672">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Password</label>
+                            <input type="password" id="login-pass" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-gold" placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="w-full bg-darkBg text-gold font-extrabold py-3 rounded-xl shadow-glow-gold text-xs uppercase tracking-wider hover:bg-black transition">Log In</button>
+                    </form>
+                    <div class="text-center text-xs text-gray-500 pt-2 border-t">
+                        Don't have an account? <button onclick="navigate('#/signup')" class="text-gold font-bold hover:underline">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIGNUP VIEW -->
+        <div id="view-signup" class="page-view hidden py-12 bg-white">
+            <div class="max-w-md mx-auto px-4">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-xl space-y-5">
+                    <div class="text-center space-y-1">
+                        <h2 class="text-2xl font-bold font-serif-title text-darkBg">Create Account</h2>
+                        <p class="text-gray-500 text-xs">Register to order personalized gifts</p>
+                    </div>
+                    <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Full Name</label>
+                            <input type="text" id="signup-name" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-gold" placeholder="First Last">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Email Address</label>
+                            <input type="email" id="signup-email" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-gold" placeholder="user@domain.com">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Mobile Phone (03XXXXXXXXX)</label>
+                            <input type="tel" id="signup-phone" required pattern="03[0-9]{9}" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-gold" placeholder="03209306672">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Password</label>
+                            <input type="password" id="signup-pass" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-gold" placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="w-full bg-gold text-darkBg font-extrabold py-3 rounded-xl shadow-glow-gold text-xs uppercase tracking-wider hover:bg-goldDark transition mt-2">Create Account</button>
+                    </form>
+                    <div class="text-center text-xs text-gray-500 pt-2 border-t">
+                        Already have an account? <button onclick="navigate('#/login')" class="text-gold font-bold hover:underline">Log In</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CART VIEW -->
+        <div id="view-cart" class="page-view hidden py-12 bg-white">
+            <div class="max-w-3xl mx-auto px-4 space-y-6">
+                <h1 class="text-2xl font-bold font-serif-title text-darkBg">Your Cart</h1>
+                <div id="cart-items-list" class="space-y-3"></div>
+                <div id="cart-summary" class="bg-cardBeige p-6 rounded-3xl border border-gold/30 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div>
+                        <span class="text-gray-500 text-xs block uppercase font-bold">Total Amount</span>
+                        <span id="cart-total-price" class="text-2xl font-black text-darkBg">Rs. 0</span>
+                    </div>
+                    <button onclick="proceedToCheckout()" class="bg-gold text-darkBg font-extrabold px-8 py-3.5 shadow-glow-gold text-xs uppercase tracking-widest hover:bg-goldDark transition w-full sm:w-auto">Proceed to Checkout &rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHECKOUT VIEW WITH JAZZCASH/EASYPAISA & SCREENSHOT ATTACHMENT -->
+        <div id="view-checkout" class="page-view hidden py-12 bg-white">
+            <div class="max-w-3xl mx-auto px-4">
+                <div class="bg-white p-6 sm:p-10 rounded-3xl border border-gray-200 shadow-xl space-y-6">
+                    <div class="border-b pb-3">
+                        <h1 class="text-2xl font-bold font-serif-title text-darkBg">Checkout Details</h1>
+                        <p class="text-xs text-gray-500 mt-0.5">Provide recipient details for custom gift delivery.</p>
+                    </div>
+
+                    <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)" class="space-y-5">
+                        <div class="space-y-3">
+                            <h3 class="font-bold text-darkBg text-sm flex items-center gap-2 uppercase tracking-wider"><i class="fa-solid fa-truck text-gold"></i> Delivery Address</h3>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Recipient Full Name *</label>
+                                    <input type="text" id="co-name" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:border-gold focus:outline-none" placeholder="First and Last Name">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Mobile Phone (03XXXXXXXXX) *</label>
+                                    <input type="tel" id="co-phone" required pattern="03[0-9]{9}" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:border-gold focus:outline-none" placeholder="03209306672">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">City / District *</label>
+                                    <input type="text" id="co-city" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:border-gold focus:outline-none" placeholder="e.g. Lahore, Karachi, Islamabad">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Country *</label>
+                                    <input type="text" id="co-country" value="Pakistan" readonly class="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-xs font-bold text-gray-700">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Complete Address *</label>
+                                <textarea id="co-address" rows="2" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:border-gold focus:outline-none" placeholder="House #, Street name, Sector/Block, Landmark..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 pt-4 border-t">
+                            <h3 class="font-bold text-darkBg text-sm flex items-center gap-2 uppercase tracking-wider"><i class="fa-solid fa-credit-card text-gold"></i> Select Payment Method</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <label class="border-2 border-gray-200 p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-gold transition bg-gray-50">
+                                    <input type="radio" name="paymethod" value="COD" checked onclick="togglePaymentSection('COD')" class="accent-gold w-4 h-4">
+                                    <div>
+                                        <span class="font-bold text-darkBg block text-xs">Cash on Delivery (COD)</span>
+                                        <span class="text-[10px] text-gray-500">Pay cash upon delivery</span>
+                                    </div>
+                                </label>
+                                <label class="border-2 border-gray-200 p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-gold transition bg-gray-50">
+                                    <input type="radio" name="paymethod" value="ONLINE" onclick="togglePaymentSection('ONLINE')" class="accent-gold w-4 h-4">
+                                    <div>
+                                        <span class="font-bold text-darkBg block text-xs">JazzCash / EasyPaisa</span>
+                                        <span class="text-[10px] text-gray-500">Instant verification & fast crafting</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- ONLINE PAYMENT GATEWAY SELECTOR & RECEIPT SCREENSHOT -->
+                            <div id="online-payment-panel" class="hidden bg-cardBeige/80 p-5 rounded-3xl border border-gold/30 space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="border-2 border-gold/40 bg-white p-3 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-gold transition">
+                                        <input type="radio" name="gateway" value="JazzCash" checked class="accent-gold w-4 h-4">
+                                        <div>
+                                            <span class="font-black text-darkBg text-xs block">JazzCash</span>
+                                            <span class="text-[11px] text-gray-700 block font-mono">0347 8306672</span>
+                                            <span class="text-[10px] text-gray-500">Title: HY STORE</span>
+                                        </div>
+                                    </label>
+                                    <label class="border-2 border-gold/40 bg-white p-3 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-gold transition">
+                                        <input type="radio" name="gateway" value="EasyPaisa" class="accent-gold w-4 h-4">
+                                        <div>
+                                            <span class="font-black text-darkBg text-xs block">EasyPaisa</span>
+                                            <span class="text-[11px] text-gray-700 block font-mono">0347 8306672</span>
+                                            <span class="text-[10px] text-gray-500">Title: HY STORE</span>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                    <div>
+                                        <label class="block text-[10px] font-bold uppercase text-gray-600 mb-1">Sender Account Title *</label>
+                                        <input type="text" id="pay-title" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:border-gold focus:outline-none" placeholder="Account Holder Name">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold uppercase text-gray-600 mb-1">Transaction TRX ID *</label>
+                                        <input type="text" id="pay-trx" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:border-gold focus:outline-none" placeholder="Transaction ID / T-ID">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase text-gray-600 mb-1">Payment Receipt Screenshot *</label>
+                                    <input type="file" id="pay-screenshot" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-gold file:text-darkBg hover:file:bg-goldDark cursor-pointer bg-white p-2 rounded-xl border border-gray-200">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Banner 2 -->
-                        <div class="w-1/3 relative min-h-[420px] md:min-h-[500px] flex items-center bg-cover bg-center" style="background-image: url('banner2.png');">
-                            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
-                            <div class="relative max-w-7xl mx-auto px-6 md:px-12 w-full py-12">
-                                <span class="text-xs font-bold text-gold tracking-widest uppercase mb-2 block">NATIONWIDE DELIVERY ACROSS PAKISTAN</span>
-                                <h1 class="text-3xl md:text-5xl font-extrabold font-serif-title max-w-xl leading-tight mb-4 text-white">
-                                    Magic Mugs &<br><span class="italic text-gold font-normal">Custom Memory Frames.</span>
-                                </h1>
-                                <p class="text-xs md:text-sm text-gray-200 max-w-md mb-6 leading-relaxed">High definition sublimation printing on heat reveal magic mugs and acrylic night lamps.</p>
-                                <a href="#/products" class="inline-block px-6 py-3 bg-gold text-darkBg text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg hover:bg-goldDark transition">Explore Magic Mugs</a>
-                            </div>
-                        </div>
+                        <button type="submit" class="w-full bg-darkBg text-gold font-extrabold py-3.5 shadow-glow-gold transition text-xs uppercase tracking-widest hover:bg-black">Confirm & Place Gift Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-                        <!-- Banner 3 -->
-                        <div class="w-1/3 relative min-h-[420px] md:min-h-[500px] flex items-center bg-cover bg-center" style="background-image: url('banner3.png');">
-                            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
-                            <div class="relative max-w-7xl mx-auto px-6 md:px-12 w-full py-12">
-                                <span class="text-xs font-bold text-gold tracking-widest uppercase mb-2 block">HANDCRAFTED LUXURY TEDDY & HAMPERS</span>
-                                <h1 class="text-3xl md:text-5xl font-extrabold font-serif-title max-w-xl leading-tight mb-4 text-white">
-                                    Soft Plush Toys &<br><span class="italic text-gold font-normal">Personalized Gift Boxes.</span>
-                                </h1>
-                                <p class="text-xs md:text-sm text-gray-200 max-w-md mb-6 leading-relaxed">Express your love with custom printed teddy bears, velvet surprise boxes, and memory cards.</p>
-                                <a href="#/products" class="inline-block px-6 py-3 bg-gold text-darkBg text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg hover:bg-goldDark transition">Order Gift Boxes</a>
-                            </div>
-                        </div>
+        <!-- PROFILE VIEW -->
+        <div id="view-profile" class="page-view hidden py-12 bg-white">
+            <div class="max-w-3xl mx-auto px-4 space-y-6">
+                <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm flex justify-between items-center">
+                    <div>
+                        <h1 class="text-xl font-bold font-serif-title text-darkBg" id="prof-name">User Account</h1>
+                        <p class="text-gray-500 text-xs mt-0.5" id="prof-email">user@domain.com</p>
                     </div>
-
-                    <!-- Carousel Controls -->
-                    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-gold hover:text-darkBg transition">❮</button>
-                    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-gold hover:text-darkBg transition">❯</button>
-
-                    <!-- Indicators -->
-                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                        <span onclick="goToSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-white/50 cursor-pointer"></span>
-                        <span onclick="goToSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white/50 cursor-pointer"></span>
-                        <span onclick="goToSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white/50 cursor-pointer"></span>
-                    </div>
+                    <button onclick="handleLogout()" class="bg-red-50 text-red-600 font-bold px-4 py-2 rounded-xl hover:bg-red-100 text-xs transition">Log Out</button>
                 </div>
 
-                <!-- 4 CIRCULAR CATEGORIES SECTION -->
-                <section class="max-w-7xl mx-auto px-4 py-12">
-                    <h2 class="text-center font-serif-title text-2xl md:text-3xl font-bold text-darkBg mb-8">Shop By Category</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                        <div class="flex flex-col items-center group cursor-pointer" onclick="window.location.hash='#/products'">
-                            <div class="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition shadow-md overflow-hidden bg-cardBg mb-3">
-                                <img src="cat1.png" alt="Gift Boxes" class="w-full h-full object-cover rounded-full group-hover:scale-105 transition" onerror="this.onerror=null; this.src='https://placehold.co/160x160/c6a15b/ffffff?text=Gift+Boxes';">
-                            </div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-darkBg group-hover:text-gold transition">GIFT BOXES</span>
-                        </div>
-                        <div class="flex flex-col items-center group cursor-pointer" onclick="window.location.hash='#/products'">
-                            <div class="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition shadow-md overflow-hidden bg-cardBg mb-3">
-                                <img src="cat2.png" alt="Memory Frames" class="w-full h-full object-cover rounded-full group-hover:scale-105 transition" onerror="this.onerror=null; this.src='https://placehold.co/160x160/c6a15b/ffffff?text=Memory+Frames';">
-                            </div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-darkBg group-hover:text-gold transition">MEMORY FRAMES</span>
-                        </div>
-                        <div class="flex flex-col items-center group cursor-pointer" onclick="window.location.hash='#/products'">
-                            <div class="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition shadow-md overflow-hidden bg-cardBg mb-3">
-                                <img src="cat3.png" alt="Custom Mugs" class="w-full h-full object-cover rounded-full group-hover:scale-105 transition" onerror="this.onerror=null; this.src='https://placehold.co/160x160/c6a15b/ffffff?text=Custom+Mugs';">
-                            </div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-darkBg group-hover:text-gold transition">CUSTOM MUGS</span>
-                        </div>
-                        <div class="flex flex-col items-center group cursor-pointer" onclick="window.location.hash='#/products'">
-                            <div class="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition shadow-md overflow-hidden bg-cardBg mb-3">
-                                <img src="cat4.png" alt="Custom Keychains" class="w-full h-full object-cover rounded-full group-hover:scale-105 transition" onerror="this.onerror=null; this.src='https://placehold.co/160x160/c6a15b/ffffff?text=Keychains';">
-                            </div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-darkBg group-hover:text-gold transition">CUSTOM KEYCHAINS</span>
-                        </div>
-                    </div>
-                </section>
+                <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm space-y-4">
+                    <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">Order History</h3>
+                    <div id="profile-orders-list" class="space-y-3"></div>
+                </div>
+            </div>
+        </div>
 
-                <!-- FEATURED PRODUCTS GRID -->
-                <section class="max-w-7xl mx-auto px-4 py-8">
-                    <div class="flex items-center justify-between mb-8">
-                        <div>
-                            <h2 class="font-serif-title text-2xl font-bold text-darkBg">Featured Custom Gifts</h2>
-                            <p class="text-xs text-gray-500 mt-1">Handcrafted with precision and love</p>
-                        </div>
-                        <a href="#/products" class="text-xs font-bold uppercase tracking-wider text-gold hover:underline">View All →</a>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        ${PRODUCTS.map(p => renderProductCard(p)).join('')}
-                    </div>
-                </section>
+        <!-- CONTACT VIEW WITH LOCAL LOGO IMAGES -->
+        <div id="view-contact" class="page-view hidden py-12 bg-gray-50">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-lg mx-auto mb-10">
+                    <span class="text-gold font-bold text-xs uppercase tracking-widest bg-cardBeige px-4 py-1 rounded-full border border-gold/30">Contact Us</span>
+                    <h1 class="text-3xl font-bold font-serif-title text-darkBg mt-2">Get In Touch</h1>
+                    <p class="text-gray-500 text-xs mt-1">We are here to help you customize the perfect gifts for your loved ones.</p>
+                </div>
 
-                <!-- CONTACT SUPPORT CARDS SECTION (FULL SIZE CIRCULAR LOGOS) -->
-                <section class="max-w-7xl mx-auto px-4 py-12 border-t border-gray-100">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                        <div class="p-6 bg-cardBg rounded-2xl border border-gold/20 flex flex-col items-center">
-                            <div class="w-16 h-16 rounded-full bg-white text-gold flex items-center justify-center shadow-sm mb-4 overflow-hidden p-0 border border-gold/30">
-                                <img src="whatsapp-logo.png" class="w-full h-full object-cover rounded-full" onerror="this.style.display='none';">
-                            </div>
-                            <h4 class="font-bold text-sm uppercase tracking-wider text-darkBg">WHATSAPP & CALL</h4>
-                            <p class="text-xs text-gray-600 mt-1 mb-4">03209306672</p>
-                            <a href="https://wa.me/923209306672" target="_blank" class="px-5 py-2 bg-gold text-darkBg text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-goldDark transition">Chat Now</a>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
+                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
+                            <img src="whatsapp-logo.png" alt="WhatsApp" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
                         </div>
-                        <div class="p-6 bg-cardBg rounded-2xl border border-gold/20 flex flex-col items-center">
-                            <div class="w-16 h-16 rounded-full bg-white text-gold flex items-center justify-center shadow-sm mb-4 overflow-hidden p-0 border border-gold/30">
-                                <img src="email-logo.png" class="w-full h-full object-cover rounded-full" onerror="this.style.display='none';">
-                            </div>
-                            <h4 class="font-bold text-sm uppercase tracking-wider text-darkBg">EMAIL ADDRESS</h4>
-                            <p class="text-xs text-gray-600 mt-1 mb-4">hystoreofficial@gmail.com</p>
-                            <a href="mailto:hystoreofficial@gmail.com" class="px-5 py-2 bg-darkBg text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-black transition">Send Email</a>
-                        </div>
-                        <div class="p-6 bg-cardBg rounded-2xl border border-gold/20 flex flex-col items-center">
-                            <div class="w-16 h-16 rounded-full bg-white text-gold flex items-center justify-center shadow-sm mb-4 overflow-hidden p-0 border border-gold/30">
-                                <img src="clock-logo.png" class="w-full h-full object-cover rounded-full" onerror="this.style.display='none';">
-                            </div>
-                            <h4 class="font-bold text-sm uppercase tracking-wider text-darkBg">WORKING HOURS</h4>
-                            <p class="text-xs text-gray-600 mt-1 mb-4">Mon - Sat: 10AM - 9PM</p>
-                            <span class="px-4 py-1 bg-gold/20 text-goldDark text-xs font-bold uppercase rounded-full">Active</span>
-                        </div>
+                        <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">WhatsApp & Call</h3>
+                        <p class="text-xs text-gray-600">03209306672</p>
+                        <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-5 py-2 text-xs font-extrabold bg-gold text-darkBg uppercase tracking-wider shadow-glow-gold">Chat Now</a>
                     </div>
-                </section>
-            `;
-
-            initBannerSlider();
-        }
-
-        function renderProductCard(p) {
-            return `
-                <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
-                    <div class="relative bg-cardBg h-64 sm:h-72 w-full flex items-center justify-center p-4">
-                        <span class="absolute top-3 left-3 bg-darkBg text-white text-[10px] font-bold uppercase px-2.5 py-1 tracking-wider">${p.badge}</span>
-                        <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain product-img-box" onerror="this.src='https://placehold.co/400x400/f4eee6/c6a15b?text=HY+STORE';">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
+                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
+                            <img src="email-logo.png" alt="Email" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/732/732200.png';">
+                        </div>
+                        <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">Email Address</h3>
+                        <p class="text-xs text-gray-600 break-all">hystoreofficial@gmail.com</p>
+                        <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-5 py-2 text-xs font-extrabold bg-darkBg text-white uppercase tracking-wider">Send Email</a>
                     </div>
-                    <div class="p-5 flex-grow flex flex-col justify-between">
-                        <div>
-                            <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold">${p.category}</span>
-                            <h3 class="font-serif-title font-bold text-base text-darkBg mt-1 leading-snug">${p.name}</h3>
-                            <div class="mt-2 flex items-baseline gap-2">
-                                <span class="font-extrabold text-base text-darkBg">Rs. ${p.price}</span>
-                                ${p.oldPrice ? `<span class="text-xs text-gray-400 line-through">Rs. ${p.oldPrice}</span>` : ''}
-                            </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
+                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
+                            <img src="clock-logo.png" alt="Hours" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2088/2088617.png';">
                         </div>
-                        <div class="grid grid-cols-2 gap-2 mt-4">
-                            <button onclick="addToCart(${p.id})" class="py-2.5 bg-darkBg text-white text-[11px] font-bold uppercase tracking-wider rounded-lg hover:bg-black transition">Details</button>
-                            <button onclick="addToCart(${p.id})" class="py-2.5 border border-darkBg text-darkBg hover:bg-darkBg hover:text-white text-[11px] font-bold uppercase tracking-wider rounded-lg transition">Add To Cart</button>
-                        </div>
+                        <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">Working Hours</h3>
+                        <p class="text-xs text-gray-600">Mon - Sat: 10AM - 9PM</p>
+                        <span class="inline-block px-3 py-1 rounded-full text-[10px] text-gold font-bold bg-cardBeige">Active</span>
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        </div>
 
-        function initBannerSlider() {
-            activeSlide = 0;
-            updateSlidePosition();
-            bannerTimer = setInterval(nextSlide, 4500);
-        }
+    </main>
 
-        function updateSlidePosition() {
-            const wrapper = document.getElementById('slider-wrapper');
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="product-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 space-y-5 relative max-h-[90vh] overflow-y-auto border border-gold/30">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-darkBg text-lg font-bold w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">✕</button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 items-center">
+                <div class="product-img-box h-60 sm:h-72 rounded-2xl border border-gray-100 overflow-hidden">
+                    <img id="modal-img" src="" alt="Product">
+                </div>
+                <div class="space-y-3">
+                    <span id="modal-cat" class="text-[10px] font-extrabold uppercase tracking-widest text-gold">PERSONALIZED GIFTS</span>
+                    <h2 id="modal-title" class="text-lg font-bold font-serif-title text-darkBg"></h2>
+                    <p id="modal-desc" class="text-gray-500 text-xs leading-relaxed"></p>
+                    <div class="flex items-center gap-3">
+                        <span id="modal-price" class="text-xl font-bold font-serif-title text-darkBg"></span>
+                        <span id="modal-old-price" class="text-xs font-bold text-gray-400 line-through"></span>
+                    </div>
+
+                    <div class="space-y-1 pt-1">
+                        <label class="block text-[10px] font-bold uppercase text-gray-600">Quantity</label>
+                        <div class="flex items-center gap-3">
+                            <button onclick="changeModalQty(-1)" class="w-8 h-8 rounded-lg border border-gray-300 font-bold text-base hover:bg-gray-100">-</button>
+                            <span id="modal-qty" class="font-extrabold text-base w-6 text-center">1</span>
+                            <button onclick="changeModalQty(1)" class="w-8 h-8 rounded-lg border border-gray-300 font-bold text-lg hover:bg-gray-100">+</button>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="addModalToCart()" class="w-full bg-gold hover:bg-goldDark text-darkBg font-extrabold py-3 shadow-glow-gold transition text-xs uppercase tracking-widest">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER SUCCESS MODAL -->
+    <div id="order-success-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 text-center space-y-5 border border-gold/30">
+            <div class="w-16 h-16 bg-cardBeige text-gold rounded-full flex items-center justify-center text-3xl font-bold mx-auto border border-gold/40">
+                <i class="fa-solid fa-gift"></i>
+            </div>
+            <h2 class="text-2xl font-bold font-serif-title text-darkBg">Order Placed!</h2>
+            
+            <div class="bg-gray-50 p-4 rounded-2xl space-y-1 border border-gray-200">
+                <span class="text-[10px] text-gray-400 block uppercase font-bold tracking-wider">Your Tracking Order ID</span>
+                <div class="flex items-center justify-center gap-2">
+                    <span id="success-order-id" class="font-black text-xl text-gold font-mono">HY-9982</span>
+                    <button onclick="copyOrderId()" class="text-[10px] bg-cardBeige text-goldDark border border-gold/30 px-2.5 py-1 rounded-lg font-bold">Copy</button>
+                </div>
+            </div>
+
+            <div id="timer-box-24h" class="hidden bg-cardBeige/80 border border-gold/30 p-4 rounded-2xl text-xs text-darkBg space-y-1">
+                <p class="font-bold text-xs flex items-center justify-center gap-1.5 text-goldDark">
+                    <i class="fa-solid fa-clock text-gold animate-spin"></i> Payment Verification Pending (24h)
+                </p>
+                <div id="modal-live-timer" class="text-lg font-black text-darkBg font-mono py-1">24:00:00</div>
+                <p class="text-[10px] text-gray-500">Timer will persist across reloads. Switches to Verified Blue Tick upon review.</p>
+            </div>
+
+            <button onclick="closeSuccessModal()" class="w-full bg-darkBg hover:bg-black text-gold font-extrabold py-3 shadow-md transition text-xs uppercase tracking-widest">View Orders</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-darkBg text-white pt-12 pb-10 border-t border-gold/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <img src="logo.png" alt="Logo" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/100x40/171717/c6a15b?text=HY';">
+                        <div class="flex flex-col">
+                            <span class="text-base font-bold uppercase font-serif-title">HY <span class="text-gold">STORE</span></span>
+                            <span class="text-[8px] font-bold text-gold uppercase tracking-widest">CUSTOM GIFTS</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">Exclusive personalized custom gifts, plush teddy bears & handcrafted memory products. Delivered nationwide.</p>
+                </div>
+                <div>
+                    <h5 class="text-xs font-black uppercase tracking-widest text-gold mb-3">Quick Navigation</h5>
+                    <ul class="space-y-1.5 text-xs text-gray-400">
+                        <li><a href="#/home" class="hover:text-gold">Home</a></li>
+                        <li><a href="#/services" class="hover:text-gold">Gift Services</a></li>
+                        <li><a href="#/products" class="hover:text-gold">Products</a></li>
+                        <li><a href="#/track" class="hover:text-gold">Track Order</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-xs font-black uppercase tracking-widest text-gold mb-3">Popular Gifts</h5>
+                    <ul class="space-y-1.5 text-xs text-gray-400">
+                        <li>Teddy Bear Plush Toys</li>
+                        <li>Personalized Gift Box</li>
+                        <li>Custom Photo Frame</li>
+                        <li>Magic Sublimation Mug</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-xs font-black uppercase tracking-widest text-gold mb-3">Support</h5>
+                    <p class="text-xs text-gray-400">Phone: 03209306672</p>
+                    <p class="text-xs text-gray-400 mt-1">Email: hystoreofficial@gmail.com</p>
+                    <a href="https://wa.me/923209306672" target="_blank" class="inline-flex items-center gap-2 mt-3 px-4 py-1.5 text-xs font-extrabold bg-gold text-darkBg uppercase tracking-widest shadow-glow-gold">
+                        <img src="whatsapp-logo.png" alt="WA" class="w-3.5 h-3.5 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
+                        <span>WhatsApp Support</span>
+                    </a>
+                </div>
+            </div>
+            <div class="pt-6 border-t border-gray-800 text-center text-[11px] text-gray-500">
+                &copy; 2026 HY STORE - Custom Gifts. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- APPLICATION JAVASCRIPT -->
+    <script>
+        const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbzUC-H6GtBRaTd2awzs0WYOr0inyEQA43WYLu5UstOeOh1_cYeiJXieAvvLcklVbgU_/exec";
+
+        let PRODUCTS = [];
+
+        // 3-Banner Slider Auto Logic
+        let currentSlide = 0;
+        let slideInterval = null;
+
+        function setSlide(index) {
+            const slides = document.querySelectorAll('.slide-item');
             const dots = document.querySelectorAll('.slide-dot');
-            if(wrapper) {
-                wrapper.style.transform = `translateX(-${activeSlide * 33.333}%)`;
-            }
-            dots.forEach((dot, idx) => {
-                if(idx === activeSlide) {
-                    dot.classList.add('bg-gold', 'w-6');
-                    dot.classList.remove('bg-white/50', 'w-3');
-                } else {
-                    dot.classList.remove('bg-gold', 'w-6');
-                    dot.classList.add('bg-white/50', 'w-3');
-                }
+            if(!slides.length) return;
+
+            slides.forEach((s, i) => {
+                s.style.opacity = (i === index) ? '1' : '0';
+                s.style.pointerEvents = (i === index) ? 'auto' : 'none';
             });
+            dots.forEach((d, i) => {
+                d.className = `slide-dot w-3 h-3 rounded-full transition-all ${i === index ? 'bg-gold w-6' : 'bg-white/40'}`;
+            });
+            currentSlide = index;
         }
 
         function nextSlide() {
-            activeSlide = (activeSlide + 1) % 3;
-            updateSlidePosition();
+            setSlide((currentSlide + 1) % 3);
         }
 
         function prevSlide() {
-            activeSlide = (activeSlide - 1 + 3) % 3;
-            updateSlidePosition();
+            setSlide((currentSlide - 1 + 3) % 3);
         }
 
-        function goToSlide(idx) {
-            activeSlide = idx;
-            updateSlidePosition();
+        function startSliderAutoPlay() {
+            if (slideInterval) clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 4500);
         }
 
-        function renderProducts(container) {
-            container.innerHTML = `
-                <div class="max-w-7xl mx-auto px-4 py-10">
-                    <h1 class="font-serif-title text-3xl font-bold text-darkBg mb-2">Gift Catalog</h1>
-                    <p class="text-xs text-gray-500 mb-8">Explore our exclusive range of custom printed teddy bears, magic mugs, and frames.</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        ${PRODUCTS.map(p => renderProductCard(p)).join('')}
+        // Dynamic Products Fetch
+        async function fetchProductsFromBackend() {
+            try {
+                const response = await fetch(API_ENDPOINT + "?action=getProducts");
+                const data = await response.json();
+                if (data && data.products && data.products.length > 0) {
+                    PRODUCTS = data.products.map(p => {
+                        const price = Number(p.price) || 0;
+                        const rawOld = p.oldPrice && !isNaN(Number(p.oldPrice)) ? Number(p.oldPrice) : 0;
+                        return {
+                            id: Number(p.id) || 1,
+                            name: p.name || "Custom Gift Item",
+                            category: p.category || "PERSONALIZED GIFTS",
+                            badge: p.badge || (p.id % 2 === 0 ? "CUSTOM MADE" : "BESTSELLER"),
+                            price: price,
+                            oldPrice: rawOld > price ? rawOld : null,
+                            img: p.img || "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
+                            desc: p.desc || "Personalized custom gift handcrafted with precision."
+                        };
+                    });
+                } else {
+                    loadFallbackProducts();
+                }
+            } catch (err) {
+                loadFallbackProducts();
+            }
+            renderProductsGrid();
+            renderHomeProductsGrid();
+        }
+
+        function loadFallbackProducts() {
+            PRODUCTS = [
+                { id: 1, name: "Teddy Bear / Pink", category: "PERSONALIZED GIFTS", badge: "BESTSELLER", price: 3100, oldPrice: 3500, img: "https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=600&q=80", desc: "Soft plush pink teddy bear holding customized photo frame." },
+                { id: 2, name: "Teddy Bear / Blue", category: "PERSONALIZED GIFTS", badge: "CUSTOM MADE", price: 3010, oldPrice: 3400, img: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80", desc: "Cute blue teddy bear with silk bow and custom memory heart." },
+                { id: 3, name: "Teddy Bear - Soft Plush Toy", category: "PERSONALIZED GIFTS", badge: "BESTSELLER", price: 4000, oldPrice: 4500, img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80", desc: "Premium giant plush teddy bear for special gift occasions." },
+                { id: 4, name: "Teddy Bear / Red", category: "PERSONALIZED GIFTS", badge: "CUSTOM MADE", price: 999, oldPrice: 1299, img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80", desc: "Classic red romantic teddy bear with custom text heart." }
+            ];
+        }
+
+        function closeEntryPopup() {
+            document.getElementById('entry-popup-modal').classList.add('hidden');
+        }
+
+        function triggerGlobalLoader(message = "Loading...", callback) {
+            const loader = document.getElementById('global-loader');
+            const text = document.getElementById('loader-text');
+            if (text) text.innerText = message;
+            if (loader) loader.classList.remove('hidden');
+
+            setTimeout(() => {
+                if (loader) loader.classList.add('hidden');
+                if (typeof callback === 'function') callback();
+            }, 2000);
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const isSuccess = type === 'success';
+            
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl border ${isSuccess ? 'bg-darkBg text-white border-gold/40' : 'bg-red-600 text-white border-red-700'} text-xs font-bold min-w-[260px]`;
+            toast.innerHTML = `<i class="fa-solid ${isSuccess ? 'fa-circle-check text-gold' : 'fa-circle-exclamation text-white'} text-base"></i><span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        function toggleAiAssistant() {
+            document.getElementById('ai-assistant-modal').classList.toggle('hidden');
+        }
+
+        function handleAiMessageSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('ai-input-text');
+            const val = input.value.trim();
+            if (!val) return;
+            
+            const chatBody = document.getElementById('ai-chat-body');
+            const userMsg = document.createElement('div');
+            userMsg.className = 'bg-darkBg text-gold p-2.5 rounded-2xl rounded-tr-none shadow-sm ml-auto max-w-[85%] text-xs font-semibold';
+            userMsg.innerText = val;
+            chatBody.appendChild(userMsg);
+            input.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 text-gray-700 leading-relaxed max-w-[85%]';
+                botMsg.innerText = "You can customize any gift with your name and photo! Add any product to cart and order directly through our website checkout.";
+                chatBody.appendChild(botMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 400);
+        }
+
+        const GIFT_SERVICES_DATA = [
+            { title: 'Personalized Memory Gift Boxes', desc: 'Custom gift hampers with chocolates, plush bears, LED frames, & cards.', icon: 'fa-box-open' },
+            { title: 'Magic Heat Reveal Mugs', desc: 'Black magic cups that reveal custom photo when hot liquid is added.', icon: 'fa-mug-hot' },
+            { title: 'Custom Photo & Acrylic Frames', desc: 'Wooden frames & laser-engraved acrylic plaque designs.', icon: 'fa-image' },
+            { title: 'Engraved Metal & Acrylic Keychains', desc: 'Double-sided custom photo & name keychains.', icon: 'fa-key' },
+            { title: 'Custom LED Night Lamp Plaques', desc: 'Acrylic LED lamps customized with couples photos & songs.', icon: 'fa-lightbulb' },
+            { title: 'Personalized Greeting & Box Cards', desc: 'Handcrafted explosion cards & velvet wedding gift boxes.', icon: 'fa-envelope-open-text' }
+        ];
+
+        function renderServicesGrid() {
+            const container = document.getElementById('services-cards-grid');
+            if (!container) return;
+
+            container.innerHTML = GIFT_SERVICES_DATA.map(s => `
+                <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-cardBeige text-gold rounded-full flex items-center justify-center text-xl mb-4 border border-gold/30">
+                            <i class="fa-solid ${s.icon}"></i>
+                        </div>
+                        <h3 class="text-base font-bold font-serif-title text-darkBg">${s.title}</h3>
+                        <p class="text-gray-500 text-xs mt-1 leading-relaxed">${s.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        let currentUser = JSON.parse(localStorage.getItem('hy_user')) || null;
+        let cart = JSON.parse(localStorage.getItem('hy_cart')) || [];
+        let orders = JSON.parse(localStorage.getItem('hy_orders')) || [];
+        let currentModalProduct = null;
+        let modalQty = 1;
+        let timerIntervals = {};
+
+        function handleRouting() {
+            let hash = window.location.hash || '#/home';
+            if (hash === '#' || hash === '') hash = '#/home';
+
+            document.querySelectorAll('.page-view').forEach(v => v.classList.add('hidden'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active-nav'));
+
+            let page = hash.replace('#/', '');
+            let targetView = document.getElementById(`view-${page}`) || document.getElementById('view-home');
+            targetView.classList.remove('hidden');
+
+            let activeNav = document.getElementById(`nav-${page}`);
+            if (activeNav) activeNav.classList.add('active-nav');
+
+            if (page === 'cart') renderCart();
+            if (page === 'profile') renderProfile();
+            if (page === 'services') renderServicesGrid();
+            if (page === 'home') {
+                renderHomeProductsGrid();
+                startSliderAutoPlay();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('hashchange', handleRouting);
+        window.addEventListener('load', () => {
+            updateAuthUI();
+            updateCartBadge();
+            fetchProductsFromBackend();
+            handleRouting();
+            startSliderAutoPlay();
+        });
+
+        function navigate(hashUrl) {
+            window.location.hash = hashUrl;
+        }
+
+        function createProductCardHTML(p) {
+            return `
+                <div class="bg-white border border-gray-200 overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-md transition">
+                    <div>
+                        <div class="product-img-box h-64 sm:h-72 relative overflow-hidden">
+                            <span class="absolute top-2 left-2 z-10 bg-darkBg text-white text-[9px] font-extrabold px-2 py-1 uppercase tracking-wider">${p.badge || 'BESTSELLER'}</span>
+                            <img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=600&q=80';">
+                        </div>
+                        
+                        <div class="p-3 sm:p-4 space-y-1">
+                            <span class="text-[9px] font-bold text-goldDark uppercase tracking-widest block">${p.category || 'PERSONALIZED GIFTS'}</span>
+                            <h3 class="text-sm sm:text-base font-bold font-serif-title text-darkBg line-clamp-1">${p.name}</h3>
+                            <div class="flex items-center gap-2 pt-1">
+                                <span class="font-extrabold text-sm sm:text-base text-darkBg">Rs. ${p.price}</span>
+                                ${p.oldPrice ? `<span class="text-xs text-gray-400 line-through">Rs. ${p.oldPrice}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 sm:p-4 pt-0 grid grid-cols-2 gap-2">
+                        <button onclick="openProductModal(${p.id})" class="w-full py-2.5 bg-darkBg hover:bg-black text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider transition">DETAILS</button>
+                        <button onclick="directAddToCart(${p.id})" class="w-full py-2.5 bg-white border border-darkBg text-darkBg hover:bg-gold hover:border-gold hover:text-darkBg font-extrabold text-[10px] sm:text-xs uppercase tracking-wider transition">ADD TO CART</button>
                     </div>
                 </div>
             `;
         }
 
-        function addToCart(id) {
+        function renderProductsGrid() {
+            const grid = document.getElementById('products-grid-list');
+            if (!grid) return;
+            grid.innerHTML = PRODUCTS.map(p => createProductCardHTML(p)).join('');
+        }
+
+        function renderHomeProductsGrid() {
+            const grid = document.getElementById('home-products-grid');
+            if (!grid) return;
+            grid.innerHTML = PRODUCTS.slice(0, 4).map(p => createProductCardHTML(p)).join('');
+        }
+
+        function openProductModal(id) {
+            currentModalProduct = PRODUCTS.find(p => p.id === id);
+            if (!currentModalProduct) return;
+            modalQty = 1;
+            document.getElementById('modal-img').src = currentModalProduct.img;
+            document.getElementById('modal-cat').innerText = currentModalProduct.category || "PERSONALIZED GIFTS";
+            document.getElementById('modal-title').innerText = currentModalProduct.name;
+            document.getElementById('modal-desc').innerText = currentModalProduct.desc;
+            document.getElementById('modal-price').innerText = `Rs. ${currentModalProduct.price}`;
+            document.getElementById('modal-old-price').innerText = currentModalProduct.oldPrice ? `Rs. ${currentModalProduct.oldPrice}` : '';
+            document.getElementById('modal-qty').innerText = modalQty;
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        function changeModalQty(delta) {
+            modalQty = Math.max(1, modalQty + delta);
+            document.getElementById('modal-qty').innerText = modalQty;
+            document.getElementById('modal-price').innerText = `Rs. ${currentModalProduct.price * modalQty}`;
+        }
+
+        function directAddToCart(id) {
             const prod = PRODUCTS.find(p => p.id === id);
-            if(prod) {
-                cart.push(prod);
-                updateCartBadge();
-                openCartModal();
+            if (!prod) return;
+            if (!currentUser) {
+                showToast('Please Log In first!', 'error');
+                navigate('#/login');
+                return;
             }
+            const existing = cart.find(item => item.id === prod.id);
+            if (existing) existing.qty += 1;
+            else cart.push({ ...prod, qty: 1 });
+
+            localStorage.setItem('hy_cart', JSON.stringify(cart));
+            updateCartBadge();
+            showToast('Added to cart!');
+        }
+
+        function addModalToCart() {
+            if (!currentUser) {
+                closeProductModal();
+                showToast('Please Log In first!', 'error');
+                navigate('#/login');
+                return;
+            }
+            const existing = cart.find(item => item.id === currentModalProduct.id);
+            if (existing) existing.qty += modalQty;
+            else cart.push({ ...currentModalProduct, qty: modalQty });
+
+            localStorage.setItem('hy_cart', JSON.stringify(cart));
+            updateCartBadge();
+            closeProductModal();
+            showToast('Added to cart!');
         }
 
         function updateCartBadge() {
-            document.getElementById('cart-count-badge').innerText = cart.length;
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-badge').innerText = count;
         }
 
-        function openCartModal() {
-            const modal = document.getElementById('cart-modal');
-            const container = document.getElementById('cart-items-container');
-            const totalEl = document.getElementById('cart-total-price');
+        async function syncOrderToBackend(orderData) {
+            try {
+                await fetch(API_ENDPOINT, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        action: "placeOrder",
+                        orderId: orderData.id,
+                        customerName: orderData.name,
+                        customerPhone: orderData.phone,
+                        userEmail: orderData.user,
+                        total: orderData.total,
+                        payMethod: orderData.payMethod,
+                        payGateway: orderData.payGateway || "N/A",
+                        payAccountTitle: orderData.payAccountTitle || "N/A",
+                        payTrxId: orderData.payTrxId || "N/A",
+                        status: orderData.status,
+                        screenshotUrl: orderData.screenshotUrl || "N/A",
+                        items: orderData.items
+                    })
+                });
+            } catch (err) {}
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const phone = document.getElementById('signup-phone').value;
+            const pass = document.getElementById('signup-pass').value;
+
+            const users = JSON.parse(localStorage.getItem('hy_users')) || [];
+            if (users.some(u => u.email === email || u.phone === phone)) {
+                showToast('Account already exists!', 'error');
+                return;
+            }
+
+            const newUser = { name, email, phone, pass };
+            triggerGlobalLoader("Creating Account...", () => {
+                users.push(newUser);
+                localStorage.setItem('hy_users', JSON.stringify(users));
+                currentUser = newUser;
+                localStorage.setItem('hy_user', JSON.stringify(currentUser));
+                updateAuthUI();
+                showToast('Account created successfully!');
+                navigate('#/home');
+            });
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const id = document.getElementById('login-id').value;
+            const pass = document.getElementById('login-pass').value;
+
+            const users = JSON.parse(localStorage.getItem('hy_users')) || [];
+            const user = users.find(u => (u.email === id || u.phone === id) && u.pass === pass);
+
+            if (user) {
+                triggerGlobalLoader("Logging in...", () => {
+                    currentUser = user;
+                    localStorage.setItem('hy_user', JSON.stringify(currentUser));
+                    updateAuthUI();
+                    showToast(`Welcome back, ${user.name}!`);
+                    navigate('#/home');
+                });
+            } else {
+                showToast('Invalid credentials!', 'error');
+            }
+        }
+
+        function handleLogout() {
+            triggerGlobalLoader("Logging Out...", () => {
+                currentUser = null;
+                localStorage.removeItem('hy_user');
+                updateAuthUI();
+                showToast('Logged out.');
+                navigate('#/home');
+            });
+        }
+
+        function updateAuthUI() {
+            if (currentUser) {
+                document.getElementById('auth-nav-container').classList.add('hidden');
+                document.getElementById('user-nav-container').classList.remove('hidden');
+                document.getElementById('user-nav-name').innerText = currentUser.name.split(' ')[0];
+            } else {
+                document.getElementById('auth-nav-container').classList.remove('hidden');
+                document.getElementById('user-nav-container').classList.add('hidden');
+            }
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cart-items-list');
+            if (cart.length === 0) {
+                list.innerHTML = `<div class="bg-white p-6 rounded-2xl text-center text-gray-400 text-xs">Your cart is empty. <a href="#/products" class="text-gold font-bold">Explore Gifts</a></div>`;
+                document.getElementById('cart-total-price').innerText = 'Rs. 0';
+                return;
+            }
 
             let total = 0;
-            container.innerHTML = cart.length === 0 ? '<p class="text-xs text-gray-400 py-8 text-center">Your shopping cart is empty.</p>' : '';
-
-            cart.forEach((item, index) => {
-                total += item.price;
-                container.innerHTML += `
-                    <div class="flex items-center justify-between pb-3 border-b border-gray-100">
-                        <div>
-                            <h4 class="font-bold text-xs text-darkBg">${item.name}</h4>
-                            <span class="text-xs font-bold text-gold">Rs. ${item.price}</span>
+            list.innerHTML = cart.map((item, index) => {
+                const subtotal = item.price * item.qty;
+                total += subtotal;
+                return `
+                    <div class="bg-white p-4 rounded-2xl border border-gray-200 flex items-center justify-between gap-3 text-xs">
+                        <div class="flex items-center gap-3">
+                            <img src="${item.img}" class="w-12 h-12 object-contain rounded-lg bg-cardBeige" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80';">
+                            <div>
+                                <h4 class="font-bold text-darkBg font-serif-title">${item.name}</h4>
+                                <span class="text-gray-500">Rs. ${item.price} • Qty: ${item.qty}</span>
+                            </div>
                         </div>
-                        <button onclick="removeFromCart(${index})" class="text-red-500 text-xs font-bold">Remove</button>
+                        <div class="flex items-center gap-3">
+                            <span class="font-extrabold text-darkBg">Rs. ${subtotal}</span>
+                            <button onclick="removeCartItem(${index})" class="text-red-500 font-bold">✕</button>
+                        </div>
                     </div>
                 `;
-            });
+            }).join('');
 
-            totalEl.innerText = `Rs. ${total}`;
-            modal.classList.remove('hidden');
+            document.getElementById('cart-total-price').innerText = `Rs. ${total}`;
         }
 
-        function closeCartModal() {
-            document.getElementById('cart-modal').classList.add('hidden');
-        }
-
-        function removeFromCart(index) {
+        function removeCartItem(index) {
             cart.splice(index, 1);
+            localStorage.setItem('hy_cart', JSON.stringify(cart));
             updateCartBadge();
-            openCartModal();
+            renderCart();
+            showToast('Item removed.');
         }
 
-        function renderCheckout(container) {
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            container.innerHTML = `
-                <div class="max-w-3xl mx-auto px-4 py-10">
-                    <h1 class="font-serif-title text-2xl font-bold text-darkBg mb-6">Complete Your Order</h1>
-                    <div class="bg-cardBg p-6 rounded-2xl border border-gold/30 mb-6">
-                        <h3 class="font-bold text-sm text-darkBg mb-3 uppercase tracking-wider">Order Summary</h3>
-                        ${cart.map(i => `<div class="flex justify-between text-xs py-1"><span>${i.name}</span><span class="font-bold">Rs. ${i.price}</span></div>`).join('')}
-                        <div class="border-t border-gold/20 mt-3 pt-3 flex justify-between font-bold text-base text-darkBg">
-                            <span>Total Payable:</span>
-                            <span class="text-gold">Rs. ${total}</span>
-                        </div>
-                    </div>
+        function proceedToCheckout() {
+            if (!currentUser) {
+                showToast('Please Log In to checkout!', 'error');
+                navigate('#/login');
+                return;
+            }
+            if (cart.length === 0) { showToast('Cart is empty!', 'error'); return; }
+            navigate('#/checkout');
+        }
 
-                    <form onsubmit="handleCheckoutSubmit(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-darkBg mb-1">Full Name</label>
-                            <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs focus:border-gold outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-darkBg mb-1">WhatsApp Mobile Number (11 Digits)</label>
-                            <input type="tel" pattern="[0-9]{11}" required placeholder="03XXXXXXXXX" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs focus:border-gold outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-darkBg mb-1">Full Shipping Address</label>
-                            <textarea required rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs focus:border-gold outline-none"></textarea>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-darkBg mb-1">Payment Gateway</label>
-                            <select class="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs focus:border-gold outline-none">
-                                <option>JazzCash Wallet (03209306672)</option>
-                                <option>Easypaisa Wallet (03209306672)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-darkBg mb-1">Transaction ID (TRX)</label>
-                            <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs focus:border-gold outline-none">
-                        </div>
-                        <button type="submit" class="w-full py-4 bg-gold text-darkBg font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg hover:bg-goldDark transition mt-4">Submit & Confirm Order</button>
-                    </form>
-                </div>
-            `;
+        function togglePaymentSection(type) {
+            const panel = document.getElementById('online-payment-panel');
+            panel.classList.toggle('hidden', type !== 'ONLINE');
+        }
+
+        function startPersistent24hTimer(orderId, displayElementId) {
+            const timerKey = `hy_timer_${orderId}`;
+            let expiryTime = localStorage.getItem(timerKey);
+
+            if (!expiryTime) {
+                expiryTime = Date.now() + (24 * 60 * 60 * 1000);
+                localStorage.setItem(timerKey, expiryTime);
+            } else {
+                expiryTime = parseInt(expiryTime, 10);
+            }
+
+            if (timerIntervals[orderId]) clearInterval(timerIntervals[orderId]);
+
+            function updateTimer() {
+                const now = Date.now();
+                const diff = expiryTime - now;
+                const elem = document.getElementById(displayElementId);
+
+                if (diff <= 0) {
+                    clearInterval(timerIntervals[orderId]);
+                    if (elem) {
+                        elem.innerHTML = `<span class="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Verified Blue Tick</span>`;
+                    }
+                    return;
+                }
+
+                const h = Math.floor(diff / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                const formatted = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+                if (elem) {
+                    elem.innerHTML = `<span class="text-gold font-mono font-bold"><i class="fa-solid fa-clock animate-pulse"></i> ${formatted} Verification</span>`;
+                }
+            }
+
+            updateTimer();
+            timerIntervals[orderId] = setInterval(updateTimer, 1000);
         }
 
         function handleCheckoutSubmit(e) {
             e.preventDefault();
-            cart = [];
-            updateCartBadge();
-            alert('Your custom gift order has been placed successfully! Proceeding to tracking page.');
-            window.location.hash = "#/track";
+
+            const name = document.getElementById('co-name').value.trim();
+            const phone = document.getElementById('co-phone').value.trim();
+            const city = document.getElementById('co-city').value.trim();
+            const address = document.getElementById('co-address').value.trim();
+            const payMethod = document.querySelector('input[name="paymethod"]:checked').value;
+
+            let payGateway = "";
+            let payAccountTitle = "";
+            let payTrxId = "";
+            let screenshotUrl = "N/A";
+
+            if (payMethod === 'ONLINE') {
+                payGateway = document.querySelector('input[name="gateway"]:checked').value;
+                payAccountTitle = document.getElementById('pay-title').value.trim();
+                payTrxId = document.getElementById('pay-trx').value.trim();
+                const fileInput = document.getElementById('pay-screenshot');
+                
+                if (!payAccountTitle || !payTrxId) {
+                    showToast('Please fill Account Title & TRX ID!', 'error');
+                    return;
+                }
+                if (fileInput.files && fileInput.files[0]) {
+                    screenshotUrl = fileInput.files[0].name;
+                }
+            }
+
+            const orderId = 'HY-' + Math.floor(1000 + Math.random() * 9000);
+            const newOrder = {
+                id: orderId,
+                name: name,
+                phone: phone,
+                city: city,
+                address: address,
+                items: [...cart],
+                user: currentUser.email,
+                total: cart.reduce((s, i) => s + (i.price * i.qty), 0),
+                payMethod,
+                payGateway,
+                payAccountTitle,
+                payTrxId,
+                screenshotUrl,
+                status: payMethod === 'COD' ? 'Order Placed' : 'Payment Verification Pending (24h)',
+                date: new Date().toLocaleDateString()
+            };
+
+            triggerGlobalLoader("Processing Gift Order...", () => {
+                orders.push(newOrder);
+                localStorage.setItem('hy_orders', JSON.stringify(orders));
+                syncOrderToBackend(newOrder);
+
+                cart = [];
+                localStorage.removeItem('hy_cart');
+                updateCartBadge();
+
+                document.getElementById('success-order-id').innerText = orderId;
+
+                if (payMethod === 'ONLINE') {
+                    document.getElementById('timer-box-24h').classList.remove('hidden');
+                    startPersistent24hTimer(orderId, 'modal-live-timer');
+                } else {
+                    document.getElementById('timer-box-24h').classList.add('hidden');
+                }
+
+                document.getElementById('order-success-modal').classList.remove('hidden');
+            });
         }
 
-        function renderTrack(container) {
-            container.innerHTML = `
-                <div class="max-w-md mx-auto px-4 py-12 text-center">
-                    <div class="w-16 h-16 bg-gold/20 text-gold rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-                        <i class="fa-solid fa-truck-fast"></i>
-                    </div>
-                    <h1 class="font-serif-title text-2xl font-bold text-darkBg mb-2">Order Tracking</h1>
-                    <p class="text-xs text-gray-500 mb-6">Enter your 11-digit mobile number to track status.</p>
-                    <div class="flex gap-2 mb-6">
-                        <input type="tel" placeholder="03XXXXXXXXX" class="flex-grow px-4 py-3 border border-gray-200 rounded-xl text-xs outline-none focus:border-gold">
-                        <button onclick="alert('Payment Verification In Progress (24h Timer Active)')" class="px-5 py-3 bg-darkBg text-white text-xs font-bold uppercase tracking-wider rounded-xl">Track</button>
-                    </div>
-                    <div class="p-4 bg-cardBg rounded-xl border border-gold/20 text-left text-xs space-y-2">
-                        <div class="flex justify-between font-bold"><span>Status:</span><span class="text-gold">Processing Verification</span></div>
-                        <div class="flex justify-between"><span>Estimated Delivery:</span><span>2-4 Business Days</span></div>
-                    </div>
-                </div>
-            `;
+        function copyOrderId() {
+            const id = document.getElementById('success-order-id').innerText;
+            navigator.clipboard.writeText(id);
+            showToast('Order ID copied!');
         }
+
+        function closeSuccessModal() {
+            document.getElementById('order-success-modal').classList.add('hidden');
+            navigate('#/profile');
+        }
+
+        function renderProfile() {
+            if (!currentUser) return;
+            document.getElementById('prof-name').innerText = currentUser.name;
+            document.getElementById('prof-email').innerText = `${currentUser.email} • ${currentUser.phone}`;
+
+            const myOrders = orders.filter(o => o.user === currentUser.email);
+            const container = document.getElementById('profile-orders-list');
+
+            if (myOrders.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-400">No orders placed yet.</p>`;
+                return;
+            }
+
+            container.innerHTML = myOrders.map(o => {
+                let badgeHtml = "";
+                const isVerified = o.status.toLowerCase().includes('verified') || o.status.toLowerCase().includes('dispatched');
+                
+                if (isVerified) {
+                    badgeHtml = `<span class="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Verified Blue Tick</span>`;
+                } else if (o.payMethod === 'ONLINE') {
+                    badgeHtml = `<div id="prof-timer-${o.id}" class="text-xs font-bold text-gold"></div>`;
+                    setTimeout(() => startPersistent24hTimer(o.id, `prof-timer-${o.id}`), 100);
+                } else {
+                    badgeHtml = `<span class="text-xs font-bold text-gray-700">${o.status}</span>`;
+                }
+
+                return `
+                    <div class="border border-gray-200 p-4 rounded-2xl flex justify-between items-center flex-wrap gap-2 text-xs">
+                        <div>
+                            <span class="font-extrabold text-gold font-mono">${o.id}</span>
+                            <span class="text-gray-400 block">${o.date} • ${o.items.length} Items</span>
+                            <div class="mt-1">${badgeHtml}</div>
+                        </div>
+                        <span class="font-bold text-darkBg font-serif-title text-sm">Rs. ${o.total}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function executeTrack() {
+            const inputVal = document.getElementById('trackInputPage').value.trim().toUpperCase();
+            if (!inputVal) {
+                showToast('Please enter a valid Order ID!', 'error');
+                return;
+            }
+
+            triggerGlobalLoader("Checking Order Status...", async () => {
+                let foundOrder = orders.find(o => o.id === inputVal);
+
+                try {
+                    const res = await fetch(`${API_ENDPOINT}?action=trackOrder&orderId=${inputVal}`);
+                    const json = await res.json();
+                    if (json && json.found && json.status) {
+                        if (foundOrder) {
+                            foundOrder.status = json.status;
+                        } else {
+                            foundOrder = {
+                                id: inputVal,
+                                name: json.customerName || "Customer",
+                                status: json.status,
+                                payMethod: "ONLINE",
+                                city: "Lahore"
+                            };
+                        }
+                    }
+                } catch (e) {}
+
+                if (!foundOrder) {
+                    foundOrder = {
+                        id: inputVal,
+                        name: currentUser ? currentUser.name : "Customer",
+                        status: "Order Placed",
+                        payMethod: "ONLINE",
+                        city: "Lahore"
+                    };
+                }
+
+                document.getElementById('trackResultID').innerText = foundOrder.id;
+                document.getElementById('trackCustomerName').innerText = foundOrder.name;
+                document.getElementById('trackCurrentStatus').innerText = foundOrder.status;
+                document.getElementById('trackCountry').innerText = "Pakistan";
+                document.getElementById('trackCity').innerText = foundOrder.city || "Lahore";
+
+                const timerBadge = document.getElementById('trackTimerBadge');
+                const st = foundOrder.status.toLowerCase();
+                const isVerified = st.includes('verified') || st.includes('dispatched') || st.includes('packaged');
+
+                if (isVerified) {
+                    timerBadge.innerHTML = `<span class="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 shadow-sm"><i class="fa-solid fa-circle-check"></i> Verified Blue Tick</span>`;
+                } else if (foundOrder.payMethod === 'ONLINE') {
+                    startPersistent24hTimer(foundOrder.id, 'trackTimerBadge');
+                } else {
+                    timerBadge.innerHTML = `<span class="text-xs font-bold text-gray-700">${foundOrder.status}</span>`;
+                }
+
+                const bar = document.getElementById('trackProgressBar');
+                const stepProof = document.getElementById('step-proof');
+                const stepPrint = document.getElementById('step-printing');
+                const stepDispatch = document.getElementById('step-dispatched');
+
+                bar.className = "h-full transition-all duration-500 bg-gold w-1/4";
+                stepProof.className = "w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1";
+                stepPrint.className = "w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1";
+                stepDispatch.className = "w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1";
+
+                if (st.includes('dispatched') || st.includes('delivered')) {
+                    bar.className = "h-full transition-all duration-500 bg-blue-600 w-full";
+                    stepProof.className = "w-8 h-8 rounded-full bg-blue-600 text-white mx-auto flex items-center justify-center font-bold mb-1 shadow-sm";
+                    stepPrint.className = "w-8 h-8 rounded-full bg-blue-600 text-white mx-auto flex items-center justify-center font-bold mb-1 shadow-sm";
+                    stepDispatch.className = "w-8 h-8 rounded-full bg-blue-600 text-white mx-auto flex items-center justify-center font-bold mb-1 shadow-sm";
+                } else if (st.includes('packaged') || st.includes('printing')) {
+                    bar.className = "h-full transition-all duration-500 bg-gold w-3/4";
+                    stepProof.className = "w-8 h-8 rounded-full bg-gold text-darkBg mx-auto flex items-center justify-center font-bold mb-1 shadow-sm";
+                    stepPrint.className = "w-8 h-8 rounded-full bg-gold text-darkBg mx-auto flex items-center justify-center font-bold mb-1 shadow-sm";
+                } else if (st.includes('crafting') || st.includes('proof')) {
+                    bar.className = "h-full transition-all duration-500 bg-gold w-2/4";
+                    stepProof.className = "w-8 h-8 rounded-full bg-gold text-darkBg mx-auto flex items-center justify-center font-bold mb-1 shadow-sm";
+                }
+
+                document.getElementById('trackResultsArea').classList.remove('hidden');
+                showToast('Order status retrieved.');
+            });
+        }
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileDrawer').classList.toggle('hidden');
+        });
     </script>
 </body>
 </html>
