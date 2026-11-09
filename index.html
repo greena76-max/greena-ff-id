@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HY STORE - Custom Gifts & Personalized Printing</title>
 
-    <!-- Web Application Manifest (Inline PWA) -->
-    <link rel="manifest" href='data:application/json,{"name":"HY STORE","short_name":"HY STORE","start_url":".","display":"standalone","background_color":"#171717","theme_color":"#c6a15b","icons":[{"src":"logo.png","sizes":"192x192","type":"image/png"}]}'>
+    <!-- Web Application Manifest (Inline PWA using icon-192.png & icon-512.png) -->
+    <link rel="manifest" href='data:application/json,{"name":"HY STORE","short_name":"HY STORE","start_url":".","display":"standalone","background_color":"#171717","theme_color":"#c6a15b","icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"}]}'>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -48,7 +48,7 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* Product Card Aesthetics (Sized larger for full presentation) */
+        /* Product Card Image Box */
         .product-img-box {
             position: relative;
             width: 100%;
@@ -58,12 +58,6 @@
             object-fit: cover;
             width: 100%;
             height: 100%;
-        }
-
-        /* Hero Radial Overlay Circles */
-        .hero-circles {
-            background: radial-gradient(circle at 85% 50%, rgba(198, 161, 91, 0.22) 0%, rgba(23, 23, 23, 0) 65%),
-                        radial-gradient(circle at 80% 50%, rgba(198, 161, 91, 0.12) 0%, rgba(23, 23, 23, 0) 50%);
         }
 
         /* Nav Link Styling */
@@ -98,13 +92,13 @@
 </head>
 <body class="bg-white text-gray-900 antialiased selection:bg-gold selection:text-white min-h-screen flex flex-col justify-between relative">
 
-    <!-- WELCOME POPUP BANNER -->
+    <!-- WELCOME POPUP BANNER WITH popup-banner.png -->
     <div id="entry-popup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="relative bg-white rounded-3xl max-w-sm sm:max-w-md w-full overflow-hidden shadow-2xl border border-gold/30">
-            <button onclick="closeEntryPopup()" class="absolute top-4 right-4 z-20 bg-darkBg text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-lg hover:bg-gold transition">✕</button>
+            <button onclick="closeEntryPopup()" class="absolute top-4 right-4 z-20 bg-darkBg text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-lg hover:bg-gold hover:text-darkBg transition">✕</button>
             <div class="p-6 text-center space-y-3 bg-white">
-                <div class="w-14 h-14 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto mb-2 text-2xl border border-gold/40">
-                    <i class="fa-solid fa-gift"></i>
+                <div class="w-full h-36 rounded-2xl overflow-hidden mb-3 border border-gold/20 bg-cardBeige">
+                    <img src="popup-banner.png" alt="Welcome Banner" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80';">
                 </div>
                 <span class="bg-cardBeige text-goldDark text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest border border-gold/30">Personalized Luxury</span>
                 <h3 class="text-xl sm:text-2xl font-bold font-serif-title text-darkBg">Welcome to HY STORE</h3>
@@ -112,7 +106,8 @@
                 <div class="pt-2 flex gap-3">
                     <a href="#/products" onclick="closeEntryPopup()" class="flex-1 py-3 rounded-xl bg-gold hover:bg-goldDark text-white font-extrabold text-xs shadow-glow-gold transition text-center uppercase tracking-wider">Explore Gifts</a>
                     <a href="https://wa.me/923209306672" target="_blank" onclick="closeEntryPopup()" class="flex-1 py-3 rounded-xl bg-darkBg hover:bg-black text-white font-extrabold text-xs transition text-center uppercase tracking-wider flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-whatsapp text-gold"></i> Quick Quote
+                        <img src="whatsapp-logo.png" alt="WhatsApp" class="w-4 h-4 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
+                        <span>Quick Quote</span>
                     </a>
                 </div>
             </div>
@@ -124,7 +119,7 @@
         <div class="relative w-20 h-20 flex items-center justify-center">
             <div class="absolute inset-0 border-4 border-darkBgLight border-t-gold rounded-full loader-spinner"></div>
             <div class="w-10 h-10 rounded-xl bg-darkBg flex items-center justify-center">
-                <i class="fa-solid fa-gift text-gold text-lg"></i>
+                <img src="logo.png" alt="Logo" class="w-8 h-8 object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/50/171717/c6a15b?text=HY';">
             </div>
         </div>
         <p id="loader-text" class="text-xs font-bold uppercase tracking-widest text-gold animate-pulse">Loading HY STORE...</p>
@@ -133,21 +128,23 @@
     <!-- TOAST NOTIFICATIONS -->
     <div id="toast-container" class="fixed top-24 right-4 sm:right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <!-- FLOATING ACTION BUTTONS -->
+    <!-- FLOATING ACTION BUTTONS (whatsapp-logo.png & ai-logo.png) -->
     <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3 items-end">
         <a href="https://wa.me/923209306672" target="_blank" title="Chat on WhatsApp" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-gold text-darkBg flex items-center justify-center shadow-glow-gold hover:scale-105 transition duration-300">
-            <i class="fa-brands fa-whatsapp text-2xl font-extrabold"></i>
+            <img src="whatsapp-logo.png" alt="WhatsApp" class="w-7 h-7 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
         </a>
         <button onclick="toggleAiAssistant()" title="HY STORE Assistant" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-darkBg text-gold border border-gold/40 flex items-center justify-center shadow-xl hover:scale-105 transition duration-300">
-            <i class="fa-solid fa-robot text-xl"></i>
+            <img src="ai-logo.png" alt="AI Specialist" class="w-7 h-7 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png';">
         </button>
     </div>
 
-    <!-- AI ASSISTANT MODAL -->
+    <!-- AI ASSISTANT MODAL WITH ai-logo.png -->
     <div id="ai-assistant-modal" class="fixed bottom-24 right-6 z-50 hidden w-[340px] max-w-[90vw] bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col">
         <div class="bg-darkBg text-white p-4 flex items-center justify-between border-b border-gold/30">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-gold text-darkBg flex items-center justify-center text-xs font-black">HY</div>
+                <div class="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
+                    <img src="ai-logo.png" alt="AI Logo" class="w-5 h-5 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png';">
+                </div>
                 <div>
                     <h4 class="font-extrabold text-xs text-gold">Gift Specialist Assistant</h4>
                     <span class="text-[10px] text-gray-300 flex items-center gap-1 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-gold inline-block animate-pulse"></span> Active</span>
@@ -179,18 +176,21 @@
         </div>
     </div>
 
-    <!-- HEADER / NAVIGATION BAR WITH SPECIFIED LOGO & SUBTITLE LAYOUT -->
+    <!-- HEADER / NAVIGATION BAR WITH LOGO.PNG AND HY STORE BRANDING -->
     <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             
-            <!-- HEADER LOGO (HY STORE with CUSTOM GIFTS & PRINTING directly underneath) -->
-            <a href="#/home" class="flex flex-col justify-center">
-                <span class="text-2xl font-black tracking-tight uppercase font-serif-title text-darkBg leading-none">
-                    HY <span class="text-gold">STORE</span>
-                </span>
-                <span class="text-[10px] font-extrabold tracking-widest text-gold uppercase mt-1">
-                    CUSTOM GIFTS & PRINTING
-                </span>
+            <!-- HEADER LOGO USING logo.png -->
+            <a href="#/home" class="flex items-center gap-3">
+                <img src="logo.png" alt="HY STORE Logo" class="h-10 sm:h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150x50/171717/c6a15b?text=HY+STORE';">
+                <div class="flex flex-col justify-center">
+                    <span class="text-xl sm:text-2xl font-black tracking-tight uppercase font-serif-title text-darkBg leading-none">
+                        HY <span class="text-gold">STORE</span>
+                    </span>
+                    <span class="text-[9px] sm:text-[10px] font-extrabold tracking-widest text-gold uppercase mt-1">
+                        CUSTOM GIFTS & PRINTING
+                    </span>
+                </div>
             </a>
 
             <nav class="hidden lg:flex items-center gap-4 font-bold text-xs uppercase tracking-wider text-gray-700">
@@ -246,68 +246,71 @@
         <!-- HOME PAGE VIEW -->
         <div id="view-home" class="page-view">
             
-            <!-- 1. FULL WIDTH END-TO-END 3-BANNER HERO SLIDER -->
+            <!-- 1. FULL WIDTH END-TO-END 3-BANNER HERO SLIDER USING banner1.png, banner2.png, banner3.png -->
             <section class="w-full bg-darkBg text-white relative overflow-hidden border-b border-gold/30">
-                <div id="hero-slider" class="relative w-full h-[360px] sm:h-[420px]">
+                <div id="hero-slider" class="relative w-full h-[380px] sm:h-[460px]">
                     
-                    <!-- Slide 1 -->
-                    <div class="slide-item absolute inset-0 opacity-100 flex items-center hero-circles transition-opacity duration-700">
-                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                    <!-- Slide 1 (banner1.png) -->
+                    <div class="slide-item absolute inset-0 opacity-100 flex items-center transition-opacity duration-700">
+                        <img src="banner1.png" alt="Banner 1" class="absolute inset-0 w-full h-full object-cover opacity-40" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
+                        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div class="max-w-2xl space-y-4">
                                 <span class="text-gold font-bold text-xs uppercase tracking-widest block">Make Every Moment Memorable</span>
                                 <h1 class="text-3xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
                                     Your Memories.<br>Your Message.<br><span class="italic text-gold">Your Custom Gift.</span>
                                 </h1>
-                                <p class="text-gray-300 text-xs sm:text-sm leading-relaxed max-w-lg">
+                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-lg">
                                     Create one-of-a-kind gifts with names, photos, messages and designs made especially for the people you love.
                                 </p>
                                 <div class="pt-2 flex flex-wrap gap-4">
-                                    <a href="#/products" class="px-8 py-3 rounded-none font-extrabold text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Shop Collection</a>
-                                    <a href="#/services" class="px-8 py-3 rounded-none font-extrabold text-xs uppercase tracking-widest text-gold border border-gold hover:bg-gold hover:text-darkBg transition">Explore Gifts</a>
+                                    <a href="#/products" class="px-8 py-3 font-extrabold text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Shop Collection</a>
+                                    <a href="#/services" class="px-8 py-3 font-extrabold text-xs uppercase tracking-widest text-gold border border-gold hover:bg-gold hover:text-darkBg transition">Explore Gifts</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Slide 2 -->
-                    <div class="slide-item absolute inset-0 opacity-0 flex items-center hero-circles transition-opacity duration-700">
-                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                    <!-- Slide 2 (banner2.png) -->
+                    <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
+                        <img src="banner2.png" alt="Banner 2" class="absolute inset-0 w-full h-full object-cover opacity-40" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1600&q=80';">
+                        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div class="max-w-2xl space-y-4">
                                 <span class="text-gold font-bold text-xs uppercase tracking-widest block">Handcrafted Luxury Teddy & Hampers</span>
                                 <h1 class="text-3xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
                                     Soft Plush Toys &<br><span class="italic text-gold">Personalized Gift Boxes.</span>
                                 </h1>
-                                <p class="text-gray-300 text-xs sm:text-sm leading-relaxed max-w-lg">
+                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-lg">
                                     Express your love with custom printed teddy bears, velvet surprise boxes, and memory cards.
                                 </p>
                                 <div class="pt-2 flex flex-wrap gap-4">
-                                    <a href="#/products" class="px-8 py-3 rounded-none font-extrabold text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Order Gift Boxes</a>
+                                    <a href="#/products" class="px-8 py-3 font-extrabold text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Order Gift Boxes</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Slide 3 -->
-                    <div class="slide-item absolute inset-0 opacity-0 flex items-center hero-circles transition-opacity duration-700">
-                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                    <!-- Slide 3 (banner3.png) -->
+                    <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
+                        <img src="banner3.png" alt="Banner 3" class="absolute inset-0 w-full h-full object-cover opacity-40" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=1600&q=80';">
+                        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div class="max-w-2xl space-y-4">
                                 <span class="text-gold font-bold text-xs uppercase tracking-widest block">Nationwide Delivery Across Pakistan</span>
                                 <h1 class="text-3xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
                                     Magic Mugs &<br><span class="italic text-gold">Custom Memory Frames.</span>
                                 </h1>
-                                <p class="text-gray-300 text-xs sm:text-sm leading-relaxed max-w-lg">
+                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-lg">
                                     High definition sublimation printing on heat reveal magic mugs and acrylic night lamps.
                                 </p>
                                 <div class="pt-2 flex flex-wrap gap-4">
-                                    <a href="#/products" class="px-8 py-3 rounded-none font-extrabold text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Explore Magic Mugs</a>
+                                    <a href="#/products" class="px-8 py-3 font-extrabold text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Explore Magic Mugs</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Slider Nav Controls -->
-                    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 text-white border border-gold/30 hover:bg-gold hover:text-darkBg flex items-center justify-center transition">❮</button>
-                    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 text-white border border-gold/30 hover:bg-gold hover:text-darkBg flex items-center justify-center transition">❯</button>
+                    <!-- Slider Controls -->
+                    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white border border-gold/30 hover:bg-gold hover:text-darkBg flex items-center justify-center transition z-20">❮</button>
+                    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white border border-gold/30 hover:bg-gold hover:text-darkBg flex items-center justify-center transition z-20">❯</button>
 
                     <!-- Slider Indicators -->
                     <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
@@ -319,7 +322,7 @@
                 </div>
             </section>
 
-            <!-- 2. BELOW BANNER: SPACING + 4 CIRCULAR CATEGORIES -->
+            <!-- 2. BELOW BANNER: 4 CIRCULAR CATEGORY IMAGES (cat1.png, cat2.png, cat3.png, cat4.png) -->
             <section class="py-12 bg-white border-b border-gray-100">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-lg mx-auto mb-8">
@@ -328,34 +331,34 @@
                     </div>
 
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
-                        <!-- Category Circle 1: Gift Box -->
+                        <!-- Circle 1: Gift Box (cat1.png) -->
                         <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
-                                <img src="cat_gift_box.jpg" alt="Personalized Gift Boxes" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80'">
+                                <img src="cat1.png" alt="Gift Boxes" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80';">
                             </div>
                             <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Gift Boxes</span>
                         </a>
 
-                        <!-- Category Circle 2: Magic Frame -->
+                        <!-- Circle 2: Memory Frames (cat2.png) -->
                         <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
-                                <img src="cat_magic_frame.jpg" alt="Photo & Memory Frames" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80'">
+                                <img src="cat2.png" alt="Memory Frames" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80';">
                             </div>
                             <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Memory Frames</span>
                         </a>
 
-                        <!-- Category Circle 3: Mugs -->
+                        <!-- Circle 3: Mugs (cat3.png) -->
                         <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
-                                <img src="cat_personalized_cup.jpg" alt="Custom Photo Mugs" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=400&q=80'">
+                                <img src="cat3.png" alt="Custom Mugs" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=400&q=80';">
                             </div>
                             <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Custom Mugs</span>
                         </a>
 
-                        <!-- Category Circle 4: Keychains -->
+                        <!-- Circle 4: Keychains (cat4.png) -->
                         <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
-                                <img src="cat_custom_keychain.jpg" alt="Acrylic & Metal Keychains" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80'">
+                                <img src="cat4.png" alt="Custom Keychains" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80';">
                             </div>
                             <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Custom Keychains</span>
                         </a>
@@ -363,7 +366,7 @@
                 </div>
             </section>
 
-            <!-- 3. POPULAR PRODUCTS (MATCHING TEDDY BEAR/BESTSELLER CARD DESIGN LAYOUT) -->
+            <!-- 3. POPULAR PRODUCTS GRID (2-COLUMN MOBILE RESPONSIVE) -->
             <section class="py-12 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-end justify-between mb-8">
@@ -377,7 +380,7 @@
                 </div>
             </section>
 
-            <!-- CONTACT CARDS SECTION -->
+            <!-- CONTACT CARDS SECTION WITH whatsapp-logo.png, email-logo.png, clock-logo.png -->
             <section class="py-12 bg-gray-50 border-t border-gray-100">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-xl mx-auto mb-8">
@@ -386,35 +389,43 @@
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div class="bg-white p-5 rounded-2xl border border-gray-200 text-center space-y-2 shadow-sm">
-                            <div class="w-10 h-10 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto text-lg"><i class="fa-brands fa-whatsapp"></i></div>
+                            <div class="w-10 h-10 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto">
+                                <img src="whatsapp-logo.png" alt="WhatsApp" class="w-5 h-5 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
+                            </div>
                             <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">WhatsApp & Call</h4>
                             <p class="text-xs text-gray-600">03209306672</p>
-                            <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-4 py-1.5 rounded-none text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Chat Now</a>
+                            <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-4 py-1.5 text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Chat Now</a>
                         </div>
                         <div class="bg-white p-5 rounded-2xl border border-gray-200 text-center space-y-2 shadow-sm">
-                            <div class="w-10 h-10 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto text-lg"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="w-10 h-10 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto">
+                                <img src="email-logo.png" alt="Email" class="w-5 h-5 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/732/732200.png';">
+                            </div>
                             <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">Email Address</h4>
                             <p class="text-xs text-gray-600 break-all">hystoreofficial@gmail.com</p>
-                            <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-4 py-1.5 rounded-none text-[11px] font-extrabold bg-darkBg text-white uppercase tracking-wider">Send Email</a>
+                            <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-4 py-1.5 text-[11px] font-extrabold bg-darkBg text-white uppercase tracking-wider">Send Email</a>
                         </div>
                         <div class="bg-white p-5 rounded-2xl border border-gray-200 text-center space-y-2 shadow-sm">
-                            <div class="w-10 h-10 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto text-lg"><i class="fa-solid fa-clock"></i></div>
+                            <div class="w-10 h-10 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto">
+                                <img src="clock-logo.png" alt="Hours" class="w-5 h-5 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2088/2088617.png';">
+                            </div>
                             <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">Support Hours</h4>
                             <p class="text-xs text-gray-600">Mon - Sat: 10AM - 9PM</p>
                             <span class="inline-block px-3 py-1 rounded-full text-[10px] text-gold font-bold bg-cardBeige">Active</span>
                         </div>
                         <div class="bg-darkBg text-white p-5 rounded-2xl text-center space-y-2 shadow-md border border-gold/30">
-                            <div class="w-10 h-10 bg-white/10 text-gold rounded-full flex items-center justify-center mx-auto text-lg"><i class="fa-solid fa-mobile-screen"></i></div>
+                            <div class="w-10 h-10 bg-white/10 text-gold rounded-full flex items-center justify-center mx-auto">
+                                <i class="fa-solid fa-mobile-screen text-lg text-gold"></i>
+                            </div>
                             <h4 class="font-bold text-white text-xs uppercase tracking-wider">Mobile Web App</h4>
                             <p class="text-[10px] text-gray-300">Fast 1-tap mobile experience.</p>
-                            <button onclick="showToast('Tap browser menu and select Add to Home Screen')" class="w-full py-1.5 rounded-none text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Install App</button>
+                            <button onclick="showToast('Tap browser menu and select Add to Home Screen')" class="w-full py-1.5 text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Install App</button>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
 
-        <!-- GIFT CATALOG PAGE (EXCLUSIVE GIFTING ITEMS - NO WHATSAPP BUTTON UNDERNEATH) -->
+        <!-- GIFT CATALOG PAGE -->
         <div id="view-services" class="page-view hidden py-12 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
                 <div class="text-center max-w-2xl mx-auto">
@@ -594,12 +605,12 @@
                         <span class="text-gray-500 text-xs block uppercase font-bold">Total Amount</span>
                         <span id="cart-total-price" class="text-2xl font-black text-darkBg">Rs. 0</span>
                     </div>
-                    <button onclick="proceedToCheckout()" class="bg-gold text-darkBg font-extrabold px-8 py-3.5 rounded-none shadow-glow-gold text-xs uppercase tracking-widest hover:bg-goldDark transition w-full sm:w-auto">Proceed to Checkout &rarr;</button>
+                    <button onclick="proceedToCheckout()" class="bg-gold text-darkBg font-extrabold px-8 py-3.5 shadow-glow-gold text-xs uppercase tracking-widest hover:bg-goldDark transition w-full sm:w-auto">Proceed to Checkout &rarr;</button>
                 </div>
             </div>
         </div>
 
-        <!-- CHECKOUT VIEW WITH JAZZCASH/EASYPAISA & SCREENSHOT COLUMN L ATTACHMENT -->
+        <!-- CHECKOUT VIEW WITH JAZZCASH/EASYPAISA & SCREENSHOT ATTACHMENT -->
         <div id="view-checkout" class="page-view hidden py-12 bg-white">
             <div class="max-w-3xl mx-auto px-4">
                 <div class="bg-white p-6 sm:p-10 rounded-3xl border border-gray-200 shadow-xl space-y-6">
@@ -698,7 +709,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="w-full bg-darkBg text-gold font-extrabold py-3.5 rounded-none shadow-glow-gold transition text-xs uppercase tracking-widest hover:bg-black">Confirm & Place Gift Order</button>
+                        <button type="submit" class="w-full bg-darkBg text-gold font-extrabold py-3.5 shadow-glow-gold transition text-xs uppercase tracking-widest hover:bg-black">Confirm & Place Gift Order</button>
                     </form>
                 </div>
             </div>
@@ -722,7 +733,7 @@
             </div>
         </div>
 
-        <!-- CONTACT VIEW -->
+        <!-- CONTACT VIEW WITH LOCAL LOGO IMAGES -->
         <div id="view-contact" class="page-view hidden py-12 bg-gray-50">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-lg mx-auto mb-10">
@@ -733,19 +744,25 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
-                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto">
+                            <img src="whatsapp-logo.png" alt="WhatsApp" class="w-6 h-6 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
+                        </div>
                         <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">WhatsApp & Call</h3>
                         <p class="text-xs text-gray-600">03209306672</p>
-                        <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-5 py-2 rounded-none text-xs font-extrabold bg-gold text-darkBg uppercase tracking-wider shadow-glow-gold">Chat Now</a>
+                        <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-5 py-2 text-xs font-extrabold bg-gold text-darkBg uppercase tracking-wider shadow-glow-gold">Chat Now</a>
                     </div>
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
-                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto">
+                            <img src="email-logo.png" alt="Email" class="w-6 h-6 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/732/732200.png';">
+                        </div>
                         <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">Email Address</h3>
                         <p class="text-xs text-gray-600 break-all">hystoreofficial@gmail.com</p>
-                        <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-5 py-2 rounded-none text-xs font-extrabold bg-darkBg text-white uppercase tracking-wider">Send Email</a>
+                        <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-5 py-2 text-xs font-extrabold bg-darkBg text-white uppercase tracking-wider">Send Email</a>
                     </div>
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
-                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-clock"></i></div>
+                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto">
+                            <img src="clock-logo.png" alt="Hours" class="w-6 h-6 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2088/2088617.png';">
+                        </div>
                         <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">Working Hours</h3>
                         <p class="text-xs text-gray-600">Mon - Sat: 10AM - 9PM</p>
                         <span class="inline-block px-3 py-1 rounded-full text-[10px] text-gold font-bold bg-cardBeige">Active</span>
@@ -783,7 +800,7 @@
                     </div>
 
                     <div class="pt-2">
-                        <button onclick="addModalToCart()" class="w-full bg-gold hover:bg-goldDark text-darkBg font-extrabold py-3 rounded-none shadow-glow-gold transition text-xs uppercase tracking-widest">Add to Cart</button>
+                        <button onclick="addModalToCart()" class="w-full bg-gold hover:bg-goldDark text-darkBg font-extrabold py-3 shadow-glow-gold transition text-xs uppercase tracking-widest">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -814,7 +831,7 @@
                 <p class="text-[10px] text-gray-500">Timer will persist across reloads. Switches to Verified Blue Tick upon review.</p>
             </div>
 
-            <button onclick="closeSuccessModal()" class="w-full bg-darkBg hover:bg-black text-gold font-extrabold py-3 rounded-none shadow-md transition text-xs uppercase tracking-widest">View Orders</button>
+            <button onclick="closeSuccessModal()" class="w-full bg-darkBg hover:bg-black text-gold font-extrabold py-3 shadow-md transition text-xs uppercase tracking-widest">View Orders</button>
         </div>
     </div>
 
@@ -823,9 +840,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-8 mb-8">
                 <div class="space-y-3">
-                    <div class="flex flex-col">
-                        <span class="text-lg font-bold uppercase font-serif-title">HY <span class="text-gold">STORE</span></span>
-                        <span class="text-[9px] font-bold text-gold uppercase tracking-widest">CUSTOM GIFTS & PRINTING</span>
+                    <div class="flex items-center gap-3">
+                        <img src="logo.png" alt="Logo" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/100x40/171717/c6a15b?text=HY';">
+                        <div class="flex flex-col">
+                            <span class="text-base font-bold uppercase font-serif-title">HY <span class="text-gold">STORE</span></span>
+                            <span class="text-[8px] font-bold text-gold uppercase tracking-widest">CUSTOM GIFTS & PRINTING</span>
+                        </div>
                     </div>
                     <p class="text-xs text-gray-400 leading-relaxed">Exclusive personalized custom gifts, plush teddy bears & handcrafted memory products. Delivered nationwide.</p>
                 </div>
@@ -851,8 +871,9 @@
                     <h5 class="text-xs font-black uppercase tracking-widest text-gold mb-3">Support</h5>
                     <p class="text-xs text-gray-400">Phone: 03209306672</p>
                     <p class="text-xs text-gray-400 mt-1">Email: hystoreofficial@gmail.com</p>
-                    <a href="https://wa.me/923209306672" target="_blank" class="inline-flex items-center gap-2 mt-3 px-4 py-1.5 rounded-none text-xs font-extrabold bg-gold text-darkBg uppercase tracking-widest shadow-glow-gold">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp Support
+                    <a href="https://wa.me/923209306672" target="_blank" class="inline-flex items-center gap-2 mt-3 px-4 py-1.5 text-xs font-extrabold bg-gold text-darkBg uppercase tracking-widest shadow-glow-gold">
+                        <img src="whatsapp-logo.png" alt="WA" class="w-3.5 h-3.5 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
+                        <span>WhatsApp Support</span>
                     </a>
                 </div>
             </div>
@@ -996,7 +1017,6 @@
             }, 400);
         }
 
-        // EXCLUSIVE GIFTING SERVICES (WITHOUT WHATSAPP ORDER BUTTONS UNDERNEATH)
         const GIFT_SERVICES_DATA = [
             { title: 'Personalized Memory Gift Boxes', desc: 'Custom gift hampers with chocolates, plush bears, LED frames, & cards.', icon: 'fa-box-open' },
             { title: 'Magic Heat Reveal Mugs', desc: 'Black magic cups that reveal custom photo when hot liquid is added.', icon: 'fa-mug-hot' },
@@ -1068,18 +1088,15 @@
             window.location.hash = hashUrl;
         }
 
-        // PRODUCT CARD HTML WITH BEIGE BACKGROUND AND EXACT H-64 / H-72 SIZING
         function createProductCardHTML(p) {
             return `
                 <div class="bg-white border border-gray-200 overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-md transition">
                     <div>
-                        <!-- Top Image Box (Beige Background + Dark Badge + Expanded Height) -->
                         <div class="product-img-box h-64 sm:h-72 relative overflow-hidden">
                             <span class="absolute top-2 left-2 z-10 bg-darkBg text-white text-[9px] font-extrabold px-2 py-1 uppercase tracking-wider">${p.badge || 'BESTSELLER'}</span>
-                            <img src="${p.img}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=600&q=80'">
+                            <img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=600&q=80';">
                         </div>
                         
-                        <!-- Content Box -->
                         <div class="p-3 sm:p-4 space-y-1">
                             <span class="text-[9px] font-bold text-goldDark uppercase tracking-widest block">${p.category || 'PERSONALIZED GIFTS'}</span>
                             <h3 class="text-sm sm:text-base font-bold font-serif-title text-darkBg line-clamp-1">${p.name}</h3>
@@ -1090,7 +1107,6 @@
                         </div>
                     </div>
 
-                    <!-- Dual Action Buttons: DETAILS & ADD TO CART -->
                     <div class="p-3 sm:p-4 pt-0 grid grid-cols-2 gap-2">
                         <button onclick="openProductModal(${p.id})" class="w-full py-2.5 bg-darkBg hover:bg-black text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider transition">DETAILS</button>
                         <button onclick="directAddToCart(${p.id})" class="w-full py-2.5 bg-white border border-darkBg text-darkBg hover:bg-gold hover:border-gold hover:text-darkBg font-extrabold text-[10px] sm:text-xs uppercase tracking-wider transition">ADD TO CART</button>
@@ -1281,7 +1297,7 @@
                 return `
                     <div class="bg-white p-4 rounded-2xl border border-gray-200 flex items-center justify-between gap-3 text-xs">
                         <div class="flex items-center gap-3">
-                            <img src="${item.img}" class="w-12 h-12 object-contain rounded-lg bg-cardBeige" onerror="this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80'">
+                            <img src="${item.img}" class="w-12 h-12 object-contain rounded-lg bg-cardBeige" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80';">
                             <div>
                                 <h4 class="font-bold text-darkBg font-serif-title">${item.name}</h4>
                                 <span class="text-gray-500">Rs. ${item.price} • Qty: ${item.qty}</span>
@@ -1321,7 +1337,6 @@
             panel.classList.toggle('hidden', type !== 'ONLINE');
         }
 
-        // PERSISTENT 24-HOUR TIMER
         function startPersistent24hTimer(orderId, displayElementId) {
             const timerKey = `hy_timer_${orderId}`;
             let expiryTime = localStorage.getItem(timerKey);
