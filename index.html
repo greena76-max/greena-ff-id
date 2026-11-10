@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HY STORE - Custom Gifts & Personalized Printing</title>
 
-    <!-- Web Application Manifest (Inline PWA using icon-192.png & icon-512.png) -->
+    <!-- Web Application Manifest -->
     <link rel="manifest" href='data:application/json,{"name":"HY STORE","short_name":"HY STORE","start_url":".","display":"standalone","background_color":"#0B0B0B","theme_color":"#E50914","icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"}]}'>
 
     <!-- Tailwind CSS CDN -->
@@ -43,48 +43,15 @@
             background-color: #FFFFFF;
             color: #0B0B0B;
         }
-
-        .font-serif-title {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* Product Card Image Box */
-        .product-img-box {
-            position: relative;
-            width: 100%;
-            background-color: #f4eee6;
-        }
-        .product-img-box img {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Nav Link Styling */
-        .nav-link {
-            padding: 8px 16px;
-            border-radius: 9999px;
-            transition: all 0.3s ease;
-        }
-        .nav-link:hover {
-            color: #E50914;
-        }
-        .nav-link.active-nav {
-            color: #E50914;
-            font-weight: 800;
-            background-color: rgba(198, 161, 91, 0.08);
-        }
-
-        /* Spinner animation */
+        .font-serif-title { font-family: 'Playfair Display', serif; }
+        .product-img-box { position: relative; width: 100%; background-color: #f4eee6; }
+        .product-img-box img { object-fit: cover; width: 100%; height: 100%; }
+        .nav-link { padding: 8px 16px; border-radius: 9999px; transition: all 0.3s ease; }
+        .nav-link:hover { color: #E50914; }
+        .nav-link.active-nav { color: #E50914; font-weight: 800; background-color: rgba(198, 161, 91, 0.08); }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loader-spinner { animation: spin 1s linear infinite; }
-
-        /* Carousel transitions */
-        .slide-item {
-            transition: opacity 0.7s ease-in-out;
-        }
-
-        /* Custom Scrollbar */
+        .slide-item { transition: opacity 0.7s ease-in-out; }
         ::-webkit-scrollbar { width: 6px; height: 4px; }
         ::-webkit-scrollbar-track { background: #0B0B0B; }
         ::-webkit-scrollbar-thumb { background: #E50914; border-radius: 3px; }
@@ -92,7 +59,7 @@
 </head>
 <body class="bg-white text-gray-900 antialiased selection:bg-gold selection:text-white min-h-screen flex flex-col justify-between relative">
 
-    <!-- WELCOME POPUP BANNER WITH popup-banner.png -->
+    <!-- WELCOME POPUP MODAL -->
     <div id="entry-popup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="relative bg-white rounded-3xl max-w-sm sm:max-w-md w-full overflow-hidden shadow-2xl border border-gold/30">
             <button onclick="closeEntryPopup()" class="absolute top-4 right-4 z-20 bg-darkBg text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-lg hover:bg-gold hover:text-darkBg transition">✕</button>
@@ -105,21 +72,21 @@
         </div>
     </div>
 
-    <!-- GLOBAL LOADING OVERLAY -->
-    <div id="global-loader" class="fixed inset-0 bg-darkBg/95 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center space-y-4">
+    <!-- GLOBAL LOADING OVERLAY (Active on Load & Data Fetch) -->
+    <div id="global-loader" class="fixed inset-0 bg-darkBg/95 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4">
         <div class="relative w-20 h-20 flex items-center justify-center">
             <div class="absolute inset-0 border-4 border-darkBgLight border-t-gold rounded-full loader-spinner"></div>
             <div class="w-10 h-10 rounded-xl bg-darkBg flex items-center justify-center">
                 <img src="logo.png" alt="Logo" class="w-8 h-8 object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/50/171717/c6a15b?text=HY';">
             </div>
         </div>
-        <p id="loader-text" class="text-xs font-bold uppercase tracking-widest text-gold animate-pulse">Loading HY STORE...</p>
+        <p id="loader-text" class="text-xs font-bold uppercase tracking-widest text-gold animate-pulse">Loading HY STORE Products...</p>
     </div>
 
     <!-- TOAST NOTIFICATIONS -->
     <div id="toast-container" class="fixed top-24 right-4 sm:right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <!-- FLOATING ACTION BUTTONS (whatsapp-logo.png & ai-logo.png) -->
+    <!-- FLOATING ACTION BUTTONS -->
     <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3 items-end">
         <a href="https://wa.me/923209306672" target="_blank" title="Chat on WhatsApp" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-gold text-darkBg flex items-center justify-center shadow-glow-gold hover:scale-105 transition duration-300">
             <img src="whatsapp-logo.png" alt="WhatsApp" class="w-7 h-7 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
@@ -129,7 +96,7 @@
         </button>
     </div>
 
-    <!-- AI ASSISTANT MODAL WITH ai-logo.png -->
+    <!-- AI ASSISTANT MODAL -->
     <div id="ai-assistant-modal" class="fixed bottom-24 right-6 z-50 hidden w-[340px] max-w-[90vw] bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col">
         <div class="bg-darkBg text-white p-4 flex items-center justify-between border-b border-gold/30">
             <div class="flex items-center gap-3">
@@ -162,16 +129,14 @@
                 <span class="text-gray-700">•</span>
                 <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-truck"></i> Fast Nationwide Delivery</span>
                 <span class="text-gray-700">•</span>
-                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-clock font-bold"></i> Live Order Tracking</span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-clock font-bold"></i> Live Order & Payment Tracking</span>
             </div>
         </div>
     </div>
 
-    <!-- HEADER / NAVIGATION BAR WITH LOGO.PNG AND HY STORE BRANDING -->
+    <!-- HEADER -->
     <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            
-            <!-- HEADER LOGO USING logo.png -->
             <a href="#/home" class="flex items-center gap-3">
                 <img src="logo.png" alt="HY STORE Logo" class="h-10 sm:h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150x50/171717/c6a15b?text=HY+STORE';">
                 <div class="flex flex-col justify-center">
@@ -236,12 +201,9 @@
 
         <!-- HOME PAGE VIEW -->
         <div id="view-home" class="page-view">
-            
-            <!-- 1. FULL WIDTH END-TO-END 3-BANNER HERO SLIDER USING banner1.png, banner2.png, banner3.png -->
             <section class="w-full bg-darkBg text-white relative overflow-hidden border-b border-gold/30">
                 <div id="hero-slider" class="relative w-full h-[380px] sm:h-[460px]">
-                    
-                    <!-- Slide 1 (banner1.png) -->
+                    <!-- Slide 1 -->
                     <div class="slide-item absolute inset-0 opacity-100 flex items-center transition-opacity duration-700">
                         <img src="banner1.png" alt="Banner 1" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
                         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -261,7 +223,7 @@
                         </div>
                     </div>
 
-                    <!-- Slide 2 (banner2.png) -->
+                    <!-- Slide 2 -->
                     <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
                         <img src="banner2.png" alt="Banner 2" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1600&q=80';">
                         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -280,7 +242,7 @@
                         </div>
                     </div>
 
-                    <!-- Slide 3 (banner3.png) -->
+                    <!-- Slide 3 -->
                     <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
                         <img src="banner3.png" alt="Banner 3" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=1600&q=80';">
                         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -299,54 +261,43 @@
                         </div>
                     </div>
 
-                    <!-- Slider Controls -->
                     <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white border border-gold/30 hover:bg-gold hover:text-darkBg flex items-center justify-center transition z-20">❮</button>
                     <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white border border-gold/30 hover:bg-gold hover:text-darkBg flex items-center justify-center transition z-20">❯</button>
 
-                    <!-- Slider Indicators -->
                     <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
                         <button onclick="setSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-gold transition-all"></button>
                         <button onclick="setSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white/40 transition-all"></button>
                         <button onclick="setSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white/40 transition-all"></button>
                     </div>
-
                 </div>
             </section>
 
-            <!-- 2. BELOW BANNER: 4 CIRCULAR CATEGORY IMAGES (cat1.png, cat2.png, cat3.png, cat4.png) -->
+            <!-- CATEGORY CIRCLES -->
             <section class="py-12 bg-white border-b border-gray-100">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-lg mx-auto mb-8">
                         <span class="text-gold font-bold text-xs uppercase tracking-widest">Featured Gift Categories</span>
                         <h2 class="text-2xl font-bold font-serif-title text-darkBg mt-1">Shop By Category</h2>
                     </div>
-
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
-                        <!-- Circle 1: Gift Box (cat1.png) -->
                         <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
                                 <img src="cat1.png" alt="Gift Boxes" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80';">
                             </div>
                             <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Gift Boxes</span>
                         </a>
-
-                        <!-- Circle 2: Memory Frames (cat2.png) -->
                         <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
                                 <img src="cat2.png" alt="Memory Frames" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80';">
                             </div>
                             <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Memory Frames</span>
                         </a>
-
-                        <!-- Circle 3: Mugs (cat3.png) -->
                         <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
                                 <img src="cat3.png" alt="Custom Mugs" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=400&q=80';">
                             </div>
                             <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Custom Mugs</span>
                         </a>
-
-                        <!-- Circle 4: Keychains (cat4.png) -->
                         <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
                                 <img src="cat4.png" alt="Custom Keychains" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80';">
@@ -357,7 +308,7 @@
                 </div>
             </section>
 
-            <!-- 3. POPULAR PRODUCTS GRID (2-COLUMN MOBILE RESPONSIVE) -->
+            <!-- TRENDING PRODUCTS -->
             <section class="py-12 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-end justify-between mb-8">
@@ -370,50 +321,6 @@
                     <div id="home-products-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"></div>
                 </div>
             </section>
-
-            <!-- CONTACT CARDS SECTION WITH whatsapp-logo.png, email-logo.png, clock-logo.png -->
-            <section class="py-12 bg-gray-50 border-t border-gray-100">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center max-w-xl mx-auto mb-8">
-                        <span class="text-gold font-bold text-xs uppercase tracking-widest">HY STORE Care</span>
-                        <h2 class="text-2xl font-bold font-serif-title text-darkBg mt-1">Customer Support</h2>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="bg-white p-5 rounded-2xl border border-gray-200 text-center space-y-2 shadow-sm">
-                            <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
-                                <img src="whatsapp-logo.png" alt="WhatsApp" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
-                            </div>
-                            <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">WhatsApp & Call</h4>
-                            <p class="text-xs text-gray-600">03209306672</p>
-                            <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-4 py-1.5 text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Chat Now</a>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-gray-200 text-center space-y-2 shadow-sm">
-                            <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
-                                <img src="email-logo.png" alt="Email" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/732/732200.png';">
-                            </div>
-                            <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">Email Address</h4>
-                            <p class="text-xs text-gray-600 break-all">hystoreofficial@gmail.com</p>
-                            <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-4 py-1.5 text-[11px] font-extrabold bg-darkBg text-white uppercase tracking-wider">Send Email</a>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-gray-200 text-center space-y-2 shadow-sm">
-                            <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
-                                <img src="clock-logo.png" alt="Hours" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2088/2088617.png';">
-                            </div>
-                            <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">Support Hours</h4>
-                            <p class="text-xs text-gray-600">Mon - Sat: 10AM - 9PM</p>
-                            <span class="inline-block px-3 py-1 rounded-full text-[10px] text-gold font-bold bg-cardBeige">Active</span>
-                        </div>
-                        <div class="bg-darkBg text-white p-5 rounded-2xl text-center space-y-2 shadow-md border border-gold/30">
-                            <div class="w-12 h-12 bg-white/10 text-gold rounded-full flex items-center justify-center mx-auto">
-                                <i class="fa-solid fa-mobile-screen text-lg text-gold"></i>
-                            </div>
-                            <h4 class="font-bold text-white text-xs uppercase tracking-wider">Mobile Web App</h4>
-                            <p class="text-[10px] text-gray-300">Fast 1-tap mobile experience.</p>
-                            <button onclick="showToast('Tap browser menu and select Add to Home Screen')" class="w-full py-1.5 text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Install App</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
 
         <!-- GIFT CATALOG PAGE -->
@@ -424,7 +331,6 @@
                     <h1 class="text-3xl font-bold font-serif-title text-darkBg mt-2">Custom <span class="text-gold">Gifting Catalog</span></h1>
                     <p class="text-gray-500 text-xs mt-1">Explore our exclusive custom gifting options available for instant checkout.</p>
                 </div>
-
                 <div id="services-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
         </div>
@@ -448,7 +354,7 @@
                 <div class="text-center max-w-lg mx-auto mb-8">
                     <span class="text-gold font-bold text-xs uppercase tracking-widest bg-cardBeige px-4 py-1 rounded-full border border-gold/30">Order Verification</span>
                     <h1 class="text-3xl font-bold font-serif-title text-darkBg mt-2">Track Your <span class="text-gold">Gift Order</span></h1>
-                    <p class="text-gray-500 text-xs mt-1">Enter your Order ID (e.g. HY-1001) to verify live status.</p>
+                    <p class="text-gray-500 text-xs mt-1">Enter your Order ID (e.g. HY-1001) to verify live status & payment verification.</p>
                 </div>
 
                 <div class="bg-gray-50 rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm space-y-6">
@@ -457,7 +363,6 @@
                         <button onclick="executeTrack()" class="px-8 py-3 rounded-xl font-extrabold text-xs text-darkBg bg-gold hover:bg-goldDark transition uppercase tracking-wider shadow-glow-gold">Track Order</button>
                     </div>
 
-                    <!-- Output Panel -->
                     <div id="trackResultsArea" class="hidden pt-6 border-t border-gray-200 space-y-6">
                         <div class="bg-white p-5 rounded-2xl border border-gray-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                             <div>
@@ -485,8 +390,8 @@
                                     <p id="trackResultID" class="text-xl font-black text-darkBg">HY-1001</p>
                                 </div>
                                 <div class="text-right">
-                                    <span class="text-[10px] font-bold text-gray-400 uppercase block">VERIFICATION STATE</span>
-                                    <div id="trackTimerBadge" class="mt-0.5 font-bold text-xs text-gold">--</div>
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase block">PAYMENT STATE</span>
+                                    <div id="trackPaymentBadge" class="mt-0.5 text-xs">--</div>
                                 </div>
                             </div>
 
@@ -601,7 +506,7 @@
             </div>
         </div>
 
-        <!-- CHECKOUT VIEW WITH JAZZCASH/EASYPAISA & SCREENSHOT ATTACHMENT -->
+        <!-- CHECKOUT VIEW -->
         <div id="view-checkout" class="page-view hidden py-12 bg-white">
             <div class="max-w-3xl mx-auto px-4">
                 <div class="bg-white p-6 sm:p-10 rounded-3xl border border-gray-200 shadow-xl space-y-6">
@@ -661,7 +566,6 @@
                                 </label>
                             </div>
 
-                            <!-- ONLINE PAYMENT GATEWAY SELECTOR & RECEIPT SCREENSHOT -->
                             <div id="online-payment-panel" class="hidden bg-cardBeige/80 p-5 rounded-3xl border border-gold/30 space-y-4">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <label class="border-2 border-gold/40 bg-white p-3 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-gold transition">
@@ -724,7 +628,7 @@
             </div>
         </div>
 
-        <!-- CONTACT VIEW WITH LOCAL LOGO IMAGES -->
+        <!-- CONTACT VIEW -->
         <div id="view-contact" class="page-view hidden py-12 bg-gray-50">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-lg mx-auto mb-10">
@@ -814,14 +718,6 @@
                 </div>
             </div>
 
-            <div id="timer-box-24h" class="hidden bg-cardBeige/80 border border-gold/30 p-4 rounded-2xl text-xs text-darkBg space-y-1">
-                <p class="font-bold text-xs flex items-center justify-center gap-1.5 text-goldDark">
-                    <i class="fa-solid fa-clock text-gold animate-spin"></i> Payment Verification Pending (24h)
-                </p>
-                <div id="modal-live-timer" class="text-lg font-black text-darkBg font-mono py-1">24:00:00</div>
-                <p class="text-[10px] text-gray-500">Timer will persist across reloads. Switches to Verified Blue Tick upon review.</p>
-            </div>
-
             <button onclick="closeSuccessModal()" class="w-full bg-darkBg hover:bg-black text-gold font-extrabold py-3 shadow-md transition text-xs uppercase tracking-widest">View Orders</button>
         </div>
     </div>
@@ -876,11 +772,9 @@
 
     <!-- APPLICATION JAVASCRIPT -->
     <script>
-       const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbw1SEN6skwkvbNfRG6yikhMwhki3-dfMycyoll1doSW6lGvwqfelHkvfMZBm_K_ebac/exec";
+        const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbw1SEN6skwkvbNfRG6yikhMwhki3-dfMycyoll1doSW6lGvwqfelHkvfMZBm_K_ebac/exec";
 
         let PRODUCTS = [];
-
-        // 3-Banner Slider Auto Logic
         let currentSlide = 0;
         let slideInterval = null;
 
@@ -899,20 +793,26 @@
             currentSlide = index;
         }
 
-        function nextSlide() {
-            setSlide((currentSlide + 1) % 3);
-        }
-
-        function prevSlide() {
-            setSlide((currentSlide - 1 + 3) % 3);
-        }
+        function nextSlide() { setSlide((currentSlide + 1) % 3); }
+        function prevSlide() { setSlide((currentSlide - 1 + 3) % 3); }
 
         function startSliderAutoPlay() {
             if (slideInterval) clearInterval(slideInterval);
             slideInterval = setInterval(nextSlide, 4500);
         }
 
-        // Dynamic Products Fetch
+        function triggerGlobalLoader(message = "Loading Products...", callback) {
+            const loader = document.getElementById('global-loader');
+            const text = document.getElementById('loader-text');
+            if (text) text.innerText = message;
+            if (loader) loader.classList.remove('hidden');
+
+            setTimeout(() => {
+                if (loader) loader.classList.add('hidden');
+                if (typeof callback === 'function') callback();
+            }, 1800);
+        }
+
         async function fetchProductsFromBackend() {
             try {
                 const response = await fetch(API_ENDPOINT + "?action=getProducts");
@@ -951,46 +851,25 @@
             ];
         }
 
-        function closeEntryPopup() {
-            document.getElementById('entry-popup-modal').classList.add('hidden');
-        }
-
-        function triggerGlobalLoader(message = "Loading...", callback) {
-            const loader = document.getElementById('global-loader');
-            const text = document.getElementById('loader-text');
-            if (text) text.innerText = message;
-            if (loader) loader.classList.remove('hidden');
-
-            setTimeout(() => {
-                if (loader) loader.classList.add('hidden');
-                if (typeof callback === 'function') callback();
-            }, 2000);
-        }
+        function closeEntryPopup() { document.getElementById('entry-popup-modal').classList.add('hidden'); }
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             const isSuccess = type === 'success';
-            
             toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl border ${isSuccess ? 'bg-darkBg text-white border-gold/40' : 'bg-red-600 text-white border-red-700'} text-xs font-bold min-w-[260px]`;
             toast.innerHTML = `<i class="fa-solid ${isSuccess ? 'fa-circle-check text-gold' : 'fa-circle-exclamation text-white'} text-base"></i><span>${message}</span>`;
             container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
+            setTimeout(() => { toast.remove(); }, 3000);
         }
 
-        function toggleAiAssistant() {
-            document.getElementById('ai-assistant-modal').classList.toggle('hidden');
-        }
+        function toggleAiAssistant() { document.getElementById('ai-assistant-modal').classList.toggle('hidden'); }
 
         function handleAiMessageSubmit(e) {
             e.preventDefault();
             const input = document.getElementById('ai-input-text');
             const val = input.value.trim();
             if (!val) return;
-            
             const chatBody = document.getElementById('ai-chat-body');
             const userMsg = document.createElement('div');
             userMsg.className = 'bg-darkBg text-gold p-2.5 rounded-2xl rounded-tr-none shadow-sm ml-auto max-w-[85%] text-xs font-semibold';
@@ -1002,7 +881,7 @@
             setTimeout(() => {
                 const botMsg = document.createElement('div');
                 botMsg.className = 'bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 text-gray-700 leading-relaxed max-w-[85%]';
-                botMsg.innerText = "You can customize any gift with your name and photo! Add any product to cart and order directly through our website checkout.";
+                botMsg.innerText = "You can customize any gift with your name and photo! Add any product to cart and order directly through checkout.";
                 chatBody.appendChild(botMsg);
                 chatBody.scrollTop = chatBody.scrollHeight;
             }, 400);
@@ -1020,7 +899,6 @@
         function renderServicesGrid() {
             const container = document.getElementById('services-cards-grid');
             if (!container) return;
-
             container.innerHTML = GIFT_SERVICES_DATA.map(s => `
                 <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
                     <div>
@@ -1039,7 +917,6 @@
         let orders = JSON.parse(localStorage.getItem('hy_orders')) || [];
         let currentModalProduct = null;
         let modalQty = 1;
-        let timerIntervals = {};
 
         function handleRouting() {
             let hash = window.location.hash || '#/home';
@@ -1070,14 +947,14 @@
         window.addEventListener('load', () => {
             updateAuthUI();
             updateCartBadge();
-            fetchProductsFromBackend();
+            triggerGlobalLoader("Loading HY STORE Products...", () => {
+                fetchProductsFromBackend();
+            });
             handleRouting();
             startSliderAutoPlay();
         });
 
-        function navigate(hashUrl) {
-            window.location.hash = hashUrl;
-        }
+        function navigate(hashUrl) { window.location.hash = hashUrl; }
 
         function createProductCardHTML(p) {
             return `
@@ -1087,7 +964,6 @@
                             <span class="absolute top-2 left-2 z-10 bg-darkBg text-white text-[9px] font-extrabold px-2 py-1 uppercase tracking-wider">${p.badge || 'BESTSELLER'}</span>
                             <img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=600&q=80';">
                         </div>
-                        
                         <div class="p-3 sm:p-4 space-y-1">
                             <span class="text-[9px] font-bold text-goldDark uppercase tracking-widest block">${p.category || 'PERSONALIZED GIFTS'}</span>
                             <h3 class="text-sm sm:text-base font-bold font-serif-title text-darkBg line-clamp-1">${p.name}</h3>
@@ -1097,7 +973,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="p-3 sm:p-4 pt-0 grid grid-cols-2 gap-2">
                         <button onclick="openProductModal(${p.id})" class="w-full py-2.5 bg-darkBg hover:bg-black text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider transition">DETAILS</button>
                         <button onclick="directAddToCart(${p.id})" class="w-full py-2.5 bg-white border border-darkBg text-darkBg hover:bg-gold hover:border-gold hover:text-darkBg font-extrabold text-[10px] sm:text-xs uppercase tracking-wider transition">ADD TO CART</button>
@@ -1132,9 +1007,7 @@
             document.getElementById('product-modal').classList.remove('hidden');
         }
 
-        function closeProductModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-        }
+        function closeProductModal() { document.getElementById('product-modal').classList.add('hidden'); }
 
         function changeModalQty(delta) {
             modalQty = Math.max(1, modalQty + delta);
@@ -1328,46 +1201,6 @@
             panel.classList.toggle('hidden', type !== 'ONLINE');
         }
 
-        function startPersistent24hTimer(orderId, displayElementId) {
-            const timerKey = `hy_timer_${orderId}`;
-            let expiryTime = localStorage.getItem(timerKey);
-
-            if (!expiryTime) {
-                expiryTime = Date.now() + (24 * 60 * 60 * 1000);
-                localStorage.setItem(timerKey, expiryTime);
-            } else {
-                expiryTime = parseInt(expiryTime, 10);
-            }
-
-            if (timerIntervals[orderId]) clearInterval(timerIntervals[orderId]);
-
-            function updateTimer() {
-                const now = Date.now();
-                const diff = expiryTime - now;
-                const elem = document.getElementById(displayElementId);
-
-                if (diff <= 0) {
-                    clearInterval(timerIntervals[orderId]);
-                    if (elem) {
-                        elem.innerHTML = `<span class="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Verified Blue Tick</span>`;
-                    }
-                    return;
-                }
-
-                const h = Math.floor(diff / (1000 * 60 * 60));
-                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((diff % (1000 * 60)) / 1000);
-                const formatted = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-
-                if (elem) {
-                    elem.innerHTML = `<span class="text-gold font-mono font-bold"><i class="fa-solid fa-clock animate-pulse"></i> ${formatted} Verification</span>`;
-                }
-            }
-
-            updateTimer();
-            timerIntervals[orderId] = setInterval(updateTimer, 1000);
-        }
-
         function handleCheckoutSubmit(e) {
             e.preventDefault();
 
@@ -1412,7 +1245,8 @@
                 payAccountTitle,
                 payTrxId,
                 screenshotUrl,
-                status: payMethod === 'COD' ? 'Order Placed' : 'Payment Verification Pending (24h)',
+                status: payMethod === 'COD' ? 'Order Placed' : 'Pending Verification',
+                paymentStatus: payMethod === 'COD' ? 'COD Verified' : 'Pending Verification',
                 date: new Date().toLocaleDateString()
             };
 
@@ -1426,14 +1260,6 @@
                 updateCartBadge();
 
                 document.getElementById('success-order-id').innerText = orderId;
-
-                if (payMethod === 'ONLINE') {
-                    document.getElementById('timer-box-24h').classList.remove('hidden');
-                    startPersistent24hTimer(orderId, 'modal-live-timer');
-                } else {
-                    document.getElementById('timer-box-24h').classList.add('hidden');
-                }
-
                 document.getElementById('order-success-modal').classList.remove('hidden');
             });
         }
@@ -1463,16 +1289,15 @@
             }
 
             container.innerHTML = myOrders.map(o => {
-                let badgeHtml = "";
-                const isVerified = o.status.toLowerCase().includes('verified') || o.status.toLowerCase().includes('dispatched');
-                
-                if (isVerified) {
-                    badgeHtml = `<span class="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Verified Blue Tick</span>`;
-                } else if (o.payMethod === 'ONLINE') {
-                    badgeHtml = `<div id="prof-timer-${o.id}" class="text-xs font-bold text-gold"></div>`;
-                    setTimeout(() => startPersistent24hTimer(o.id, `prof-timer-${o.id}`), 100);
+                let payBadgeHtml = "";
+                const paySt = (o.paymentStatus || o.status || "").toLowerCase();
+
+                if (paySt.includes('verified') || paySt.includes('cod')) {
+                    payBadgeHtml = `<span class="bg-green-50 text-green-700 border border-green-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-green-600"></i> Payment Verified</span>`;
+                } else if (paySt.includes('reject')) {
+                    payBadgeHtml = `<span class="bg-red-50 text-red-600 border border-red-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5"><i class="fa-solid fa-circle-xmark text-red-600"></i> Payment Not Verified</span>`;
                 } else {
-                    badgeHtml = `<span class="text-xs font-bold text-gray-700">${o.status}</span>`;
+                    payBadgeHtml = `<span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5"><i class="fa-solid fa-clock animate-pulse"></i> Pending Verification</span>`;
                 }
 
                 return `
@@ -1480,7 +1305,7 @@
                         <div>
                             <span class="font-extrabold text-gold font-mono">${o.id}</span>
                             <span class="text-gray-400 block">${o.date} • ${o.items.length} Items</span>
-                            <div class="mt-1">${badgeHtml}</div>
+                            <div class="mt-1">${payBadgeHtml}</div>
                         </div>
                         <span class="font-bold text-darkBg font-serif-title text-sm">Rs. ${o.total}</span>
                     </div>
@@ -1497,22 +1322,15 @@
 
             triggerGlobalLoader("Checking Order Status...", async () => {
                 let foundOrder = orders.find(o => o.id === inputVal);
+                let backendPaymentStatus = "";
+                let backendOrderStatus = "";
 
                 try {
                     const res = await fetch(`${API_ENDPOINT}?action=trackOrder&orderId=${inputVal}`);
                     const json = await res.json();
-                    if (json && json.found && json.status) {
-                        if (foundOrder) {
-                            foundOrder.status = json.status;
-                        } else {
-                            foundOrder = {
-                                id: inputVal,
-                                name: json.customerName || "Customer",
-                                status: json.status,
-                                payMethod: "ONLINE",
-                                city: "Lahore"
-                            };
-                        }
+                    if (json && json.found) {
+                        backendPaymentStatus = json.paymentStatus || json.status || "";
+                        backendOrderStatus = json.orderStatus || json.status || "";
                     }
                 } catch (e) {}
 
@@ -1520,28 +1338,31 @@
                     foundOrder = {
                         id: inputVal,
                         name: currentUser ? currentUser.name : "Customer",
-                        status: "Order Placed",
+                        status: backendOrderStatus || "Order Placed",
+                        paymentStatus: backendPaymentStatus || "Pending Verification",
                         payMethod: "ONLINE",
                         city: "Lahore"
                     };
+                } else {
+                    if (backendPaymentStatus) foundOrder.paymentStatus = backendPaymentStatus;
+                    if (backendOrderStatus) foundOrder.status = backendOrderStatus;
                 }
 
                 document.getElementById('trackResultID').innerText = foundOrder.id;
                 document.getElementById('trackCustomerName').innerText = foundOrder.name;
-                document.getElementById('trackCurrentStatus').innerText = foundOrder.status;
+                document.getElementById('trackCurrentStatus').innerText = foundOrder.status || "Order Placed";
                 document.getElementById('trackCountry').innerText = "Pakistan";
                 document.getElementById('trackCity').innerText = foundOrder.city || "Lahore";
 
-                const timerBadge = document.getElementById('trackTimerBadge');
-                const st = foundOrder.status.toLowerCase();
-                const isVerified = st.includes('verified') || st.includes('dispatched') || st.includes('packaged');
+                const payBadge = document.getElementById('trackPaymentBadge');
+                const pSt = (foundOrder.paymentStatus || foundOrder.status || "").toLowerCase();
 
-                if (isVerified) {
-                    timerBadge.innerHTML = `<span class="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 shadow-sm"><i class="fa-solid fa-circle-check"></i> Verified Blue Tick</span>`;
-                } else if (foundOrder.payMethod === 'ONLINE') {
-                    startPersistent24hTimer(foundOrder.id, 'trackTimerBadge');
+                if (pSt.includes('verified') || pSt.includes('cod')) {
+                    payBadge.innerHTML = `<span class="bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-circle-check text-green-600 text-sm"></i> Payment Verified</span>`;
+                } else if (pSt.includes('reject') || pSt.includes('not verified')) {
+                    payBadge.innerHTML = `<span class="bg-red-50 text-red-600 border border-red-200 px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-circle-xmark text-red-600 text-sm"></i> Payment Not Verified</span>`;
                 } else {
-                    timerBadge.innerHTML = `<span class="text-xs font-bold text-gray-700">${foundOrder.status}</span>`;
+                    payBadge.innerHTML = `<span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-clock animate-pulse text-amber-600"></i> Pending Verification</span>`;
                 }
 
                 const bar = document.getElementById('trackProgressBar');
@@ -1554,6 +1375,7 @@
                 stepPrint.className = "w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1";
                 stepDispatch.className = "w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1";
 
+                const st = (foundOrder.status || "").toLowerCase();
                 if (st.includes('dispatched') || st.includes('delivered')) {
                     bar.className = "h-full transition-all duration-500 bg-blue-600 w-full";
                     stepProof.className = "w-8 h-8 rounded-full bg-blue-600 text-white mx-auto flex items-center justify-center font-bold mb-1 shadow-sm";
