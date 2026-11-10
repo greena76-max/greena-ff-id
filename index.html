@@ -23,7 +23,7 @@
                         cardBeige: '#f4eee6'
                     },
                     boxShadow: {
-                        'glow-gold': '0 4px 20px rgba(198, 161, 91, 0.35)',
+                        'glow-gold': '0 4px 20px rgba(229, 9, 20, 0.35)',
                         'card': '0 10px 25px -5px rgba(0, 0, 0, 0.08)',
                     }
                 }
@@ -43,15 +43,43 @@
             background-color: #FFFFFF;
             color: #0B0B0B;
         }
-        .font-serif-title { font-family: 'Playfair Display', serif; }
-        .product-img-box { position: relative; width: 100%; background-color: #f4eee6; }
-        .product-img-box img { object-fit: cover; width: 100%; height: 100%; }
-        .nav-link { padding: 8px 16px; border-radius: 9999px; transition: all 0.3s ease; }
-        .nav-link:hover { color: #E50914; }
-        .nav-link.active-nav { color: #E50914; font-weight: 800; background-color: rgba(198, 161, 91, 0.08); }
+
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .product-img-box {
+            position: relative;
+            width: 100%;
+            background-color: #f4eee6;
+        }
+        .product-img-box img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #E50914;
+        }
+        .nav-link.active-nav {
+            color: #E50914;
+            font-weight: 800;
+            background-color: rgba(229, 9, 20, 0.08);
+        }
+
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loader-spinner { animation: spin 1s linear infinite; }
-        .slide-item { transition: opacity 0.7s ease-in-out; }
+
+        .slide-item {
+            transition: opacity 0.7s ease-in-out;
+        }
+
         ::-webkit-scrollbar { width: 6px; height: 4px; }
         ::-webkit-scrollbar-track { background: #0B0B0B; }
         ::-webkit-scrollbar-thumb { background: #E50914; border-radius: 3px; }
@@ -59,7 +87,7 @@
 </head>
 <body class="bg-white text-gray-900 antialiased selection:bg-gold selection:text-white min-h-screen flex flex-col justify-between relative">
 
-    <!-- WELCOME POPUP MODAL -->
+    <!-- WELCOME POPUP BANNER -->
     <div id="entry-popup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="relative bg-white rounded-3xl max-w-sm sm:max-w-md w-full overflow-hidden shadow-2xl border border-gold/30">
             <button onclick="closeEntryPopup()" class="absolute top-4 right-4 z-20 bg-darkBg text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-lg hover:bg-gold hover:text-darkBg transition">✕</button>
@@ -72,27 +100,27 @@
         </div>
     </div>
 
-    <!-- GLOBAL LOADING OVERLAY (Active on Load & Data Fetch) -->
-    <div id="global-loader" class="fixed inset-0 bg-darkBg/95 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4">
+    <!-- GLOBAL LOADING OVERLAY -->
+    <div id="global-loader" class="fixed inset-0 bg-darkBg/95 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center space-y-4">
         <div class="relative w-20 h-20 flex items-center justify-center">
             <div class="absolute inset-0 border-4 border-darkBgLight border-t-gold rounded-full loader-spinner"></div>
             <div class="w-10 h-10 rounded-xl bg-darkBg flex items-center justify-center">
                 <img src="logo.png" alt="Logo" class="w-8 h-8 object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/50/171717/c6a15b?text=HY';">
             </div>
         </div>
-        <p id="loader-text" class="text-xs font-bold uppercase tracking-widest text-gold animate-pulse">Loading HY STORE Products...</p>
+        <p id="loader-text" class="text-xs font-bold uppercase tracking-widest text-gold animate-pulse">Loading HY STORE...</p>
     </div>
 
     <!-- TOAST NOTIFICATIONS -->
     <div id="toast-container" class="fixed top-24 right-4 sm:right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <!-- FLOATING ACTION BUTTONS -->
-    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3 items-end">
-        <a href="https://wa.me/923209306672" target="_blank" title="Chat on WhatsApp" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-gold text-darkBg flex items-center justify-center shadow-glow-gold hover:scale-105 transition duration-300">
-            <img src="whatsapp-logo.png" alt="WhatsApp" class="w-7 h-7 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
+    <!-- FLOATING ACTION BUTTONS (Larger Circles) -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3.5 items-end">
+        <a href="https://wa.me/923209306672" target="_blank" title="Chat on WhatsApp" class="w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-gold text-darkBg flex items-center justify-center shadow-glow-gold hover:scale-105 transition duration-300 p-3">
+            <img src="whatsapp-logo.png" alt="WhatsApp" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
         </a>
-        <button onclick="toggleAiAssistant()" title="HY STORE Assistant" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-darkBg text-gold border border-gold/40 flex items-center justify-center shadow-xl hover:scale-105 transition duration-300">
-            <img src="ai-logo.png" alt="AI Specialist" class="w-7 h-7 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png';">
+        <button onclick="toggleAiAssistant()" title="HY STORE Assistant" class="w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-darkBg text-gold border-2 border-gold/60 flex items-center justify-center shadow-xl hover:scale-105 transition duration-300 p-3">
+            <img src="ai-logo.png" alt="AI Specialist" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png';">
         </button>
     </div>
 
@@ -100,8 +128,8 @@
     <div id="ai-assistant-modal" class="fixed bottom-24 right-6 z-50 hidden w-[340px] max-w-[90vw] bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col">
         <div class="bg-darkBg text-white p-4 flex items-center justify-between border-b border-gold/30">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
-                    <img src="ai-logo.png" alt="AI Logo" class="w-5 h-5 object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png';">
+                <div class="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center p-1">
+                    <img src="ai-logo.png" alt="AI Logo" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png';">
                 </div>
                 <div>
                     <h4 class="font-extrabold text-xs text-gold">Gift Specialist Assistant</h4>
@@ -129,12 +157,12 @@
                 <span class="text-gray-700">•</span>
                 <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-truck"></i> Fast Nationwide Delivery</span>
                 <span class="text-gray-700">•</span>
-                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-clock font-bold"></i> Live Order & Payment Tracking</span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-clock font-bold"></i> Live Order Tracking</span>
             </div>
         </div>
     </div>
 
-    <!-- HEADER -->
+    <!-- HEADER / NAVIGATION BAR -->
     <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <a href="#/home" class="flex items-center gap-3">
@@ -201,9 +229,10 @@
 
         <!-- HOME PAGE VIEW -->
         <div id="view-home" class="page-view">
+            
+            <!-- HERO SLIDER -->
             <section class="w-full bg-darkBg text-white relative overflow-hidden border-b border-gold/30">
                 <div id="hero-slider" class="relative w-full h-[380px] sm:h-[460px]">
-                    <!-- Slide 1 -->
                     <div class="slide-item absolute inset-0 opacity-100 flex items-center transition-opacity duration-700">
                         <img src="banner1.png" alt="Banner 1" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
                         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -223,7 +252,6 @@
                         </div>
                     </div>
 
-                    <!-- Slide 2 -->
                     <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
                         <img src="banner2.png" alt="Banner 2" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1600&q=80';">
                         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -242,7 +270,6 @@
                         </div>
                     </div>
 
-                    <!-- Slide 3 -->
                     <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
                         <img src="banner3.png" alt="Banner 3" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=1600&q=80';">
                         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -272,43 +299,43 @@
                 </div>
             </section>
 
-            <!-- CATEGORY CIRCLES -->
-            <section class="py-12 bg-white border-b border-gray-100">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center max-w-lg mx-auto mb-8">
+            <!-- 4 CIRCULAR CATEGORY IMAGES (Larger, Less Spacing, No Text Below) -->
+            <section class="py-10 bg-white border-b border-gray-100">
+                <div class="max-w-4xl mx-auto px-4">
+                    <div class="text-center max-w-lg mx-auto mb-6">
                         <span class="text-gold font-bold text-xs uppercase tracking-widest">Featured Gift Categories</span>
                         <h2 class="text-2xl font-bold font-serif-title text-darkBg mt-1">Shop By Category</h2>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
-                        <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
-                            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
+
+                    <div class="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
+                        <a href="#/products" class="group flex flex-col items-center">
+                            <div class="w-32 h-32 sm:w-44 sm:h-44 rounded-full p-1.5 border-4 border-gold/40 group-hover:border-gold transition duration-300 shadow-md bg-cardBeige overflow-hidden">
                                 <img src="cat1.png" alt="Gift Boxes" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80';">
                             </div>
-                            <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Gift Boxes</span>
                         </a>
-                        <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
-                            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
+
+                        <a href="#/products" class="group flex flex-col items-center">
+                            <div class="w-32 h-32 sm:w-44 sm:h-44 rounded-full p-1.5 border-4 border-gold/40 group-hover:border-gold transition duration-300 shadow-md bg-cardBeige overflow-hidden">
                                 <img src="cat2.png" alt="Memory Frames" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80';">
                             </div>
-                            <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Memory Frames</span>
                         </a>
-                        <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
-                            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
+
+                        <a href="#/products" class="group flex flex-col items-center">
+                            <div class="w-32 h-32 sm:w-44 sm:h-44 rounded-full p-1.5 border-4 border-gold/40 group-hover:border-gold transition duration-300 shadow-md bg-cardBeige overflow-hidden">
                                 <img src="cat3.png" alt="Custom Mugs" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=400&q=80';">
                             </div>
-                            <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Custom Mugs</span>
                         </a>
-                        <a href="#/products" class="group flex flex-col items-center text-center space-y-3">
-                            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 border-2 border-gold/40 group-hover:border-gold transition duration-300 shadow-sm bg-cardBeige overflow-hidden">
+
+                        <a href="#/products" class="group flex flex-col items-center">
+                            <div class="w-32 h-32 sm:w-44 sm:h-44 rounded-full p-1.5 border-4 border-gold/40 group-hover:border-gold transition duration-300 shadow-md bg-cardBeige overflow-hidden">
                                 <img src="cat4.png" alt="Custom Keychains" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80';">
                             </div>
-                            <span class="font-extrabold text-xs sm:text-sm text-darkBg group-hover:text-gold transition uppercase tracking-wider">Custom Keychains</span>
                         </a>
                     </div>
                 </div>
             </section>
 
-            <!-- TRENDING PRODUCTS -->
+            <!-- POPULAR PRODUCTS GRID -->
             <section class="py-12 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-end justify-between mb-8">
@@ -319,6 +346,50 @@
                         <a href="#/products" class="font-extrabold text-xs text-gold uppercase tracking-wider hover:underline">View All &rarr;</a>
                     </div>
                     <div id="home-products-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+                </div>
+            </section>
+
+            <!-- CONTACT CARDS SECTION (Larger Icon Circles) -->
+            <section class="py-12 bg-gray-50 border-t border-gray-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-xl mx-auto mb-8">
+                        <span class="text-gold font-bold text-xs uppercase tracking-widest">HY STORE Care</span>
+                        <h2 class="text-2xl font-bold font-serif-title text-darkBg mt-1">Customer Support</h2>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
+                            <div class="w-16 h-16 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-3 border border-gold/40">
+                                <img src="whatsapp-logo.png" alt="WhatsApp" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
+                            </div>
+                            <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">WhatsApp & Call</h4>
+                            <p class="text-xs text-gray-600">03209306672</p>
+                            <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-4 py-1.5 text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Chat Now</a>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
+                            <div class="w-16 h-16 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-3 border border-gold/40">
+                                <img src="email-logo.png" alt="Email" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/732/732200.png';">
+                            </div>
+                            <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">Email Address</h4>
+                            <p class="text-xs text-gray-600 break-all">hystoreofficial@gmail.com</p>
+                            <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-4 py-1.5 text-[11px] font-extrabold bg-darkBg text-white uppercase tracking-wider">Send Email</a>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
+                            <div class="w-16 h-16 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-3 border border-gold/40">
+                                <img src="clock-logo.png" alt="Hours" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2088/2088617.png';">
+                            </div>
+                            <h4 class="font-bold text-darkBg text-xs uppercase tracking-wider">Support Hours</h4>
+                            <p class="text-xs text-gray-600">Mon - Sat: 10AM - 9PM</p>
+                            <span class="inline-block px-3 py-1 rounded-full text-[10px] text-gold font-bold bg-cardBeige">Active</span>
+                        </div>
+                        <div class="bg-darkBg text-white p-6 rounded-2xl text-center space-y-3 shadow-md border border-gold/30">
+                            <div class="w-16 h-16 bg-white/10 text-gold rounded-full flex items-center justify-center mx-auto p-3 border border-gold/40">
+                                <i class="fa-solid fa-mobile-screen text-2xl text-gold"></i>
+                            </div>
+                            <h4 class="font-bold text-white text-xs uppercase tracking-wider">Mobile Web App</h4>
+                            <p class="text-[10px] text-gray-300">Fast 1-tap mobile experience.</p>
+                            <button onclick="showToast('Tap browser menu and select Add to Home Screen')" class="w-full py-1.5 text-[11px] font-extrabold bg-gold text-darkBg uppercase tracking-wider">Install App</button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -354,7 +425,7 @@
                 <div class="text-center max-w-lg mx-auto mb-8">
                     <span class="text-gold font-bold text-xs uppercase tracking-widest bg-cardBeige px-4 py-1 rounded-full border border-gold/30">Order Verification</span>
                     <h1 class="text-3xl font-bold font-serif-title text-darkBg mt-2">Track Your <span class="text-gold">Gift Order</span></h1>
-                    <p class="text-gray-500 text-xs mt-1">Enter your Order ID (e.g. HY-1001) to verify live status & payment verification.</p>
+                    <p class="text-gray-500 text-xs mt-1">Enter your valid Order ID (e.g. HY-1001) to verify live status.</p>
                 </div>
 
                 <div class="bg-gray-50 rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm space-y-6">
@@ -363,6 +434,7 @@
                         <button onclick="executeTrack()" class="px-8 py-3 rounded-xl font-extrabold text-xs text-darkBg bg-gold hover:bg-goldDark transition uppercase tracking-wider shadow-glow-gold">Track Order</button>
                     </div>
 
+                    <!-- Output Panel -->
                     <div id="trackResultsArea" class="hidden pt-6 border-t border-gray-200 space-y-6">
                         <div class="bg-white p-5 rounded-2xl border border-gray-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                             <div>
@@ -390,8 +462,8 @@
                                     <p id="trackResultID" class="text-xl font-black text-darkBg">HY-1001</p>
                                 </div>
                                 <div class="text-right">
-                                    <span class="text-[10px] font-bold text-gray-400 uppercase block">PAYMENT STATE</span>
-                                    <div id="trackPaymentBadge" class="mt-0.5 text-xs">--</div>
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase block">VERIFICATION STATE</span>
+                                    <div id="trackTimerBadge" class="mt-0.5 font-bold text-xs text-gold">--</div>
                                 </div>
                             </div>
 
@@ -639,7 +711,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
-                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
+                        <div class="w-16 h-16 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-3 border border-gold/40">
                             <img src="whatsapp-logo.png" alt="WhatsApp" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3670/3670051.png';">
                         </div>
                         <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">WhatsApp & Call</h3>
@@ -647,7 +719,7 @@
                         <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-5 py-2 text-xs font-extrabold bg-gold text-darkBg uppercase tracking-wider shadow-glow-gold">Chat Now</a>
                     </div>
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
-                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
+                        <div class="w-16 h-16 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-3 border border-gold/40">
                             <img src="email-logo.png" alt="Email" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/732/732200.png';">
                         </div>
                         <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">Email Address</h3>
@@ -655,7 +727,7 @@
                         <a href="mailto:hystoreofficial@gmail.com" class="inline-block px-5 py-2 text-xs font-extrabold bg-darkBg text-white uppercase tracking-wider">Send Email</a>
                     </div>
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 text-center space-y-3 shadow-sm">
-                        <div class="w-12 h-12 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-2">
+                        <div class="w-16 h-16 bg-cardBeige text-gold rounded-full flex items-center justify-center mx-auto overflow-hidden p-3 border border-gold/40">
                             <img src="clock-logo.png" alt="Hours" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2088/2088617.png';">
                         </div>
                         <h3 class="font-bold text-darkBg text-sm uppercase tracking-wider">Working Hours</h3>
@@ -793,53 +865,48 @@
             currentSlide = index;
         }
 
-        function nextSlide() { setSlide((currentSlide + 1) % 3); }
-        function prevSlide() { setSlide((currentSlide - 1 + 3) % 3); }
+        function nextSlide() {
+            setSlide((currentSlide + 1) % 3);
+        }
+
+        function prevSlide() {
+            setSlide((currentSlide - 1 + 3) % 3);
+        }
 
         function startSliderAutoPlay() {
             if (slideInterval) clearInterval(slideInterval);
             slideInterval = setInterval(nextSlide, 4500);
         }
 
-        function triggerGlobalLoader(message = "Loading Products...", callback) {
-            const loader = document.getElementById('global-loader');
-            const text = document.getElementById('loader-text');
-            if (text) text.innerText = message;
-            if (loader) loader.classList.remove('hidden');
-
-            setTimeout(() => {
-                if (loader) loader.classList.add('hidden');
-                if (typeof callback === 'function') callback();
-            }, 1800);
-        }
-
         async function fetchProductsFromBackend() {
-            try {
-                const response = await fetch(API_ENDPOINT + "?action=getProducts");
-                const data = await response.json();
-                if (data && data.products && data.products.length > 0) {
-                    PRODUCTS = data.products.map(p => {
-                        const price = Number(p.price) || 0;
-                        const rawOld = p.oldPrice && !isNaN(Number(p.oldPrice)) ? Number(p.oldPrice) : 0;
-                        return {
-                            id: Number(p.id) || 1,
-                            name: p.name || "Custom Gift Item",
-                            category: p.category || "PERSONALIZED GIFTS",
-                            badge: p.badge || (p.id % 2 === 0 ? "CUSTOM MADE" : "BESTSELLER"),
-                            price: price,
-                            oldPrice: rawOld > price ? rawOld : null,
-                            img: p.img || "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
-                            desc: p.desc || "Personalized custom gift handcrafted with precision."
-                        };
-                    });
-                } else {
+            triggerGlobalLoader("Loading Products...", async () => {
+                try {
+                    const response = await fetch(API_ENDPOINT + "?action=getProducts");
+                    const data = await response.json();
+                    if (data && data.products && data.products.length > 0) {
+                        PRODUCTS = data.products.map(p => {
+                            const price = Number(p.price) || 0;
+                            const rawOld = p.oldPrice && !isNaN(Number(p.oldPrice)) ? Number(p.oldPrice) : 0;
+                            return {
+                                id: Number(p.id) || 1,
+                                name: p.name || "Custom Gift Item",
+                                category: p.category || "PERSONALIZED GIFTS",
+                                badge: p.badge || (p.id % 2 === 0 ? "CUSTOM MADE" : "BESTSELLER"),
+                                price: price,
+                                oldPrice: rawOld > price ? rawOld : null,
+                                img: p.img || "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
+                                desc: p.desc || "Personalized custom gift handcrafted with precision."
+                            };
+                        });
+                    } else {
+                        loadFallbackProducts();
+                    }
+                } catch (err) {
                     loadFallbackProducts();
                 }
-            } catch (err) {
-                loadFallbackProducts();
-            }
-            renderProductsGrid();
-            renderHomeProductsGrid();
+                renderProductsGrid();
+                renderHomeProductsGrid();
+            });
         }
 
         function loadFallbackProducts() {
@@ -851,25 +918,46 @@
             ];
         }
 
-        function closeEntryPopup() { document.getElementById('entry-popup-modal').classList.add('hidden'); }
+        function closeEntryPopup() {
+            document.getElementById('entry-popup-modal').classList.add('hidden');
+        }
+
+        function triggerGlobalLoader(message = "Loading...", callback) {
+            const loader = document.getElementById('global-loader');
+            const text = document.getElementById('loader-text');
+            if (text) text.innerText = message;
+            if (loader) loader.classList.remove('hidden');
+
+            setTimeout(() => {
+                if (loader) loader.classList.add('hidden');
+                if (typeof callback === 'function') callback();
+            }, 1000);
+        }
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             const isSuccess = type === 'success';
+            
             toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl border ${isSuccess ? 'bg-darkBg text-white border-gold/40' : 'bg-red-600 text-white border-red-700'} text-xs font-bold min-w-[260px]`;
             toast.innerHTML = `<i class="fa-solid ${isSuccess ? 'fa-circle-check text-gold' : 'fa-circle-exclamation text-white'} text-base"></i><span>${message}</span>`;
             container.appendChild(toast);
-            setTimeout(() => { toast.remove(); }, 3000);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
         }
 
-        function toggleAiAssistant() { document.getElementById('ai-assistant-modal').classList.toggle('hidden'); }
+        function toggleAiAssistant() {
+            document.getElementById('ai-assistant-modal').classList.toggle('hidden');
+        }
 
         function handleAiMessageSubmit(e) {
             e.preventDefault();
             const input = document.getElementById('ai-input-text');
             const val = input.value.trim();
             if (!val) return;
+            
             const chatBody = document.getElementById('ai-chat-body');
             const userMsg = document.createElement('div');
             userMsg.className = 'bg-darkBg text-gold p-2.5 rounded-2xl rounded-tr-none shadow-sm ml-auto max-w-[85%] text-xs font-semibold';
@@ -881,7 +969,7 @@
             setTimeout(() => {
                 const botMsg = document.createElement('div');
                 botMsg.className = 'bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 text-gray-700 leading-relaxed max-w-[85%]';
-                botMsg.innerText = "You can customize any gift with your name and photo! Add any product to cart and order directly through checkout.";
+                botMsg.innerText = "You can customize any gift with your name and photo! Add any product to cart and order directly through our website checkout.";
                 chatBody.appendChild(botMsg);
                 chatBody.scrollTop = chatBody.scrollHeight;
             }, 400);
@@ -899,6 +987,7 @@
         function renderServicesGrid() {
             const container = document.getElementById('services-cards-grid');
             if (!container) return;
+
             container.innerHTML = GIFT_SERVICES_DATA.map(s => `
                 <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
                     <div>
@@ -947,14 +1036,14 @@
         window.addEventListener('load', () => {
             updateAuthUI();
             updateCartBadge();
-            triggerGlobalLoader("Loading HY STORE Products...", () => {
-                fetchProductsFromBackend();
-            });
+            fetchProductsFromBackend();
             handleRouting();
             startSliderAutoPlay();
         });
 
-        function navigate(hashUrl) { window.location.hash = hashUrl; }
+        function navigate(hashUrl) {
+            window.location.hash = hashUrl;
+        }
 
         function createProductCardHTML(p) {
             return `
@@ -964,6 +1053,7 @@
                             <span class="absolute top-2 left-2 z-10 bg-darkBg text-white text-[9px] font-extrabold px-2 py-1 uppercase tracking-wider">${p.badge || 'BESTSELLER'}</span>
                             <img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=600&q=80';">
                         </div>
+                        
                         <div class="p-3 sm:p-4 space-y-1">
                             <span class="text-[9px] font-bold text-goldDark uppercase tracking-widest block">${p.category || 'PERSONALIZED GIFTS'}</span>
                             <h3 class="text-sm sm:text-base font-bold font-serif-title text-darkBg line-clamp-1">${p.name}</h3>
@@ -973,6 +1063,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="p-3 sm:p-4 pt-0 grid grid-cols-2 gap-2">
                         <button onclick="openProductModal(${p.id})" class="w-full py-2.5 bg-darkBg hover:bg-black text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider transition">DETAILS</button>
                         <button onclick="directAddToCart(${p.id})" class="w-full py-2.5 bg-white border border-darkBg text-darkBg hover:bg-gold hover:border-gold hover:text-darkBg font-extrabold text-[10px] sm:text-xs uppercase tracking-wider transition">ADD TO CART</button>
@@ -1007,7 +1098,9 @@
             document.getElementById('product-modal').classList.remove('hidden');
         }
 
-        function closeProductModal() { document.getElementById('product-modal').classList.add('hidden'); }
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
 
         function changeModalQty(delta) {
             modalQty = Math.max(1, modalQty + delta);
@@ -1019,7 +1112,7 @@
             const prod = PRODUCTS.find(p => p.id === id);
             if (!prod) return;
             if (!currentUser) {
-                showToast('Please Log In first!', 'error');
+                showToast('Please Log In first to add items!', 'error');
                 navigate('#/login');
                 return;
             }
@@ -1035,7 +1128,7 @@
         function addModalToCart() {
             if (!currentUser) {
                 closeProductModal();
-                showToast('Please Log In first!', 'error');
+                showToast('Please Log In first to add items!', 'error');
                 navigate('#/login');
                 return;
             }
@@ -1238,15 +1331,15 @@
                 city: city,
                 address: address,
                 items: [...cart],
-                user: currentUser.email,
+                user: currentUser ? currentUser.email : "guest@hystore.com",
                 total: cart.reduce((s, i) => s + (i.price * i.qty), 0),
                 payMethod,
                 payGateway,
                 payAccountTitle,
                 payTrxId,
                 screenshotUrl,
-                status: payMethod === 'COD' ? 'Order Placed' : 'Pending Verification',
-                paymentStatus: payMethod === 'COD' ? 'COD Verified' : 'Pending Verification',
+                paymentStatus: payMethod === 'COD' ? 'Verified' : 'Pending',
+                orderStatus: 'Order Placed',
                 date: new Date().toLocaleDateString()
             };
 
@@ -1289,23 +1382,23 @@
             }
 
             container.innerHTML = myOrders.map(o => {
-                let payBadgeHtml = "";
-                const paySt = (o.paymentStatus || o.status || "").toLowerCase();
-
-                if (paySt.includes('verified') || paySt.includes('cod')) {
-                    payBadgeHtml = `<span class="bg-green-50 text-green-700 border border-green-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-green-600"></i> Payment Verified</span>`;
-                } else if (paySt.includes('reject')) {
-                    payBadgeHtml = `<span class="bg-red-50 text-red-600 border border-red-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5"><i class="fa-solid fa-circle-xmark text-red-600"></i> Payment Not Verified</span>`;
+                let payBadge = "";
+                const pStatus = (o.paymentStatus || "").toLowerCase();
+                
+                if (pStatus === 'verified' || pStatus === 'approved') {
+                    payBadge = `<span class="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Payment Verified</span>`;
+                } else if (pStatus === 'rejected' || pStatus === 'not verified') {
+                    payBadge = `<span class="bg-red-50 text-red-600 border border-red-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><i class="fa-solid fa-circle-xmark"></i> Payment Not Verified</span>`;
                 } else {
-                    payBadgeHtml = `<span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5"><i class="fa-solid fa-clock animate-pulse"></i> Pending Verification</span>`;
+                    payBadge = `<span class="bg-amber-50 text-amber-600 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><i class="fa-solid fa-clock"></i> Payment Pending</span>`;
                 }
 
                 return `
                     <div class="border border-gray-200 p-4 rounded-2xl flex justify-between items-center flex-wrap gap-2 text-xs">
                         <div>
                             <span class="font-extrabold text-gold font-mono">${o.id}</span>
-                            <span class="text-gray-400 block">${o.date} • ${o.items.length} Items</span>
-                            <div class="mt-1">${payBadgeHtml}</div>
+                            <span class="text-gray-400 block">${o.date} • Status: ${o.orderStatus || 'Order Placed'}</span>
+                            <div class="mt-1">${payBadge}</div>
                         </div>
                         <span class="font-bold text-darkBg font-serif-title text-sm">Rs. ${o.total}</span>
                     </div>
@@ -1322,47 +1415,47 @@
 
             triggerGlobalLoader("Checking Order Status...", async () => {
                 let foundOrder = orders.find(o => o.id === inputVal);
-                let backendPaymentStatus = "";
-                let backendOrderStatus = "";
 
                 try {
                     const res = await fetch(`${API_ENDPOINT}?action=trackOrder&orderId=${inputVal}`);
                     const json = await res.json();
                     if (json && json.found) {
-                        backendPaymentStatus = json.paymentStatus || json.status || "";
-                        backendOrderStatus = json.orderStatus || json.status || "";
+                        if (foundOrder) {
+                            foundOrder.orderStatus = json.status || foundOrder.orderStatus;
+                            foundOrder.paymentStatus = json.paymentStatus || foundOrder.paymentStatus;
+                        } else {
+                            foundOrder = {
+                                id: inputVal,
+                                name: json.customerName || "Customer",
+                                orderStatus: json.status || "Order Placed",
+                                paymentStatus: json.paymentStatus || "Verified",
+                                city: "Lahore"
+                            };
+                        }
                     }
                 } catch (e) {}
 
                 if (!foundOrder) {
-                    foundOrder = {
-                        id: inputVal,
-                        name: currentUser ? currentUser.name : "Customer",
-                        status: backendOrderStatus || "Order Placed",
-                        paymentStatus: backendPaymentStatus || "Pending Verification",
-                        payMethod: "ONLINE",
-                        city: "Lahore"
-                    };
-                } else {
-                    if (backendPaymentStatus) foundOrder.paymentStatus = backendPaymentStatus;
-                    if (backendOrderStatus) foundOrder.status = backendOrderStatus;
+                    showToast('Order ID not found! Please check your ID.', 'error');
+                    document.getElementById('trackResultsArea').classList.add('hidden');
+                    return;
                 }
 
                 document.getElementById('trackResultID').innerText = foundOrder.id;
-                document.getElementById('trackCustomerName').innerText = foundOrder.name;
-                document.getElementById('trackCurrentStatus').innerText = foundOrder.status || "Order Placed";
+                document.getElementById('trackCustomerName').innerText = foundOrder.name || "Customer";
+                document.getElementById('trackCurrentStatus').innerText = foundOrder.orderStatus || "Order Placed";
                 document.getElementById('trackCountry').innerText = "Pakistan";
                 document.getElementById('trackCity').innerText = foundOrder.city || "Lahore";
 
-                const payBadge = document.getElementById('trackPaymentBadge');
-                const pSt = (foundOrder.paymentStatus || foundOrder.status || "").toLowerCase();
+                const timerBadge = document.getElementById('trackTimerBadge');
+                const pStatus = (foundOrder.paymentStatus || "").toLowerCase();
 
-                if (pSt.includes('verified') || pSt.includes('cod')) {
-                    payBadge.innerHTML = `<span class="bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-circle-check text-green-600 text-sm"></i> Payment Verified</span>`;
-                } else if (pSt.includes('reject') || pSt.includes('not verified')) {
-                    payBadge.innerHTML = `<span class="bg-red-50 text-red-600 border border-red-200 px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-circle-xmark text-red-600 text-sm"></i> Payment Not Verified</span>`;
+                if (pStatus === 'verified' || pStatus === 'approved') {
+                    timerBadge.innerHTML = `<span class="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 shadow-sm"><i class="fa-solid fa-circle-check"></i> Payment Verified</span>`;
+                } else if (pStatus === 'rejected' || pStatus === 'not verified') {
+                    timerBadge.innerHTML = `<span class="bg-red-50 text-red-600 border border-red-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 shadow-sm"><i class="fa-solid fa-circle-xmark"></i> Payment Not Verified</span>`;
                 } else {
-                    payBadge.innerHTML = `<span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-clock animate-pulse text-amber-600"></i> Pending Verification</span>`;
+                    timerBadge.innerHTML = `<span class="bg-amber-50 text-amber-600 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 shadow-sm"><i class="fa-solid fa-clock"></i> Pending Verification</span>`;
                 }
 
                 const bar = document.getElementById('trackProgressBar');
@@ -1375,7 +1468,7 @@
                 stepPrint.className = "w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1";
                 stepDispatch.className = "w-8 h-8 rounded-full bg-gray-200 text-gray-500 mx-auto flex items-center justify-center font-bold mb-1";
 
-                const st = (foundOrder.status || "").toLowerCase();
+                const st = (foundOrder.orderStatus || "").toLowerCase();
                 if (st.includes('dispatched') || st.includes('delivered')) {
                     bar.className = "h-full transition-all duration-500 bg-blue-600 w-full";
                     stepProof.className = "w-8 h-8 rounded-full bg-blue-600 text-white mx-auto flex items-center justify-center font-bold mb-1 shadow-sm";
