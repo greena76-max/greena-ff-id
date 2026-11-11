@@ -116,8 +116,24 @@
         /* Dedicated mobile banners: artwork is image-only; desktop copy stays visible on desktop. */
         @media (max-width: 639px) {
             #hero-slider {
-                height: auto !important;
+                height: clamp(280px, 83.333vw, 520px) !important;
+                min-height: 280px;
                 aspect-ratio: 6 / 5;
+            }
+            #hero-slider .slide-item {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+            }
+            #hero-slider .mobile-hero-image {
+                display: block !important;
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
             }
         }
 
@@ -320,7 +336,7 @@
                 <div id="hero-slider" class="relative w-full h-[320px] sm:h-[440px]">
                     <div class="slide-item absolute inset-0 opacity-100 flex items-center transition-opacity duration-700">
                         <img src="banner1.png" alt="Banner 1" class="hidden sm:block absolute inset-0 w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
-                        <img src="mobile-banners/mobile-banner1.jpg" alt="Mobile Banner 1" class="sm:hidden absolute inset-0 w-full h-full object-cover object-center">
+                        <img src="./mobile-banners/mobile-banner1.jpg" alt="Mobile Banner 1" class="mobile-hero-image sm:hidden absolute inset-0 w-full h-full object-cover object-center" loading="eager" onerror="this.onerror=null; this.src='./banner1.png';">
                         <div class="hidden sm:block absolute inset-0 bg-black/40 sm:bg-transparent"></div>
                         <div class="hidden sm:block relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div class="max-w-2xl space-y-3 sm:space-y-4">
@@ -341,7 +357,7 @@
 
                     <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
                         <img src="banner2.png" alt="Banner 2" class="hidden sm:block absolute inset-0 w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
-                        <img src="mobile-banners/mobile-banner2.jpg" alt="Mobile Banner 2" class="sm:hidden absolute inset-0 w-full h-full object-cover object-center">
+                        <img src="./mobile-banners/mobile-banner2.jpg" alt="Mobile Banner 2" class="mobile-hero-image sm:hidden absolute inset-0 w-full h-full object-cover object-center" loading="eager" onerror="this.onerror=null; this.src='./banner2.png';">
                         <div class="hidden sm:block absolute inset-0 bg-black/40 sm:bg-transparent"></div>
                         <div class="hidden sm:block relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div class="max-w-2xl space-y-3 sm:space-y-4">
@@ -361,7 +377,7 @@
 
                     <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
                         <img src="banner3.png" alt="Banner 3" class="hidden sm:block absolute inset-0 w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
-                        <img src="mobile-banners/mobile-banner3.jpg" alt="Mobile Banner 3" class="sm:hidden absolute inset-0 w-full h-full object-cover object-center">
+                        <img src="./mobile-banners/mobile-banner3.jpg" alt="Mobile Banner 3" class="mobile-hero-image sm:hidden absolute inset-0 w-full h-full object-cover object-center" loading="eager" onerror="this.onerror=null; this.src='./banner3.png';">
                         <div class="hidden sm:block absolute inset-0 bg-black/40 sm:bg-transparent"></div>
                         <div class="hidden sm:block relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div class="max-w-2xl space-y-3 sm:space-y-4">
