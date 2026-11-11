@@ -6,7 +6,7 @@
     <title>HY STORE - Custom Gifts & Personalized Printing</title>
 
     <!-- Web Application Manifest -->
-    <link rel="manifest" href='data:application/json,{"name":"HY STORE","short_name":"HY STORE","start_url":".","display":"standalone","background_color":"#14294b","theme_color":"#2563eb","icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"}]}'>
+    <link rel="manifest" href='data:application/json,{"name":"HY STORE","short_name":"HY STORE","start_url":".","display":"standalone","background_color":"#0b1526","theme_color":"#FFC83B","icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"}]}'>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,15 +15,15 @@
             theme: {
                 extend: {
                     colors: {
-                        gold: '#2563eb',
-                        goldDark: '#1d4ed8',
-                        goldLight: '#e4cf9b',
-                        darkBg: '#14294b',
-                        darkBgLight: '#242424',
-                        cardBeige: '#f1f5f9'
+                        gold: '#FFC83B',
+                        goldDark: '#E5A900',
+                        goldLight: '#FFE7A3',
+                        darkBg: '#0b1526',
+                        darkBgLight: '#172943',
+                        cardBeige: '#FFF8E6'
                     },
                     boxShadow: {
-                        'glow-gold': '0 4px 20px rgba(229, 9, 20, 0.35)',
+                        'glow-gold': '0 4px 20px rgba(255, 200, 59, 0.35)',
                         'card': '0 10px 25px -5px rgba(0, 0, 0, 0.08)',
                     }
                 }
@@ -41,7 +41,7 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #FFFFFF;
-            color: #14294b;
+            color: #0b1526;
             overflow-x: hidden;
         }
 
@@ -52,7 +52,7 @@
         .product-img-box {
             position: relative;
             width: 100%;
-            background-color: #f1f5f9;
+            background-color: #FFF8E6;
         }
         .product-img-box img {
             object-fit: cover;
@@ -66,12 +66,12 @@
             transition: all 0.3s ease;
         }
         .nav-link:hover {
-            color: #2563eb;
+            color: #FFC83B;
         }
         .nav-link.active-nav {
-            color: #2563eb;
+            color: #FFC83B;
             font-weight: 800;
-            background-color: rgba(229, 9, 20, 0.08);
+            background-color: rgba(255, 200, 59, 0.08);
         }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -89,25 +89,91 @@
             transition: opacity 0.7s ease-in-out;
         }
 
+        /* Inline product loading: keeps the rest of the website usable. */
+        .product-loading-state {
+            grid-column: 1 / -1; width: 100%; min-height: 190px;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 12px; padding: 28px 12px;
+            color: #0b1526; text-align: center;
+        }
+        .product-loading-logo-wrap {
+            width: 62px; height: 62px; position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .product-loading-logo-wrap::before {
+            content: ""; position: absolute; inset: 0;
+            border: 3px solid rgba(11, 21, 38, 0.12);
+            border-top-color: #FFC83B; border-radius: 50%;
+            animation: spin 0.85s linear infinite;
+        }
+        .product-loading-logo { width: 34px; height: 34px; object-fit: contain; border-radius: 8px; }
+        .product-loading-label {
+            font-size: 10px; font-weight: 800; letter-spacing: .14em;
+            text-transform: uppercase; color: #0b1526;
+        }
+
+
+        /* Dedicated mobile banners: artwork is image-only; desktop copy stays visible on desktop. */
+        @media (max-width: 639px) {
+            #hero-slider {
+                height: auto !important;
+                aspect-ratio: 6 / 5;
+            }
+        }
+
+        /* Mobile header: desktop layout remains untouched */
+        @media (max-width: 1023px) {
+            .mobile-ticker-track {
+                width: max-content;
+                animation: mobileTicker 22s linear infinite;
+            }
+            @keyframes mobileTicker {
+                from { transform: translateX(100vw); }
+                to { transform: translateX(-100%); }
+            }
+            /* Mobile header scrolls naturally with the page; desktop sticky header is unchanged. */
+            header { position: static !important; top: auto !important; }
+            /* Compact, edge-to-edge navy navigation with no decorative/vector boxes. */
+            .mobile-main-nav {
+                display: grid !important;
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                width: calc(100% + 1.5rem);
+                margin-left: -0.75rem;
+                margin-right: -0.75rem;
+                padding: 0 0.35rem 0.15rem;
+                gap: 0.2rem;
+                overflow: visible !important;
+                white-space: normal !important;
+            }
+            .mobile-main-nav a {
+                display: flex;
+                min-width: 0;
+                min-height: 31px;
+                align-items: center;
+                justify-content: center;
+                padding: 0.35rem 0.08rem !important;
+                border: 0 !important;
+                border-radius: 4px !important;
+                background: #0b1526 !important;
+                color: #ffffff !important;
+                box-shadow: none !important;
+                font-size: 8px !important;
+                line-height: 1.1 !important;
+                letter-spacing: 0 !important;
+                text-align: center;
+                white-space: normal;
+            }
+            .mobile-main-nav a:active,
+            .mobile-main-nav a:focus { background: #17345b !important; color: #FFC83B !important; }
+            .mobile-category-grid > a:nth-child(n+5) { display: none; }
+        }
+
         ::-webkit-scrollbar { width: 6px; height: 4px; }
-        ::-webkit-scrollbar-track { background: #14294b; }
-        ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: #0b1526; }
+        ::-webkit-scrollbar-thumb { background: #FFC83B; border-radius: 3px; }
     </style>
 </head>
 <body class="bg-white text-gray-900 antialiased selection:bg-gold selection:text-white min-h-screen flex flex-col justify-between relative">
-
-    <!-- WELCOME POPUP BANNER -->
-    <div id="entry-popup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="relative bg-white rounded-3xl max-w-sm sm:max-w-md w-full overflow-hidden shadow-2xl border border-gold/30">
-            <button onclick="closeEntryPopup()" class="absolute top-4 right-4 z-20 bg-darkBg text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-lg hover:bg-gold hover:text-darkBg transition">✕</button>
-            <div class="p-6 text-center space-y-3 bg-white">
-                <div class="w-full h-44 rounded-2xl overflow-hidden mb-3 border border-gold/20 bg-cardBeige">
-                    <img src="popup-banner.png" alt="Welcome Banner" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80';">
-                </div>
-                <button onclick="closeEntryPopup()" class="w-full py-3 rounded-xl bg-gold hover:bg-goldDark text-darkBg font-extrabold text-xs shadow-glow-gold transition text-center uppercase tracking-wider">Explore Gifts</button>
-            </div>
-        </div>
-    </div>
 
     <!-- GLOBAL LOADING OVERLAY -->
     <div id="global-loader" class="fixed inset-0 bg-darkBg/95 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center space-y-4">
@@ -159,9 +225,9 @@
     </div>
 
     <!-- TOP ANNOUNCEMENT BAR -->
-    <div class="bg-darkBg text-gold py-2 px-4 text-[11px] font-semibold uppercase tracking-wider overflow-x-auto whitespace-nowrap border-b border-gold/20">
-        <div class="max-w-7xl mx-auto flex items-center justify-center text-center">
-            <div class="inline-flex items-center gap-6">
+    <div class="bg-darkBg text-gold py-2 px-4 text-[11px] font-semibold uppercase tracking-wider overflow-hidden whitespace-nowrap border-b border-gold/20">
+        <div class="max-w-7xl mx-auto flex items-center justify-center text-center max-lg:justify-start">
+            <div class="inline-flex items-center gap-6 mobile-ticker-track lg:!transform-none lg:!w-auto lg:!animate-none">
                 <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-gift"></i> Personalized Custom Gifts</span>
                 <span class="text-gray-700">•</span>
                 <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-truck"></i> Fast Nationwide Delivery</span>
@@ -173,62 +239,72 @@
 
     <!-- HEADER / NAVIGATION BAR -->
     <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <!-- Desktop header: preserved -->
+        <div class="hidden lg:flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 items-center justify-between">
             <a href="#/home" class="flex items-center gap-3">
                 <img src="logo.png" alt="HY STORE Logo" class="h-10 sm:h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150x50/171717/c6a15b?text=HY+STORE';">
                 <div class="flex flex-col justify-center">
-                    <span class="text-xl sm:text-2xl font-black tracking-tight uppercase font-serif-title text-darkBg leading-none">
-                        HY <span class="text-gold">STORE</span>
-                    </span>
-                    <span class="text-[9px] sm:text-[10px] font-extrabold tracking-widest text-gold uppercase mt-1">
-                        CUSTOM GIFTS
-                    </span>
+                    <span class="text-xl sm:text-2xl font-black tracking-tight uppercase font-serif-title text-darkBg leading-none">HY <span class="text-gold">STORE</span></span>
+                    <span class="text-[9px] sm:text-[10px] font-extrabold tracking-widest text-gold uppercase mt-1">CUSTOM GIFTS</span>
                 </div>
             </a>
-
-            <nav class="hidden lg:flex items-center gap-4 font-bold text-xs uppercase tracking-wider text-gray-700">
+            <nav class="flex items-center gap-4 font-bold text-xs uppercase tracking-wider text-gray-700">
                 <a href="#/home" id="nav-home" class="nav-link">Home</a>
                 <a href="#/services" id="nav-services" class="nav-link">Gift Catalog</a>
                 <a href="#/products" id="nav-products" class="nav-link">Products</a>
                 <a href="#/track" id="nav-track" class="nav-link">Track Order</a>
                 <a href="#/contact" id="nav-contact" class="nav-link">Contact</a>
             </nav>
-
-            <div class="hidden sm:flex items-center gap-3">
+            <div class="flex items-center gap-3">
                 <button onclick="navigate('#/cart')" class="w-10 h-10 rounded-full bg-cardBeige text-darkBg border border-gold/30 hover:border-gold flex items-center justify-center relative transition shadow-sm">
                     <i class="fa-solid fa-cart-shopping text-sm"></i>
                     <span id="cart-badge" class="absolute -top-1 -right-1 bg-gold text-darkBg text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
                 </button>
-                
                 <div id="auth-nav-container" class="flex items-center gap-2">
                     <a href="#/login" class="px-5 py-2 rounded-full text-xs font-bold text-darkBg border border-gray-300 hover:border-gold transition">Log in</a>
                     <a href="#/signup" class="px-5 py-2 rounded-full text-xs font-bold text-white bg-darkBg hover:bg-black border border-gold/40 shadow-glow-gold transition">Sign up</a>
                 </div>
-
                 <div id="user-nav-container" class="hidden">
                     <button onclick="navigate('#/profile')" class="flex items-center gap-2 bg-cardBeige border border-gold/40 text-goldDark font-extrabold text-xs px-4 py-2 rounded-full">
-                        <i class="fa-solid fa-circle-user text-sm text-gold"></i>
-                        <span id="user-nav-name">Account</span>
+                        <i class="fa-solid fa-circle-user text-sm text-gold"></i><span id="user-nav-name">Account</span>
                     </button>
                 </div>
             </div>
-
-            <button id="mobileMenuBtn" class="lg:hidden text-darkBg text-2xl focus:outline-none">
-                <i class="fa-solid fa-bars"></i>
-            </button>
         </div>
 
-        <div id="mobileDrawer" class="hidden lg:hidden bg-white border-b border-gray-200 px-6 py-4">
-            <nav class="flex flex-col gap-4 text-xs font-extrabold uppercase tracking-wider text-gray-800">
-                <a href="#/home" class="hover:text-gold">Home</a>
-                <a href="#/services" class="hover:text-gold">Gift Catalog</a>
-                <a href="#/products" class="hover:text-gold">Products</a>
-                <a href="#/track" class="hover:text-gold">Track Order</a>
-                <a href="#/contact" class="hover:text-gold">Contact Us</a>
-                <div id="mobile-auth-container" class="pt-3 border-t border-gray-100 flex gap-3">
-                    <a href="#/login" class="flex-1 py-2 text-center text-xs font-bold text-darkBg border border-gray-300 rounded-full">Log in</a>
-                    <a href="#/signup" class="flex-1 py-2 text-center text-xs font-bold text-white bg-darkBg rounded-full">Sign up</a>
+        <!-- Mobile header: stacked like a mobile shopping site -->
+        <div class="lg:hidden px-3 pt-3 pb-2 space-y-2.5">
+            <div class="flex items-center justify-between min-h-10">
+                <a href="#/home" class="flex items-center gap-2">
+                    <img src="logo.png" alt="HY STORE Logo" class="h-9 w-auto max-w-[52px] object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/100x40/171717/c6a15b?text=HY';">
+                    <span class="text-lg font-black tracking-tight uppercase font-serif-title text-darkBg leading-none">HY <span class="text-gold">STORE</span></span>
+                </a>
+                <div class="flex-1"></div>
+                <button onclick="navigate('#/cart')" aria-label="Shopping cart" class="w-10 h-10 rounded-full bg-cardBeige text-darkBg border border-gold/40 flex items-center justify-center relative shadow-sm">
+                    <i class="fa-solid fa-cart-shopping text-base"></i>
+                    <span id="mobile-cart-badge" class="absolute -top-1 -right-1 bg-gold text-darkBg text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+            </div>
+            <div id="mobile-auth-container" class="flex items-center gap-2">
+                <a href="#/login" class="flex-1 py-2 text-center text-xs font-extrabold text-darkBg border border-gray-300 rounded-lg">Log in</a>
+                <a href="#/signup" class="flex-1 py-2 text-center text-xs font-extrabold text-white bg-darkBg border border-gold/40 rounded-lg shadow-sm">Sign up</a>
+                <div id="mobile-user-nav-container" class="hidden flex-1">
+                    <button onclick="navigate('#/profile')" class="w-full py-2 text-center text-xs font-extrabold text-darkBg bg-cardBeige border border-gold/40 rounded-lg"><span id="mobile-user-nav-name">Account</span></button>
                 </div>
+            </div>
+            <form class="flex items-center gap-2" onsubmit="event.preventDefault(); const q=this.querySelector('input').value.trim(); if(q){ navigate('#/products'); const box=document.getElementById('product-search'); if(box){box.value=q; box.dispatchEvent(new Event('input'));} }">
+                <div class="flex items-center flex-1 bg-gray-50 border border-gray-300 rounded-lg px-3 h-10">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+                    <input type="search" placeholder="Search gifts and products..." class="w-full bg-transparent outline-none px-2 text-xs text-darkBg" aria-label="Search gifts and products">
+                </div>
+                <button type="submit" class="h-10 px-4 rounded-lg bg-darkBg text-gold text-xs font-extrabold uppercase tracking-wide border border-gold/40">Search</button>
+            </form>
+            <nav class="mobile-main-nav flex items-center gap-1 pb-1 text-[9px] font-extrabold uppercase tracking-wide">
+                <a href="#/home">Home</a>
+                <a href="#/services">Catalog</a>
+                <a href="#/products">Products</a>
+                <a href="#/track">Track Order</a>
+                <a href="#/contact">Contact</a>
             </nav>
         </div>
     </header>
@@ -243,9 +319,10 @@
             <section class="w-full bg-darkBg text-white relative overflow-hidden border-b border-gold/30">
                 <div id="hero-slider" class="relative w-full h-[320px] sm:h-[440px]">
                     <div class="slide-item absolute inset-0 opacity-100 flex items-center transition-opacity duration-700">
-                        <img src="banner1.png" alt="Banner 1" class="absolute inset-0 w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
-                        <div class="absolute inset-0 bg-black/40 sm:bg-transparent"></div>
-                        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                        <img src="banner1.png" alt="Banner 1" class="hidden sm:block absolute inset-0 w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
+                        <img src="mobile-banners/mobile-banner1.jpg" alt="Mobile Banner 1" class="sm:hidden absolute inset-0 w-full h-full object-cover object-center">
+                        <div class="hidden sm:block absolute inset-0 bg-black/40 sm:bg-transparent"></div>
+                        <div class="hidden sm:block relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div class="max-w-2xl space-y-3 sm:space-y-4">
                                 <span class="text-gold font-bold text-[11px] sm:text-xs uppercase tracking-widest block">Make Every Moment Memorable</span>
                                 <h1 class="text-2xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
@@ -263,9 +340,10 @@
                     </div>
 
                     <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
-                        <img src="banner2.png" alt="Banner 2" class="absolute inset-0 w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1600&q=80';">
-                        <div class="absolute inset-0 bg-black/40 sm:bg-transparent"></div>
-                        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                        <img src="banner2.png" alt="Banner 2" class="hidden sm:block absolute inset-0 w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
+                        <img src="mobile-banners/mobile-banner2.jpg" alt="Mobile Banner 2" class="sm:hidden absolute inset-0 w-full h-full object-cover object-center">
+                        <div class="hidden sm:block absolute inset-0 bg-black/40 sm:bg-transparent"></div>
+                        <div class="hidden sm:block relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div class="max-w-2xl space-y-3 sm:space-y-4">
                                 <span class="text-gold font-bold text-[11px] sm:text-xs uppercase tracking-widest block">Nationwide Delivery Across Pakistan</span>
                                 <h1 class="text-2xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
@@ -282,9 +360,10 @@
                     </div>
 
                     <div class="slide-item absolute inset-0 opacity-0 flex items-center transition-opacity duration-700">
-                        <img src="banner3.png" alt="Banner 3" class="absolute inset-0 w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=1600&q=80';">
-                        <div class="absolute inset-0 bg-black/40 sm:bg-transparent"></div>
-                        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                        <img src="banner3.png" alt="Banner 3" class="hidden sm:block absolute inset-0 w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1600&q=80';">
+                        <img src="mobile-banners/mobile-banner3.jpg" alt="Mobile Banner 3" class="sm:hidden absolute inset-0 w-full h-full object-cover object-center">
+                        <div class="hidden sm:block absolute inset-0 bg-black/40 sm:bg-transparent"></div>
+                        <div class="hidden sm:block relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div class="max-w-2xl space-y-3 sm:space-y-4">
                                 <span class="text-gold font-bold text-[11px] sm:text-xs uppercase tracking-widest block">Handcrafted Luxury Teddy & Hampers</span>
                                 <h1 class="text-2xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
@@ -319,7 +398,7 @@
                         <h2 class="text-2xl font-bold font-serif-title text-darkBg mt-1">Shop By Category</h2>
                     </div>
 
-                    <div class="grid grid-cols-2 sm:flex sm:items-center sm:justify-center gap-4 sm:gap-8">
+                    <div class="mobile-category-grid grid grid-cols-2 sm:flex sm:items-center sm:justify-center gap-4 sm:gap-8">
                         <a href="#/products" class="group flex flex-col items-center">
                             <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full p-1.5 border-4 border-gold/40 group-hover:border-gold transition duration-300 shadow-md bg-cardBeige overflow-hidden">
                                 <img src="cat1.png" alt="Gift Boxes" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80';">
@@ -890,35 +969,58 @@
             slideInterval = setInterval(nextSlide, 4500);
         }
 
+        function productLoadingHTML() {
+            return `
+                <div class="product-loading-state" role="status" aria-live="polite">
+                    <div class="product-loading-logo-wrap">
+                        <img src="logo.png" alt="HY STORE" class="product-loading-logo"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/50/0b1526/FFC83B?text=HY';">
+                    </div>
+                    <span class="product-loading-label">Loading Products...</span>
+                </div>
+            `;
+        }
+
+        function showProductLoadingStates() {
+            const homeGrid = document.getElementById('home-products-grid');
+            const productsGrid = document.getElementById('products-grid-list');
+            if (homeGrid) homeGrid.innerHTML = productLoadingHTML();
+            if (productsGrid) productsGrid.innerHTML = productLoadingHTML();
+        }
+
         async function fetchProductsFromBackend() {
-            triggerGlobalLoader("Loading Products...", async () => {
-                try {
-                    const response = await fetch(API_ENDPOINT + "?action=getProducts");
-                    const data = await response.json();
-                    if (data && data.products && data.products.length > 0) {
-                        PRODUCTS = data.products.map(p => {
-                            const price = Number(p.price) || 0;
-                            const rawOld = p.oldPrice && !isNaN(Number(p.oldPrice)) ? Number(p.oldPrice) : 0;
-                            return {
-                                id: Number(p.id) || 1,
-                                name: p.name || "Custom Gift Item",
-                                category: p.category || "PERSONALIZED GIFTS",
-                                badge: p.badge || (p.id % 2 === 0 ? "CUSTOM MADE" : "BESTSELLER"),
-                                price: price,
-                                oldPrice: rawOld > price ? rawOld : null,
-                                img: p.img || "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
-                                desc: p.desc || "Personalized custom gift handcrafted with precision."
-                            };
-                        });
-                    } else {
-                        loadFallbackProducts();
-                    }
-                } catch (err) {
+            // Only product sections show the logo loader; the rest of the site stays usable.
+            showProductLoadingStates();
+
+            try {
+                const response = await fetch(API_ENDPOINT + "?action=getProducts");
+                if (!response.ok) throw new Error("Products request failed");
+                const data = await response.json();
+
+                if (data && Array.isArray(data.products) && data.products.length > 0) {
+                    PRODUCTS = data.products.map(p => {
+                        const price = Number(p.price) || 0;
+                        const rawOld = p.oldPrice && !isNaN(Number(p.oldPrice)) ? Number(p.oldPrice) : 0;
+                        return {
+                            id: Number(p.id) || 1,
+                            name: p.name || "Custom Gift Item",
+                            category: p.category || "PERSONALIZED GIFTS",
+                            badge: p.badge || (Number(p.id) % 2 === 0 ? "CUSTOM MADE" : "BESTSELLER"),
+                            price: price,
+                            oldPrice: rawOld > price ? rawOld : null,
+                            img: p.img || "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
+                            desc: p.desc || "Personalized custom gift handcrafted with precision."
+                        };
+                    });
+                } else {
                     loadFallbackProducts();
                 }
-                renderProductsGrid();
-                renderHomeProductsGrid();
-            });
+            } catch (err) {
+                loadFallbackProducts();
+            }
+
+            renderProductsGrid();
+            renderHomeProductsGrid();
         }
 
         function loadFallbackProducts() {
@@ -928,10 +1030,6 @@
                 { id: 3, name: "Teddy Bear - Soft Plush Toy", category: "PERSONALIZED GIFTS", badge: "BESTSELLER", price: 4000, oldPrice: 4500, img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80", desc: "Premium giant plush teddy bear for special gift occasions." },
                 { id: 4, name: "Teddy Bear / Red", category: "PERSONALIZED GIFTS", badge: "CUSTOM MADE", price: 999, oldPrice: 1299, img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80", desc: "Classic red romantic teddy bear with custom text heart." }
             ];
-        }
-
-        function closeEntryPopup() {
-            document.getElementById('entry-popup-modal').classList.add('hidden');
         }
 
         function triggerGlobalLoader(message = "Loading...", callback) {
@@ -1014,29 +1112,79 @@
 
 
         const GIFT_SERVICES_DATA = [
-            { title: 'Personalized Memory Gift Boxes', desc: 'Custom gift hampers with chocolates, plush bears, LED frames, & cards.', icon: 'fa-box-open' },
-            { title: 'Magic Heat Reveal Mugs', desc: 'Black magic cups that reveal custom photo when hot liquid is added.', icon: 'fa-mug-hot' },
-            { title: 'Custom Photo & Acrylic Frames', desc: 'Wooden frames & laser-engraved acrylic plaque designs.', icon: 'fa-image' },
-            { title: 'Engraved Metal & Acrylic Keychains', desc: 'Double-sided custom photo & name keychains.', icon: 'fa-key' },
-            { title: 'Custom LED Night Lamp Plaques', desc: 'Acrylic LED lamps customized with couples photos & songs.', icon: 'fa-lightbulb' },
-            { title: 'Personalized Greeting & Box Cards', desc: 'Handcrafted explosion cards & velvet wedding gift boxes.', icon: 'fa-envelope-open-text' }
+            { category: 'CUSTOM & PERSONALIZED GIFTS', items: [
+                ['Photo Mugs', 'Standard ceramic mugs with your favorite photo or design.'],
+                ['Magic Mugs', 'Heat-sensitive mugs that reveal a hidden photo when filled with a hot drink.'],
+                ['LED Photo Frames', 'Illuminated photo frames for stylish wall or desk decoration.'],
+                ['Magic Mirror Frames', 'Dual-purpose mirror frames with backlit personalized photo displays.'],
+                ['Custom Table Lamps', 'Personalized ambient lighting made with your photo, name, or message.'],
+                ['Acrylic Photo Blocks', 'Crystal-clear acrylic blocks featuring beautiful photo prints.'],
+                ['Custom Wall Clocks', 'Wall clocks customized with personal photos, artwork, or logos.'],
+                ['Wooden Photo Plaques', 'Wooden keepsakes with engraved or printed photos and messages.'],
+                ['Personalized Keychains', 'Custom keychains available in acrylic, metal, and wood styles.'],
+                ['Custom Cushions & Pillows', 'Soft cushions personalized with photos, names, or favorite quotes.']
+            ]},
+            { category: 'CORPORATE & EXECUTIVE GIFTS', items: [
+                ['Custom Visiting Card Holders', 'Professional leather and metal holders customized for your brand.'],
+                ['Engraved Branded Pens', 'Elegant pens finished with custom laser engraving.'],
+                ['Executive Diaries & Notebooks', 'Business diaries and notebooks with custom covers and embossing.'],
+                ['Branded USB Flash Drives', 'Useful USB drives personalized with your company logo.'],
+                ['Temperature Display Bottles & Flasks', 'Insulated stainless-steel bottles with a handy temperature display.'],
+                ['Custom Coffee Tumblers', 'Reusable travel tumblers for coffee and everyday use.'],
+                ['Desktop Organizers', 'Neat wooden and leatherette organizer sets for office desks.'],
+                ['Branded Lanyards & ID Card Holders', 'Custom-printed straps and holders for teams and events.'],
+                ['Custom Mouse Pads', 'Personalized standard office or gaming mouse mats.'],
+                ['Corporate Gift Hampers', 'Curated executive gift boxes for clients, teams, and special occasions.']
+            ]},
+            { category: 'TECH GADGETS & ACCESSORIES', items: [
+                ['Smartwatches', 'Wearable tech with fitness tracking and Bluetooth calling features.'],
+                ['Portable Bluetooth Speakers', 'Compact wireless speakers for music at home or on the go.'],
+                ['Power Banks', 'Slim portable power packs with custom printed branding.'],
+                ['Wireless Charging Pads', 'Convenient desktop charging pads for compatible devices.'],
+                ['Bluetooth Earbuds Cases', 'Custom protective cases to keep your earbuds safe in style.']
+            ]},
+            { category: 'SOUVENIRS, APPAREL & KEEPSAKES', items: [
+                ['Custom T-Shirts', 'Personalized shirts with screen or direct-to-garment printing.'],
+                ['Custom Caps & Hats', 'Caps and hats finished with custom embroidery or printed designs.'],
+                ['Custom Shields & Trophies', 'Recognition awards and keepsakes for achievements and events.'],
+                ['Metal Medals', 'Custom event and competition medals made for memorable moments.'],
+                ['Custom Badges & Lapel Pins', 'Enamel and epoxy badges for teams, events, and organizations.'],
+                ['3D Crystal Engravings', 'Glass keepsakes with detailed sub-surface laser engraving.'],
+                ['Custom Desk & Wall Calendars', 'Branded annual calendars customized with your photos or logo.']
+            ]}
         ];
 
         function renderServicesGrid() {
             const container = document.getElementById('services-cards-grid');
             if (!container) return;
 
-            container.innerHTML = GIFT_SERVICES_DATA.map(s => `
-                <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
-                    <div>
-                        <div class="w-12 h-12 rounded-2xl bg-cardBeige text-gold rounded-full flex items-center justify-center text-xl mb-4 border border-gold/30">
-                            <i class="fa-solid ${s.icon}"></i>
+            let itemNumber = 1;
+            container.innerHTML = GIFT_SERVICES_DATA.map(group => {
+                const cards = group.items.map(item => {
+                    const number = itemNumber++;
+                    return `
+                        <article class="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-gold/60 transition flex flex-col min-h-[160px]">
+                            <div class="flex items-start justify-between gap-3 mb-3">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-darkBg text-gold text-xs font-extrabold">${String(number).padStart(2, '0')}</span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gold">HY STORE</span>
+                            </div>
+                            <h3 class="text-base font-bold font-serif-title text-darkBg">${item[0]}</h3>
+                            <p class="text-gray-500 text-xs mt-2 leading-relaxed">${item[1]}</p>
+                        </article>
+                    `;
+                }).join('');
+
+                return `
+                    <section class="col-span-full space-y-4">
+                        <div class="flex items-center gap-3 pt-3">
+                            <span class="h-px flex-1 bg-gold/40"></span>
+                            <h2 class="text-center text-sm sm:text-base font-extrabold uppercase tracking-wider text-darkBg">${group.category}</h2>
+                            <span class="h-px flex-1 bg-gold/40"></span>
                         </div>
-                        <h3 class="text-base font-bold font-serif-title text-darkBg">${s.title}</h3>
-                        <p class="text-gray-500 text-xs mt-1 leading-relaxed">${s.desc}</p>
-                    </div>
-                </div>
-            `).join('');
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">${cards}</div>
+                    </section>
+                `;
+            }).join('');
         }
 
         let currentUser = JSON.parse(localStorage.getItem('hy_user')) || null;
@@ -1072,6 +1220,7 @@
 
         window.addEventListener('hashchange', handleRouting);
         window.addEventListener('load', () => {
+            showProductLoadingStates();
             updateAuthUI();
             updateCartBadge();
             fetchProductsFromBackend();
@@ -1113,12 +1262,20 @@
         function renderProductsGrid() {
             const grid = document.getElementById('products-grid-list');
             if (!grid) return;
+            if (!PRODUCTS.length) {
+                grid.innerHTML = productLoadingHTML();
+                return;
+            }
             grid.innerHTML = PRODUCTS.map(p => createProductCardHTML(p)).join('');
         }
 
         function renderHomeProductsGrid() {
             const grid = document.getElementById('home-products-grid');
             if (!grid) return;
+            if (!PRODUCTS.length) {
+                grid.innerHTML = productLoadingHTML();
+                return;
+            }
             grid.innerHTML = PRODUCTS.slice(0, 4).map(p => createProductCardHTML(p)).join('');
         }
 
@@ -1183,6 +1340,8 @@
         function updateCartBadge() {
             const count = cart.reduce((sum, item) => sum + item.qty, 0);
             document.getElementById('cart-badge').innerText = count;
+            const mobileBadge = document.getElementById('mobile-cart-badge');
+            if (mobileBadge) mobileBadge.innerText = count;
         }
 
         async function syncOrderToBackend(orderData) {
@@ -1272,9 +1431,17 @@
                 document.getElementById('auth-nav-container').classList.add('hidden');
                 document.getElementById('user-nav-container').classList.remove('hidden');
                 document.getElementById('user-nav-name').innerText = currentUser.name.split(' ')[0];
+                const mobileAuth = document.getElementById('mobile-auth-container');
+                if (mobileAuth) mobileAuth.querySelectorAll('a').forEach(a => a.classList.add('hidden'));
+                const mobileUser = document.getElementById('mobile-user-nav-container');
+                if (mobileUser) { mobileUser.classList.remove('hidden'); document.getElementById('mobile-user-nav-name').innerText = currentUser.name.split(' ')[0]; }
             } else {
                 document.getElementById('auth-nav-container').classList.remove('hidden');
                 document.getElementById('user-nav-container').classList.add('hidden');
+                const mobileAuth = document.getElementById('mobile-auth-container');
+                if (mobileAuth) mobileAuth.querySelectorAll('a').forEach(a => a.classList.remove('hidden'));
+                const mobileUser = document.getElementById('mobile-user-nav-container');
+                if (mobileUser) mobileUser.classList.add('hidden');
             }
         }
 
