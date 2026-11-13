@@ -12,12 +12,12 @@
             theme: {
                 extend: {
                     colors: {
-                        gold: '#d9242d',
-                        goldDark: '#b51c24',
-                        goldLight: '#f07b80',
-                        darkBg: '#030617',
-                        darkBgLight: '#101b35',
-                        cardBeige: '#101b35'
+                        gold: '#1557d5',
+                        goldDark: '#0b3caa',
+                        goldLight: '#78aaff',
+                        darkBg: '#083b9a',
+                        darkBgLight: '#eaf2ff',
+                        cardBeige: '#f5f8ff'
                     },
                     boxShadow: {
                         'glow-gold': '0 4px 20px rgba(255, 200, 59, 0.35)',
@@ -189,56 +189,219 @@
         ::-webkit-scrollbar-track { background: #030617; }
         ::-webkit-scrollbar-thumb { background: #d9242d; border-radius: 3px; }
     
-    /* HY STORE navy + red theme */
+    /* HY STORE professional royal-blue + light theme */
     body {
-        background-color: #030617 !important;
-        color: #ffffff;
+        background: linear-gradient(180deg, #eef5ff 0%, #ffffff 38%, #f4f8ff 100%) !important;
+        color: #14264a !important;
     }
-    .bg-white { background-color: #0b1224 !important; }
-    .bg-gray-50 { background-color: #080e1e !important; }
-    .bg-gray-100 { background-color: #111a2e !important; }
-    .bg-cardBeige { background-color: #101b35 !important; }
-    .text-darkBg, .text-gray-900 { color: #ffffff !important; }
-    .text-gray-700 { color: #e2e7f0 !important; }
-    .text-gray-600 { color: #c4ccdc !important; }
-    .text-gray-500 { color: #aab5ca !important; }
-    .text-gray-400 { color: #8f9bb2 !important; }
-    .border-gray-100, .border-gray-200, .border-gray-300 {
-        border-color: #26324a !important;
-    }
-    .bg-gold { background-color: #d9242d !important; }
-    .text-gold { color: #d9242d !important; }
-    .border-gold { border-color: #d9242d !important; }
-    .hover\\:bg-gold:hover { background-color: #d9242d !important; }
-    .hover\\:bg-goldDark:hover { background-color: #b51c24 !important; }
-    .bg-darkBg { background-color: #030617 !important; }
+    .bg-white { background-color: #ffffff !important; }
+    .bg-gray-50 { background-color: #f4f7ff !important; }
+    .bg-gray-100 { background-color: #eaf1ff !important; }
+    .bg-cardBeige { background-color: #f5f8ff !important; }
+    .text-darkBg, .text-gray-900 { color: #14264a !important; }
+    .text-gray-800, .text-gray-700 { color: #263b63 !important; }
+    .text-gray-600 { color: #526486 !important; }
+    .text-gray-500 { color: #687b9e !important; }
+    .text-gray-400 { color: #8293b2 !important; }
+    .border-gray-100, .border-gray-200, .border-gray-300 { border-color: #d9e5fb !important; }
+    .bg-gold { background-color: #1557d5 !important; }
+    .text-gold { color: #1557d5 !important; }
+    .border-gold { border-color: #1557d5 !important; }
+    .hover\:bg-gold:hover { background-color: #0b3caa !important; }
+    .hover\:bg-goldDark:hover { background-color: #0b3caa !important; }
+    .bg-darkBg { background-color: #083b9a !important; }
     .text-white { color: #ffffff !important; }
     button.bg-darkBg, a.bg-darkBg,
     button[class*="bg-darkBg"], a[class*="bg-darkBg"] {
-        background-color: #d9242d !important;
+        background: linear-gradient(135deg, #1767ed, #073baf) !important;
         color: #ffffff !important;
-        border-color: #d9242d !important;
+        border-color: #1557d5 !important;
     }
     #top-announcement-bar {
-        background-color: #d9242d !important;
+        background: linear-gradient(90deg, #073b9a, #1767ed) !important;
         color: #ffffff !important;
-        border-color: rgba(255,255,255,.2) !important;
+        border-color: rgba(255,255,255,.22) !important;
     }
-    .mobile-main-nav a { background: #030617 !important; color: #ffffff !important; }
-    .mobile-main-nav a:active, .mobile-main-nav a:focus {
-        background: #d9242d !important; color: #ffffff !important;
+    header { background: #ffffff !important; box-shadow: 0 5px 22px rgba(25,75,160,.10) !important; }
+    .mobile-main-nav a { background: #eaf2ff !important; color: #123d91 !important; border: 1px solid #d5e4ff !important; }
+    .mobile-main-nav a:active, .mobile-main-nav a:focus { background: #1557d5 !important; color: #ffffff !important; }
+    input, textarea, select { background-color: #ffffff !important; color: #14264a !important; border-color: #cbdaf5 !important; }
+    input::placeholder, textarea::placeholder { color: #8293b2 !important; }
+    .bg-gray-50 input, .bg-white input, .bg-gray-50 textarea, .bg-white textarea { color: #14264a !important; }
+    .product-img-box { background: #edf4ff !important; }
+    .shadow-card, .shadow-lg, .shadow-xl { box-shadow: 0 8px 24px rgba(30,75,150,.10) !important; }
+    ::-webkit-scrollbar-track { background: #eaf1ff; }
+    ::-webkit-scrollbar-thumb { background: #1557d5; border-radius: 6px; }
+
+    /* HY STORE contrast polish: clear white labels on royal-blue action buttons */
+    button.bg-gold, a.bg-gold, button[class*="bg-gold"], a[class*="bg-gold"],
+    #trackInputPage + button, #track-page button,
+    a[href^="https://wa.me/"].inline-block {
+        color: #ffffff !important;
+        background: linear-gradient(135deg, #1767ed 0%, #073baf 100%) !important;
+        border: 1px solid #0b4bc8 !important;
+        box-shadow: 0 5px 14px rgba(21,87,213,.22) !important;
+        text-shadow: 0 1px 1px rgba(0,0,0,.12);
     }
-    input, textarea, select {
-        background-color: #0b1224;
-        color: #ffffff;
-        border-color: #34415b;
+    button.bg-gold:hover, a.bg-gold:hover, button[class*="bg-gold"]:hover,
+    a[class*="bg-gold"]:hover, a[href^="https://wa.me/"].inline-block:hover {
+        background: linear-gradient(135deg, #0b55d4 0%, #062f91 100%) !important;
+        color: #ffffff !important;
+        transform: translateY(-1px);
     }
-    input::placeholder, textarea::placeholder { color: #8995aa; }
-    .bg-gray-50 input, .bg-white input, .bg-gray-50 textarea, .bg-white textarea {
-        color: #ffffff;
+    #trackInputPage + button { min-height: 46px; letter-spacing: .06em; }
+    a[href^="https://wa.me/"].inline-block { border-radius: 9999px; padding: .6rem 1.15rem !important; }
+    .nav-link.active-nav { color: #ffffff !important; background: linear-gradient(135deg,#1767ed,#073baf) !important; }
+    .mobile-main-nav a[ href*="track" ], .mobile-main-nav a[href*="track"] { color:#ffffff !important; }
+    .shadow-glow-gold { box-shadow: 0 5px 18px rgba(21,87,213,.24) !important; }
+
+    /* HY STORE dual-colour identity: royal blue base with confident red accents */
+    :root { --hy-blue: #1557d5; --hy-blue-deep: #073baf; --hy-red: #e32636; --hy-red-deep: #b91525; }
+    .text-gold, .nav-link:hover, .nav-link.active-nav { color: var(--hy-blue) !important; }
+    .hy-red-accent, .text-red-600, .text-red-500 { color: var(--hy-red) !important; }
+    .border-red-200, .border-red-300 { border-color: #f5b8bf !important; }
+    .bg-red-600, .bg-red-500 { background-color: var(--hy-red) !important; }
+    button.hy-red-button, a.hy-red-button {
+        color: #fff !important;
+        background: linear-gradient(135deg, #f04452 0%, #c9162b 100%) !important;
+        border: 1px solid #b91525 !important;
+        box-shadow: 0 5px 15px rgba(227,38,54,.22) !important;
+    }
+    /* Desktop hero copy: red is used instead of blue/white so it stands out on blue artwork. */
+    @media (min-width: 640px) {
+        #hero-slider .slide-item > div.relative.z-10 span,
+        #hero-slider .slide-item > div.relative.z-10 h1,
+        #hero-slider .slide-item > div.relative.z-10 h1 span,
+        #hero-slider .slide-item > div.relative.z-10 p {
+            color: #ff3548 !important;
+            text-shadow: 0 1px 3px rgba(0,0,0,.72), 0 0 10px rgba(0,0,0,.32) !important;
+        }
+        #hero-slider .slide-item > div.relative.z-10 h1 { font-weight: 800 !important; }
+        #hero-slider .slide-item > div.relative.z-10 a.bg-gold {
+            color: #fff !important;
+            background: linear-gradient(135deg, #1767ed, #073baf) !important;
+        }
+        #hero-slider .slide-item > div.relative.z-10 a.border-gold {
+            color: #fff !important;
+            background: linear-gradient(135deg, #e32636, #b91525) !important;
+            border-color: #ff6570 !important;
+        }
+    }
+    /* Consistent visible red + blue accents across cards and interactive controls */
+    .nav-link.active-nav, .mobile-main-nav a:active, .mobile-main-nav a:focus {
+        box-shadow: inset 0 -2px 0 var(--hy-red) !important;
+    }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+        outline: 2px solid var(--hy-red) !important;
+        outline-offset: 2px;
     }
 
-    </style>
+
+    
+
+    /* HY STORE final dual-colour polish: blue surfaces always get readable white text */
+    :root { --hy-blue:#1557d5; --hy-blue-deep:#073baf; --hy-red:#e32636; --hy-red-deep:#b91525; }
+    /* Footer / Quick Navigation: retain the blue footer, make every label readable */
+    footer, footer.bg-darkBg { background:linear-gradient(145deg,#073baf 0%,#092d78 100%) !important; color:#fff !important; }
+    footer h1, footer h2, footer h3, footer h4, footer h5,
+    footer p, footer li, footer span, footer a, footer div { color:#fff !important; }
+    footer h5 { color:#ff6470 !important; }
+    footer a:hover { color:#ff8790 !important; }
+    footer .text-gray-400, footer .text-gray-500, footer .text-gray-600 { color:#fff !important; opacity:.94; }
+    footer .text-gold { color:#ff6470 !important; }
+    footer .border-t { border-color:rgba(255,255,255,.28) !important; }
+    footer a[href^="https://wa.me/"] { background:linear-gradient(135deg,#e32636,#b91525) !important; color:#fff !important; border:1px solid #ff7882 !important; }
+    /* Quick links/navigation labels must never inherit a dark blue text on blue background */
+    footer a, footer h5 { text-shadow:0 1px 2px rgba(0,0,0,.18); }
+
+    /* Clear blue buttons, white labels; red is used for secondary actions and highlights */
+    button, a { -webkit-tap-highlight-color:transparent; }
+    button.bg-darkBg, a.bg-darkBg, button.bg-gold, a.bg-gold,
+    button[class*="bg-darkBg"], a[class*="bg-darkBg"],
+    button[class*="bg-gold"], a[class*="bg-gold"] { color:#fff !important; }
+    .hy-red-button, button.hy-red-button, a.hy-red-button,
+    .bg-red-600, .bg-red-500 { color:#fff !important; }
+    .nav-link.active-nav { color:#fff !important; background:linear-gradient(135deg,#1557d5,#073baf) !important; box-shadow:inset 0 -3px 0 #e32636 !important; }
+    .mobile-main-nav a { color:#fff !important; background:linear-gradient(135deg,#1557d5,#073baf) !important; border:1px solid rgba(227,38,54,.55) !important; }
+    .mobile-main-nav a:active, .mobile-main-nav a:focus { color:#fff !important; background:linear-gradient(135deg,#e32636,#b91525) !important; }
+
+    /* Catalog/category numbering badges: blue badge with white number and red outline/accent */
+    #services-page [class*="rounded-full"], #catalog-page [class*="rounded-full"],
+    #services-page [class*="number"], #catalog-page [class*="number"],
+    .catalog-number, .category-number, .step-number, .service-number {
+        text-shadow:none;
+    }
+    #services-page .bg-gold, #catalog-page .bg-gold,
+    #services-page [class*="bg-blue"], #catalog-page [class*="bg-blue"],
+    .catalog-number, .category-number, .step-number, .service-number {
+        background:linear-gradient(135deg,#1557d5,#073baf) !important;
+        color:#fff !important; border:2px solid #e32636 !important;
+    }
+    #services-page .bg-gold *, #catalog-page .bg-gold *,
+    #services-page [class*="bg-blue"] *, #catalog-page [class*="bg-blue"] *,
+    .catalog-number *, .category-number *, .step-number *, .service-number * { color:#fff !important; }
+
+    /* A more balanced red + blue identity across badges, icons and small accents */
+    .text-red-600, .text-red-500, .hy-red-accent { color:#e32636 !important; }
+    .border-red-200, .border-red-300 { border-color:#f3aab2 !important; }
+    .bg-red-600, .bg-red-500 { background:linear-gradient(135deg,#f04452,#b91525) !important; }
+    .blinking-icon { filter:drop-shadow(0 0 5px rgba(227,38,54,.7)); }
+    .product-img-box { border:1px solid #d7e4fb; border-radius:14px; overflow:hidden; }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline:2px solid #e32636 !important; outline-offset:3px; }
+
+
+
+    /* Catalog readability + distinct product actions (design-only; product data untouched) */
+    #services-cards-grid article > div:first-child > span:first-child {
+        color:#ffffff !important;
+        background:linear-gradient(145deg,#1557d5,#073baf) !important;
+        border:2px solid #ffffff !important;
+        box-shadow:0 0 0 2px rgba(21,87,213,.18), 0 5px 12px rgba(7,59,175,.18) !important;
+        text-shadow:none !important;
+    }
+    #services-cards-grid article > div:first-child > span:last-child {
+        color:#e32636 !important;
+        letter-spacing:.12em;
+    }
+    #services-cards-grid article {
+        border-color:#d9e5fb !important;
+        box-shadow:0 7px 20px rgba(20,55,110,.06) !important;
+    }
+    #services-cards-grid article:hover {
+        border-color:#e32636 !important;
+        box-shadow:0 12px 26px rgba(21,87,213,.11) !important;
+        transform:translateY(-2px);
+    }
+    #services-cards-grid section > div > span:first-child,
+    #services-cards-grid section > div > span:last-child {
+        background:#e32636 !important;
+        opacity:.75;
+    }
+    /* Add to Cart remains the primary royal-blue action. */
+    #products-grid-list button[onclick^="directAddToCart"] {
+        color:#ffffff !important;
+        background:linear-gradient(135deg,#1767ed,#073baf) !important;
+        border:1px solid #1557d5 !important;
+        box-shadow:0 5px 13px rgba(21,87,213,.18) !important;
+    }
+    #products-grid-list button[onclick^="directAddToCart"]:hover {
+        background:linear-gradient(135deg,#0b55d4,#062f91) !important;
+        color:#ffffff !important;
+    }
+    /* Details is intentionally different: light neutral surface, blue lettering, no red. */
+    #products-grid-list button[onclick^="openProductModal"] {
+        color:#17458f !important;
+        background:linear-gradient(180deg,#ffffff,#edf4ff) !important;
+        border:1px solid #cbdaf5 !important;
+        box-shadow:inset 0 1px 0 #ffffff, 0 3px 9px rgba(20,55,110,.06) !important;
+    }
+    #products-grid-list button[onclick^="openProductModal"]:hover {
+        color:#073baf !important;
+        background:#e4eeff !important;
+        border-color:#9dbcf2 !important;
+    }
+
+</style>
 </head>
 <body class="bg-white text-gray-900 antialiased selection:bg-gold selection:text-white min-h-screen flex flex-col justify-between relative">
 
