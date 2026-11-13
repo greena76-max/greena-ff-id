@@ -31,7 +31,7 @@
     <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Great+Vibes&family=Oswald:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -267,16 +267,71 @@
         border: 1px solid #b91525 !important;
         box-shadow: 0 5px 15px rgba(227,38,54,.22) !important;
     }
-    /* Desktop hero copy: red is used instead of blue/white so it stands out on blue artwork. */
+    /* Hero banners: editorial headline inspired by the supplied reference. */
     @media (min-width: 640px) {
-        #hero-slider .slide-item > div.relative.z-10 span,
-        #hero-slider .slide-item > div.relative.z-10 h1,
-        #hero-slider .slide-item > div.relative.z-10 h1 span,
-        #hero-slider .slide-item > div.relative.z-10 p {
-            color: #ff3548 !important;
-            text-shadow: 0 1px 3px rgba(0,0,0,.72), 0 0 10px rgba(0,0,0,.32) !important;
+        #hero-slider .slide-item > div.relative.z-10 > div > span {
+            display: block !important;
+            color: #ffffff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            font-size: clamp(10px, .9vw, 13px) !important;
+            font-weight: 800 !important;
+            letter-spacing: .28em !important;
+            text-transform: uppercase !important;
+            margin: 0 0 8px 4px !important;
+            text-shadow: 0 2px 5px rgba(0,0,0,.35) !important;
         }
-        #hero-slider .slide-item > div.relative.z-10 h1 { font-weight: 800 !important; }
+        #hero-slider .slide-item > div.relative.z-10 > div {
+            max-width: 40rem !important;
+            width: min(88%, 40rem) !important;
+            margin-left: clamp(0px, 2vw, 24px) !important;
+            position: relative !important;
+            padding: 8px 0 12px !important;
+        }
+        #hero-slider .slide-item > div.relative.z-10 h1 {
+            color: #fff !important;
+            font-family: 'Oswald', sans-serif !important;
+            font-size: clamp(42px, 5.1vw, 76px) !important;
+            font-weight: 700 !important;
+            letter-spacing: -.025em !important;
+            line-height: .98 !important;
+            text-transform: uppercase !important;
+            max-width: 10.5ch !important;
+            text-wrap: balance !important;
+            margin: 0 !important;
+            text-shadow: 0 3px 0 rgba(5,30,83,.55), 0 8px 18px rgba(0,0,0,.35) !important;
+            animation: none !important;
+            transform: none !important;
+        }
+        #hero-slider .slide-item > div.relative.z-10 h1 span {
+            display: inline-block !important;
+            position: relative !important;
+            z-index: 2 !important;
+            margin: -5px 0 0 14px !important;
+            color: #ff4052 !important;
+            background: none !important;
+            -webkit-text-fill-color: #ff4052 !important;
+            font-family: 'Great Vibes', cursive !important;
+            font-size: clamp(54px, 6.2vw, 88px) !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+            line-height: .85 !important;
+            letter-spacing: 0 !important;
+            text-transform: none !important;
+            text-shadow: 0 2px 0 #8f1020, 0 5px 10px rgba(0,0,0,.5) !important;
+        }
+        #hero-slider .slide-item > div.relative.z-10 > div > p {
+            display: block !important;
+            color: rgba(255,255,255,.94) !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: .32em !important;
+            line-height: 1.6 !important;
+            text-transform: uppercase !important;
+            margin: 8px 0 0 5px !important;
+            max-width: 34rem !important;
+            text-shadow: 0 2px 5px rgba(0,0,0,.4) !important;
+        }
         #hero-slider .slide-item > div.relative.z-10 a.bg-gold {
             color: #fff !important;
             background: linear-gradient(135deg, #1767ed, #073baf) !important;
@@ -399,6 +454,32 @@
         color:#073baf !important;
         background:#e4eeff !important;
         border-color:#9dbcf2 !important;
+    }
+
+
+    /* 3D depth polish for the existing editorial hero layout only */
+    @media (min-width: 640px) {
+      #hero-slider .slide-item > div.relative.z-10 h1 {
+        color: #ffffff !important;
+        background: linear-gradient(180deg,#ffffff 0%,#f4f7ff 42%,#c9d8ff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 2px 0 #8ca9e8) drop-shadow(0 4px 0 #345da9) drop-shadow(0 8px 9px rgba(0,0,0,.42));
+        text-shadow: none !important;
+      }
+      #hero-slider .slide-item > div.relative.z-10 h1 span {
+        color: #ff4659 !important;
+        background: linear-gradient(180deg,#ff9aa3 0%,#ff4055 42%,#c9152b 100%) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        filter: drop-shadow(0 1px 0 #ffd0d4) drop-shadow(0 3px 0 #a70e22) drop-shadow(0 6px 7px rgba(0,0,0,.48));
+        text-shadow: none !important;
+      }
+      #hero-slider .slide-item > div.relative.z-10 > div > span {
+        text-shadow: 0 1px 0 rgba(20,45,95,.7), 0 3px 6px rgba(0,0,0,.4) !important;
+      }
     }
 
 </style>
@@ -604,13 +685,13 @@
                         <img src="./mobile-banner1.jpg" alt="Mobile Banner 1" class="mobile-hero-image sm:hidden absolute inset-0 w-full h-full object-cover object-center" loading="eager" onerror="this.onerror=null; this.src='./banner1.jpg';">
                         <div class="hidden sm:block absolute inset-0 bg-black/40 sm:bg-transparent"></div>
                         <div class="hidden sm:block relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                            <div class="max-w-2xl space-y-3 sm:space-y-4">
-                                <span class="text-gold font-bold text-[11px] sm:text-xs uppercase tracking-widest block">Make Every Moment Memorable</span>
+                            <div class="max-w-xl space-y-3 sm:space-y-4">
+                                <span class="text-gold font-bold text-[11px] sm:text-xs uppercase tracking-widest block">HY STORE • PERSONALIZED GIFTING</span>
                                 <h1 class="text-2xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
-                                    Your Memories.<br>Your Message.<br><span class="italic text-gold">Your Custom Gift.</span>
+                                    MAKE IT <span class="italic text-gold">Personal.</span>
                                 </h1>
-                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-lg">
-                                    Create one-of-a-kind gifts with names, photos, messages and designs made especially for the people you love.
+                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-md">
+                                    GIFTS THAT MAKE EVERY MOMENT SPECIAL
                                 </p>
                                 <div class="pt-1 flex flex-wrap gap-3 sm:gap-4">
                                     <a href="#/products" class="px-6 sm:px-8 py-2.5 sm:py-3 font-extrabold text-[11px] sm:text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Shop Collection</a>
@@ -625,16 +706,17 @@
                         <img src="./mobile-banner2.jpg" alt="Mobile Banner 2" class="mobile-hero-image sm:hidden absolute inset-0 w-full h-full object-cover object-center" loading="eager" onerror="this.onerror=null; this.src='./banner2.jpg';">
                         <div class="hidden sm:block absolute inset-0 bg-black/40 sm:bg-transparent"></div>
                         <div class="hidden sm:block relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                            <div class="max-w-2xl space-y-3 sm:space-y-4">
-                                <span class="text-gold font-bold text-[11px] sm:text-xs uppercase tracking-widest block">Nationwide Delivery Across Pakistan</span>
+                            <div class="max-w-xl space-y-3 sm:space-y-4">
+                                <span class="text-gold font-bold text-[11px] sm:text-xs uppercase tracking-widest block">HY STORE • PERSONALIZED GIFTING</span>
                                 <h1 class="text-2xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
-                                    Magic Mugs &<br><span class="italic text-gold">Custom Memory Frames.</span>
+                                    MAKE IT <span class="italic text-gold">Personal.</span>
                                 </h1>
-                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-lg">
-                                    High definition sublimation printing on heat reveal magic mugs and acrylic night lamps.
+                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-md">
+                                    GIFTS THAT MAKE EVERY MOMENT SPECIAL
                                 </p>
                                 <div class="pt-1 flex flex-wrap gap-3 sm:gap-4">
-                                    <a href="#/products" class="px-6 sm:px-8 py-2.5 sm:py-3 font-extrabold text-[11px] sm:text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Explore Magic Mugs</a>
+                                    <a href="#/products" class="px-6 sm:px-8 py-2.5 sm:py-3 font-extrabold text-[11px] sm:text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Shop Collection</a>
+                                    <a href="#/services" class="px-6 sm:px-8 py-2.5 sm:py-3 font-extrabold text-[11px] sm:text-xs uppercase tracking-widest text-gold border border-gold hover:bg-gold hover:text-darkBg transition">Explore Gifts</a>
                                 </div>
                             </div>
                         </div>
@@ -645,16 +727,17 @@
                         <img src="./mobile-banner3.jpg" alt="Mobile Banner 3" class="mobile-hero-image sm:hidden absolute inset-0 w-full h-full object-cover object-center" loading="eager" onerror="this.onerror=null; this.src='./banner3.jpg';">
                         <div class="hidden sm:block absolute inset-0 bg-black/40 sm:bg-transparent"></div>
                         <div class="hidden sm:block relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                            <div class="max-w-2xl space-y-3 sm:space-y-4">
-                                <span class="text-gold font-bold text-[11px] sm:text-xs uppercase tracking-widest block">Handcrafted Luxury Teddy & Hampers</span>
+                            <div class="max-w-xl space-y-3 sm:space-y-4">
+                                <span class="text-gold font-bold text-[11px] sm:text-xs uppercase tracking-widest block">HY STORE • PERSONALIZED GIFTING</span>
                                 <h1 class="text-2xl sm:text-5xl font-normal font-serif-title leading-tight text-white">
-                                    Soft Plush Toys &<br><span class="italic text-gold">Personalized Gift Boxes.</span>
+                                    MAKE IT <span class="italic text-gold">Personal.</span>
                                 </h1>
-                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-lg">
-                                    Express your love with custom printed teddy bears, velvet surprise boxes, and memory cards.
+                                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed max-w-md">
+                                    GIFTS THAT MAKE EVERY MOMENT SPECIAL
                                 </p>
                                 <div class="pt-1 flex flex-wrap gap-3 sm:gap-4">
-                                    <a href="#/products" class="px-6 sm:px-8 py-2.5 sm:py-3 font-extrabold text-[11px] sm:text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Order Gift Boxes</a>
+                                    <a href="#/products" class="px-6 sm:px-8 py-2.5 sm:py-3 font-extrabold text-[11px] sm:text-xs uppercase tracking-widest text-darkBg bg-gold hover:bg-goldDark transition shadow-glow-gold">Shop Collection</a>
+                                    <a href="#/services" class="px-6 sm:px-8 py-2.5 sm:py-3 font-extrabold text-[11px] sm:text-xs uppercase tracking-widest text-gold border border-gold hover:bg-gold hover:text-darkBg transition">Explore Gifts</a>
                                 </div>
                             </div>
                         </div>
