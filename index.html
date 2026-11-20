@@ -367,7 +367,7 @@
                 </div>
 
                 <div class="collections-marquee-wrapper py-2">
-                    <div class="collections-marquee-track">
+                    <div id="collectionsMarqueeTrack" class="collections-marquee-track">
                         <div class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">
                             <button onclick="filterCollectionWithLoader('PERSONALIZED GIFTS')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
@@ -1147,6 +1147,7 @@
         const GOOGLE_CLIENT_ID = "21998030518-8t3hlj709qfv273nd9124eebl1uudi7r.apps.googleusercontent.com";
 
         let PRODUCTS = [];
+        let COLLECTIONS = [];
         let currentUser = JSON.parse(localStorage.getItem('hy_user')) || null;
         let cart = JSON.parse(localStorage.getItem('hy_cart')) || [];
         let orders = JSON.parse(localStorage.getItem('hy_orders')) || [];
@@ -1322,6 +1323,67 @@
             renderDynamicFilterPills();
             renderProducts();
             renderAllProductsPage();
+        }
+
+        function loadFallbackCollections() {
+            COLLECTIONS = [
+                { name: "Personalized", filter: "PERSONALIZED GIFTS", image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80" },
+                { name: "Photo Frames", filter: "Photo Frames", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80" },
+                { name: "Magic Mugs", filter: "Magic Mugs", image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=400&q=80" },
+                { name: "Plush & Teddy", filter: "Plush & Teddy", image: "https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=400&q=80" },
+                { name: "Couple Gifts", filter: "Couple Gifts", image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" },
+                { name: "Gift Hampers", filter: "Gift Hampers", image: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=400&q=80" }
+            ];
+        }
+
+        function buildCollectionCircleHTML(col, isClone = false) {
+            const safeName = String(col.name || 'Collection').replace(/'/g, "\\'");
+            const safeFilter = String(col.filter || col.name || 'All').replace(/'/g, "\\'");
+            const safeImg = col.image || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80';
+            return `
+                <button onclick="filterCollectionWithLoader('${safeFilter}')" ${isClone ? 'tabindex="-1"' : ''} class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                    <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
+                        <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                            <img src="${safeImg}" onerror="this.src='https://placehold.co/400x400/8A0404/FFFFFF?text=HY+GIFTS'" alt="${safeName}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                    </div>
+                    <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">${safeName}</span>
+                </button>
+            `;
+        }
+
+        function renderCollections() {
+            const track = document.getElementById('collectionsMarqueeTrack');
+            if (!track) return;
+            const list = COLLECTIONS.length ? COLLECTIONS : loadFallbackCollections();
+            const primaryGroup = `<div class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">${COLLECTIONS.map(c => buildCollectionCircleHTML(c, false)).join('')}</div>`;
+            const cloneGroup = `<div aria-hidden="true" class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">${COLLECTIONS.map(c => buildCollectionCircleHTML(c, true)).join('')}</div>`;
+            track.innerHTML = primaryGroup + cloneGroup;
+        }
+
+        async function fetchCollectionsFromBackend() {
+            loadFallbackCollections();
+            renderCollections();
+            try {
+                const response = await fetch(API_ENDPOINT + "?action=getCollections");
+                if (!response.ok) return;
+                const data = await response.json();
+                const rawList = Array.isArray(data) ? data : (data.collections || data.data || []);
+                if (Array.isArray(rawList) && rawList.length > 0) {
+                    const parsed = rawList.map(item => {
+                        const name = String(item.name || item.title || item.collection || item.category || '').trim();
+                        const image = String(item.image || item.img || item.pic || item.photo || item.url || '').trim();
+                        const filter = String(item.filter || item.category || name || 'All').trim();
+                        return { name, image, filter };
+                    }).filter(c => c.name && c.image);
+                    if (parsed.length > 0) {
+                        COLLECTIONS = parsed;
+                        renderCollections();
+                    }
+                }
+            } catch (err) {
+                // Keep fallback collections cleanly rendered
+            }
         }
 
         function loadFallbackProducts() {
@@ -2143,6 +2205,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             updateAuthUI();
             updateCartBadge();
+            fetchCollectionsFromBackend();
             fetchProductsFromBackend();
             handleRouting();
         });
