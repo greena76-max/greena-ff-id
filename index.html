@@ -59,22 +59,18 @@
         .collections-marquee-wrapper:active .collections-marquee-track {
             animation-play-state: paused;
         }
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); opacity: 0.7; }
-            70% { transform: scale(1.25); opacity: 0; }
-            100% { transform: scale(1.25); opacity: 0; }
-        }
-        .whatsapp-pulse::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 9999px;
-            background-color: #25D366;
-            z-index: -1;
-            animation: pulse-ring 2.2s infinite;
-        }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loader-spinner { animation: spin 0.9s linear infinite; }
+
+        @keyframes spokePulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.45; }
+            100% { opacity: 0.16; }
+        }
+        .radial-loader-spoke {
+            transform-origin: 32px 32px;
+            animation: spokePulse 0.96s linear infinite;
+        }
     
         @media (max-width: 639px) {
             #auth-nav-container, #user-nav-container {
@@ -127,13 +123,13 @@
 </head>
 <body class="bg-[#F21212] text-white font-sans antialiased overflow-x-hidden selection:bg-white selection:text-[#D90B0B] min-h-screen flex flex-col justify-between">
 
-    <!-- GLOBAL LOADER -->
+    <!-- GLOBAL LOADER (ONLY FOR LONG NETWORK/BACKEND ACTIONS) -->
     <div id="global-loader" class="fixed inset-0 bg-[#9E0606]/95 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center space-y-4">
         <div class="relative w-16 h-16 flex items-center justify-center">
             <div class="absolute inset-0 border-4 border-white/25 border-t-hyGold rounded-full loader-spinner"></div>
             <span class="font-display font-extrabold text-sm text-white">HY</span>
         </div>
-        <p id="loader-text" class="text-xs font-display font-bold uppercase tracking-widest text-hyGold animate-pulse">Loading HY GIFTS...</p>
+        <p id="loader-text" class="text-xs font-display font-bold uppercase tracking-widest text-hyGold animate-pulse">Processing...</p>
     </div>
 
     <!-- TOAST CONTAINER -->
@@ -146,10 +142,10 @@
                 <i class="fa-solid fa-gift text-hyGold"></i> 100% Personalized &amp; Luxury Gifts
             </span>
             <p id="announcementText" class="tracking-wide transition-opacity duration-300 flex items-center justify-center gap-1.5 truncate mx-auto">
-                🔥 Free Shipping All over Pakistan
+                Free Shipping All over Pakistan
             </p>
-            <a href="https://wa.me/923209306672" target="_blank" class="hidden lg:inline-flex items-center gap-1.5 text-[11px] text-hyGold hover:text-white font-bold transition">
-                <i class="fa-brands fa-whatsapp"></i> 0320-9306672
+            <a href="tel:03209306672" class="hidden lg:inline-flex items-center gap-1.5 text-[11px] text-hyGold hover:text-white font-bold transition">
+                <i class="fa-solid fa-phone"></i> 0320-9306672
             </a>
         </div>
     </div>
@@ -181,7 +177,7 @@
             </div>
 
             <!-- Center: Custom Geometric 'HY' Monogram Logo + HY GIFTS -->
-            <a href="#/home" onclick="navWithLoader(event, '#/home', 'Loading HY GIFTS...')" class="flex flex-col items-center justify-center group focus:outline-none shrink-0 lg:px-4">
+            <a href="#/home" onclick="navigate('#/home')" class="flex flex-col items-center justify-center group focus:outline-none shrink-0 lg:px-4">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-11 lg:h-11 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
                     <svg viewBox="0 0 64 64" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M32 4L58 30L32 56L6 30L32 4Z" stroke="white" stroke-width="3.2" stroke-linejoin="round"/>
@@ -211,11 +207,11 @@
 
                 <!-- Desktop Only Auth Buttons (Strictly hidden on Mobile) -->
                 <div id="auth-nav-container" class="hidden sm:flex items-center gap-2 shrink-0">
-                    <a href="#/login" onclick="navWithLoader(event, '#/login', 'Opening Login...')" class="px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs font-display font-bold text-white border border-white/40 hover:bg-white/15 transition whitespace-nowrap">Log in</a>
-                    <a href="#/signup" onclick="navWithLoader(event, '#/signup', 'Opening Sign Up...')" class="px-4 lg:px-5 py-1.5 lg:py-2 rounded-full text-xs font-display font-extrabold bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition shadow-sm whitespace-nowrap">Sign up</a>
+                    <a href="#/login" onclick="navigate('#/login')" class="px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs font-display font-bold text-white border border-white/40 hover:bg-white/15 transition whitespace-nowrap">Log in</a>
+                    <a href="#/signup" onclick="navigate('#/signup')" class="px-4 lg:px-5 py-1.5 lg:py-2 rounded-full text-xs font-display font-extrabold bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition shadow-sm whitespace-nowrap">Sign up</a>
                 </div>
                 <div id="user-nav-container" class="hidden sm:block shrink-0">
-                    <button onclick="navWithLoader(event, '#/profile', 'Loading Your Account...')" class="flex items-center gap-1.5 bg-white/15 border border-white/35 text-white hover:bg-white hover:text-[#D90B0B] font-display font-bold text-xs px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full transition whitespace-nowrap">
+                    <button onclick="navigate('#/profile')" class="flex items-center gap-1.5 bg-white/15 border border-white/35 text-white hover:bg-white hover:text-[#D90B0B] font-display font-bold text-xs px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full transition whitespace-nowrap">
                         <i class="fa-solid fa-circle-user"></i>
                         <span id="user-nav-name">Account</span>
                     </button>
@@ -223,7 +219,7 @@
 
                 <!-- Cart Page Button -->
                 <button 
-                    onclick="navWithLoader(event, '#/cart', 'Opening Your Gift Bag...')" 
+                    onclick="navigate('#/cart')" 
                     aria-label="Open Cart"
                     class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full hover:bg-white/15 lg:bg-white/10 lg:border lg:border-white/25 flex items-center justify-center text-white transition active:scale-95 shrink-0"
                 >
@@ -239,19 +235,19 @@
         <div class="hidden lg:block bg-[#A80505]/95 border-t border-white/20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <nav aria-label="Desktop Primary Navigation" class="flex flex-row flex-nowrap items-center justify-center gap-2 xl:gap-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white">
-                    <a href="#/home" id="nav-home" onclick="navWithLoader(event, '#/home', 'Opening Home...')" class="nav-link desktop-nav-link text-white hover:text-hyGold transition px-4 py-2 rounded-full whitespace-nowrap shrink-0">
+                    <a href="#/home" id="nav-home" onclick="navigate('#/home')" class="nav-link desktop-nav-link text-white hover:text-hyGold transition px-4 py-2 rounded-full whitespace-nowrap shrink-0">
                         <i class="fa-solid fa-house mr-1.5 text-[11px] text-hyGold"></i>Home
                     </a>
-                    <a href="#/services" id="nav-services" onclick="navWithLoader(event, '#/services', 'Loading Gift Catalog...')" class="nav-link desktop-nav-link text-white hover:text-hyGold transition px-4 py-2 rounded-full whitespace-nowrap shrink-0">
+                    <a href="#/services" id="nav-services" onclick="navigate('#/services')" class="nav-link desktop-nav-link text-white hover:text-hyGold transition px-4 py-2 rounded-full whitespace-nowrap shrink-0">
                         <i class="fa-solid fa-layer-group mr-1.5 text-[11px] text-hyGold"></i>Catalog
                     </a>
-                    <a href="#/products" id="nav-products" onclick="navWithLoader(event, '#/products', 'Loading Custom Gifts...')" class="nav-link desktop-nav-link text-white hover:text-hyGold transition px-4 py-2 rounded-full whitespace-nowrap shrink-0">
+                    <a href="#/products" id="nav-products" onclick="navigate('#/products')" class="nav-link desktop-nav-link text-white hover:text-hyGold transition px-4 py-2 rounded-full whitespace-nowrap shrink-0">
                         <i class="fa-solid fa-gift mr-1.5 text-[11px] text-hyGold"></i>Products
                     </a>
-                    <a href="#/track" id="nav-track" onclick="navWithLoader(event, '#/track', 'Opening Order Tracker...')" class="nav-link desktop-nav-link text-hyGold hover:text-white bg-black/25 border border-hyGold/45 transition px-4 py-2 rounded-full whitespace-nowrap shrink-0 inline-flex items-center">
+                    <a href="#/track" id="nav-track" onclick="navigate('#/track')" class="nav-link desktop-nav-link text-hyGold hover:text-white bg-black/25 border border-hyGold/45 transition px-4 py-2 rounded-full whitespace-nowrap shrink-0 inline-flex items-center">
                         <i class="fa-solid fa-location-dot mr-1.5 text-[11px]"></i>Track Order
                     </a>
-                    <a href="#/contact" id="nav-contact" onclick="navWithLoader(event, '#/contact', 'Opening Support...')" class="nav-link desktop-nav-link text-white hover:text-hyGold transition px-4 py-2 rounded-full whitespace-nowrap shrink-0">
+                    <a href="#/contact" id="nav-contact" onclick="navigate('#/contact')" class="nav-link desktop-nav-link text-white hover:text-hyGold transition px-4 py-2 rounded-full whitespace-nowrap shrink-0">
                         <i class="fa-solid fa-headset mr-1.5 text-[11px] text-hyGold"></i>Contact
                     </a>
                     <a href="https://amzprints.com" target="_blank" rel="noopener noreferrer" class="desktop-nav-link text-white hover:text-hyGold bg-white/10 hover:bg-white/20 border border-white/25 transition px-4 py-2 rounded-full whitespace-nowrap shrink-0 inline-flex items-center">
@@ -306,10 +302,10 @@
                             Turn your favorite photos, names &amp; heartfelt messages into custom LED frames, magic mugs, cushions &amp; gift hampers.
                         </p>
                         <div class="mt-4 sm:mt-6 lg:mt-8 flex flex-wrap items-center gap-3 lg:gap-4">
-                            <a href="#/products" onclick="navWithLoader(event, '#/products', 'Opening Custom Gifts...')" class="inline-block bg-[#E10A0A] hover:bg-[#C20707] text-white font-display font-bold text-[10px] sm:text-xs lg:text-xs uppercase tracking-wider px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 rounded-full shadow-lg transition transform hover:scale-105">
+                            <a href="#/products" onclick="navigate('#/products')" class="inline-block bg-[#E10A0A] hover:bg-[#C20707] text-white font-display font-bold text-[10px] sm:text-xs lg:text-xs uppercase tracking-wider px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 rounded-full shadow-lg transition transform hover:scale-105">
                                 EXPLORE GIFTS
                             </a>
-                            <a href="#/track" onclick="navWithLoader(event, '#/track', 'Opening Order Tracker...')" class="inline-block bg-[#E10A0A]/10 hover:bg-[#E10A0A]/20 text-[#B90808] lg:border lg:border-[#B90808]/25 font-display font-bold text-[10px] sm:text-xs uppercase tracking-wider px-5 lg:px-7 py-2.5 sm:py-3 lg:py-3.5 rounded-full transition">
+                            <a href="#/track" onclick="navigate('#/track')" class="inline-block bg-[#E10A0A]/10 hover:bg-[#E10A0A]/20 text-[#B90808] lg:border lg:border-[#B90808]/25 font-display font-bold text-[10px] sm:text-xs uppercase tracking-wider px-5 lg:px-7 py-2.5 sm:py-3 lg:py-3.5 rounded-full transition">
                                 TRACK ORDER
                             </a>
                         </div>
@@ -334,19 +330,19 @@
             <section class="lg:hidden max-w-7xl mx-auto px-3 sm:px-6 pt-4">
                 <div class="bg-gradient-to-r from-[#8A0404] via-[#9E0606] to-[#7A0303] border border-white/25 rounded-2xl px-4 py-3 shadow-xl flex items-center justify-between gap-3 overflow-x-auto no-scrollbar">
                     <div class="flex items-center gap-2 sm:gap-3 mx-auto">
-                        <button onclick="filterCollectionWithLoader('All')" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider text-hyGold hover:text-white px-3.5 py-1.5 rounded-full bg-white/10 border border-hyGold/40 whitespace-nowrap transition">
-                            <i class="fa-solid fa-fire mr-1"></i> All Gifts
+                        <button onclick="filterCollection('All')" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider text-hyGold hover:text-white px-3.5 py-1.5 rounded-full bg-white/10 border border-hyGold/40 whitespace-nowrap transition">
+                            All Gifts
                         </button>
-                        <a href="#/services" onclick="navWithLoader(event, '#/services', 'Loading Gift Catalog...')" class="text-[11px] sm:text-xs font-display font-semibold uppercase tracking-wider text-white hover:text-hyGold px-3.5 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap transition">
+                        <a href="#/services" onclick="navigate('#/services')" class="text-[11px] sm:text-xs font-display font-semibold uppercase tracking-wider text-white hover:text-hyGold px-3.5 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap transition">
                             Gift Catalog
                         </a>
-                        <a href="#/products" onclick="navWithLoader(event, '#/products', 'Loading All Gifts...')" class="text-[11px] sm:text-xs font-display font-semibold uppercase tracking-wider text-white hover:text-hyGold px-3.5 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap transition">
+                        <a href="#/products" onclick="navigate('#/products')" class="text-[11px] sm:text-xs font-display font-semibold uppercase tracking-wider text-white hover:text-hyGold px-3.5 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap transition">
                             All Products
                         </a>
-                        <a href="#/track" onclick="navWithLoader(event, '#/track', 'Opening Order Tracker...')" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider text-hyGold hover:text-white px-3.5 py-1.5 rounded-full bg-black/25 border border-white/25 whitespace-nowrap transition">
+                        <a href="#/track" onclick="navigate('#/track')" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider text-hyGold hover:text-white px-3.5 py-1.5 rounded-full bg-black/25 border border-white/25 whitespace-nowrap transition">
                             <i class="fa-solid fa-location-dot mr-1"></i> Track Order
                         </a>
-                        <a href="#/contact" onclick="navWithLoader(event, '#/contact', 'Opening Support...')" class="text-[11px] sm:text-xs font-display font-semibold uppercase tracking-wider text-white hover:text-hyGold px-3.5 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap transition">
+                        <a href="#/contact" onclick="navigate('#/contact')" class="text-[11px] sm:text-xs font-display font-semibold uppercase tracking-wider text-white hover:text-hyGold px-3.5 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap transition">
                             Contact Us
                         </a>
                         <a href="https://amzprints.com" target="_blank" rel="noopener noreferrer" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider text-white bg-[#D90B0B] hover:bg-white hover:text-[#8A0404] px-3.5 py-1.5 rounded-full border border-white/30 whitespace-nowrap transition">
@@ -369,7 +365,7 @@
                 <div class="collections-marquee-wrapper py-2">
                     <div id="collectionsMarqueeTrack" class="collections-marquee-track">
                         <div class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">
-                            <button onclick="filterCollectionWithLoader('PERSONALIZED GIFTS')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('PERSONALIZED GIFTS')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80" alt="Personalized Gifts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -378,7 +374,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Personalized</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Photo Frames')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Photo Frames')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80" alt="Photo Frames" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -387,7 +383,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Photo Frames</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Magic Mugs')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Magic Mugs')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=400&q=80" alt="Magic Mugs" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -396,7 +392,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Magic Mugs</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Plush & Teddy')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Plush & Teddy')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=400&q=80" alt="Plush & Teddy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -405,7 +401,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Plush &amp; Teddy</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Couple Gifts')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Couple Gifts')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" alt="Couple Gifts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -414,7 +410,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Couple Gifts</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Gift Hampers')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Gift Hampers')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=400&q=80" alt="Gift Hampers" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -426,7 +422,7 @@
 
                         <!-- Seamless Clone -->
                         <div aria-hidden="true" class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">
-                            <button onclick="filterCollectionWithLoader('PERSONALIZED GIFTS')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('PERSONALIZED GIFTS')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80" alt="Personalized Gifts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -435,7 +431,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Personalized</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Photo Frames')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Photo Frames')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80" alt="Photo Frames" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -444,7 +440,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Photo Frames</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Magic Mugs')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Magic Mugs')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=400&q=80" alt="Magic Mugs" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -453,7 +449,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Magic Mugs</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Plush & Teddy')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Plush & Teddy')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=400&q=80" alt="Plush & Teddy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -462,7 +458,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Plush &amp; Teddy</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Couple Gifts')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Couple Gifts')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" alt="Couple Gifts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -471,7 +467,7 @@
                                 <span class="mt-3 font-display font-semibold text-xs sm:text-sm lg:text-base text-white group-hover:text-hyGold transition">Couple Gifts</span>
                             </button>
 
-                            <button onclick="filterCollectionWithLoader('Gift Hampers')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                            <button onclick="filterCollection('Gift Hampers')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                                     <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                                         <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=400&q=80" alt="Gift Hampers" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -496,16 +492,16 @@
                     </div>
 
                     <div id="dynamicFilterPills" class="flex items-center gap-2 lg:gap-2.5 overflow-x-auto no-scrollbar pb-1">
-                        <button onclick="filterCollectionWithLoader('All')" data-filter="All" class="filter-pill bg-white text-[#8A0404] text-xs font-bold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition shadow-xs">All</button>
-                        <button onclick="filterCollectionWithLoader('PERSONALIZED GIFTS')" data-filter="PERSONALIZED GIFTS" class="filter-pill bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Personalized</button>
-                        <button onclick="filterCollectionWithLoader('Photo Frames')" data-filter="Photo Frames" class="filter-pill bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Photo Frames</button>
-                        <button onclick="filterCollectionWithLoader('Magic Mugs')" data-filter="Magic Mugs" class="filter-pill bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Magic Mugs</button>
-                        <button onclick="filterCollectionWithLoader('Gift Hampers')" data-filter="Gift Hampers" class="filter-pill bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Gift Hampers</button>
+                        <button onclick="filterCollection('All')" data-filter="All" class="filter-pill bg-white text-[#8A0404] text-xs font-bold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition shadow-xs">All</button>
+                        <button onclick="filterCollection('PERSONALIZED GIFTS')" data-filter="PERSONALIZED GIFTS" class="filter-pill bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Personalized</button>
+                        <button onclick="filterCollection('Photo Frames')" data-filter="Photo Frames" class="filter-pill bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Photo Frames</button>
+                        <button onclick="filterCollection('Magic Mugs')" data-filter="Magic Mugs" class="filter-pill bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Magic Mugs</button>
+                        <button onclick="filterCollection('Gift Hampers')" data-filter="Gift Hampers" class="filter-pill bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Gift Hampers</button>
                     </div>
                 </div>
 
                 <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6 lg:gap-7">
-                    <!-- Live Products Injected via JS -->
+                    <!-- Live Products & Grid-Only Loading Injected via JS -->
                 </div>
             </section>
 
@@ -674,7 +670,7 @@
                         <input type="password" id="login-pass" required class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-xs text-white placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="••••••••">
                     </div>
                     <div class="text-right -mt-1">
-                        <a href="#/forgot" onclick="navWithLoader(event, '#/forgot', 'Opening Password Reset...')" class="text-hyGold text-xs font-bold hover:underline">Forgot Password?</a>
+                        <a href="#/forgot" onclick="navigate('#/forgot')" class="text-hyGold text-xs font-bold hover:underline">Forgot Password?</a>
                     </div>
                     <button type="submit" class="w-full bg-white hover:bg-hyGold text-[#8A0404] font-display font-extrabold py-3.5 rounded-full shadow-lg text-xs uppercase tracking-wider transition">Log In</button>
                 </form>
@@ -690,7 +686,7 @@
                 </button>
 
                 <div class="text-center text-xs text-white/85 pt-3 border-t border-white/20">
-                    Don't have an account? <a href="#/signup" onclick="navWithLoader(event, '#/signup', 'Opening Sign Up...')" class="text-hyGold font-bold hover:underline">Sign Up</a>
+                    Don't have an account? <a href="#/signup" onclick="navigate('#/signup')" class="text-hyGold font-bold hover:underline">Sign Up</a>
                 </div>
             </div>
         </div>
@@ -744,7 +740,7 @@
                 </button>
 
                 <div class="text-center text-xs text-white/85 pt-3 border-t border-white/20">
-                    Already have an account? <a href="#/login" onclick="navWithLoader(event, '#/login', 'Opening Login...')" class="text-hyGold font-bold hover:underline">Log In</a>
+                    Already have an account? <a href="#/login" onclick="navigate('#/login')" class="text-hyGold font-bold hover:underline">Log In</a>
                 </div>
             </div>
         </div>
@@ -786,7 +782,7 @@
 
                 <p id="password-reset-feedback" class="text-xs text-center text-hyGold"></p>
                 <div class="text-center pt-2">
-                    <a href="#/login" onclick="navWithLoader(event, '#/login', 'Opening Login...')" class="text-xs text-white/85 hover:text-white underline">Back to Log In</a>
+                    <a href="#/login" onclick="navigate('#/login')" class="text-xs text-white/85 hover:text-white underline">Back to Log In</a>
                 </div>
             </div>
         </div>
@@ -795,7 +791,7 @@
         <div id="view-cart" class="page-view hidden max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 space-y-6">
             <div class="flex items-center justify-between">
                 <h1 class="font-display font-extrabold text-2xl lg:text-3xl text-white">Your Gift Bag</h1>
-                <a href="#/products" onclick="navWithLoader(event, '#/products', 'Loading Gifts...')" class="text-xs lg:text-sm font-bold text-hyGold hover:underline">&larr; Continue Shopping</a>
+                <a href="#/products" onclick="navigate('#/products')" class="text-xs lg:text-sm font-bold text-hyGold hover:underline">&larr; Continue Shopping</a>
             </div>
             <div id="cart-items-list" class="space-y-3"></div>
             <div class="bg-[#8A0404]/95 border border-white/25 p-6 lg:p-8 rounded-3xl flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl">
@@ -939,12 +935,12 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 lg:gap-6">
                 <div class="bg-[#8A0404]/95 border border-white/25 p-6 lg:p-8 rounded-2xl text-center space-y-3 shadow-xl">
-                    <div class="w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center mx-auto text-2xl shadow-md">
-                        <i class="fa-brands fa-whatsapp"></i>
+                    <div class="w-14 h-14 bg-white/15 text-hyGold rounded-full flex items-center justify-center mx-auto text-2xl shadow-md">
+                        <i class="fa-solid fa-phone"></i>
                     </div>
-                    <h3 class="font-display font-bold text-white text-sm uppercase tracking-wider">WhatsApp &amp; Call</h3>
+                    <h3 class="font-display font-bold text-white text-sm uppercase tracking-wider">Phone Helpline</h3>
                     <p class="text-xs text-white/90">03209306672</p>
-                    <a href="https://wa.me/923209306672" target="_blank" class="inline-block px-5 py-2 rounded-full text-xs font-extrabold bg-white text-[#8A0404] hover:bg-hyGold uppercase tracking-wider">Chat Now</a>
+                    <a href="tel:03209306672" class="inline-block px-5 py-2 rounded-full text-xs font-extrabold bg-white text-[#8A0404] hover:bg-hyGold uppercase tracking-wider">Call Now</a>
                 </div>
 
                 <div class="bg-[#8A0404]/95 border border-white/25 p-6 lg:p-8 rounded-2xl text-center space-y-3 shadow-xl">
@@ -983,29 +979,28 @@
             <div>
                 <h4 class="font-display font-bold text-xs uppercase tracking-wider text-white mb-3">Navigation</h4>
                 <ul class="space-y-2 text-xs text-white/85">
-                    <li><a href="#/home" onclick="navWithLoader(event, '#/home', 'Opening Home...')" class="hover:text-hyGold transition">Home</a></li>
-                    <li><a href="#/services" onclick="navWithLoader(event, '#/services', 'Loading Gift Catalog...')" class="hover:text-hyGold transition">Gift Catalog</a></li>
-                    <li><a href="#/products" onclick="navWithLoader(event, '#/products', 'Loading Custom Gifts...')" class="hover:text-hyGold transition">All Products</a></li>
-                    <li><a href="#/track" onclick="navWithLoader(event, '#/track', 'Opening Order Tracker...')" class="hover:text-hyGold transition">Track Your Order</a></li>
+                    <li><a href="#/home" onclick="navigate('#/home')" class="hover:text-hyGold transition">Home</a></li>
+                    <li><a href="#/services" onclick="navigate('#/services')" class="hover:text-hyGold transition">Gift Catalog</a></li>
+                    <li><a href="#/products" onclick="navigate('#/products')" class="hover:text-hyGold transition">All Products</a></li>
+                    <li><a href="#/track" onclick="navigate('#/track')" class="hover:text-hyGold transition">Track Your Order</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-display font-bold text-xs uppercase tracking-wider text-white mb-3">Account &amp; Support</h4>
                 <ul class="space-y-2 text-xs text-white/85">
-                    <li><a href="#/login" onclick="navWithLoader(event, '#/login', 'Opening Login...')" class="hover:text-hyGold transition">Log In</a></li>
-                    <li><a href="#/signup" onclick="navWithLoader(event, '#/signup', 'Opening Sign Up...')" class="hover:text-hyGold transition">Create Account</a></li>
-                    <li><a href="#/cart" onclick="navWithLoader(event, '#/cart', 'Opening Gift Bag...')" class="hover:text-hyGold transition">Shopping Bag</a></li>
-                    <li><a href="#/contact" onclick="navWithLoader(event, '#/contact', 'Opening Support...')" class="hover:text-hyGold transition">Customer Care</a></li>
+                    <li><a href="#/login" onclick="navigate('#/login')" class="hover:text-hyGold transition">Log In</a></li>
+                    <li><a href="#/signup" onclick="navigate('#/signup')" class="hover:text-hyGold transition">Create Account</a></li>
+                    <li><a href="#/cart" onclick="navigate('#/cart')" class="hover:text-hyGold transition">Shopping Bag</a></li>
+                    <li><a href="#/contact" onclick="navigate('#/contact')" class="hover:text-hyGold transition">Customer Care</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-display font-bold text-xs uppercase tracking-wider text-white mb-3">Connect With Us</h4>
-                <p class="text-xs text-white/85 mb-1">WhatsApp Helpline: <span class="text-white font-semibold">0320-9306672</span></p>
+                <p class="text-xs text-white/85 mb-1">Helpline: <span class="text-white font-semibold">0320-9306672</span></p>
                 <p class="text-xs text-white/85 mb-3">Email: <span class="text-white font-semibold">hystoresupport@gmail.com</span></p>
                 <div class="flex items-center space-x-3">
-                    <a href="https://wa.me/923209306672" target="_blank" aria-label="WhatsApp" class="w-9 h-9 rounded-full bg-white/15 hover:bg-[#25D366] text-white flex items-center justify-center transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="tel:03209306672" aria-label="Phone" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white hover:text-[#D90B0B] text-white flex items-center justify-center transition"><i class="fa-solid fa-phone"></i></a>
                     <a href="mailto:hystoresupport@gmail.com" aria-label="Email" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white hover:text-[#D90B0B] text-white flex items-center justify-center transition"><i class="fa-solid fa-envelope"></i></a>
-                    <button onclick="toggleAiAssistant()" aria-label="HY Assistant" class="w-9 h-9 rounded-full bg-white/15 hover:bg-hyGold hover:text-[#8A0404] text-white flex items-center justify-center transition"><i class="fa-solid fa-robot"></i></button>
                 </div>
             </div>
         </div>
@@ -1015,66 +1010,6 @@
             <p>Powered by <a href="https://amzprints.com" target="_blank" rel="noopener noreferrer" class="text-hyGold hover:text-white font-bold underline transition">amzprints.com</a></p>
         </div>
     </footer>
-
-    <!-- FLOATING WHATSAPP & AI ASSISTANT BUTTONS -->
-    <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-3 items-center">
-        <button 
-            onclick="toggleAiAssistant()" 
-            aria-label="HY GIFTS Assistant"
-            title="HY GIFTS Assistant"
-            class="w-12 h-12 shrink-0 rounded-full bg-[#8A0404] hover:bg-white text-hyGold hover:text-[#8A0404] shadow-xl border-2 border-white/60 flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
-        >
-            <i class="fa-solid fa-robot text-lg leading-none"></i>
-        </button>
-        <a 
-            href="https://wa.me/923209306672" 
-            target="_blank"
-            aria-label="Chat on WhatsApp"
-            class="whatsapp-pulse relative w-12 h-12 shrink-0 rounded-full bg-[#25D366] hover:bg-[#1ebe5d] text-white shadow-xl border-2 border-white/80 flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
-        >
-            <i class="fa-brands fa-whatsapp text-2xl leading-none"></i>
-        </a>
-    </div>
-
-    <!-- HY GIFTS AI ASSISTANT POPUP -->
-    <div id="ai-assistant-modal" class="fixed bottom-24 right-5 z-50 hidden w-[340px] max-w-[90vw] bg-[#8A0404] rounded-3xl shadow-2xl border border-white/30 overflow-hidden flex flex-col">
-        <div class="bg-[#C20707] text-white p-4 flex items-center justify-between border-b border-white/25">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-hyGold">
-                    <i class="fa-solid fa-robot text-sm"></i>
-                </div>
-                <div>
-                    <h4 class="font-display font-extrabold text-xs text-white">HY GIFTS Assistant</h4>
-                    <span class="text-[10px] text-hyGold flex items-center gap-1 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-hyGold inline-block animate-pulse"></span> Online</span>
-                </div>
-            </div>
-            <button onclick="toggleAiAssistant()" class="text-white/80 hover:text-white text-sm font-bold">✕</button>
-        </div>
-        <div id="ai-chat-body" class="p-4 h-72 overflow-y-auto space-y-3 bg-[#7A0303] text-xs">
-            <div class="bg-white/15 p-3 rounded-2xl rounded-tl-none border border-white/20 text-white leading-relaxed max-w-[92%]">
-                <strong class="block text-hyGold mb-1">Welcome to HY GIFTS Assistant!</strong>
-                How can I help you customize your gift today?
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-                <button type="button" onclick="handleAiQuickAction('How to track order?')" class="text-left p-2.5 rounded-xl bg-white/10 border border-white/20 hover:border-hyGold font-bold text-white">
-                    <i class="fa-solid fa-truck-fast text-hyGold mr-1"></i> Track Order
-                </button>
-                <button type="button" onclick="handleAiQuickAction('How to place order?')" class="text-left p-2.5 rounded-xl bg-white/10 border border-white/20 hover:border-hyGold font-bold text-white">
-                    <i class="fa-solid fa-cart-shopping text-hyGold mr-1"></i> Place Order
-                </button>
-                <button type="button" onclick="handleAiQuickAction('How to create account?')" class="text-left p-2.5 rounded-xl bg-white/10 border border-white/20 hover:border-hyGold font-bold text-white">
-                    <i class="fa-solid fa-user-plus text-hyGold mr-1"></i> Create Account
-                </button>
-                <button type="button" onclick="handleAiQuickAction('What payment methods are available?')" class="text-left p-2.5 rounded-xl bg-white/10 border border-white/20 hover:border-hyGold font-bold text-white">
-                    <i class="fa-solid fa-wallet text-hyGold mr-1"></i> Payments
-                </button>
-            </div>
-        </div>
-        <form onsubmit="handleAiMessageSubmit(event)" class="p-3 bg-[#C20707] border-t border-white/25 flex items-center gap-2">
-            <input type="text" id="ai-input-text" placeholder="Ask HY GIFTS..." class="flex-1 px-4 py-2 rounded-full bg-white/15 border border-white/30 text-white placeholder-white/70 text-xs focus:outline-none">
-            <button type="submit" class="px-4 py-2 rounded-full bg-white text-[#8A0404] font-extrabold text-xs hover:bg-hyGold transition">Send</button>
-        </form>
-    </div>
 
     <!-- LEFT SLIDE-OUT HAMBURGER NAVIGATION DRAWER -->
     <div id="navOverlay" onclick="toggleNavDrawer()" class="fixed inset-0 bg-red-950/70 backdrop-blur-xs z-50 hidden"></div>
@@ -1090,32 +1025,32 @@
                 </button>
             </div>
             <nav class="p-4 space-y-1 text-sm font-medium">
-                <a href="#/home" onclick="toggleNavDrawer(); navWithLoader(event, '#/home', 'Opening Home...')" class="block px-4 py-2.5 rounded-xl bg-white text-[#D90B0B] font-bold">Home</a>
-                <a href="#/services" onclick="toggleNavDrawer(); navWithLoader(event, '#/services', 'Loading Gift Catalog...')" class="block px-4 py-2.5 rounded-xl text-white hover:bg-white/15">Gift Catalog</a>
-                <a href="#/products" onclick="toggleNavDrawer(); navWithLoader(event, '#/products', 'Loading Custom Gifts...')" class="block px-4 py-2.5 rounded-xl text-white hover:bg-white/15">All Products</a>
-                <a href="#/track" onclick="toggleNavDrawer(); navWithLoader(event, '#/track', 'Opening Order Tracker...')" class="block px-4 py-2.5 rounded-xl text-hyGold hover:bg-white/15 font-bold">Track Order</a>
-                <a href="#/cart" onclick="toggleNavDrawer(); navWithLoader(event, '#/cart', 'Opening Gift Bag...')" class="block px-4 py-2.5 rounded-xl text-white hover:bg-white/15">Your Cart</a>
-                <a href="#/contact" onclick="toggleNavDrawer(); navWithLoader(event, '#/contact', 'Opening Support...')" class="block px-4 py-2.5 rounded-xl text-white hover:bg-white/15">Contact Us</a>
+                <a href="#/home" onclick="toggleNavDrawer(); navigate('#/home')" class="block px-4 py-2.5 rounded-xl bg-white text-[#D90B0B] font-bold">Home</a>
+                <a href="#/services" onclick="toggleNavDrawer(); navigate('#/services')" class="block px-4 py-2.5 rounded-xl text-white hover:bg-white/15">Gift Catalog</a>
+                <a href="#/products" onclick="toggleNavDrawer(); navigate('#/products')" class="block px-4 py-2.5 rounded-xl text-white hover:bg-white/15">All Products</a>
+                <a href="#/track" onclick="toggleNavDrawer(); navigate('#/track')" class="block px-4 py-2.5 rounded-xl text-hyGold hover:bg-white/15 font-bold">Track Order</a>
+                <a href="#/cart" onclick="toggleNavDrawer(); navigate('#/cart')" class="block px-4 py-2.5 rounded-xl text-white hover:bg-white/15">Your Cart</a>
+                <a href="#/contact" onclick="toggleNavDrawer(); navigate('#/contact')" class="block px-4 py-2.5 rounded-xl text-white hover:bg-white/15">Contact Us</a>
                 <div class="border-t border-white/20 my-2 pt-2 space-y-1">
-                    <a href="#/login" id="drawer-login-link" onclick="toggleNavDrawer(); navWithLoader(event, '#/login', 'Opening Login...')" class="flex items-center justify-between px-4 py-2.5 rounded-xl text-white hover:bg-white/15 font-semibold">
+                    <a href="#/login" id="drawer-login-link" onclick="toggleNavDrawer(); navigate('#/login')" class="flex items-center justify-between px-4 py-2.5 rounded-xl text-white hover:bg-white/15 font-semibold">
                         <span><i class="fa-solid fa-right-to-bracket mr-2 text-hyGold"></i>Log In</span>
                     </a>
-                    <a href="#/signup" id="drawer-signup-link" onclick="toggleNavDrawer(); navWithLoader(event, '#/signup', 'Opening Sign Up...')" class="flex items-center justify-between px-4 py-2.5 rounded-xl text-hyGold hover:bg-white/15 font-semibold">
+                    <a href="#/signup" id="drawer-signup-link" onclick="toggleNavDrawer(); navigate('#/signup')" class="flex items-center justify-between px-4 py-2.5 rounded-xl text-hyGold hover:bg-white/15 font-semibold">
                         <span><i class="fa-solid fa-user-plus mr-2"></i>Sign Up</span>
                     </a>
-                    <a href="#/profile" id="drawer-profile-link" onclick="toggleNavDrawer(); navWithLoader(event, '#/profile', 'Loading Account...')" class="hidden flex items-center justify-between px-4 py-2.5 rounded-xl text-hyGold hover:bg-white/15 font-bold">
+                    <a href="#/profile" id="drawer-profile-link" onclick="toggleNavDrawer(); navigate('#/profile')" class="hidden flex items-center justify-between px-4 py-2.5 rounded-xl text-hyGold hover:bg-white/15 font-bold">
                         <span><i class="fa-solid fa-circle-user mr-2"></i>My Account &amp; Orders</span>
                     </a>
                 </div>
             </nav>
         </div>
         <div class="p-4 border-t border-white/25 text-xs text-white/90 bg-[#C20707]">
-            <p class="text-white font-semibold mb-1">🔥 Free Delivery All Over Pakistan</p>
-            <p>WhatsApp Support: 0320-9306672</p>
+            <p class="text-white font-semibold mb-1">Free Delivery All Over Pakistan</p>
+            <p>Support: 0320-9306672</p>
         </div>
     </aside>
 
-    <!-- QUICK VIEW PRODUCT MODAL -->
+    <!-- QUICK VIEW PRODUCT MODAL (MOBILE & EXPLICIT QUICK VIEW) -->
     <div id="quickViewModal" class="fixed inset-0 bg-red-950/75 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
         <div id="quickViewContent" class="bg-[#E10A0A] border border-white/30 rounded-2xl lg:rounded-3xl w-full max-w-lg lg:max-w-2xl overflow-hidden shadow-2xl"></div>
     </div>
@@ -1155,6 +1090,7 @@
         let pendingSignupEmail = "";
         let passwordResetCountdownInterval = null;
         let passwordResetSecondsRemaining = 600;
+        let expandedDesktopCardId = null;
 
         // 100% Dedicated Gift Store Hero Slider Data
         const slides = [
@@ -1196,9 +1132,9 @@
         function prevSlide() { goToSlide((currentSlide - 1 + slides.length) % slides.length); }
 
         const announcements = [
-            "🔥 Free Shipping All over Pakistan | Cash on Delivery & Online Payments Available",
-            "🎁 Custom Photos, Names & Romantic Messages Available on All Personalized Gifts",
-            "📞 Customer Support & WhatsApp Helpline: 0320-9306672"
+            "Free Shipping All over Pakistan | Cash on Delivery & Online Payments Available",
+            "Custom Photos, Names & Romantic Messages Available on All Personalized Gifts",
+            "Customer Support & Helpline: 0320-9306672"
         ];
         let annIdx = 0;
         setInterval(() => {
@@ -1216,7 +1152,7 @@
             return 'Rs. ' + Number(amount || 0).toLocaleString('en-PK');
         }
 
-        // ==================== UNIVERSAL ACTION LOADER ====================
+        // ==================== LOADER ONLY FOR LONG BACKEND/NETWORK OPERATIONS ====================
         function showActionLoader(message = "Please wait...") {
             const loader = document.getElementById('global-loader');
             const text = document.getElementById('loader-text');
@@ -1227,21 +1163,6 @@
         function hideActionLoader() {
             const loader = document.getElementById('global-loader');
             if (loader) loader.classList.add('hidden');
-        }
-
-        function triggerGlobalLoader(message = "Loading...", callback, delay = 450) {
-            showActionLoader(message);
-            setTimeout(() => {
-                hideActionLoader();
-                if (typeof callback === 'function') callback();
-            }, delay);
-        }
-
-        function navWithLoader(e, hashUrl, message = "Loading...") {
-            if (e) e.preventDefault();
-            triggerGlobalLoader(message, () => {
-                navigate(hashUrl);
-            }, 350);
         }
 
         function showToast(message, type = 'success') {
@@ -1287,11 +1208,41 @@
         window.addEventListener('hashchange', handleRouting);
 
         // ==================== FETCH LIVE PRODUCTS FROM GOOGLE APPS SCRIPT ====================
-        async function fetchProductsFromBackend() {
-            const grid = document.getElementById('productGrid');
-            if (grid) {
-                grid.innerHTML = `<div class="col-span-full py-12 text-center text-white text-xs font-bold tracking-wider uppercase animate-pulse">Loading HY GIFTS Products...</div>`;
+        function buildRadialSpokesSvg() {
+            const totalSpokes = 12;
+            const spokes = [];
+            for (let i = 0; i < totalSpokes; i++) {
+                const angle = i * 30;
+                const delay = -((totalSpokes - i) * (0.96 / totalSpokes)).toFixed(3);
+                spokes.push(
+                    `<line x1="32" y1="7" x2="32" y2="17" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" class="radial-loader-spoke" style="transform: rotate(${angle}deg); animation-delay: ${delay}s;" />`
+                );
             }
+            return `
+                <svg viewBox="0 0 64 64" class="w-14 h-14 text-white" aria-hidden="true">
+                    ${spokes.join('')}
+                </svg>
+            `;
+        }
+
+        let isProductsLoading = true;
+
+        function renderProductsGridLoading() {
+            isProductsLoading = true;
+            const loaderHtml = `
+                <div class="col-span-full py-14 flex flex-col items-center justify-center gap-3 bg-[#8A0404]/80 border border-white/25 rounded-2xl shadow-lg">
+                    ${buildRadialSpokesSvg()}
+                    <p class="text-xs font-display font-extrabold uppercase tracking-[0.22em] text-white">LOADING...</p>
+                </div>
+            `;
+            const grid = document.getElementById('productGrid');
+            if (grid) grid.innerHTML = loaderHtml;
+            const allGrid = document.getElementById('allProductsGrid');
+            if (allGrid) allGrid.innerHTML = loaderHtml;
+        }
+
+        async function fetchProductsFromBackend() {
+            renderProductsGridLoading();
 
             try {
                 const response = await fetch(API_ENDPOINT + "?action=getProducts");
@@ -1320,6 +1271,7 @@
                 loadFallbackProducts();
             }
 
+            isProductsLoading = false;
             renderDynamicFilterPills();
             renderProducts();
             renderAllProductsPage();
@@ -1341,7 +1293,7 @@
             const safeFilter = String(col.filter || col.name || 'All').replace(/'/g, "\\'");
             const safeImg = col.image || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80';
             return `
-                <button onclick="filterCollectionWithLoader('${safeFilter}')" ${isClone ? 'tabindex="-1"' : ''} class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                <button onclick="filterCollection('${safeFilter}')" ${isClone ? 'tabindex="-1"' : ''} class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
                     <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-white group-hover:border-hyGold group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(120,0,0,0.5)]">
                         <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
                             <img src="${safeImg}" onerror="this.src='https://placehold.co/400x400/8A0404/FFFFFF?text=HY+GIFTS'" alt="${safeName}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -1355,7 +1307,7 @@
         function renderCollections() {
             const track = document.getElementById('collectionsMarqueeTrack');
             if (!track) return;
-            const list = COLLECTIONS.length ? COLLECTIONS : loadFallbackCollections();
+            if (!COLLECTIONS.length) loadFallbackCollections();
             const primaryGroup = `<div class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">${COLLECTIONS.map(c => buildCollectionCircleHTML(c, false)).join('')}</div>`;
             const cloneGroup = `<div aria-hidden="true" class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">${COLLECTIONS.map(c => buildCollectionCircleHTML(c, true)).join('')}</div>`;
             track.innerHTML = primaryGroup + cloneGroup;
@@ -1400,27 +1352,32 @@
             if (!container) return;
             const categories = ['All', ...new Set(PRODUCTS.map(p => p.category).filter(Boolean))];
             container.innerHTML = categories.map(cat => `
-                <button onclick="filterCollectionWithLoader('${cat.replace(/'/g, "'")}')" data-filter="${cat}" class="filter-pill ${selectedCategory === cat ? 'bg-white text-[#8A0404] font-bold' : 'bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 font-semibold'} text-xs px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">
+                <button onclick="filterCollection('${cat.replace(/'/g, "\\'")}')" data-filter="${cat}" class="filter-pill ${selectedCategory === cat ? 'bg-white text-[#8A0404] font-bold' : 'bg-[#8A0404] hover:bg-[#700303] text-white border border-white/25 font-semibold'} text-xs px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">
                     ${cat}
                 </button>
             `).join('');
         }
 
+        function handleEyeIconClick(id) {
+            openQuickView(id);
+        }
+
         function buildProductCardHTML(p) {
+            const isExpanded = expandedDesktopCardId === p.id;
             return `
-                <div class="desktop-product-card bg-gradient-to-b from-[#8F0505] to-[#7A0303] border border-[#B91C1C] hover:border-hyGold rounded-2xl overflow-hidden flex flex-col justify-between group transition-all duration-300 shadow-[0_12px_28px_rgba(90,0,0,0.45)]">
+                <div id="product-card-${p.id}" class="desktop-product-card bg-gradient-to-b from-[#8F0505] to-[#7A0303] border ${isExpanded ? 'border-hyGold' : 'border-[#B91C1C] hover:border-hyGold'} rounded-2xl overflow-hidden flex flex-col justify-between group transition-all duration-300 shadow-[0_12px_28px_rgba(90,0,0,0.45)]">
                     <div class="relative aspect-square overflow-hidden bg-[#690202]">
                         <span class="absolute top-2.5 left-2.5 z-10 bg-white text-[#8A0404] text-[9px] sm:text-[10px] font-display font-extrabold px-2.5 py-0.5 rounded-full tracking-wider shadow-xs">
                             ${p.badge || 'BESTSELLER'}
                         </span>
-                        <button onclick="openQuickViewWithLoader(${p.id})" aria-label="Quick View" class="absolute top-2.5 right-2.5 z-10 w-8 h-8 rounded-full bg-[#7A0303]/90 hover:bg-white hover:text-[#8A0404] text-white text-xs flex items-center justify-center opacity-90 sm:opacity-0 group-hover:opacity-100 transition border border-white/20">
+                        <button onclick="handleEyeIconClick(${p.id})" aria-label="Show Product Details" title="View Product Details" class="absolute top-2.5 right-2.5 z-10 w-8 h-8 rounded-full ${isExpanded ? 'bg-hyGold text-[#8A0404]' : 'bg-[#7A0303]/90 hover:bg-white hover:text-[#8A0404] text-white'} text-xs flex items-center justify-center opacity-90 sm:opacity-100 transition border border-white/20">
                             <i class="fa-regular fa-eye"></i>
                         </button>
                         <img 
                             src="${p.image}" 
                             onerror="this.src='https://placehold.co/400x400/7A0303/FFFFFF?text=HY+GIFTS'"
                             alt="${p.name}" 
-                            onclick="openQuickViewWithLoader(${p.id})"
+                            onclick="openQuickView(${p.id})"
                             class="w-full h-full object-cover cursor-pointer group-hover:scale-105 transition-transform duration-500"
                         >
                     </div>
@@ -1432,9 +1389,13 @@
                                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                                 </div>
                             </div>
-                            <h3 onclick="openQuickViewWithLoader(${p.id})" class="font-display font-semibold text-xs sm:text-sm lg:text-[15px] text-white mt-1 line-clamp-2 cursor-pointer hover:text-hyGold transition">
+                            <h3 onclick="openQuickView(${p.id})" class="font-display font-semibold text-xs sm:text-sm lg:text-[15px] text-white mt-1 line-clamp-2 cursor-pointer hover:text-hyGold transition">
                                 ${p.name}
                             </h3>
+                            <div class="${isExpanded ? 'lg:block' : 'hidden'} mt-2.5 pt-2.5 border-t border-white/15 text-xs text-white/90 space-y-1.5">
+                                <p class="leading-relaxed text-[11px] text-white/90">${p.desc}</p>
+                                <p class="text-[10px] text-hyGold font-semibold">Category: <span class="text-white">${p.category}</span> • Price: <span class="text-white">${formatPkr(p.price)}</span></p>
+                            </div>
                         </div>
                         <div class="mt-3 pt-2.5 border-t border-white/15">
                             <div class="flex items-baseline gap-1.5 mb-2.5">
@@ -1442,10 +1403,10 @@
                                 ${p.oldPrice ? `<span class="text-[10px] sm:text-xs text-white/65 line-through">${formatPkr(p.oldPrice)}</span>` : ''}
                             </div>
                             <div class="grid grid-cols-2 gap-1.5 lg:gap-2">
-                                <button onclick="openQuickViewWithLoader(${p.id})" class="w-full bg-white/15 hover:bg-white/25 text-white border border-white/25 font-display font-bold text-[10px] uppercase tracking-wider py-2 lg:py-2.5 rounded-full transition">
+                                <button onclick="openQuickView(${p.id})" class="w-full bg-white/15 hover:bg-white/25 text-white border border-white/25 font-display font-bold text-[10px] uppercase tracking-wider py-2 lg:py-2.5 rounded-full transition">
                                     Details
                                 </button>
-                                <button onclick="addToCartWithLoader(${p.id})" class="w-full bg-white hover:bg-hyGold text-[#8A0404] font-display font-extrabold text-[10px] uppercase tracking-wider py-2 lg:py-2.5 rounded-full transition flex items-center justify-center gap-1 active:scale-95 shadow-md">
+                                <button onclick="addToCart(${p.id})" class="w-full bg-white hover:bg-hyGold text-[#8A0404] font-display font-extrabold text-[10px] uppercase tracking-wider py-2 lg:py-2.5 rounded-full transition flex items-center justify-center gap-1 active:scale-95 shadow-md">
                                     <i class="fa-solid fa-bag-shopping text-[9px]"></i> Add
                                 </button>
                             </div>
@@ -1458,6 +1419,10 @@
         function renderProducts() {
             const grid = document.getElementById('productGrid');
             if (!grid) return;
+            if (isProductsLoading) {
+                renderProductsGridLoading();
+                return;
+            }
             const query = (document.getElementById('liveSearchInput')?.value || '').toLowerCase().trim();
 
             const filtered = PRODUCTS.filter(p => {
@@ -1470,7 +1435,7 @@
                 grid.innerHTML = `
                     <div class="col-span-full text-center py-12 bg-[#8A0404] rounded-2xl border border-white/25">
                         <p class="text-sm text-white">No custom gifts matched your search.</p>
-                        <button onclick="filterCollectionWithLoader('All')" class="mt-3 bg-white text-[#8A0404] text-xs font-bold px-5 py-2 rounded-full">Show All Gifts</button>
+                        <button onclick="filterCollection('All')" class="mt-3 bg-white text-[#8A0404] text-xs font-bold px-5 py-2 rounded-full">Show All Gifts</button>
                     </div>
                 `;
                 return;
@@ -1496,19 +1461,7 @@
             if (prodEl) prodEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function filterCollectionWithLoader(category) {
-            triggerGlobalLoader(`Loading ${category === 'All' ? 'All Gifts' : category}...`, () => {
-                filterCollection(category);
-            }, 350);
-        }
-
         // ==================== CART & CHECKOUT LOGIC ====================
-        function addToCartWithLoader(id) {
-            triggerGlobalLoader("Adding Gift to Bag...", () => {
-                addToCart(id);
-            }, 350);
-        }
-
         function addToCart(id) {
             const product = PRODUCTS.find(p => p.id === id);
             if (!product) return;
@@ -1528,13 +1481,11 @@
 
         function changeCartQty(index, delta) {
             if (!cart[index]) return;
-            triggerGlobalLoader("Updating Bag...", () => {
-                cart[index].qty += delta;
-                if (cart[index].qty <= 0) cart.splice(index, 1);
-                localStorage.setItem('hy_cart', JSON.stringify(cart));
-                updateCartBadge();
-                renderCart();
-            }, 250);
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            localStorage.setItem('hy_cart', JSON.stringify(cart));
+            updateCartBadge();
+            renderCart();
         }
 
         function updateCartBadge() {
@@ -1549,7 +1500,7 @@
             if (!list) return;
 
             if (cart.length === 0) {
-                list.innerHTML = `<div class="bg-[#8A0404]/95 border border-white/25 p-8 rounded-3xl text-center text-white/90 text-xs">Your gift bag is empty. <a href="#/products" onclick="navWithLoader(event, '#/products', 'Loading Gifts...')" class="text-hyGold font-bold underline">Explore Gifts</a></div>`;
+                list.innerHTML = `<div class="bg-[#8A0404]/95 border border-white/25 p-8 rounded-3xl text-center text-white/90 text-xs">Your gift bag is empty. <a href="#/products" onclick="navigate('#/products')" class="text-hyGold font-bold underline">Explore Gifts</a></div>`;
                 if (totalEl) totalEl.textContent = 'Rs. 0';
                 return;
             }
@@ -1581,18 +1532,16 @@
         }
 
         function proceedToCheckout() {
-            triggerGlobalLoader("Preparing Checkout...", () => {
-                if (!currentUser) {
-                    showToast('Please Log In to checkout!', 'error');
-                    navigate('#/login');
-                    return;
-                }
-                if (cart.length === 0) {
-                    showToast('Your bag is empty!', 'error');
-                    return;
-                }
-                navigate('#/checkout');
-            }, 350);
+            if (!currentUser) {
+                showToast('Please Log In to checkout!', 'error');
+                navigate('#/login');
+                return;
+            }
+            if (cart.length === 0) {
+                showToast('Your bag is empty!', 'error');
+                return;
+            }
+            navigate('#/checkout');
         }
 
         function togglePaymentSection(type) {
@@ -1626,7 +1575,7 @@
             } catch (err) {}
         }
 
-        function handleCheckoutSubmit(e) {
+        async function handleCheckoutSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('co-name').value.trim();
             const phone = document.getElementById('co-phone').value.trim();
@@ -1673,10 +1622,11 @@
                 date: new Date().toLocaleDateString()
             };
 
-            triggerGlobalLoader("Placing Your Gift Order...", () => {
+            showActionLoader("Placing Your Gift Order...");
+            try {
                 orders.push(newOrder);
                 localStorage.setItem('hy_orders', JSON.stringify(orders));
-                syncOrderToBackend(newOrder);
+                await syncOrderToBackend(newOrder);
 
                 cart = [];
                 localStorage.removeItem('hy_cart');
@@ -1684,7 +1634,9 @@
 
                 document.getElementById('success-order-id').innerText = orderId;
                 document.getElementById('order-success-modal').classList.remove('hidden');
-            }, 600);
+            } finally {
+                hideActionLoader();
+            }
         }
 
         function copyOrderId() {
@@ -1695,9 +1647,7 @@
 
         function closeSuccessModal() {
             document.getElementById('order-success-modal').classList.add('hidden');
-            triggerGlobalLoader("Loading Your Orders...", () => {
-                navigate('#/profile');
-            }, 350);
+            navigate('#/profile');
         }
 
         // ==================== FULL AUTHENTICATION (SIGNUP + OTP + LOGIN + GOOGLE + RESET) ====================
@@ -1904,13 +1854,11 @@
         }
 
         function handleLogout() {
-            triggerGlobalLoader("Logging Out...", () => {
-                currentUser = null;
-                localStorage.removeItem('hy_user');
-                updateAuthUI();
-                showToast('Logged out successfully.');
-                navigate('#/home');
-            }, 400);
+            currentUser = null;
+            localStorage.removeItem('hy_user');
+            updateAuthUI();
+            showToast('Logged out successfully.');
+            navigate('#/home');
         }
 
         function updateAuthUI() {
@@ -1950,7 +1898,7 @@
             const myOrders = orders.filter(o => o.user === currentUser.email);
             const container = document.getElementById('profile-orders-list');
             if (!myOrders.length) {
-                container.innerHTML = `<p class="text-xs text-white/80">No orders placed yet. <a href="#/products" onclick="navWithLoader(event, '#/products', 'Loading Gifts...')" class="text-hyGold font-bold underline">Shop Now</a></p>`;
+                container.innerHTML = `<p class="text-xs text-white/80">No orders placed yet. <a href="#/products" onclick="navigate('#/products')" class="text-hyGold font-bold underline">Shop Now</a></p>`;
                 return;
             }
 
@@ -2098,36 +2046,7 @@
             `).join('');
         }
 
-        // ==================== AI ASSISTANT & DRAWERS ====================
-        function toggleAiAssistant() {
-            document.getElementById('ai-assistant-modal').classList.toggle('hidden');
-        }
-
-        function getOfflineGuideReply(question) {
-            const q = String(question || '').toLowerCase();
-            if (q.includes('track')) return 'Open the Track Order page from the top menu, enter your Order ID (e.g. HY-1001), and click Track Order.';
-            if (q.includes('place') || q.includes('order')) return 'Log in to your account, add your favorite gifts to the bag, open Your Cart, and proceed to Checkout with COD or JazzCash/EasyPaisa.';
-            if (q.includes('account') || q.includes('sign')) return 'Click Sign up in the header, fill in your details, and verify your email with the 6-digit OTP.';
-            if (q.includes('payment')) return 'We support Cash on Delivery (COD) nationwide as well as JazzCash and EasyPaisa online transfers.';
-            return 'For custom orders or support, message us on WhatsApp at 0320-9306672!';
-        }
-
-        function handleAiQuickAction(q) {
-            const body = document.getElementById('ai-chat-body');
-            body.innerHTML += `<div class="bg-white text-[#8A0404] p-2.5 rounded-2xl rounded-tr-none ml-auto max-w-[85%] font-bold">${q}</div>`;
-            body.innerHTML += `<div class="bg-white/15 text-white p-3 rounded-2xl rounded-tl-none border border-white/20 max-w-[90%]">${getOfflineGuideReply(q)}</div>`;
-            body.scrollTop = body.scrollHeight;
-        }
-
-        function handleAiMessageSubmit(e) {
-            e.preventDefault();
-            const input = document.getElementById('ai-input-text');
-            const val = input.value.trim();
-            if (!val) return;
-            input.value = '';
-            handleAiQuickAction(val);
-        }
-
+        // ==================== DRAWERS, SEARCH & QUICK VIEW ====================
         function toggleNavDrawer() {
             document.getElementById('navDrawer').classList.toggle('-translate-x-full');
             document.getElementById('navOverlay').classList.toggle('hidden');
@@ -2157,12 +2076,6 @@
             renderProducts();
         });
 
-        function openQuickViewWithLoader(id) {
-            triggerGlobalLoader("Loading Gift Details...", () => {
-                openQuickView(id);
-            }, 300);
-        }
-
         function openQuickView(id) {
             const p = PRODUCTS.find(item => item.id === id);
             if (!p) return;
@@ -2186,7 +2099,7 @@
                             <p class="text-xs lg:text-sm text-white/90 mt-3 leading-relaxed">${p.desc}</p>
                             <p class="text-[11px] text-hyGold mt-3 font-medium"><i class="fa-solid fa-check"></i> Custom Personalization &amp; Nationwide Delivery</p>
                         </div>
-                        <button onclick="closeQuickView(); addToCartWithLoader(${p.id})" class="mt-5 w-full bg-white hover:bg-hyGold text-[#D90B0B] font-display font-extrabold text-xs uppercase py-3 lg:py-3.5 rounded-full shadow-lg">
+                        <button onclick="closeQuickView(); addToCart(${p.id})" class="mt-5 w-full bg-white hover:bg-hyGold text-[#D90B0B] font-display font-extrabold text-xs uppercase py-3 lg:py-3.5 rounded-full shadow-lg">
                             Add To Gift Bag
                         </button>
                     </div>
@@ -2202,9 +2115,12 @@
             modal.classList.remove('flex');
         }
 
+        renderProductsGridLoading();
+
         window.addEventListener('DOMContentLoaded', () => {
             updateAuthUI();
             updateCartBadge();
+            renderProductsGridLoading();
             fetchCollectionsFromBackend();
             fetchProductsFromBackend();
             handleRouting();
