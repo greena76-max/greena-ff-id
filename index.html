@@ -1,0 +1,2330 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="hyFaviconLink" rel="icon" type="image/png" href="./favicon.png">
+    <link id="hyAppleIconLink" rel="apple-touch-icon" href="./favicon.png">
+    <title>HY GIFTS</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        hyRed: '#FF1313',
+                        hyDark: '#C80808',
+                        hyBlack: '#D90B0B',
+                        hyBurgundy: '#F21212',
+                        hyGold: '#FDE047',
+                        hyCard: '#D90B0B',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .burgundy-radial-bg {
+            background: #FFFFFF;
+        }
+        @keyframes scrollCollections {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .collections-marquee-wrapper {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+        .collections-marquee-track {
+            display: flex;
+            width: max-content;
+            animation: scrollCollections 15s linear infinite;
+            will-change: transform;
+        }
+        .collections-marquee-wrapper:hover .collections-marquee-track,
+        .collections-marquee-wrapper:active .collections-marquee-track {
+            animation-play-state: paused;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader-spinner { animation: spin 0.9s linear infinite; }
+        #global-loader { display: none; }
+        #global-loader.is-active { display: flex; }
+
+        @keyframes spokePulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.45; }
+            100% { opacity: 0.16; }
+        }
+        .radial-loader-spoke {
+            transform-origin: 32px 32px;
+            animation: spokePulse 0.96s linear infinite;
+        }
+    
+        @media (max-width: 639px) {
+            #auth-nav-container, #user-nav-container {
+                display: none !important;
+            }
+        }
+
+        /* ==================== DESKTOP-ONLY LUXURY ENHANCEMENTS (1024px+) ==================== */
+        @media (min-width: 1024px) {
+            .burgundy-radial-bg {
+                background: #FFFFFF;
+            }
+            .collections-marquee-wrapper {
+                -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+                mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+            }
+            .collections-marquee-track {
+                animation-duration: 24s;
+            }
+            .desktop-product-card {
+                transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+            }
+            .desktop-product-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 20px 38px -10px rgba(217, 11, 11, 0.22), 0 0 0 1px rgba(217, 11, 11, 0.35);
+            }
+            .desktop-nav-link {
+                position: relative;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+            .desktop-nav-link::after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                bottom: 4px;
+                width: 0;
+                height: 2px;
+                background-color: #FDE047;
+                transition: all 0.28s ease;
+                transform: translateX(-50%);
+                border-radius: 999px;
+            }
+            .desktop-nav-link:hover::after,
+            .desktop-nav-link.active-desktop-nav::after {
+                width: 65%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-[#8A0404] font-sans antialiased overflow-x-hidden selection:bg-[#D90B0B] selection:text-white min-h-screen flex flex-col justify-between">
+
+    <!-- GLOBAL LOADER (ONLY FOR LONG NETWORK/BACKEND ACTIONS) -->
+    <div id="global-loader" class="fixed inset-0 bg-[#9E0606]/95 backdrop-blur-md z-50 flex-col items-center justify-center space-y-4">
+        <div class="w-24 h-24 rounded-full bg-white shadow-xl flex items-center justify-center overflow-hidden p-2">
+            <img src="./favicon.png" alt="HY GIFTS Logo" class="w-full h-full object-contain">
+        </div>
+        <span class="font-display font-extrabold text-sm tracking-[0.22em] text-white uppercase">HY GIFTS</span>
+        <p id="loader-text" class="text-xs font-display font-bold uppercase tracking-widest text-hyGold animate-pulse">Processing...</p>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed top-24 right-4 z-[60] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- 2. STICKY PURE BRIGHT RED HEADER -->
+    <header class="sticky top-0 z-40 bg-gradient-to-r from-[#FF1515]/95 via-[#F01010]/95 to-[#D90A0A]/95 backdrop-blur-md border-b border-white/25 shadow-lg lg:shadow-xl">
+        <!-- Top Row: Hamburger (Mobile), Centered Logo/Brand Name, Search/Auth/Cart -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[96px] md:min-h-[112px] lg:min-h-[92px] py-4 md:py-5 lg:py-3.5 flex items-center justify-between gap-2 lg:gap-6">
+            
+            <!-- Left: Hamburger Menu Button on Mobile / Search Box on Desktop -->
+            <div class="flex items-center space-x-3 flex-1">
+                <button 
+                    onclick="toggleNavDrawer()" 
+                    aria-label="Open Navigation Menu"
+                    class="lg:hidden w-11 h-11 -ml-2 rounded-full hover:bg-white/15 flex items-center justify-center text-white transition active:scale-95"
+                >
+                    <i class="fa-solid fa-bars text-xl sm:text-2xl"></i>
+                </button>
+                <div class="hidden lg:flex items-center relative w-56 xl:w-64">
+                    <i class="fa-solid fa-magnifying-glass text-white/75 text-xs absolute left-3.5 pointer-events-none"></i>
+                    <input 
+                        type="text" 
+                        id="desktopInlineSearch"
+                        oninput="syncDesktopSearch(this.value)"
+                        placeholder="Search custom gifts, frames..." 
+                        class="w-full bg-white/15 hover:bg-white/20 focus:bg-white/25 text-white placeholder-white/75 text-xs rounded-full py-2 pl-9 pr-4 border border-white/30 focus:border-hyGold focus:outline-none transition"
+                    >
+                </div>
+            </div>
+
+            <!-- Center: Custom Geometric 'HY' Monogram Logo + HY GIFTS (APNA DESIGN YAHAN BHI LAGAYEIN) -->
+            <a href="#/home" onclick="navigate('#/home')" class="flex flex-col items-center justify-center group focus:outline-none shrink-0 lg:px-4">
+                <div id="hyHeaderLogoBox" class="w-12 h-12 sm:w-14 sm:h-14 lg:w-11 lg:h-11 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                    <img src="./favicon.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="HY GIFTS" class="w-full h-full object-contain rounded-lg">
+                    <svg viewBox="0 0 64 64" style="display:none;" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="4" width="56" height="56" rx="16" stroke="#FDE047" stroke-width="3"/>
+                        <path d="M19 21V43M31 21V43M19 32H31" stroke="white" stroke-width="3.2" stroke-linecap="round"/>
+                        <path d="M37 21L43 31L49 21M43 31V43" stroke="#FDE047" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="font-display font-extrabold text-base sm:text-xl lg:text-xl tracking-[0.22em] text-white leading-none mt-1">
+                    HY GIFTS
+                </span>
+                <span class="text-[8px] sm:text-[9px] font-display font-medium tracking-[0.28em] text-white/95 uppercase mt-1">
+                    A CURATED WAY TO GIFT
+                </span>
+            </a>
+
+            <!-- Right: Search on Mobile; Auth + Cart on Desktop -->
+            <div class="flex items-center justify-end space-x-1 sm:space-x-3 lg:space-x-3 flex-1">
+
+                <button 
+                    onclick="toggleSearchBar()" 
+                    aria-label="Search Products"
+                    class="lg:hidden w-10 h-10 sm:w-11 sm:h-11 rounded-full hover:bg-white/15 flex items-center justify-center text-white transition active:scale-95"
+                >
+                    <i class="fa-solid fa-magnifying-glass text-base sm:text-lg"></i>
+                </button>
+
+                <!-- Desktop Only Auth Buttons (Strictly hidden on Mobile) -->
+                <div id="auth-nav-container" class="hidden sm:flex items-center gap-2 shrink-0">
+                    <a href="#/login" onclick="navigate('#/login')" class="px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs font-display font-bold text-white border border-white/40 hover:bg-white/15 transition whitespace-nowrap">Log in</a>
+                    <a href="#/signup" onclick="navigate('#/signup')" class="px-4 lg:px-5 py-1.5 lg:py-2 rounded-full text-xs font-display font-extrabold bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition shadow-sm whitespace-nowrap">Sign up</a>
+                </div>
+                <div id="user-nav-container" class="hidden sm:block shrink-0">
+                    <button onclick="navigate('#/profile')" class="flex items-center gap-1.5 bg-white/15 border border-white/35 text-white hover:bg-white hover:text-[#D90B0B] font-display font-bold text-xs px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full transition whitespace-nowrap">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <span id="user-nav-name">Account</span>
+                    </button>
+                </div>
+
+                <!-- Cart Page Button -->
+                <button 
+                    onclick="navigate('#/cart')" 
+                    aria-label="Open Cart"
+                    class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full hover:bg-white/15 lg:bg-white/10 lg:border lg:border-white/25 flex items-center justify-center text-white transition active:scale-95 shrink-0"
+                >
+                    <i class="fa-solid fa-cart-shopping text-base sm:text-lg"></i>
+                    <span id="cartBadge" class="absolute top-1 right-0.5 lg:-top-1 lg:-right-1 bg-white text-[#D90B0B] text-[10px] font-extrabold min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center shadow-md">
+                        0
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- DESKTOP SINGLE-LINE NAVIGATION STRIP DIRECTLY BELOW LOGO NAME -->
+        <div class="hidden lg:block bg-[#A80505]/95 border-t border-white/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav aria-label="Desktop Primary Navigation" class="flex flex-row flex-nowrap items-center justify-center gap-2 xl:gap-4 py-2 text-xs font-display font-bold uppercase tracking-wider">
+                    <a href="#/home" id="nav-home" onclick="navigate('#/home')" class="nav-link desktop-nav-link bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition px-4 py-2 rounded-full whitespace-nowrap shrink-0 shadow-xs">
+                        <i class="fa-solid fa-house mr-1.5 text-[11px] text-[#D90B0B]"></i>Home
+                    </a>
+                    <a href="#/services" id="nav-services" onclick="navigate('#/services')" class="nav-link desktop-nav-link bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition px-4 py-2 rounded-full whitespace-nowrap shrink-0 shadow-xs">
+                        <i class="fa-solid fa-layer-group mr-1.5 text-[11px] text-[#D90B0B]"></i>Catalog
+                    </a>
+                    <a href="#/products" id="nav-products" onclick="navigate('#/products')" class="nav-link desktop-nav-link bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition px-4 py-2 rounded-full whitespace-nowrap shrink-0 shadow-xs">
+                        <i class="fa-solid fa-gift mr-1.5 text-[11px] text-[#D90B0B]"></i>Products
+                    </a>
+                    <a href="#/track" id="nav-track" onclick="navigate('#/track')" class="nav-link desktop-nav-link bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition px-4 py-2 rounded-full whitespace-nowrap shrink-0 inline-flex items-center shadow-xs">
+                        <i class="fa-solid fa-location-dot mr-1.5 text-[11px] text-[#D90B0B]"></i>Track Order
+                    </a>
+                    <a href="#/contact" id="nav-contact" onclick="navigate('#/contact')" class="nav-link desktop-nav-link bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition px-4 py-2 rounded-full whitespace-nowrap shrink-0 shadow-xs">
+                        <i class="fa-solid fa-headset mr-1.5 text-[11px] text-[#D90B0B]"></i>Contact
+                    </a>
+                    <a href="https://amzprints.com" target="_blank" rel="noopener noreferrer" class="desktop-nav-link bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition px-4 py-2 rounded-full whitespace-nowrap shrink-0 inline-flex items-center shadow-xs">
+                        Printing Services <i class="fa-solid fa-arrow-up-right-from-square ml-1.5 text-[10px] text-[#D90B0B]"></i>
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Expandable Live Search Bar (Mobile) -->
+        <div id="searchBarContainer" class="hidden lg:hidden border-t border-white/25 bg-[#D90B0B] px-4 py-3">
+            <div class="max-w-2xl mx-auto relative flex items-center">
+                <i class="fa-solid fa-magnifying-glass text-white/80 text-sm absolute left-4"></i>
+                <input 
+                    type="text" 
+                    id="liveSearchInput"
+                    placeholder="Search photo frames, magic mugs, teddy bears, gift boxes..." 
+                    class="w-full bg-white/15 text-white placeholder-white/80 text-xs sm:text-sm rounded-full py-2.5 pl-10 pr-20 border border-white/35 focus:border-white focus:outline-none"
+                >
+                <button onclick="clearSearch()" class="absolute right-3 text-[11px] font-semibold text-white/85 hover:text-white px-2 py-1">
+                    Clear
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN MULTI-PAGE APPLICATION CONTAINER -->
+    <main id="app" class="burgundy-radial-bg bg-white flex-grow pb-20 lg:pb-24">
+
+        <!-- ==================== VIEW 1: HOME PAGE ==================== -->
+        <div id="view-home" class="page-view">
+            <!-- 3. HERO SHOWCASE BANNER (100% DEDICATED TO CUSTOM & PERSONALIZED GIFTS) -->
+            <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 sm:pt-5 lg:pt-7">
+                <div class="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/30 bg-gradient-to-r from-[#FFF5F5] via-[#FFE4E6] to-[#FECDD3] text-gray-900 min-h-[220px] sm:min-h-[340px] md:min-h-[410px] lg:min-h-[470px] flex items-center">
+                    <img 
+                        id="heroImage"
+                        src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1400&q=85" 
+                        onerror="this.src='https://placehold.co/1200x500/FFE4E6/E10A0A?text=HY+GIFTS+Custom+Collection'"
+                        alt="HY GIFTS Custom Gift Collection" 
+                        class="absolute inset-0 w-full h-full object-cover object-right sm:object-center opacity-90 transition-all duration-500"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#FFF5F5]/95 via-[#FFF5F5]/80 to-transparent sm:via-[#FFF5F5]/60 lg:from-[#FFF5F5]/95 lg:via-[#FFF5F5]/65 lg:to-transparent"></div>
+
+                    <div class="relative z-10 px-6 sm:px-12 md:px-16 lg:px-20 max-w-xl lg:max-w-2xl py-8 lg:py-12">
+                        <span id="heroTag" class="inline-block lg:bg-[#E10A0A]/10 lg:border lg:border-[#E10A0A]/25 lg:px-3.5 lg:py-1 lg:rounded-full text-[10px] sm:text-xs font-display font-extrabold uppercase tracking-widest text-[#E10A0A] mb-1.5 lg:mb-3">
+                            CUSTOMIZED GIFT STUDIO
+                        </span>
+                        <h1 id="heroTitle" class="font-display font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-[54px] text-[#B90808] leading-tight lg:leading-[1.12]">
+                            Personalized Gifts <br><span class="font-light text-[#D90B0B]">&amp; Luxury Boxes</span>
+                        </h1>
+                        <p id="heroSubtitle" class="text-[11px] sm:text-sm lg:text-base text-[#990606]/90 mt-2 lg:mt-4 max-w-xs sm:max-w-sm lg:max-w-lg leading-relaxed">
+                            Turn your favorite photos, names &amp; heartfelt messages into custom LED frames, magic mugs, cushions &amp; gift hampers.
+                        </p>
+                        <div class="mt-4 sm:mt-6 lg:mt-8 flex flex-wrap items-center gap-3 lg:gap-4">
+                            <a href="#/products" onclick="navigate('#/products')" class="inline-block bg-[#E10A0A] hover:bg-[#C20707] text-white font-display font-bold text-[10px] sm:text-xs lg:text-xs uppercase tracking-wider px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 rounded-full shadow-lg transition transform hover:scale-105">
+                                EXPLORE GIFTS
+                            </a>
+                            <a href="#/track" onclick="navigate('#/track')" class="inline-block bg-[#E10A0A]/10 hover:bg-[#E10A0A]/20 text-[#B90808] lg:border lg:border-[#B90808]/25 font-display font-bold text-[10px] sm:text-xs uppercase tracking-wider px-5 lg:px-7 py-2.5 sm:py-3 lg:py-3.5 rounded-full transition">
+                                TRACK ORDER
+                            </a>
+                        </div>
+                    </div>
+
+                    <button onclick="prevSlide()" aria-label="Previous Banner" class="hidden sm:flex absolute left-3 lg:left-5 top-1/2 -translate-y-1/2 w-9 h-9 lg:w-11 lg:h-11 rounded-full bg-[#D90B0B]/85 hover:bg-[#C20707] text-white items-center justify-center backdrop-blur-xs shadow-lg transition hover:scale-105">
+                        <i class="fa-solid fa-chevron-left text-xs lg:text-sm"></i>
+                    </button>
+                    <button onclick="nextSlide()" aria-label="Next Banner" class="hidden sm:flex absolute right-3 lg:right-5 top-1/2 -translate-y-1/2 w-9 h-9 lg:w-11 lg:h-11 rounded-full bg-[#D90B0B]/85 hover:bg-[#C20707] text-white items-center justify-center backdrop-blur-xs shadow-lg transition hover:scale-105">
+                        <i class="fa-solid fa-chevron-right text-xs lg:text-sm"></i>
+                    </button>
+
+                    <div class="absolute bottom-3 lg:bottom-5 left-1/2 -translate-x-1/2 flex items-center space-x-2 z-10">
+                        <button onclick="goToSlide(0)" aria-label="Slide 1" class="hero-dot w-5 h-1.5 rounded-full bg-[#E10A0A] transition-all"></button>
+                        <button onclick="goToSlide(1)" aria-label="Slide 2" class="hero-dot w-1.5 h-1.5 rounded-full bg-[#E10A0A]/30 transition-all"></button>
+                        <button onclick="goToSlide(2)" aria-label="Slide 3" class="hero-dot w-1.5 h-1.5 rounded-full bg-[#E10A0A]/30 transition-all"></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MOBILE QUICK LINKS STRIP (Hidden on Desktop since top bar is directly below logo) -->
+            <section class="lg:hidden max-w-7xl mx-auto px-3 sm:px-6 pt-4">
+                <div class="bg-gradient-to-r from-[#8A0404] via-[#9E0606] to-[#7A0303] border border-white/25 rounded-2xl px-4 py-3 shadow-xl flex items-center justify-between gap-3 overflow-x-auto no-scrollbar">
+                    <div class="flex items-center gap-2 sm:gap-3 mx-auto">
+                        <button onclick="filterCollection('All')" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] px-3.5 py-1.5 rounded-full whitespace-nowrap transition shadow-xs">
+                            All Gifts
+                        </button>
+                        <a href="#/services" onclick="navigate('#/services')" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] px-3.5 py-1.5 rounded-full whitespace-nowrap transition shadow-xs">
+                            Gift Catalog
+                        </a>
+                        <a href="#/products" onclick="navigate('#/products')" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] px-3.5 py-1.5 rounded-full whitespace-nowrap transition shadow-xs">
+                            All Products
+                        </a>
+                        <a href="#/track" onclick="navigate('#/track')" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] px-3.5 py-1.5 rounded-full whitespace-nowrap transition shadow-xs">
+                            <i class="fa-solid fa-location-dot mr-1"></i> Track Order
+                        </a>
+                        <a href="#/contact" onclick="navigate('#/contact')" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] px-3.5 py-1.5 rounded-full whitespace-nowrap transition shadow-xs">
+                            Contact Us
+                        </a>
+                        <a href="https://amzprints.com" target="_blank" rel="noopener noreferrer" class="text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] px-3.5 py-1.5 rounded-full whitespace-nowrap transition shadow-xs">
+                            Printing Services <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. 'SHOP BY COLLECTIONS' SEAMLESS MARQUEE (100% PERSONALIZED & GIFT COLLECTIONS) -->
+            <section id="collections" class="pt-8 sm:pt-11 lg:pt-14 pb-4 overflow-hidden max-w-7xl mx-auto">
+                <div class="text-center px-4 mb-6 sm:mb-8 lg:mb-10">
+                    <span class="hidden lg:inline-block text-[11px] font-display font-bold uppercase tracking-[0.25em] text-[#D90B0B] mb-1.5">CURATED GIFT CATEGORIES</span>
+                    <h2 class="font-display font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#B90808] tracking-wide">
+                        Shop By Collections
+                    </h2>
+                    <p class="text-[11px] sm:text-xs lg:text-sm text-[#8A0404]/80 mt-1.5">Tap any circle to explore personalized &amp; custom gifts</p>
+                </div>
+
+                <div class="collections-marquee-wrapper py-2">
+                    <div id="collectionsMarqueeTrack" class="collections-marquee-track">
+                        <div class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">
+                            <button onclick="filterCollection('PERSONALIZED GIFTS')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80" alt="Personalized Gifts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Personalized</span>
+                            </button>
+
+                            <button onclick="filterCollection('Photo Frames')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80" alt="Photo Frames" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Photo Frames</span>
+                            </button>
+
+                            <button onclick="filterCollection('Magic Mugs')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=400&q=80" alt="Magic Mugs" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Magic Mugs</span>
+                            </button>
+
+                            <button onclick="filterCollection('Plush & Teddy')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=400&q=80" alt="Plush & Teddy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Plush &amp; Teddy</span>
+                            </button>
+
+                            <button onclick="filterCollection('Couple Gifts')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" alt="Couple Gifts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Couple Gifts</span>
+                            </button>
+
+                            <button onclick="filterCollection('Gift Hampers')" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=400&q=80" alt="Gift Hampers" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Gift Hampers</span>
+                            </button>
+                        </div>
+
+                        <!-- Seamless Clone -->
+                        <div aria-hidden="true" class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">
+                            <button onclick="filterCollection('PERSONALIZED GIFTS')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80" alt="Personalized Gifts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Personalized</span>
+                            </button>
+
+                            <button onclick="filterCollection('Photo Frames')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80" alt="Photo Frames" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Photo Frames</span>
+                            </button>
+
+                            <button onclick="filterCollection('Magic Mugs')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=400&q=80" alt="Magic Mugs" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Magic Mugs</span>
+                            </button>
+
+                            <button onclick="filterCollection('Plush & Teddy')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=400&q=80" alt="Plush & Teddy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Plush &amp; Teddy</span>
+                            </button>
+
+                            <button onclick="filterCollection('Couple Gifts')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" alt="Couple Gifts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Couple Gifts</span>
+                            </button>
+
+                            <button onclick="filterCollection('Gift Hampers')" tabindex="-1" class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                                        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=400&q=80" alt="Gift Hampers" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                </div>
+                                <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">Gift Hampers</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. FEATURED / LIVE PRODUCTS GRID -->
+            <section id="products" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 lg:pt-14">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 lg:mb-8">
+                    <div>
+                        <span class="hidden lg:inline-block text-[11px] font-display font-bold uppercase tracking-[0.22em] text-[#D90B0B] mb-1">HANDCRAFTED WITH LOVE</span>
+                        <h2 class="font-display font-extrabold text-xl sm:text-2xl lg:text-3xl text-[#B90808]">
+                            Trending Personalized Gifts
+                        </h2>
+                        <p id="activeFilterLabel" class="text-xs lg:text-sm text-[#8A0404]/80 mt-1">Showing all curated gift boxes &amp; custom products</p>
+                    </div>
+
+                    <div id="dynamicFilterPills" class="flex items-center gap-2 lg:gap-2.5 overflow-x-auto no-scrollbar pb-1">
+                        <button onclick="filterCollection('All')" data-filter="All" class="filter-pill bg-[#D90B0B] text-white text-xs font-bold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition shadow-xs">All</button>
+                        <button onclick="filterCollection('PERSONALIZED GIFTS')" data-filter="PERSONALIZED GIFTS" class="filter-pill bg-white hover:bg-red-50 text-[#8A0404] border border-[#D90B0B]/30 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Personalized</button>
+                        <button onclick="filterCollection('Photo Frames')" data-filter="Photo Frames" class="filter-pill bg-white hover:bg-red-50 text-[#8A0404] border border-[#D90B0B]/30 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Photo Frames</button>
+                        <button onclick="filterCollection('Magic Mugs')" data-filter="Magic Mugs" class="filter-pill bg-white hover:bg-red-50 text-[#8A0404] border border-[#D90B0B]/30 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Magic Mugs</button>
+                        <button onclick="filterCollection('Gift Hampers')" data-filter="Gift Hampers" class="filter-pill bg-white hover:bg-red-50 text-[#8A0404] border border-[#D90B0B]/30 text-xs font-semibold px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">Gift Hampers</button>
+                    </div>
+                </div>
+
+                <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6 lg:gap-7">
+                    <!-- Live Products & Grid-Only Loading Injected via JS -->
+                </div>
+            </section>
+
+            <!-- TRUST BADGES BAR -->
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-14 lg:mt-16">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6 bg-white border-2 border-[#D90B0B]/20 rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-lg">
+                    <div class="flex items-center space-x-3 lg:space-x-4 lg:border-r lg:border-[#D90B0B]/15 lg:pr-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#FFF1F1] text-[#D90B0B] flex items-center justify-center flex-shrink-0 lg:text-lg border border-[#D90B0B]/20">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs sm:text-sm lg:text-base font-bold text-[#8A0404]">Free Shipping</h4>
+                            <p class="text-[10px] sm:text-xs text-[#8A0404]/75">All over Pakistan</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 lg:space-x-4 lg:border-r lg:border-[#D90B0B]/15 lg:pr-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#FFF1F1] text-[#D90B0B] flex items-center justify-center flex-shrink-0 lg:text-lg border border-[#D90B0B]/20">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs sm:text-sm lg:text-base font-bold text-[#8A0404]">COD &amp; Online Pay</h4>
+                            <p class="text-[10px] sm:text-xs text-[#8A0404]/75">JazzCash, EasyPaisa &amp; COD</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 lg:space-x-4 lg:border-r lg:border-[#D90B0B]/15 lg:pr-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#FFF1F1] text-[#D90B0B] flex items-center justify-center flex-shrink-0 lg:text-lg border border-[#D90B0B]/20">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs sm:text-sm lg:text-base font-bold text-[#8A0404]">Custom Personalization</h4>
+                            <p class="text-[10px] sm:text-xs text-[#8A0404]/75">Names, photos &amp; messages</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#FFF1F1] text-[#D90B0B] flex items-center justify-center flex-shrink-0 lg:text-lg border border-[#D90B0B]/20">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs sm:text-sm lg:text-base font-bold text-[#8A0404]">HY Care Support</h4>
+                            <p class="text-[10px] sm:text-xs text-[#8A0404]/75">0320-9306672</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== VIEW 2: FULL PRODUCTS PAGE ==================== -->
+        <div id="view-products" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 lg:mb-8">
+                <div>
+                    <span class="text-xs font-display font-bold uppercase tracking-widest text-[#D90B0B]">Full Gift Studio</span>
+                    <h1 class="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl text-[#8A0404] mt-1">All Curated &amp; Custom Gifts</h1>
+                </div>
+                <div class="w-full sm:w-72 lg:w-80">
+                    <input type="search" id="pageProductSearch" oninput="renderAllProductsPage(this.value)" placeholder="Search custom gifts..." class="w-full bg-white border border-[#D90B0B]/30 rounded-full px-4 py-2.5 lg:py-3 text-xs text-[#8A0404] placeholder-[#8A0404]/50 focus:border-[#D90B0B] focus:outline-none">
+                </div>
+            </div>
+            <div id="allProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6 lg:gap-7"></div>
+        </div>
+
+        <!-- ==================== VIEW 3: GIFT CATALOG / SERVICES PAGE ==================== -->
+        <div id="view-services" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 space-y-8 lg:space-y-12">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="inline-block bg-[#FFF1F1] border border-[#D90B0B]/25 text-[#D90B0B] font-display font-bold text-[11px] uppercase tracking-widest px-4 py-1 rounded-full">Gift Services</span>
+                <h1 class="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl text-[#8A0404] mt-2">Custom Gifting Catalog</h1>
+                <p class="text-xs lg:text-sm text-[#8A0404]/85 mt-1.5">Explore our personalized, corporate &amp; handcrafted gifting items available across Pakistan.</p>
+            </div>
+            <div id="services-cards-grid" class="space-y-8 lg:space-y-10"></div>
+        </div>
+
+        <!-- ==================== VIEW 4: DEDICATED FULL TRACK ORDER PAGE ==================== -->
+        <div id="view-track" class="page-view hidden max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
+            <div class="text-center max-w-lg mx-auto mb-8">
+                <span class="inline-block bg-[#FFF1F1] border border-[#D90B0B]/25 text-[#D90B0B] font-display font-bold text-[11px] uppercase tracking-widest px-4 py-1 rounded-full">Live Order Verification</span>
+                <h1 class="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl text-[#8A0404] mt-2">Track Your Gift Order</h1>
+                <p class="text-xs lg:text-sm text-[#8A0404]/85 mt-1.5">Enter your valid Order ID (e.g. HY-1001) to check real-time status &amp; payment verification.</p>
+            </div>
+
+            <div class="bg-white border-2 border-[#D90B0B]/20 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl space-y-6">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="trackInputPage" placeholder="Enter Order ID (e.g. HY-1001)" class="flex-1 bg-[#FFF5F5] border border-[#D90B0B]/30 rounded-full px-5 py-3 lg:py-3.5 text-xs lg:text-sm font-bold text-[#8A0404] placeholder-[#8A0404]/50 focus:border-[#D90B0B] focus:outline-none uppercase">
+                    <button onclick="executeTrack()" class="px-8 lg:px-10 py-3 lg:py-3.5 rounded-full font-display font-extrabold text-xs bg-[#D90B0B] hover:bg-[#B90808] text-white transition uppercase tracking-wider shadow-lg inline-flex items-center justify-center gap-2"><i class="fa-solid fa-magnifying-glass-location"></i><span>Track Order</span></button>
+                </div>
+
+                <div id="trackResultsArea" class="hidden pt-6 border-t border-[#D90B0B]/15 space-y-6">
+                    <div class="bg-[#FFF5F5] p-5 lg:p-6 rounded-2xl border border-[#D90B0B]/20 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                        <div>
+                            <span class="text-[#8A0404]/65 font-bold uppercase block text-[10px]">Customer Name</span>
+                            <span id="trackCustomerName" class="font-extrabold text-[#8A0404] lg:text-sm">--</span>
+                        </div>
+                        <div>
+                            <span class="text-[#8A0404]/65 font-bold uppercase block text-[10px]">Current Status</span>
+                            <span id="trackCurrentStatus" class="font-extrabold text-[#D90B0B] lg:text-sm">Order Placed</span>
+                        </div>
+                        <div>
+                            <span class="text-[#8A0404]/65 font-bold uppercase block text-[10px]">Destination</span>
+                            <span id="trackCountry" class="font-extrabold text-[#8A0404] lg:text-sm">Pakistan</span>
+                        </div>
+                        <div>
+                            <span class="text-[#8A0404]/65 font-bold uppercase block text-[10px]">City</span>
+                            <span id="trackCity" class="font-extrabold text-[#8A0404] lg:text-sm">Lahore</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#FFF5F5] p-5 lg:p-6 rounded-2xl border border-[#D90B0B]/20 space-y-5">
+                        <div class="flex justify-between items-center flex-wrap gap-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-[#8A0404]/65 uppercase">TRACKING NO.</span>
+                                <p id="trackResultID" class="text-xl lg:text-2xl font-display font-black text-[#8A0404]">HY-1001</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-[#8A0404]/65 uppercase block">PAYMENT VERIFICATION</span>
+                                <div id="trackTimerBadge" class="mt-1 font-bold text-xs text-[#D90B0B]">--</div>
+                            </div>
+                        </div>
+
+                        <div class="w-full bg-[#FFF1F1] h-2.5 rounded-full overflow-hidden">
+                            <div id="trackProgressBar" class="bg-[#D90B0B] h-full w-1/4 transition-all duration-500"></div>
+                        </div>
+
+                        <div class="grid grid-cols-4 gap-2 text-center text-[11px]">
+                            <div>
+                                <div id="step-placed" class="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#D90B0B] text-white mx-auto flex items-center justify-center font-bold mb-1 shadow-sm">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="font-bold text-[#8A0404]">Placed</span>
+                            </div>
+                            <div>
+                                <div id="step-proof" class="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#FFF1F1] text-[#8A0404]/65 mx-auto flex items-center justify-center font-bold mb-1">
+                                    <i class="fa-solid fa-gift text-xs"></i>
+                                </div>
+                                <span class="text-[#8A0404]/75 font-medium">Crafting</span>
+                            </div>
+                            <div>
+                                <div id="step-printing" class="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#FFF1F1] text-[#8A0404]/65 mx-auto flex items-center justify-center font-bold mb-1">
+                                    <i class="fa-solid fa-box text-xs"></i>
+                                </div>
+                                <span class="text-[#8A0404]/75 font-medium">Packaged</span>
+                            </div>
+                            <div>
+                                <div id="step-dispatched" class="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#FFF1F1] text-[#8A0404]/65 mx-auto flex items-center justify-center font-bold mb-1">
+                                    <i class="fa-solid fa-truck text-xs"></i>
+                                </div>
+                                <span class="text-[#8A0404]/75 font-medium">Dispatched</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 5: LOGIN PAGE ==================== -->
+        <div id="view-login" class="page-view hidden max-w-md mx-auto px-4 pt-10 sm:pt-14">
+            <div class="bg-white border-2 border-[#D90B0B]/20 rounded-3xl p-6 sm:p-8 lg:p-9 shadow-2xl space-y-5">
+                <div class="text-center space-y-1">
+                    <h1 class="font-display font-extrabold text-2xl text-[#8A0404]">Welcome Back</h1>
+                    <p class="text-xs text-[#8A0404]/80">Log in to manage &amp; track your gift orders</p>
+                </div>
+                <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Email or Mobile Phone</label>
+                        <input type="text" id="login-id" required class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-3 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="03XXXXXXXXX or email@domain.com">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Password</label>
+                        <input type="password" id="login-pass" required class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-3 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="••••••••">
+                    </div>
+                    <div class="text-right -mt-1">
+                        <a href="#/forgot" onclick="navigate('#/forgot')" class="text-[#D90B0B] text-xs font-bold hover:underline">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="w-full bg-[#D90B0B] hover:bg-[#B90808] text-white font-display font-extrabold py-3.5 rounded-full shadow-lg text-xs uppercase tracking-wider transition">Log In</button>
+                </form>
+
+                <div class="relative flex items-center gap-3">
+                    <span class="h-px bg-[#D90B0B]/20 flex-1"></span>
+                    <span class="text-[10px] text-[#8A0404]/75 font-bold">OR</span>
+                    <span class="h-px bg-[#D90B0B]/20 flex-1"></span>
+                </div>
+
+                <div class="hy-google-btn-wrap w-full"><button type="button" onclick="startGoogleLogin(this)" class="hy-google-fallback-btn w-full bg-white hover:bg-[#FFF5F5] text-[#18181b] border border-[#D90B0B]/25 font-display font-bold py-3 rounded-full text-xs flex items-center justify-center gap-2.5 shadow-sm transition">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="hy-google-fallback-btn w-4 h-4" alt="Google"> Continue with Google
+                </button></div>
+
+                <div class="text-center text-xs text-[#8A0404]/80 pt-3 border-t border-[#D90B0B]/15">
+                    Don't have an account? <a href="#/signup" onclick="navigate('#/signup')" class="text-[#D90B0B] font-bold hover:underline">Sign Up</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 6: SIGN UP + EMAIL OTP PAGE ==================== -->
+        <div id="view-signup" class="page-view hidden max-w-md mx-auto px-4 pt-10 sm:pt-14">
+            <div class="bg-white border-2 border-[#D90B0B]/20 rounded-3xl p-6 sm:p-8 lg:p-9 shadow-2xl space-y-5">
+                <div class="text-center space-y-1">
+                    <h1 class="font-display font-extrabold text-2xl text-[#8A0404]">Create Account</h1>
+                    <p class="text-xs text-[#8A0404]/80">Register with email verification to place orders</p>
+                </div>
+
+                <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-3.5">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Full Name *</label>
+                        <input type="text" id="signup-name" required class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="Hamza Yousaf">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Email Address *</label>
+                        <input type="email" id="signup-email" required class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="user@domain.com">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Mobile Phone (03XXXXXXXXX) *</label>
+                        <input type="tel" id="signup-phone" required pattern="03[0-9]{9}" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="03209306672">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Create Password (Min 8 chars) *</label>
+                        <input type="password" id="signup-pass" required minlength="8" autocomplete="new-password" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="••••••••">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Confirm Password *</label>
+                        <input type="password" id="signup-confirm-pass" required minlength="8" autocomplete="new-password" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="Confirm your password">
+                    </div>
+                    <button type="submit" class="w-full bg-[#D90B0B] hover:bg-[#B90808] text-white font-display font-extrabold py-3.5 rounded-full shadow-lg text-xs uppercase tracking-wider transition mt-2">Create Account</button>
+                </form>
+
+                <div id="signup-otp-panel" class="hidden border-t border-[#D90B0B]/20 pt-4 space-y-3">
+                    <p class="text-xs text-[#D90B0B] font-semibold">Enter the 6-digit OTP sent to your email address (check Inbox/Spam).</p>
+                    <input id="signup-otp" inputmode="numeric" maxlength="6" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-3 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="6-digit verification OTP">
+                    <button type="button" onclick="verifySignupOtp(this)" class="w-full bg-[#D90B0B] text-white font-display font-extrabold py-3 rounded-full text-xs uppercase">Verify Email &amp; Complete Sign Up</button>
+                </div>
+
+                <div class="relative flex items-center gap-3">
+                    <span class="h-px bg-[#D90B0B]/20 flex-1"></span>
+                    <span class="text-[10px] text-[#8A0404]/75 font-bold">OR</span>
+                    <span class="h-px bg-[#D90B0B]/20 flex-1"></span>
+                </div>
+
+                <div class="hy-google-btn-wrap w-full"><button type="button" onclick="startGoogleLogin(this)" class="hy-google-fallback-btn w-full bg-white hover:bg-[#FFF5F5] text-[#18181b] border border-[#D90B0B]/25 font-display font-bold py-3 rounded-full text-xs flex items-center justify-center gap-2.5 shadow-sm transition">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="hy-google-fallback-btn w-4 h-4" alt="Google"> Continue with Google
+                </button></div>
+
+                <div class="text-center text-xs text-[#8A0404]/80 pt-3 border-t border-[#D90B0B]/15">
+                    Already have an account? <a href="#/login" onclick="navigate('#/login')" class="text-[#D90B0B] font-bold hover:underline">Log In</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 7: FORGOT / RESET PASSWORD PAGE ==================== -->
+        <div id="view-forgot" class="page-view hidden max-w-md mx-auto px-4 pt-10 sm:pt-14">
+            <div class="bg-white border-2 border-[#D90B0B]/20 rounded-3xl p-6 sm:p-8 lg:p-9 shadow-2xl space-y-5">
+                <div class="text-center space-y-1">
+                    <div class="w-12 h-12 mx-auto rounded-full bg-[#FFF1F1] flex items-center justify-center text-[#D90B0B] text-xl"><i class="fa-solid fa-lock"></i></div>
+                    <h1 class="font-display font-extrabold text-2xl text-[#8A0404]">Reset Password</h1>
+                    <p class="text-xs text-[#8A0404]/80">Verify your registered email address via OTP to set a new password.</p>
+                </div>
+
+                <form id="password-reset-request-form" onsubmit="event.preventDefault(); sendPasswordResetOtp(this.querySelector('button'));" class="space-y-3">
+                    <label for="password-reset-email" class="block text-[11px] font-bold uppercase text-[#8A0404]/85">Registered Email Address</label>
+                    <input id="password-reset-email" type="email" required autocomplete="email" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-3 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="you@example.com">
+                    <button type="submit" class="w-full bg-[#D90B0B] hover:bg-[#B90808] text-white font-display font-extrabold py-3 rounded-full text-xs uppercase">Send Reset OTP</button>
+                </form>
+
+                <div id="password-reset-otp-panel" class="hidden space-y-3 border-t border-[#D90B0B]/20 pt-4">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-[#8A0404]/80">OTP expires in</span>
+                        <strong id="password-reset-countdown" class="text-[#D90B0B] tabular-nums">10:00</strong>
+                    </div>
+
+                    <div id="password-reset-verify-step" class="space-y-3">
+                        <input id="password-reset-otp" inputmode="numeric" maxlength="6" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-3 text-xs text-[#8A0404] placeholder-white/70" placeholder="Enter 6-digit OTP">
+                        <button type="button" onclick="verifyPasswordResetOtp(this)" class="w-full bg-[#D90B0B] text-white font-display font-extrabold py-3 rounded-full text-xs uppercase">Verify OTP</button>
+                        <button type="button" onclick="sendPasswordResetOtp(this)" class="w-full border border-[#D90B0B]/30 text-[#8A0404] font-bold py-2.5 rounded-full text-xs">Resend OTP</button>
+                    </div>
+
+                    <div id="password-reset-password-step" class="hidden space-y-3">
+                        <p class="text-xs text-[#D90B0B] font-bold">Email verified! Create your new password below:</p>
+                        <input id="password-reset-new-password" type="password" minlength="8" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-3 text-xs text-[#8A0404] placeholder-white/70" placeholder="New Password (min 8 chars)">
+                        <input id="password-reset-confirm-password" type="password" minlength="8" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-3 text-xs text-[#8A0404] placeholder-white/70" placeholder="Confirm New Password">
+                        <button type="button" onclick="submitPasswordResetFromPage(this)" class="w-full bg-[#D90B0B] hover:bg-[#B90808] text-white font-display font-extrabold py-3 rounded-full text-xs uppercase">Save New Password</button>
+                    </div>
+                </div>
+
+                <p id="password-reset-feedback" class="text-xs text-center text-[#D90B0B]"></p>
+                <div class="text-center pt-2">
+                    <a href="#/login" onclick="navigate('#/login')" class="text-xs text-[#8A0404]/80 hover:text-[#8A0404] underline">Back to Log In</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 8: FULL CART PAGE ==================== -->
+        <div id="view-cart" class="page-view hidden max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 space-y-6">
+            <div class="flex items-center justify-between">
+                <h1 class="font-display font-extrabold text-2xl lg:text-3xl text-[#8A0404]">Your Gift Bag</h1>
+                <a href="#/products" onclick="navigate('#/products')" class="text-xs lg:text-sm font-bold text-[#D90B0B] hover:underline">&larr; Continue Shopping</a>
+            </div>
+            <div id="cart-items-list" class="space-y-3"></div>
+            <div class="bg-white border-2 border-[#D90B0B]/20 p-6 lg:p-8 rounded-3xl flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl">
+                <div>
+                    <span class="text-[#8A0404]/75 text-xs block uppercase font-bold">Total Amount (Free Nationwide Delivery)</span>
+                    <span id="cart-total-price" class="font-display font-extrabold text-2xl lg:text-3xl text-[#8A0404]">Rs. 0</span>
+                </div>
+                <button onclick="proceedToCheckout()" class="bg-[#D90B0B] hover:bg-[#B90808] text-white font-display font-extrabold px-8 lg:px-10 py-3.5 lg:py-4 rounded-full shadow-lg text-xs uppercase tracking-widest transition w-full sm:w-auto">
+                    Proceed to Checkout &rarr;
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 9: FULL CHECKOUT PAGE (COD + JAZZCASH / EASYPAISA) ==================== -->
+        <div id="view-checkout" class="page-view hidden max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
+            <div class="bg-white border-2 border-[#D90B0B]/20 p-6 sm:p-10 lg:p-12 rounded-3xl shadow-2xl space-y-6">
+                <div class="border-b border-[#D90B0B]/15 pb-4">
+                    <h1 class="font-display font-extrabold text-2xl lg:text-3xl text-[#8A0404]">Checkout Details</h1>
+                    <p class="text-xs lg:text-sm text-[#8A0404]/80 mt-1">Provide recipient details &amp; choose Cash on Delivery or JazzCash / EasyPaisa.</p>
+                </div>
+
+                <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)" class="space-y-5">
+                    <div class="space-y-3.5">
+                        <h3 class="font-display font-bold text-[#D90B0B] text-xs flex items-center gap-2 uppercase tracking-wider"><i class="fa-solid fa-truck"></i> Delivery Address</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 lg:gap-5">
+                            <div>
+                                <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Recipient Full Name *</label>
+                                <input type="text" id="co-name" required class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 lg:py-3 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="First and Last Name">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Mobile Phone (03XXXXXXXXX) *</label>
+                                <input type="tel" id="co-phone" required pattern="03[0-9]{9}" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 lg:py-3 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="03209306672">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 lg:gap-5">
+                            <div>
+                                <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">City / District *</label>
+                                <input type="text" id="co-city" required class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 lg:py-3 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="e.g. Lahore, Karachi, Islamabad">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Country *</label>
+                                <input type="text" id="co-country" value="Pakistan" readonly class="w-full bg-[#FFF5F5] border border-[#D90B0B]/20 rounded-xl px-4 py-2.5 lg:py-3 text-xs font-bold text-[#D90B0B]">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase text-[#8A0404]/85 mb-1">Complete Address *</label>
+                            <textarea id="co-address" rows="2" required class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 lg:py-3 text-xs text-[#8A0404] placeholder-white/70 focus:border-hyGold focus:outline-none" placeholder="House #, Street name, Sector/Block, Landmark..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 pt-4 border-t border-[#D90B0B]/15">
+                        <h3 class="font-display font-bold text-[#D90B0B] text-xs flex items-center gap-2 uppercase tracking-wider"><i class="fa-solid fa-credit-card"></i> Select Payment Method</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <label class="border-2 border-[#D90B0B]/25 p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-[#D90B0B] transition bg-[#FFF8F8]">
+                                <input type="radio" name="paymethod" value="COD" checked onclick="togglePaymentSection('COD')" class="accent-yellow-300 w-4 h-4">
+                                <div>
+                                    <span class="font-bold text-[#8A0404] block text-xs">Cash on Delivery (COD)</span>
+                                    <span class="text-[10px] text-[#8A0404]/75">Pay cash upon delivery</span>
+                                </div>
+                            </label>
+                            <label class="border-2 border-[#D90B0B]/25 p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-[#D90B0B] transition bg-[#FFF8F8]">
+                                <input type="radio" name="paymethod" value="ONLINE" onclick="togglePaymentSection('ONLINE')" class="accent-yellow-300 w-4 h-4">
+                                <div>
+                                    <span class="font-bold text-[#8A0404] block text-xs">JazzCash / EasyPaisa</span>
+                                    <span class="text-[10px] text-[#8A0404]/75">Instant verification &amp; fast crafting</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div id="online-payment-panel" class="hidden bg-[#FFF5F5] p-5 rounded-2xl border border-[#D90B0B]/30 space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <label class="border border-[#D90B0B]/25 bg-white p-3 rounded-xl flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="gateway" value="JazzCash" checked class="accent-yellow-300 w-4 h-4">
+                                    <div>
+                                        <span class="font-black text-[#D90B0B] text-xs block">JazzCash</span>
+                                        <span class="text-[11px] text-[#8A0404] block font-mono">0347 8306672</span>
+                                        <span class="text-[10px] text-[#8A0404]/75">Title: HY GIFTS</span>
+                                    </div>
+                                </label>
+                                <label class="border border-[#D90B0B]/25 bg-white p-3 rounded-xl flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="gateway" value="EasyPaisa" class="accent-yellow-300 w-4 h-4">
+                                    <div>
+                                        <span class="font-black text-[#D90B0B] text-xs block">EasyPaisa</span>
+                                        <span class="text-[11px] text-[#8A0404] block font-mono">0347 8306672</span>
+                                        <span class="text-[10px] text-[#8A0404]/75">Title: HY GIFTS</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase text-[#8A0404]/85 mb-1">Sender Account Title *</label>
+                                    <input type="text" id="pay-title" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 text-xs text-[#8A0404] placeholder-white/70" placeholder="Account Holder Name">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase text-[#8A0404]/85 mb-1">Transaction TRX ID *</label>
+                                    <input type="text" id="pay-trx" class="w-full bg-[#FFF8F8] border border-[#D90B0B]/25 rounded-xl px-4 py-2.5 text-xs text-[#8A0404] placeholder-white/70" placeholder="Transaction ID / T-ID">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-[#8A0404]/85 mb-1">Payment Receipt Screenshot *</label>
+                                <input type="file" id="pay-screenshot" accept="image/*" class="w-full text-xs text-[#8A0404] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-[#D90B0B] file:text-white cursor-pointer bg-white p-2 rounded-xl border border-[#D90B0B]/25">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#D90B0B] hover:bg-[#B90808] text-white font-display font-extrabold py-4 rounded-full shadow-xl transition text-xs uppercase tracking-widest">
+                        Confirm &amp; Place Gift Order
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 10: USER ACCOUNT & ORDER HISTORY PAGE ==================== -->
+        <div id="view-profile" class="page-view hidden max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 space-y-6">
+            <div class="bg-white border-2 border-[#D90B0B]/20 p-6 lg:p-8 rounded-3xl shadow-xl flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <h1 class="font-display font-extrabold text-xl lg:text-2xl text-[#8A0404]" id="prof-name">User Account</h1>
+                    <p class="text-[#8A0404]/80 text-xs lg:text-sm mt-0.5" id="prof-email">user@domain.com</p>
+                </div>
+                <button onclick="handleLogout()" class="bg-[#D90B0B] hover:bg-[#B90808] text-white font-display font-extrabold px-5 py-2.5 rounded-full text-xs uppercase transition">Log Out</button>
+            </div>
+
+            <div class="bg-white border-2 border-[#D90B0B]/20 p-6 lg:p-8 rounded-3xl shadow-xl space-y-4">
+                <h2 class="font-display font-bold text-[#D90B0B] text-sm uppercase tracking-wider">Your Order History</h2>
+                <div id="profile-orders-list" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 11: CONTACT US PAGE ==================== -->
+        <div id="view-contact" class="page-view hidden max-w-4xl lg:max-w-5xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
+            <div class="text-center max-w-lg mx-auto mb-10">
+                <span class="inline-block bg-[#FFF1F1] border border-[#D90B0B]/25 text-[#D90B0B] font-display font-bold text-[11px] uppercase tracking-widest px-4 py-1 rounded-full">Contact Us</span>
+                <h1 class="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl text-[#8A0404] mt-2">Get In Touch</h1>
+                <p class="text-xs lg:text-sm text-[#8A0404]/85 mt-1.5">We are here to help you customize the perfect gifts for your loved ones.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 lg:gap-6">
+                <div class="bg-white border-2 border-[#D90B0B]/20 p-6 lg:p-8 rounded-2xl text-center space-y-3 shadow-xl">
+                    <div class="w-14 h-14 bg-[#FFF1F1] text-[#D90B0B] rounded-full flex items-center justify-center mx-auto text-2xl shadow-md">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-[#8A0404] text-sm uppercase tracking-wider">Phone Helpline</h3>
+                    <p class="text-xs text-[#8A0404]/85">03209306672</p>
+                    <a href="tel:03209306672" class="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-extrabold bg-[#D90B0B] hover:bg-[#B90808] text-white uppercase tracking-wider shadow-sm transition"><i class="fa-solid fa-phone"></i><span>Call Now</span></a>
+                </div>
+
+                <div class="bg-white border-2 border-[#D90B0B]/20 p-6 lg:p-8 rounded-2xl text-center space-y-3 shadow-xl">
+                    <div class="w-14 h-14 bg-[#FFF1F1] text-[#D90B0B] rounded-full flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-[#8A0404] text-sm uppercase tracking-wider">Email Address</h3>
+                    <p class="text-xs text-[#8A0404]/85 break-all">hystoresupport@gmail.com</p>
+                    <a href="mailto:hystoresupport@gmail.com" class="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-extrabold bg-[#D90B0B] hover:bg-[#B90808] text-white uppercase tracking-wider shadow-sm transition"><i class="fa-solid fa-envelope"></i><span>Send Email</span></a>
+                </div>
+
+                <div class="bg-white border-2 border-[#D90B0B]/20 p-6 lg:p-8 rounded-2xl text-center space-y-3 shadow-xl">
+                    <div class="w-14 h-14 bg-[#FFF1F1] text-[#D90B0B] rounded-full flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-[#8A0404] text-sm uppercase tracking-wider">Working Hours</h3>
+                    <p class="text-xs text-[#8A0404]/85">Mon - Sat: 10AM - 9PM</p>
+                    <span class="inline-flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] text-white font-extrabold bg-[#D90B0B] uppercase tracking-wider shadow-xs"><i class="fa-solid fa-circle-check"></i><span>Active</span></span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 8. RICH PURE RED FOOTER -->
+    <footer class="bg-[#C20707] border-t border-white/25 pt-12 pb-24 sm:pb-10 text-white/90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/25">
+            <div>
+                <div class="flex items-center space-x-2.5 mb-3">
+                    <span class="font-display font-extrabold text-lg tracking-[0.2em] text-white">HY GIFTS</span>
+                </div>
+                <p class="text-xs text-white/85 leading-relaxed">
+                    Pakistan's premier personalized &amp; custom gift store. Photo frames, magic mugs, plush teddy bears, custom lamps &amp; luxury gift hampers delivered nationwide.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-display font-bold text-xs uppercase tracking-wider text-white mb-3">Navigation</h4>
+                <ul class="space-y-2 text-xs text-white/85">
+                    <li><a href="#/home" onclick="navigate('#/home')" class="hover:text-hyGold transition">Home</a></li>
+                    <li><a href="#/services" onclick="navigate('#/services')" class="hover:text-hyGold transition">Gift Catalog</a></li>
+                    <li><a href="#/products" onclick="navigate('#/products')" class="hover:text-hyGold transition">All Products</a></li>
+                    <li><a href="#/track" onclick="navigate('#/track')" class="hover:text-hyGold transition">Track Your Order</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-display font-bold text-xs uppercase tracking-wider text-white mb-3">Account &amp; Support</h4>
+                <ul class="space-y-2 text-xs text-white/85">
+                    <li><a href="#/login" onclick="navigate('#/login')" class="hover:text-hyGold transition">Log In</a></li>
+                    <li><a href="#/signup" onclick="navigate('#/signup')" class="hover:text-hyGold transition">Create Account</a></li>
+                    <li><a href="#/cart" onclick="navigate('#/cart')" class="hover:text-hyGold transition">Shopping Bag</a></li>
+                    <li><a href="#/contact" onclick="navigate('#/contact')" class="hover:text-hyGold transition">Customer Care</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-display font-bold text-xs uppercase tracking-wider text-white mb-3">Connect With Us</h4>
+                <p class="text-xs text-white/85 mb-1">Helpline: <span class="text-white font-semibold">0320-9306672</span></p>
+                <p class="text-xs text-white/85 mb-3">Email: <span class="text-white font-semibold">hystoresupport@gmail.com</span></p>
+                <div class="flex items-center space-x-3">
+                    <a href="tel:03209306672" aria-label="Phone" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white hover:text-[#D90B0B] text-white flex items-center justify-center transition"><i class="fa-solid fa-phone"></i></a>
+                    <a href="mailto:hystoresupport@gmail.com" aria-label="Email" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white hover:text-[#D90B0B] text-white flex items-center justify-center transition"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-[11px] text-white/80 gap-2">
+            <p>&copy; 2026 HY GIFTS Pakistan. All Rights Reserved.</p>
+            <p>A Curated Way To Gift &bull; Cash on Delivery &amp; Online Payment Nationwide</p>
+            <p>Powered by <a href="https://amzprints.com" target="_blank" rel="noopener noreferrer" class="text-hyGold hover:text-white font-bold underline transition">amzprints.com</a></p>
+        </div>
+    </footer>
+
+    <!-- LEFT SLIDE-OUT HAMBURGER NAVIGATION DRAWER -->
+    <div id="navOverlay" onclick="toggleNavDrawer()" class="fixed inset-0 bg-red-950/70 backdrop-blur-xs z-50 hidden"></div>
+    <aside id="navDrawer" class="fixed top-0 left-0 h-full w-72 bg-[#E10A0A] border-r border-white/25 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col justify-between">
+        <div>
+            <div class="p-5 border-b border-white/25 flex items-center justify-between bg-[#C20707]">
+                <div>
+                    <span class="font-display font-extrabold text-base tracking-[0.18em] text-white block">HY GIFTS</span>
+                    <span class="text-[9px] text-white/90 tracking-widest uppercase">A Curated Way To Gift</span>
+                </div>
+                <button onclick="toggleNavDrawer()" aria-label="Close Menu" class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-white hover:bg-white/25">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <nav id="mobileDrawerNav" class="p-4 space-y-2 text-sm font-bold">
+                <a href="#/home" data-drawer-route="home" onclick="toggleNavDrawer(); navigate('#/home')" class="drawer-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition shadow-xs">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-chevron-right drawer-vec-left text-[#8A0404] text-xs hidden"></i>
+                        <i class="fa-solid fa-house drawer-nav-icon text-[#D90B0B] w-4 text-center transition"></i>
+                        <span>Home</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-left drawer-vec-right text-[#8A0404] text-xs hidden"></i>
+                </a>
+                <a href="#/services" data-drawer-route="services" onclick="toggleNavDrawer(); navigate('#/services')" class="drawer-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition shadow-xs">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-chevron-right drawer-vec-left text-[#8A0404] text-xs hidden"></i>
+                        <i class="fa-solid fa-layer-group drawer-nav-icon text-[#D90B0B] w-4 text-center transition"></i>
+                        <span>Gift Catalog</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-left drawer-vec-right text-[#8A0404] text-xs hidden"></i>
+                </a>
+                <a href="#/products" data-drawer-route="products" onclick="toggleNavDrawer(); navigate('#/products')" class="drawer-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition shadow-xs">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-chevron-right drawer-vec-left text-[#8A0404] text-xs hidden"></i>
+                        <i class="fa-solid fa-gift drawer-nav-icon text-[#D90B0B] w-4 text-center transition"></i>
+                        <span>All Products</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-left drawer-vec-right text-[#8A0404] text-xs hidden"></i>
+                </a>
+                <a href="#/track" data-drawer-route="track" onclick="toggleNavDrawer(); navigate('#/track')" class="drawer-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition shadow-xs">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-chevron-right drawer-vec-left text-[#8A0404] text-xs hidden"></i>
+                        <i class="fa-solid fa-location-dot drawer-nav-icon text-[#D90B0B] w-4 text-center transition"></i>
+                        <span>Track Order</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-left drawer-vec-right text-[#8A0404] text-xs hidden"></i>
+                </a>
+                <a href="#/cart" data-drawer-route="cart" onclick="toggleNavDrawer(); navigate('#/cart')" class="drawer-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition shadow-xs">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-chevron-right drawer-vec-left text-[#8A0404] text-xs hidden"></i>
+                        <i class="fa-solid fa-cart-shopping drawer-nav-icon text-[#D90B0B] w-4 text-center transition"></i>
+                        <span>Your Cart</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-left drawer-vec-right text-[#8A0404] text-xs hidden"></i>
+                </a>
+                <a href="#/contact" data-drawer-route="contact" onclick="toggleNavDrawer(); navigate('#/contact')" class="drawer-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] transition shadow-xs">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-chevron-right drawer-vec-left text-[#8A0404] text-xs hidden"></i>
+                        <i class="fa-solid fa-headset drawer-nav-icon text-[#D90B0B] w-4 text-center transition"></i>
+                        <span>Contact Us</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-left drawer-vec-right text-[#8A0404] text-xs hidden"></i>
+                </a>
+                <div class="border-t border-white/20 my-2 pt-2 space-y-2">
+                    <a href="#/login" data-drawer-route="login" id="drawer-login-link" onclick="toggleNavDrawer(); navigate('#/login')" class="drawer-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] font-bold transition shadow-xs">
+                        <span class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-chevron-right drawer-vec-left text-[#8A0404] text-xs hidden"></i>
+                            <i class="fa-solid fa-right-to-bracket drawer-nav-icon text-[#D90B0B] w-4 text-center transition"></i>
+                            <span>Log In</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-left drawer-vec-right text-[#8A0404] text-xs hidden"></i>
+                    </a>
+                    <a href="#/signup" data-drawer-route="signup" id="drawer-signup-link" onclick="toggleNavDrawer(); navigate('#/signup')" class="drawer-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] font-bold transition shadow-xs">
+                        <span class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-chevron-right drawer-vec-left text-[#8A0404] text-xs hidden"></i>
+                            <i class="fa-solid fa-user-plus drawer-nav-icon text-[#D90B0B] w-4 text-center transition"></i>
+                            <span>Sign Up</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-left drawer-vec-right text-[#8A0404] text-xs hidden"></i>
+                    </a>
+                    <a href="#/profile" data-drawer-route="profile" id="drawer-profile-link" onclick="toggleNavDrawer(); navigate('#/profile')" class="drawer-nav-link hidden flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white text-[#D90B0B] hover:bg-hyGold hover:text-[#8A0404] font-bold transition shadow-xs">
+                        <span class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-chevron-right drawer-vec-left text-[#8A0404] text-xs hidden"></i>
+                            <i class="fa-solid fa-circle-user drawer-nav-icon text-[#D90B0B] w-4 text-center transition"></i>
+                            <span>My Account &amp; Orders</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-left drawer-vec-right text-[#8A0404] text-xs hidden"></i>
+                    </a>
+                </div>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-white/25 text-xs text-white/90 bg-[#C20707] space-y-2.5">
+            <div>
+                <p class="text-white font-semibold mb-0.5">Free Delivery All Over Pakistan</p>
+                <p>Support: 0320-9306672</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- QUICK VIEW PRODUCT MODAL (MOBILE & EXPLICIT QUICK VIEW) -->
+    <div id="quickViewModal" class="fixed inset-0 bg-red-950/75 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div id="quickViewContent" class="bg-[#E10A0A] border border-white/30 rounded-2xl lg:rounded-3xl w-full max-w-lg lg:max-w-2xl overflow-hidden shadow-2xl"></div>
+    </div>
+
+    <!-- ORDER SUCCESS MODAL -->
+    <div id="order-success-modal" class="fixed inset-0 bg-red-950/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-[#8A0404] border border-white/30 rounded-3xl max-w-md w-full p-6 sm:p-8 text-center space-y-5 shadow-2xl">
+            <div class="w-16 h-16 bg-white/15 text-hyGold rounded-full flex items-center justify-center text-3xl font-bold mx-auto border border-white/30">
+                <i class="fa-solid fa-gift"></i>
+            </div>
+            <h2 class="font-display font-extrabold text-2xl text-white">Order Placed!</h2>
+            <p class="text-xs text-white/90">Your gift order has been received. Save your tracking ID below:</p>
+            
+            <div class="bg-[#7A0303] p-4 rounded-2xl space-y-1 border border-white/20">
+                <span class="text-[10px] text-white/75 block uppercase font-bold tracking-wider">Your Tracking Order ID</span>
+                <div class="flex items-center justify-center gap-2">
+                    <span id="success-order-id" class="font-black text-xl text-hyGold font-mono">HY-9982</span>
+                    <button onclick="copyOrderId()" class="text-[10px] bg-white text-[#8A0404] px-3 py-1 rounded-full font-extrabold">Copy</button>
+                </div>
+            </div>
+
+            <button onclick="closeSuccessModal()" class="w-full bg-white hover:bg-hyGold text-[#8A0404] font-display font-extrabold py-3.5 rounded-full shadow-lg transition text-xs uppercase tracking-widest">View My Orders</button>
+        </div>
+    </div>
+
+    <!-- FULL BACKEND & STORE JAVASCRIPT -->
+    <script>
+const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbxDmDvjqGJRUWoLrWlY6M0T7XTW9N3nfSdEnE2Dycm8B7Jg_qdLjtj0YR0ca2Ghjs2a/exec";
+        const GOOGLE_CLIENT_ID = "21998030518-8t3hlj709qfv273nd9124eebl1uudi7r.apps.googleusercontent.com";
+
+        let PRODUCTS = [];
+        let COLLECTIONS = [];
+        let currentUser = JSON.parse(localStorage.getItem('hy_user')) || null;
+        let cart = JSON.parse(localStorage.getItem('hy_cart')) || [];
+        let orders = JSON.parse(localStorage.getItem('hy_orders')) || [];
+        let selectedCategory = 'All';
+        let pendingSignupEmail = "";
+        let passwordResetCountdownInterval = null;
+        let passwordResetSecondsRemaining = 600;
+        let expandedDesktopCardId = null;
+
+        // 100% Dedicated Gift Store Hero Slider Data
+        const slides = [
+            {
+                tag: "CUSTOMIZED GIFT STUDIO",
+                title: 'Personalized Gifts <br><span class="font-light text-[#D90B0B]">&amp; Luxury Boxes</span>',
+                subtitle: "Turn your favorite photos, names & heartfelt messages into custom LED frames, magic mugs, cushions & gift hampers.",
+                image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1400&q=85"
+            },
+            {
+                tag: "CUSTOM PHOTO & NAME GIFTS",
+                title: 'Handcrafted Memories <br><span class="font-light text-[#D90B0B]">Made Just For You</span>',
+                subtitle: "Custom photo frames, magic mirror frames, engraved keychains & plush teddy bears crafted with love.",
+                image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1400&q=85"
+            },
+            {
+                tag: "CURATED GIFT HAMPERS",
+                title: 'Birthday &amp; Anniversary <br><span class="font-light text-[#D90B0B]">Surprise Hampers</span>',
+                subtitle: "Ready-to-gift luxury boxes with custom greeting cards, chocolates, lamps & nationwide Cash on Delivery.",
+                image: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1400&q=85"
+            }
+        ];
+        let currentSlide = 0;
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            const s = slides[idx];
+            document.getElementById('heroTag').textContent = s.tag;
+            document.getElementById('heroTitle').innerHTML = s.title;
+            document.getElementById('heroSubtitle').textContent = s.subtitle;
+            document.getElementById('heroImage').src = s.image;
+            document.querySelectorAll('.hero-dot').forEach((dot, i) => {
+                dot.className = i === idx
+                    ? "hero-dot w-5 h-1.5 rounded-full bg-[#E10A0A] transition-all"
+                    : "hero-dot w-1.5 h-1.5 rounded-full bg-[#E10A0A]/30 transition-all";
+            });
+        }
+        function nextSlide() { goToSlide((currentSlide + 1) % slides.length); }
+        function prevSlide() { goToSlide((currentSlide - 1 + slides.length) % slides.length); }
+
+        const announcements = [
+            "Free Shipping All over Pakistan | Cash on Delivery & Online Payments Available",
+            "Custom Photos, Names & Romantic Messages Available on All Personalized Gifts",
+            "Customer Support & Helpline: 0320-9306672"
+        ];
+        let annIdx = 0;
+        setInterval(() => {
+            annIdx = (annIdx + 1) % announcements.length;
+            const el = document.getElementById('announcementText');
+            if (!el) return;
+            el.style.opacity = '0';
+            setTimeout(() => {
+                el.textContent = announcements[annIdx];
+                el.style.opacity = '1';
+            }, 250);
+        }, 4500);
+
+        function formatPkr(amount) {
+            return 'Rs. ' + Number(amount || 0).toLocaleString('en-PK');
+        }
+
+        // ==================== LOADER ONLY FOR LONG BACKEND/NETWORK OPERATIONS ====================
+        function showActionLoader(message = "Please wait...") {
+            const loader = document.getElementById('global-loader');
+            const text = document.getElementById('loader-text');
+            if (text) text.innerText = message;
+            if (loader) loader.classList.add('is-active');
+        }
+
+        function hideActionLoader() {
+            const loader = document.getElementById('global-loader');
+            if (loader) loader.classList.remove('is-active');
+        }
+
+        function showToast(message, type = 'success') {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed top-24 right-4 z-[60] flex flex-col gap-2 pointer-events-none';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            const isSuccess = type === 'success';
+            toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-2xl border ${isSuccess ? 'bg-white text-[#8A0404] border-white' : 'bg-[#7A0303] text-white border-hyGold'} text-xs font-extrabold min-w-[250px]`;
+            toast.innerHTML = `<i class="fa-solid ${isSuccess ? 'fa-circle-check text-[#D90B0B]' : 'fa-circle-exclamation text-hyGold'} text-base"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3200);
+        }
+
+        // ==================== MULTI-PAGE HASH ROUTING ====================
+        function updateDrawerActiveState(activePage) {
+            document.querySelectorAll('.drawer-nav-link').forEach((link) => {
+                const route = link.getAttribute('data-drawer-route');
+                const leftVec = link.querySelector('.drawer-vec-left');
+                const rightVec = link.querySelector('.drawer-vec-right');
+                const icon = link.querySelector('.drawer-nav-icon');
+                const isActive = route === activePage;
+
+                link.classList.remove('bg-white/15', 'text-white', 'font-bold', 'outline', 'outline-2', 'outline-white');
+                if (leftVec) leftVec.classList.add('hidden');
+                if (rightVec) rightVec.classList.add('hidden');
+                if (icon) {
+                    icon.classList.remove('text-hyGold');
+                    icon.classList.add('text-white/90');
+                }
+
+                if (isActive) {
+                    link.classList.add('bg-white/15', 'text-white', 'font-bold', 'outline', 'outline-2', 'outline-white');
+                    if (leftVec) leftVec.classList.remove('hidden');
+                    if (rightVec) rightVec.classList.remove('hidden');
+                    if (icon) {
+                        icon.classList.remove('text-white/90');
+                        icon.classList.add('text-hyGold');
+                    }
+                }
+            });
+        }
+
+        function handleRouting() {
+            let hash = window.location.hash;
+            if (!hash || hash === '#' || hash === '' || hash === '#/') {
+                hash = '#/home';
+                window.history.replaceState(null, '', '#/home');
+            }
+
+            document.querySelectorAll('.page-view').forEach(v => v.classList.add('hidden'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active-desktop-nav'));
+
+            let page = hash.replace('#/', '').split('?')[0];
+            let targetView = document.getElementById(`view-${page}`);
+            if (!targetView) {
+                page = 'home';
+                targetView = document.getElementById('view-home');
+            }
+            targetView.classList.remove('hidden');
+
+            let activeNav = document.getElementById(`nav-${page}`);
+            if (activeNav) activeNav.classList.add('active-desktop-nav');
+
+            updateDrawerActiveState(page);
+
+            if (page === 'cart') renderCart();
+            if (page === 'profile') renderProfile();
+            if (page === 'services') renderServicesGrid();
+            if (page === 'products') renderAllProductsPage();
+            if (page === 'home') renderProducts();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigate(hashUrl) {
+            window.location.hash = hashUrl;
+        }
+        window.addEventListener('hashchange', handleRouting);
+
+        // ==================== FETCH LIVE PRODUCTS FROM GOOGLE APPS SCRIPT ====================
+        function buildRadialSpokesSvg() {
+            const totalSpokes = 12;
+            const spokes = [];
+            for (let i = 0; i < totalSpokes; i++) {
+                const angle = i * 30;
+                const delay = -((totalSpokes - i) * (0.96 / totalSpokes)).toFixed(3);
+                spokes.push(
+                    `<line x1="32" y1="7" x2="32" y2="17" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" class="radial-loader-spoke" style="transform: rotate(${angle}deg); animation-delay: ${delay}s;" />`
+                );
+            }
+            return `
+                <svg viewBox="0 0 64 64" class="w-14 h-14 text-[#D90B0B]" aria-hidden="true">
+                    ${spokes.join('')}
+                </svg>
+            `;
+        }
+
+        let isProductsLoading = true;
+
+        const HY_PNG_LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAR3klEQVR4nO3dTXYbR5aG4XAf69RAWoe9nF5NraJW08ux1iEN6njgHrhYon5IEUBkxL3xPc/YFhOZCdw3I0BpDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqOuX3QdATX+8f//X7mMA5vn982ef93zFDRHKgAeeEwh5XPDDGfTAI4TBuVzYwxj4wJUEwTlcyOYMfGAnQdCXC9eQoQ9UJAZ6cbGaMPSBTsRAfS5QYYY+cAIxUJOLUoyhD5xMDNThQhRh8ANJhMB+LsBGhj6AGNjFSd/A4Af4nhBYy8leyOAH+DkhsIaTvIDBD3A7IXAtJ/dCnQf/b58+7T4EYKKPHz7sPoS7CYFrOKkX6TD8DXlgjB5xIALmc0Inqzr4DXvgFlWjQAjM40ROUmnwG/bAFSpFgRB4nBP4oCqD39AHVqoSA0Lgfk7cA3YPf0MfqGB3DIiA+zhpd9g5+A19oLKdMSAEbuNk3WjH8Df0gY52xIAIeDsn6garh7/BD5xgdQiIgLdxkt5g5eA39IGTrYwBIfA6J+cnVg1/gx9IsioERMDLnJhXrBj+Bj+QbEUIiIAfc1J+wOAHWEsIrOdkfOPq4W/wA7zs6hAQAV/8z+4DqMTwB9jr6s/J3X+BWyVK6D+uvCkMfoDbXbkaYCVAAIwxrhv+Bj/A464KgfQIiH7xnvoBerAaMF/kix7DUz9AR1YD5on8EqDhD9DTVZ+ziV8OjAsAwx+gNxEwR9SSxxUX1+AH2OeKLYGU7YCYFQDDH+A8V3wOp6wERASA4Q9wLhFwn+OXOWZfRIMfoK7ZWwInbwccvQJg+ANkmf05ffJKwNEBMJPhD9CDz+u3OTYAZlabmwmgl5mf26euAhwZAIY/ACLgdccFgOEPwBMR8LKjAsDwB+BbIuDHjgkAwx+Al4iA7x0TALMY/gBn8vn+tSMCYFaNuTkAzjbrc/6EVYD2AWD4A3ALEfC31gFg+ANwDxHQPABmMPwBMqV//rcNgBnVlX7xAdLNmANdVwFaBoDhD8AsqRHQLgA6nmQAztdtPrULgBk8/QPwXOJcaBUAlv4BuEraVkCbADD8AbhaUgS0CQAAYJ4WAeDpH4BVUlYBWgTAowx/AG6RMDfKB8CjFZVwEQGY79H5UX0VoHwAAADzlQ4AT/8A7HTyKkDZADD8Aajg1AgoGwAAwHVKBoCnfwAqOXEVoGQAAADXKhcAnv4BqOi0VYByAfAIwx+AK500Z0oFQLU6AoCZKs25UgHwiJOqDIC6Tpk3ZQKgUhUBwFWqzLsyAfCIU2oMgB5OmDtHBAAAcJsSAfDIcsgJFQZAP4/MnwrbACUCAABYa3sAePoHoKvOqwDbAwAAWE8AAECgrQFg+R+A7rpuA1gBAIBALQPA0z8AlXScS9sCYPe3HwGggl3zsOUKAADwmHYB0HGZBYDzdZtPWwLA8j8AfLFjLrZbAQAAHtcqALotrwCQpdOcWh4Alv8B4Hur52OrFQAAYI42AdBpWQWAXF3m1a+7D4B+Pn748Ob/tssbAaryfuMqv6z8Yf7xn55u+QD6GdcRXuf9doZHruPvnz8vmc0tAsBNvMfMD6JvuabwNe+389x7TVcFgC0AvnPlB9G3P8MHE+m839hFAPBfKz6IXvqZPphI4/3Gbst+C8Dv/9e248Oo0s+HlXbf77t/Pq9bNS/b/Bog16nyYVDlOOBKVe7zKsfBPsu+BOgLgPVU/gCofN3/9e7d7kP4qX/++ef0PzP1dc/i/Zap8hcBrQCEqvxhNEb944NbVL+fqx8f1xAAgbq82aseZ+WnzGRVr0vV+/hbXY6TeQQAHGj2cn2H5X/gNksCwG8A1NGt8rsdLzzX7f7tdrwnWzE3S68A+GLKXF3f3F2Pm2xd79uux11V5TlWOgCYp/ubutrxV91vTlXtelS7X2/V/fh5GwEAh5q1b2//H84kAAKcUvOnvA7Odsp9esrr4GUCAAACCYDDnVbxlV5PtX3nVJWuQ6X7c4bTXg9fEwBwsEf37+3/w7kuDwD/BsA+p9b7qa+L3k69L099XSvdO8+u/rsArAAAQCABAA+otP+cyPmH+wkAONy9+/j2/+FsAuBQp+/bnf766OX0+/H015dKAMCDLEPv4bzDYwQAAAQSABDg1v18+/9wPgEAAIEEAExgP3ot5xseJwAAIJAAgBBv3de3/w8ZBAAABBIAMIl96TWcZ5hDAABAIAEAQX62v2//H3IIAAAIJABgIvvT13J+YR4BAACBBACEeWmf3/4/ZBEAMJll6ms4rzCXAACAQAIAAAIJAAj07X6//X/IIwDgAvar53I+YT4BAACBBAAABBIAEOpp39/+P2QSAHAR+9ZzOI9wDQEAAIEEAAAEEgAQzP4/5BIAcCH7149x/uA6AgAAAgkAAAgkAOBilrHv47zBtQQAAAQSAAAQSAAAQCABAAvYz76N8wXXEwAAEEgAAEAgAQAAgQQALGJf+22cJ1hDAABAIAEAAIEEACxkeft1zg+sIwAAIJAAAIBAAgAAAgkAWMw+9485L7CWAACAQAIAAAIJAAAIJABgA/vdX3M+YD0BAACBBAAABBIAABBIAMAm9r3/5jzAHgIAAAIJAAAIJABgo/Tl7/TXDzsJAAAIJAAAIJAAAIBAAgA2S90HT33dUIUAAIBAAgAAAgkAAAgkAKCAtP3wtNcLFQkAAAgkAAAgkAAAgEACAIpI2RdPeZ1QnQAAgEACAAACCQAo5PTl8dNfH3QiAAAgkAAAgEACAAACCQAo5tR98lNfF3QlAAAgkAAAgEACAAACCQAo6LT98tNeD5xAAABAIAEAAIEEAAAEEgBQ1Cn75qe8DjiNAACAQAIAAAIJACis+/J59+OHkwkAAAgkAAAgkAAAgEACAIrruo/e9bghhQAAgEACAAAC/br7AOBeHz982H0IvML1gdqsAEAD//uPf+w+hJt0O15IJAAAIJAAAIBAAgAAAgkAaKLLvnqX44R0AgAAAvk1QGjknqfr//v3v5f+PKAHAQAHemTov/TniAE4iy0AOMys4b/qzwX2sAIAh1gxoJ9+htUA6M8KABxg9dO51QDoTwBAc7uGsQiA3gQANLZ7CO/++cD9BAA0VWX4VjkO4DYCABqqNnSrHQ/wcwIAAAIJAGim6tN21eMCfkwAQCPVh2z14wO+EAAAEEgAAEAgAQBNdFle73KckE4AAEAgAQAAgQQANNBtWb3b8UIiAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAECgX3cfANzrt0+fdh/COu/e7T6CmyVdn48fPuw+BLiZFQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAA7126dPuw/hUqe/Pno5/X48/fWlEgAAEEgAAEAgAQAAgS4PgN8/f/7lnv/v44cPsw8lzqn7dqe+Lno79b489XWtdO88u3d+vpUVAGjgn3/+ufsQbtLteCGRADjcafV+2uvhLKfdn6e9Hr4mAAAgkAAIcErFn/I67tVlWb3LcV7llPv0lNfBywQAAAQSACG613z34ydL9/u1+/HzNqUDwK8CztX1Td31uK9QfXm9+vGt1PW+7XrcVVWeY0sC4OrfZeTtur25ux3vClWHbNXj2qnb/dvteE+2Ym6WXgEAAK4hAAJ1qfwux7lDtaftasdTSZf7uMtxMo8ACFX9zV79+CqoMnSrHEdl1e/n6sfHNZbtzf/x/v1f9/6/bs5rVfqSimt9u3+9e7ftZxv+t/N+y/HItfYdAJao8iFQ5Ti62TWEDf/7VLnPqxwH+ywLAL8JUNvuD4PdP7+71cPY8H/M7vt998/ndavm5dKhfO82gJt1rZVLlK7tfFduCRj883m/navqPwP8xBYA3/nt06fLPyhW/IxUVw1pw/8a3m/s0mIFYAzlutPMJxTXcb1HVgQM/fW8385Q/QuAYywOgDFsA5zglhvbdavlLTFg6Nfi/dZT9eX/MQQAAEzXIQDafAeg0u/OAsBLusyrNgEAAMyzPAD8fQAA8L3V87HVCkCXZRUAMnWaU60CAACYY0sA2AYAgC92zMV2KwCdllcAyNFtPrULAADgcdsCwDYAAOybhy1XALotswBwto5zqWUAAACP2RoAjyx7dKwtAM7T4V/++xErAAAQSAAAQKDtAWAbAICuui7/j1EgAACA9UoEgFUAALrp/PQ/RpEAAADWOiIArAIAsNIJc6dMAFRYDgGAq1WZd2UC4FEn1BgA9Z0yb0oFQJUqAoArVJpzpQLgUadUGQA1nTRnygXAo3V00sUBoI5H50ulp/8xCgYAAHC9kgFgFQCASk57+h+jaAAAANcqGwBWAQCo4MSn/zEKB8AYIgCAvU4d/mMUDwAA4BrlA8AqAAA7nPz0P0aDAJhBBABwi4S50SIAZlRUwsUE4HEz5kX1p/8xmgQAADBXmwCwCgDA1VKe/sdoFABjiAAArpM0/MdoFgCziAAAnkucC+0CoFNdAZCj23xqFwBj2AoAYJ60pf8nLQNgDBEAwONSh/8YjQNgFhEAkCn98791AMyqrvSbACDNrM/9rk//YzQPgDFEAAC3Mfz/1j4AxhABALyN4f/FEQEwkwgAOJPP968dEwAza8xNAnCWmZ/rJzz9j3FQAIwhAgD4nuH/Y0cFwBgiAIAvDP+XHRcAY4gAAAz/nzkyAMYQAQDJDP+fOzYAZhMBAD34vH6bowNgdrW5qQBqm/05ferT/xhjHPvCnvvj/fu/Zv+Zv336NPuPBOBOVzygnTz8xzh8BeDJFRfRagBADYb/fSICYAwRAHAiw/9+ES/yuSu2A8awJQCw0lUPYCnDf4ygFYAnV11cqwEAaxj+c8QFwBgiAKArw3+euBf83FXbAWPYEgCY6coHrMThP0Z4ADzxvQCAujz1XyP6xT9nNQCgFk/914o/Ac9dGQFjCAGAt7j6+1SG/98ivwT4kqtvCl8SBHid4b+OE/EDV68EjGE1AOC5FQ9Ihv/XnIxXCAGAaxn8+zgpP7EiAsYQAkCWVVuihv/LnJg3WBUBYwgB4Gwrvwtl+L/OybnByhAYQwwAZ1j9BWiD/22cpButjoAxhADQ047ffDL8386JusOOCHgiBoDKdv66s+F/GyfrATtDYAwxANSw++84Mfjv46Q9aHcEPBEDwEq7h/4Tw/9+TtwkVUJgDDEAXKPK0B/D4J/BCZysUgg8JwqAW1Qa9s8Z/PM4kRepGgLPiQJgjLrD/jmDfz4n9EIdIuAl4gDO0mHIv8Twv4aTukDnEADYxeC/lpO7kBAA+DmDfw0neQMhAPA9g38tJ3sjIQBg8O/ipBchBoAkhv5+LkAxQgA4mcFfhwtRmBgATmDo1+SiNCEGgE4M/fpcoIbEAFCRod+Li9WcGAB2MvT7cuEOIwiAKxn453AhDycIgEcY+OdyYUMJA+A5gz6PC84PCQQ4iwEPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANPb/iObIt+jD8dIAAAAASUVORK5CYII=";
+
+        function renderProductsGridLoading() {
+            isProductsLoading = true;
+            const loaderHtml = `
+                <div class="col-span-full py-14 flex flex-col items-center justify-center gap-3 bg-[#FFF8F8] border-2 border-[#D90B0B]/20 rounded-2xl shadow-sm">
+                    <div class="w-20 h-20 rounded-2xl bg-white shadow-md flex items-center justify-center overflow-hidden p-1.5">
+                        <img src="./favicon.png" onerror="this.onerror=null; this.src=HY_PNG_LOGO_SRC;" alt="HY GIFTS PNG Logo" class="w-full h-full object-contain">
+                    </div>
+                    <span class="font-display font-extrabold text-xs tracking-[0.2em] text-[#8A0404] uppercase">HY GIFTS</span>
+                    <p class="text-[11px] font-display font-bold uppercase tracking-[0.22em] text-[#D90B0B]">LOADING...</p>
+                </div>
+            `;
+            const grid = document.getElementById('productGrid');
+            if (grid) grid.innerHTML = loaderHtml;
+            const allGrid = document.getElementById('allProductsGrid');
+            if (allGrid) allGrid.innerHTML = loaderHtml;
+        }
+
+        async function fetchProductsFromBackend() {
+            renderProductsGridLoading();
+
+            try {
+                const response = await fetch(API_ENDPOINT + "?action=getProducts");
+                if (!response.ok) throw new Error("Products request failed");
+                const data = await response.json();
+
+                if (data && Array.isArray(data.products) && data.products.length > 0) {
+                    PRODUCTS = data.products.map(p => {
+                        const price = Number(p.price) || 0;
+                        const rawOld = p.oldPrice && !isNaN(Number(p.oldPrice)) ? Number(p.oldPrice) : 0;
+                        return {
+                            id: Number(p.id) || 1,
+                            name: p.name || "Custom Gift Item",
+                            category: p.category || "PERSONALIZED GIFTS",
+                            badge: p.badge || (Number(p.id) % 2 === 0 ? "CUSTOM MADE" : "BESTSELLER"),
+                            price: price,
+                            oldPrice: rawOld > price ? rawOld : null,
+                            image: p.img || p.image || "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
+                            desc: p.desc || "Personalized custom gift handcrafted with precision."
+                        };
+                    });
+                } else {
+                    loadFallbackProducts();
+                }
+            } catch (err) {
+                loadFallbackProducts();
+            }
+
+            isProductsLoading = false;
+            renderDynamicFilterPills();
+            renderProducts();
+            renderAllProductsPage();
+        }
+
+        function loadFallbackCollections() {
+            COLLECTIONS = [
+                { name: "Personalized", filter: "PERSONALIZED GIFTS", image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80" },
+                { name: "Photo Frames", filter: "Photo Frames", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80" },
+                { name: "Magic Mugs", filter: "Magic Mugs", image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=400&q=80" },
+                { name: "Plush & Teddy", filter: "Plush & Teddy", image: "https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=400&q=80" },
+                { name: "Couple Gifts", filter: "Couple Gifts", image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" },
+                { name: "Gift Hampers", filter: "Gift Hampers", image: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=400&q=80" }
+            ];
+        }
+
+        function buildCollectionCircleHTML(col, isClone = false) {
+            const safeName = String(col.name || 'Collection').replace(/'/g, "\\'");
+            const safeFilter = String(col.filter || col.name || 'All').replace(/'/g, "\\'");
+            const safeImg = col.image || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80';
+            return `
+                <button onclick="filterCollection('${safeFilter}')" ${isClone ? 'tabindex="-1"' : ''} class="collection-item flex flex-col items-center flex-shrink-0 group focus:outline-none">
+                    <div class="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full p-1.5 border-2 border-[#D90B0B] group-hover:border-[#8A0404] group-hover:scale-105 transition-all duration-300 shadow-[0_8px_22px_rgba(217,11,11,0.18)] bg-white">
+                        <div class="w-full h-full rounded-full overflow-hidden bg-[#8A0404]">
+                            <img src="${safeImg}" onerror="this.src='https://placehold.co/400x400/8A0404/FFFFFF?text=HY+GIFTS'" alt="${safeName}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                    </div>
+                    <span class="mt-3 font-display font-bold text-xs sm:text-sm lg:text-base text-[#8A0404] group-hover:text-[#D90B0B] transition">${safeName}</span>
+                </button>
+            `;
+        }
+
+        function renderCollections() {
+            const track = document.getElementById('collectionsMarqueeTrack');
+            if (!track) return;
+            if (!COLLECTIONS.length) loadFallbackCollections();
+            const primaryGroup = `<div class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">${COLLECTIONS.map(c => buildCollectionCircleHTML(c, false)).join('')}</div>`;
+            const cloneGroup = `<div aria-hidden="true" class="flex items-center gap-6 sm:gap-9 lg:gap-12 pr-6 sm:pr-9 lg:pr-12">${COLLECTIONS.map(c => buildCollectionCircleHTML(c, true)).join('')}</div>`;
+            track.innerHTML = primaryGroup + cloneGroup;
+        }
+
+        async function fetchCollectionsFromBackend() {
+            loadFallbackCollections();
+            renderCollections();
+            try {
+                const response = await fetch(API_ENDPOINT + "?action=getCollections");
+                if (!response.ok) return;
+                const data = await response.json();
+                const rawList = Array.isArray(data) ? data : (data.collections || data.data || []);
+                if (Array.isArray(rawList) && rawList.length > 0) {
+                    const parsed = rawList.map(item => {
+                        const name = String(item.name || item.title || item.collection || item.category || '').trim();
+                        const image = String(item.image || item.img || item.pic || item.photo || item.url || '').trim();
+                        const filter = String(item.filter || item.category || name || 'All').trim();
+                        return { name, image, filter };
+                    }).filter(c => c.name && c.image);
+                    if (parsed.length > 0) {
+                        COLLECTIONS = parsed;
+                        renderCollections();
+                    }
+                }
+            } catch (err) {
+                // Keep fallback collections cleanly rendered
+            }
+        }
+
+        function loadFallbackProducts() {
+            PRODUCTS = [
+                { id: 1, name: "Custom LED Photo Frame", category: "Photo Frames", badge: "BESTSELLER", price: 2499, oldPrice: 2999, image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80", desc: "Illuminated personalized photo frame with warm LED glow and custom name." },
+                { id: 2, name: "Heart Handle Magic Mug", category: "Magic Mugs", badge: "CUSTOM MADE", price: 1299, oldPrice: 1599, image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=600&q=80", desc: "Heat-sensitive magic mug that reveals your hidden photo when hot tea or coffee is poured." },
+                { id: 3, name: "Teddy Bear / Pink Custom Frame", category: "Plush & Teddy", badge: "BESTSELLER", price: 3100, oldPrice: 3500, image: "https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=600&q=80", desc: "Soft plush pink teddy bear holding customized photo frame." },
+                { id: 4, name: "Luxury Couple Surprise Hamper", category: "Gift Hampers", badge: "CUSTOM MADE", price: 4500, oldPrice: 5200, image: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=600&q=80", desc: "Curated gift hamper with personalized photo frame, chocolates, scented candle & message card." }
+            ];
+        }
+
+        function renderDynamicFilterPills() {
+            const container = document.getElementById('dynamicFilterPills');
+            if (!container) return;
+            const categories = ['All', ...new Set(PRODUCTS.map(p => p.category).filter(Boolean))];
+            container.innerHTML = categories.map(cat => `
+                <button onclick="filterCollection('${cat.replace(/'/g, "\\'")}')" data-filter="${cat}" class="filter-pill ${selectedCategory === cat ? 'bg-[#D90B0B] text-white font-bold' : 'bg-white hover:bg-red-50 text-[#8A0404] border border-[#D90B0B]/30 font-semibold'} text-xs px-4 lg:px-5 py-1.5 lg:py-2 rounded-full whitespace-nowrap transition">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function handleEyeIconClick(id) {
+            openQuickView(id);
+        }
+
+        function buildProductCardHTML(p) {
+            const isExpanded = expandedDesktopCardId === p.id;
+            return `
+                <div id="product-card-${p.id}" class="desktop-product-card bg-white border-2 ${isExpanded ? 'border-[#D90B0B]' : 'border-[#D90B0B]/20 hover:border-[#D90B0B]'} rounded-2xl overflow-hidden flex flex-col justify-between group transition-all duration-300 shadow-[0_8px_24px_rgba(217,11,11,0.10)]">
+                    <div class="relative aspect-square overflow-hidden bg-[#FFF5F5]">
+                        <span class="absolute top-2.5 left-2.5 z-10 bg-[#D90B0B] text-white text-[9px] sm:text-[10px] font-display font-extrabold px-2.5 py-0.5 rounded-full tracking-wider shadow-xs">
+                            ${p.badge || 'BESTSELLER'}
+                        </span>
+                        <button onclick="handleEyeIconClick(${p.id})" aria-label="Show Product Details" title="View Product Details" class="absolute top-2.5 right-2.5 z-10 w-8 h-8 rounded-full ${isExpanded ? 'bg-[#D90B0B] text-white' : 'bg-white/95 hover:bg-[#D90B0B] hover:text-white text-[#D90B0B]'} text-xs flex items-center justify-center opacity-95 sm:opacity-100 transition border border-[#D90B0B]/25 shadow-xs">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                        <img 
+                            src="${p.image}" 
+                            onerror="this.src='https://placehold.co/400x400/FFF5F5/D90B0B?text=HY+GIFTS'"
+                            alt="${p.name}" 
+                            onclick="openQuickView(${p.id})"
+                            class="w-full h-full object-cover cursor-pointer group-hover:scale-105 transition-transform duration-500"
+                        >
+                    </div>
+                    <div class="p-3 sm:p-4 lg:p-5 flex-1 flex flex-col justify-between bg-white">
+                        <div>
+                            <div class="flex items-center justify-between gap-1">
+                                <span class="text-[10px] text-[#D90B0B] font-bold uppercase tracking-wider truncate">${p.category}</span>
+                                <div class="flex items-center text-amber-500 text-[9px] gap-0.5 shrink-0">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                            <h3 onclick="openQuickView(${p.id})" class="font-display font-bold text-xs sm:text-sm lg:text-[15px] text-[#8A0404] mt-1 line-clamp-2 cursor-pointer hover:text-[#D90B0B] transition">
+                                ${p.name}
+                            </h3>
+                            <div class="${isExpanded ? 'lg:block' : 'hidden'} mt-2.5 pt-2.5 border-t border-[#D90B0B]/15 text-xs text-[#8A0404]/85 space-y-1.5">
+                                <p class="leading-relaxed text-[11px] text-[#8A0404]/85">${p.desc}</p>
+                                <p class="text-[10px] text-[#D90B0B] font-semibold">Category: <span class="text-[#8A0404]">${p.category}</span> • Price: <span class="text-[#8A0404]">${formatPkr(p.price)}</span></p>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-2.5 border-t border-[#D90B0B]/15">
+                            <div class="flex items-baseline gap-1.5 mb-2.5">
+                                <span class="font-display font-extrabold text-sm sm:text-base lg:text-lg text-[#B90808]">${formatPkr(p.price)}</span>
+                                ${p.oldPrice ? `<span class="text-[10px] sm:text-xs text-[#8A0404]/50 line-through">${formatPkr(p.oldPrice)}</span>` : ''}
+                            </div>
+                            <div class="grid grid-cols-2 gap-1.5 lg:gap-2">
+                                <button onclick="openQuickView(${p.id})" class="w-full bg-[#FFF5F5] hover:bg-red-100 text-[#8A0404] border border-[#D90B0B]/25 font-display font-bold text-[10px] uppercase tracking-wider py-2 lg:py-2.5 rounded-full transition">
+                                    Details
+                                </button>
+                                <button onclick="addToCart(${p.id})" class="w-full bg-[#D90B0B] hover:bg-[#B90808] text-white font-display font-extrabold text-[10px] uppercase tracking-wider py-2 lg:py-2.5 rounded-full transition flex items-center justify-center gap-1 active:scale-95 shadow-md">
+                                    <i class="fa-solid fa-bag-shopping text-[9px]"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            if (!grid) return;
+            if (isProductsLoading) {
+                renderProductsGridLoading();
+                return;
+            }
+            const query = (document.getElementById('liveSearchInput')?.value || '').toLowerCase().trim();
+
+            const filtered = PRODUCTS.filter(p => {
+                const catMatch = selectedCategory === 'All' || p.category.toLowerCase().includes(selectedCategory.toLowerCase());
+                const searchMatch = p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query) || (p.desc || '').toLowerCase().includes(query);
+                return catMatch && searchMatch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-[#FFF8F8] rounded-2xl border-2 border-[#D90B0B]/20">
+                        <p class="text-sm font-semibold text-[#8A0404]">No custom gifts matched your search.</p>
+                        <button onclick="filterCollection('All')" class="mt-3 bg-[#D90B0B] text-white text-xs font-bold px-5 py-2 rounded-full">Show All Gifts</button>
+                    </div>
+                `;
+                return;
+            }
+            grid.innerHTML = filtered.map(buildProductCardHTML).join('');
+        }
+
+        function renderAllProductsPage(searchQuery = '') {
+            const grid = document.getElementById('allProductsGrid');
+            if (!grid) return;
+            const q = String(searchQuery || '').toLowerCase().trim();
+            const filtered = PRODUCTS.filter(p => !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || (p.desc || '').toLowerCase().includes(q));
+            grid.innerHTML = filtered.length ? filtered.map(buildProductCardHTML).join('') : `<div class="col-span-full text-center py-12 text-[#8A0404] font-semibold text-xs">No gifts found matching "${searchQuery}".</div>`;
+        }
+
+        function filterCollection(category) {
+            selectedCategory = category;
+            const label = document.getElementById('activeFilterLabel');
+            if (label) label.textContent = category === 'All' ? 'Showing all curated gift boxes & custom products' : `Collection: ${category}`;
+            renderDynamicFilterPills();
+            renderProducts();
+            const prodEl = document.getElementById('products');
+            if (prodEl) prodEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ==================== CART & CHECKOUT LOGIC ====================
+        function addToCart(id) {
+            const product = PRODUCTS.find(p => p.id === id);
+            if (!product) return;
+            if (!currentUser) {
+                showToast('Please Log In first to add items!', 'error');
+                navigate('#/login');
+                return;
+            }
+            const existing = cart.find(item => item.id === id);
+            if (existing) existing.qty += 1;
+            else cart.push({ ...product, qty: 1 });
+
+            localStorage.setItem('hy_cart', JSON.stringify(cart));
+            updateCartBadge();
+            showToast(`Added "${product.name}" to bag!`);
+        }
+
+        function changeCartQty(index, delta) {
+            if (!cart[index]) return;
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            localStorage.setItem('hy_cart', JSON.stringify(cart));
+            updateCartBadge();
+            renderCart();
+        }
+
+        function updateCartBadge() {
+            const count = cart.reduce((acc, item) => acc + item.qty, 0);
+            const badge = document.getElementById('cartBadge');
+            if (badge) badge.textContent = count;
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cart-items-list');
+            const totalEl = document.getElementById('cart-total-price');
+            if (!list) return;
+
+            if (cart.length === 0) {
+                list.innerHTML = `<div class="bg-white border-2 border-[#D90B0B]/20 p-8 rounded-3xl text-center text-[#8A0404] text-xs shadow-sm">Your gift bag is empty. <a href="#/products" onclick="navigate('#/products')" class="text-[#D90B0B] font-bold underline">Explore Gifts</a></div>`;
+                if (totalEl) totalEl.textContent = 'Rs. 0';
+                return;
+            }
+
+            let total = 0;
+            list.innerHTML = cart.map((item, idx) => {
+                const sub = item.price * item.qty;
+                total += sub;
+                return `
+                    <div class="bg-white border-2 border-[#D90B0B]/20 p-4 lg:p-5 rounded-2xl flex items-center justify-between gap-3 text-xs shadow-sm">
+                        <div class="flex items-center gap-3 lg:gap-4">
+                            <img src="${item.image}" alt="${item.name}" class="w-14 h-14 lg:w-16 lg:h-16 rounded-xl object-cover bg-[#FFF5F5]">
+                            <div>
+                                <h4 class="font-display font-bold text-[#8A0404] lg:text-sm">${item.name}</h4>
+                                <span class="text-[#D90B0B] font-semibold">${formatPkr(item.price)} each</span>
+                                <div class="flex items-center gap-2 mt-1.5 text-[#8A0404]">
+                                    <button onclick="changeCartQty(${idx}, -1)" class="w-6 h-6 rounded-full bg-[#FFF1F1] hover:bg-[#D90B0B] hover:text-white font-bold border border-[#D90B0B]/25">-</button>
+                                    <span class="font-bold w-4 text-center">${item.qty}</span>
+                                    <button onclick="changeCartQty(${idx}, 1)" class="w-6 h-6 rounded-full bg-[#FFF1F1] hover:bg-[#D90B0B] hover:text-white font-bold border border-[#D90B0B]/25">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="font-display font-extrabold text-sm lg:text-base text-[#B90808]">${formatPkr(sub)}</span>
+                    </div>
+                `;
+            }).join('');
+
+            if (totalEl) totalEl.textContent = formatPkr(total);
+        }
+
+        function proceedToCheckout() {
+            if (!currentUser) {
+                showToast('Please Log In to checkout!', 'error');
+                navigate('#/login');
+                return;
+            }
+            if (cart.length === 0) {
+                showToast('Your bag is empty!', 'error');
+                return;
+            }
+            navigate('#/checkout');
+        }
+
+        function togglePaymentSection(type) {
+            const panel = document.getElementById('online-payment-panel');
+            if (panel) panel.classList.toggle('hidden', type !== 'ONLINE');
+        }
+
+        async function syncOrderToBackend(orderData) {
+            try {
+                await fetch(API_ENDPOINT, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        action: "placeOrder",
+                        orderId: orderData.id,
+                        customerName: orderData.name,
+                        customerPhone: orderData.phone,
+                        userEmail: orderData.user,
+                        total: orderData.total,
+                        payMethod: orderData.payMethod,
+                        payGateway: orderData.payGateway || "N/A",
+                        payAccountTitle: orderData.payAccountTitle || "N/A",
+                        payTrxId: orderData.payTrxId || "N/A",
+                        status: orderData.orderStatus,
+                        paymentStatus: orderData.paymentStatus,
+                        screenshotUrl: orderData.screenshotUrl || "N/A",
+                        items: orderData.items
+                    })
+                });
+            } catch (err) {}
+        }
+
+        async function handleCheckoutSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('co-name').value.trim();
+            const phone = document.getElementById('co-phone').value.trim();
+            const city = document.getElementById('co-city').value.trim();
+            const address = document.getElementById('co-address').value.trim();
+            const payMethod = document.querySelector('input[name="paymethod"]:checked').value;
+
+            let payGateway = "";
+            let payAccountTitle = "";
+            let payTrxId = "";
+            let screenshotUrl = "N/A";
+
+            if (payMethod === 'ONLINE') {
+                payGateway = document.querySelector('input[name="gateway"]:checked').value;
+                payAccountTitle = document.getElementById('pay-title').value.trim();
+                payTrxId = document.getElementById('pay-trx').value.trim();
+                const fileInput = document.getElementById('pay-screenshot');
+                if (!payAccountTitle || !payTrxId) {
+                    showToast('Please fill Account Title & TRX ID!', 'error');
+                    return;
+                }
+                if (fileInput.files && fileInput.files[0]) {
+                    screenshotUrl = fileInput.files[0].name;
+                }
+            }
+
+            const orderId = 'HY-' + Math.floor(1000 + Math.random() * 9000);
+            const newOrder = {
+                id: orderId,
+                name,
+                phone,
+                city,
+                address,
+                items: [...cart],
+                user: currentUser ? currentUser.email : "guest@hystore.com",
+                total: cart.reduce((s, i) => s + (i.price * i.qty), 0),
+                payMethod,
+                payGateway,
+                payAccountTitle,
+                payTrxId,
+                screenshotUrl,
+                paymentStatus: 'Pending',
+                orderStatus: 'Order Placed',
+                date: new Date().toLocaleDateString()
+            };
+
+            showActionLoader("Placing Your Gift Order...");
+            try {
+                orders.push(newOrder);
+                localStorage.setItem('hy_orders', JSON.stringify(orders));
+                await syncOrderToBackend(newOrder);
+
+                cart = [];
+                localStorage.removeItem('hy_cart');
+                updateCartBadge();
+
+                document.getElementById('success-order-id').innerText = orderId;
+                document.getElementById('order-success-modal').classList.remove('hidden');
+            } finally {
+                hideActionLoader();
+            }
+        }
+
+        function copyOrderId() {
+            const id = document.getElementById('success-order-id').innerText;
+            navigator.clipboard.writeText(id);
+            showToast('Order ID copied!');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('order-success-modal').classList.add('hidden');
+            navigate('#/profile');
+        }
+
+        // ==================== FULL AUTHENTICATION (SIGNUP + OTP + LOGIN + GOOGLE + RESET) ====================
+        async function authApi(payload) {
+            const response = await fetch(API_ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify(payload)
+            });
+            let result;
+            try { result = await response.json(); }
+            catch (error) { throw new Error("Server returned an invalid response. Please try again."); }
+            if (!response.ok || result.status === "error") {
+                throw new Error(String(result.message || "Request failed. Please try again."));
+            }
+            return result;
+        }
+
+        function authBusy(message) {
+            showActionLoader(message);
+        }
+        function authDone() {
+            hideActionLoader();
+        }
+
+        async function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim().toLowerCase();
+            const phone = document.getElementById('signup-phone').value.trim();
+            const pass = document.getElementById('signup-pass').value;
+            const confirmPass = document.getElementById('signup-confirm-pass').value;
+
+            if (pass.length < 8) return showToast('Password must be at least 8 characters long.', 'error');
+            if (pass !== confirmPass) return showToast('Passwords do not match!', 'error');
+
+            try {
+                authBusy('Sending verification OTP...');
+                await authApi({ action: 'signupStart', name, email, phone, password: pass });
+                pendingSignupEmail = email;
+                document.getElementById('signup-otp-panel').classList.remove('hidden');
+                document.getElementById('signup-form').classList.add('hidden');
+                showToast('OTP sent to your email! Check Inbox or Spam folder.');
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                authDone();
+            }
+        }
+
+        async function verifySignupOtp() {
+            const otp = document.getElementById('signup-otp').value.trim();
+            if (!/^\d{6}$/.test(otp)) return showToast('Please enter the 6-digit OTP.', 'error');
+            try {
+                authBusy('Verifying email...');
+                const r = await authApi({ action: 'verifySignupOtp', email: pendingSignupEmail, otp });
+                currentUser = r.user;
+                localStorage.setItem('hy_user', JSON.stringify(currentUser));
+                updateAuthUI();
+                showToast('Email verified! Welcome to HY GIFTS!');
+                navigate('#/home');
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                authDone();
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const id = document.getElementById('login-id').value.trim();
+            const pass = document.getElementById('login-pass').value;
+            try {
+                authBusy('Logging in to HY GIFTS...');
+                const r = await authApi({ action: 'login', login: id, password: pass });
+                currentUser = r.user;
+                localStorage.setItem('hy_user', JSON.stringify(currentUser));
+                updateAuthUI();
+                showToast(`Welcome back, ${currentUser.name}!`);
+                navigate('#/home');
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                authDone();
+            }
+        }
+
+        function renderOfficialGoogleButtons() {
+            if (!window.google || !google.accounts || !google.accounts.id) return false;
+            try {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleGoogleCredential,
+                    auto_select: false,
+                    cancel_on_tap_outside: false,
+                    use_fedcm_for_prompt: true
+                });
+
+                document.querySelectorAll('.hy-google-btn-wrap').forEach((wrap) => {
+                    const fallbackBtn = wrap.querySelector('.hy-google-fallback-btn');
+                    let officialSlot = wrap.querySelector('.hy-google-official-slot');
+                    if (!officialSlot) {
+                        officialSlot = document.createElement('div');
+                        officialSlot.className = 'hy-google-official-slot flex justify-center w-full';
+                        wrap.appendChild(officialSlot);
+                    }
+                    officialSlot.innerHTML = '';
+                    google.accounts.id.renderButton(officialSlot, {
+                        theme: 'outline',
+                        size: 'large',
+                        shape: 'pill',
+                        text: 'continue_with',
+                        width: 280
+                    });
+                    // Hide the extra custom button once the official Google button is rendered so there is never a duplicate
+                    if (fallbackBtn) fallbackBtn.classList.add('hidden');
+                });
+                return true;
+            } catch (err) {
+                return false;
+            }
+        }
+
+        function startGoogleLogin(btnEl) {
+            showActionLoader("Connecting to Google Accounts...");
+            const finishLoading = () => hideActionLoader();
+
+            if (!window.google || !google.accounts || !google.accounts.id) {
+                finishLoading();
+                return showToast('Google Sign-In is still loading. Please try again in a moment.', 'error');
+            }
+
+            try {
+                renderOfficialGoogleButtons();
+                google.accounts.id.prompt((notification) => {
+                    finishLoading();
+                });
+                setTimeout(finishLoading, 2000);
+            } catch (err) {
+                finishLoading();
+                showToast('Could not open Google Sign-In. Please verify Authorized JavaScript origins in Google Cloud Console.', 'error');
+            }
+        }
+
+        async function handleGoogleCredential(response) {
+            try {
+                if (!response || !response.credential) {
+                    throw new Error('No Google account credential received.');
+                }
+                authBusy('Signing in with Google...');
+                const r = await authApi({ action: 'googleLogin', credential: response.credential });
+                currentUser = r.user;
+                localStorage.setItem('hy_user', JSON.stringify(currentUser));
+                updateAuthUI();
+                showToast('Signed in with Google successfully!');
+                navigate('#/home');
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                authDone();
+            }
+        }
+
+        function setPasswordResetFeedback(message, isError = false) {
+            const el = document.getElementById('password-reset-feedback');
+            if (!el) return;
+            el.textContent = message;
+            el.className = 'text-xs text-center ' + (isError ? 'text-[#B90808] font-bold underline' : 'text-[#D90B0B] font-semibold');
+        }
+
+        function startPasswordResetCountdown() {
+            clearInterval(passwordResetCountdownInterval);
+            passwordResetSecondsRemaining = 600;
+            passwordResetCountdownInterval = setInterval(() => {
+                passwordResetSecondsRemaining = Math.max(0, passwordResetSecondsRemaining - 1);
+                const el = document.getElementById('password-reset-countdown');
+                if (el) {
+                    const m = Math.floor(passwordResetSecondsRemaining / 60);
+                    const s = passwordResetSecondsRemaining % 60;
+                    el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+
+        async function sendPasswordResetOtp() {
+            const email = document.getElementById('password-reset-email').value.trim().toLowerCase();
+            if (!email) return setPasswordResetFeedback('Please enter your registered email address.', true);
+            try {
+                authBusy('Sending reset OTP...');
+                await authApi({ action: 'forgotStart', email });
+                document.getElementById('password-reset-otp-panel').classList.remove('hidden');
+                document.getElementById('password-reset-email').readOnly = true;
+                startPasswordResetCountdown();
+                setPasswordResetFeedback('OTP sent to your email! Check Inbox or Spam folder.');
+            } catch (err) {
+                setPasswordResetFeedback(err.message, true);
+            } finally {
+                authDone();
+            }
+        }
+
+        async function verifyPasswordResetOtp() {
+            const email = document.getElementById('password-reset-email').value.trim().toLowerCase();
+            const otp = document.getElementById('password-reset-otp').value.trim();
+            if (!/^\d{6}$/.test(otp)) return setPasswordResetFeedback('Please enter the 6-digit OTP.', true);
+            try {
+                authBusy('Verifying OTP...');
+                await authApi({ action: 'verifyResetOtp', email, otp });
+                document.getElementById('password-reset-verify-step').classList.add('hidden');
+                document.getElementById('password-reset-password-step').classList.remove('hidden');
+                setPasswordResetFeedback('Email verified! Enter your new password.');
+            } catch (err) {
+                setPasswordResetFeedback(err.message, true);
+            } finally {
+                authDone();
+            }
+        }
+
+        async function submitPasswordResetFromPage() {
+            const email = document.getElementById('password-reset-email').value.trim().toLowerCase();
+            const otp = document.getElementById('password-reset-otp').value.trim();
+            const password = document.getElementById('password-reset-new-password').value;
+            const confirmPassword = document.getElementById('password-reset-confirm-password').value;
+            if (password.length < 8) return setPasswordResetFeedback('Password must be at least 8 characters.', true);
+            if (password !== confirmPassword) return setPasswordResetFeedback('Passwords do not match.', true);
+
+            try {
+                authBusy('Updating password...');
+                await authApi({ action: 'resetPassword', email, otp, password });
+                clearInterval(passwordResetCountdownInterval);
+                showToast('Password updated! Please log in.');
+                navigate('#/login');
+            } catch (err) {
+                setPasswordResetFeedback(err.message, true);
+            } finally {
+                authDone();
+            }
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('hy_user');
+            updateAuthUI();
+            showToast('Logged out successfully.');
+            navigate('#/home');
+        }
+
+        function updateAuthUI() {
+            const authNav = document.getElementById('auth-nav-container');
+            const userNav = document.getElementById('user-nav-container');
+            const drawerLogin = document.getElementById('drawer-login-link');
+            const drawerSignup = document.getElementById('drawer-signup-link');
+            const drawerProfile = document.getElementById('drawer-profile-link');
+
+            if (currentUser) {
+                if (authNav) { authNav.classList.remove('sm:flex'); authNav.classList.add('hidden'); }
+                if (userNav) {
+                    userNav.classList.remove('hidden');
+                    userNav.classList.add('sm:block');
+                    document.getElementById('user-nav-name').innerText = currentUser.name.split(' ')[0];
+                }
+                if (drawerLogin) drawerLogin.classList.add('hidden');
+                if (drawerSignup) drawerSignup.classList.add('hidden');
+                if (drawerProfile) drawerProfile.classList.remove('hidden');
+            } else {
+                if (authNav) { authNav.classList.remove('hidden'); authNav.classList.add('sm:flex'); }
+                if (userNav) { userNav.classList.remove('sm:block'); userNav.classList.add('hidden'); }
+                if (drawerLogin) drawerLogin.classList.remove('hidden');
+                if (drawerSignup) drawerSignup.classList.remove('hidden');
+                if (drawerProfile) drawerProfile.classList.add('hidden');
+            }
+        }
+
+        async function syncOrderStatusById(orderId) {
+            if (!orderId) return null;
+            try {
+                const res = await fetch(`${API_ENDPOINT}?action=trackOrder&orderId=${encodeURIComponent(orderId)}`);
+                const json = await res.json();
+                if (json && json.found) {
+                    const idx = orders.findIndex(o => String(o.id).toUpperCase() === String(orderId).toUpperCase());
+                    if (idx !== -1) {
+                        orders[idx].orderStatus = json.status || orders[idx].orderStatus || 'Order Placed';
+                        orders[idx].paymentStatus = json.paymentStatus || orders[idx].paymentStatus || 'Pending';
+                        if (json.customerName) orders[idx].name = json.customerName;
+                        if (json.city) orders[idx].city = json.city;
+                        localStorage.setItem('hy_orders', JSON.stringify(orders));
+                        return orders[idx];
+                    }
+                }
+            } catch (err) {}
+            return null;
+        }
+
+        function renderProfileOrdersHTML(myOrders) {
+            const container = document.getElementById('profile-orders-list');
+            if (!container) return;
+            if (!myOrders.length) {
+                container.innerHTML = `<p class="text-xs text-[#8A0404]/75">No orders placed yet. <a href="#/products" onclick="navigate('#/products')" class="text-[#D90B0B] font-bold underline">Shop Now</a></p>`;
+                return;
+            }
+
+            container.innerHTML = myOrders.map(o => {
+                const currentStatus = o.orderStatus || 'Order Placed';
+                const payStatus = o.paymentStatus || 'Pending';
+                const pLower = payStatus.toLowerCase();
+                const isVerified = pLower === 'verified' || pLower === 'approved' || pLower === 'success';
+                const isRejected = pLower === 'rejected' || pLower === 'not verified' || pLower === 'failed';
+                const badgeClass = isVerified
+                    ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                    : (isRejected ? 'bg-red-200 text-red-900 border-red-400' : 'bg-amber-100 text-amber-900 border-amber-300');
+
+                return `
+                    <div class="bg-[#FFF5F5] border border-[#D90B0B]/20 p-4 rounded-2xl flex justify-between items-center flex-wrap gap-3 text-xs">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-extrabold text-[#D90B0B] font-mono text-sm">${o.id}</span>
+                                <span class="px-2.5 py-0.5 rounded-full bg-[#D90B0B] text-white text-[10px] font-bold">Status: ${currentStatus}</span>
+                                <span class="px-2.5 py-0.5 rounded-full border ${badgeClass} text-[10px] font-bold">Payment: ${payStatus}</span>
+                            </div>
+                            <span class="text-[#8A0404]/80 block">${o.date || ''} • ${o.city || 'Pakistan'} • ${o.payMethod || 'COD'}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="document.getElementById('trackInputPage').value='${o.id}'; navigate('#/track'); executeTrack();" class="px-3 py-1.5 rounded-full bg-white hover:bg-[#D90B0B] text-[#D90B0B] hover:text-white border border-[#D90B0B]/30 font-bold text-[10px] uppercase tracking-wider transition">
+                                Track
+                            </button>
+                            <span class="font-display font-extrabold text-[#B90808] text-sm">${formatPkr(o.total)}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function renderProfile() {
+            if (!currentUser) {
+                navigate('#/login');
+                return;
+            }
+            document.getElementById('prof-name').innerText = currentUser.name;
+            document.getElementById('prof-email').innerText = `${currentUser.email} • ${currentUser.phone || ''}`;
+
+            const userEmailLower = String(currentUser.email || '').toLowerCase();
+            let myOrders = orders.filter(o => String(o.user || '').toLowerCase() === userEmailLower);
+            renderProfileOrdersHTML(myOrders);
+
+            if (myOrders.length > 0) {
+                await Promise.all(myOrders.map(o => syncOrderStatusById(o.id)));
+                myOrders = orders.filter(o => String(o.user || '').toLowerCase() === userEmailLower);
+                renderProfileOrdersHTML(myOrders);
+            }
+        }
+
+        // ==================== FULL PAGE TRACK ORDER EXECUTION ==================== 
+        async function executeTrack() {
+            const inputVal = document.getElementById('trackInputPage').value.trim().toUpperCase();
+            if (!inputVal) {
+                showToast('Please enter a valid Order ID!', 'error');
+                return;
+            }
+
+            showActionLoader("Checking Live Order Status...");
+            try {
+                let foundOrder = orders.find(o => o.id === inputVal);
+
+                try {
+                    const res = await fetch(`${API_ENDPOINT}?action=trackOrder&orderId=${inputVal}`);
+                    const json = await res.json();
+                    if (json && json.found) {
+                        if (foundOrder) {
+                            foundOrder.orderStatus = json.status || foundOrder.orderStatus;
+                            foundOrder.paymentStatus = json.paymentStatus || foundOrder.paymentStatus;
+                            const idx = orders.findIndex(o => String(o.id).toUpperCase() === inputVal);
+                            if (idx !== -1) {
+                                orders[idx].orderStatus = foundOrder.orderStatus;
+                                orders[idx].paymentStatus = foundOrder.paymentStatus;
+                                localStorage.setItem('hy_orders', JSON.stringify(orders));
+                            }
+                        } else {
+                            foundOrder = {
+                                id: inputVal,
+                                name: json.customerName || "Customer",
+                                orderStatus: json.status || "Order Placed",
+                                paymentStatus: json.paymentStatus || "Pending",
+                                city: json.city || "Pakistan"
+                            };
+                        }
+                    }
+                } catch (e) {}
+
+                if (!foundOrder) {
+                    showToast('Order ID not found! Please verify your ID.', 'error');
+                    document.getElementById('trackResultsArea').classList.add('hidden');
+                    return;
+                }
+
+                document.getElementById('trackResultID').innerText = foundOrder.id;
+                document.getElementById('trackCustomerName').innerText = foundOrder.name || "Customer";
+                document.getElementById('trackCurrentStatus').innerText = foundOrder.orderStatus || "Order Placed";
+                document.getElementById('trackCountry').innerText = "Pakistan";
+                document.getElementById('trackCity').innerText = foundOrder.city || "Lahore";
+
+                const timerBadge = document.getElementById('trackTimerBadge');
+                const pStatus = (foundOrder.paymentStatus || "").toLowerCase();
+                if (pStatus === 'verified' || pStatus === 'approved' || pStatus === 'success') {
+                    timerBadge.innerHTML = `<span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-extrabold inline-flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Payment Verified</span>`;
+                } else if (pStatus === 'rejected' || pStatus === 'not verified' || pStatus === 'failed') {
+                    timerBadge.innerHTML = `<span class="bg-red-950 text-white border border-white/30 px-3 py-1 rounded-full text-xs font-extrabold inline-flex items-center gap-1"><i class="fa-solid fa-circle-xmark"></i> Payment Not Verified</span>`;
+                } else {
+                    timerBadge.innerHTML = `<span class="bg-[#D90B0B] text-white px-3 py-1 rounded-full text-xs font-extrabold inline-flex items-center gap-1"><i class="fa-solid fa-clock"></i> Pending Verification</span>`;
+                }
+
+                const bar = document.getElementById('trackProgressBar');
+                const stepProof = document.getElementById('step-proof');
+                const stepPrint = document.getElementById('step-printing');
+                const stepDispatch = document.getElementById('step-dispatched');
+
+                bar.className = "bg-[#D90B0B] h-full w-1/4 transition-all duration-500";
+                stepProof.className = "w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#FFF1F1] border border-[#D90B0B]/25 text-[#8A0404]/60 mx-auto flex items-center justify-center font-bold mb-1";
+                stepPrint.className = "w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#FFF1F1] border border-[#D90B0B]/25 text-[#8A0404]/60 mx-auto flex items-center justify-center font-bold mb-1";
+                stepDispatch.className = "w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#FFF1F1] border border-[#D90B0B]/25 text-[#8A0404]/60 mx-auto flex items-center justify-center font-bold mb-1";
+
+                const st = (foundOrder.orderStatus || "").toLowerCase();
+                if (st.includes('dispatched') || st.includes('delivered')) {
+                    bar.className = "bg-[#D90B0B] h-full w-full transition-all duration-500";
+                    stepProof.className = "w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#D90B0B] text-white mx-auto flex items-center justify-center font-bold mb-1";
+                    stepPrint.className = "w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#D90B0B] text-white mx-auto flex items-center justify-center font-bold mb-1";
+                    stepDispatch.className = "w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#D90B0B] text-white mx-auto flex items-center justify-center font-bold mb-1";
+                } else if (st.includes('packaged') || st.includes('printing')) {
+                    bar.className = "bg-[#D90B0B] h-full w-3/4 transition-all duration-500";
+                    stepProof.className = "w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#D90B0B] text-white mx-auto flex items-center justify-center font-bold mb-1";
+                    stepPrint.className = "w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#D90B0B] text-white mx-auto flex items-center justify-center font-bold mb-1";
+                } else if (st.includes('crafting') || st.includes('proof')) {
+                    bar.className = "bg-[#D90B0B] h-full w-2/4 transition-all duration-500";
+                    stepProof.className = "w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#D90B0B] text-white mx-auto flex items-center justify-center font-bold mb-1";
+                }
+
+                document.getElementById('trackResultsArea').classList.remove('hidden');
+                showToast('Order status retrieved.');
+            } finally {
+                hideActionLoader();
+            }
+        }
+
+        // ==================== GIFT CATALOG DATA ====================
+        const GIFT_SERVICES_DATA = [
+            { category: 'CUSTOM & PERSONALIZED GIFTS', items: [
+                ['Photo Mugs', 'Standard ceramic mugs with your favorite photo or design.'],
+                ['Magic Mugs', 'Heat-sensitive mugs that reveal a hidden photo when filled with a hot drink.'],
+                ['LED Photo Frames', 'Illuminated photo frames for stylish wall or desk decoration.'],
+                ['Magic Mirror Frames', 'Dual-purpose mirror frames with backlit personalized photo displays.'],
+                ['Custom Table Lamps', 'Personalized ambient lighting made with your photo, name, or message.'],
+                ['Acrylic Photo Blocks', 'Crystal-clear acrylic blocks featuring beautiful photo prints.'],
+                ['Custom Wall Clocks', 'Wall clocks customized with personal photos, artwork, or logos.'],
+                ['Wooden Photo Plaques', 'Wooden keepsakes with engraved or printed photos and messages.'],
+                ['Personalized Keychains', 'Custom keychains available in acrylic, metal, and wood styles.'],
+                ['Custom Cushions & Pillows', 'Soft cushions personalized with photos, names, or favorite quotes.']
+            ]},
+            { category: 'CORPORATE & EXECUTIVE GIFTS', items: [
+                ['Custom Visiting Card Holders', 'Professional leather and metal holders customized for your brand.'],
+                ['Engraved Branded Pens', 'Elegant pens finished with custom laser engraving.'],
+                ['Executive Diaries & Notebooks', 'Business diaries and notebooks with custom covers and embossing.'],
+                ['Branded USB Flash Drives', 'Useful USB drives personalized with your company logo.'],
+                ['Temperature Display Bottles & Flasks', 'Insulated stainless-steel bottles with a handy temperature display.'],
+                ['Corporate Gift Hampers', 'Curated executive gift boxes for clients, teams, and special occasions.']
+            ]}
+        ];
+
+        function renderServicesGrid() {
+            const container = document.getElementById('services-cards-grid');
+            if (!container) return;
+            let num = 1;
+            container.innerHTML = GIFT_SERVICES_DATA.map(group => `
+                <section class="space-y-4">
+                    <h2 class="font-display font-extrabold text-sm sm:text-base uppercase tracking-wider text-[#D90B0B] text-center">${group.category}</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                        ${group.items.map(item => `
+                            <article class="bg-white border-2 border-[#D90B0B]/20 p-5 lg:p-6 rounded-2xl shadow-md hover:border-[#D90B0B] transition">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="w-7 h-7 rounded-full bg-[#D90B0B] text-white font-display font-extrabold text-xs flex items-center justify-center">${String(num++).padStart(2, '0')}</span>
+                                    <span class="text-[10px] font-bold uppercase text-[#D90B0B]">HY GIFTS</span>
+                                </div>
+                                <h3 class="font-display font-bold text-sm lg:text-base text-[#8A0404]">${item[0]}</h3>
+                                <p class="text-xs text-[#8A0404]/80 mt-1.5 leading-relaxed">${item[1]}</p>
+                            </article>
+                        `).join('')}
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        // ==================== DRAWERS, SEARCH & QUICK VIEW ====================
+        function toggleNavDrawer() {
+            document.getElementById('navDrawer').classList.toggle('-translate-x-full');
+            document.getElementById('navOverlay').classList.toggle('hidden');
+        }
+
+        function toggleSearchBar() {
+            const bar = document.getElementById('searchBarContainer');
+            bar.classList.toggle('hidden');
+            if (!bar.classList.contains('hidden')) document.getElementById('liveSearchInput').focus();
+        }
+
+        function syncDesktopSearch(val) {
+            const mobileInput = document.getElementById('liveSearchInput');
+            if (mobileInput) mobileInput.value = val;
+            renderProducts();
+        }
+
+        function clearSearch() {
+            document.getElementById('liveSearchInput').value = '';
+            const deskInput = document.getElementById('desktopInlineSearch');
+            if (deskInput) deskInput.value = '';
+            renderProducts();
+        }
+        document.getElementById('liveSearchInput').addEventListener('input', (e) => {
+            const deskInput = document.getElementById('desktopInlineSearch');
+            if (deskInput) deskInput.value = e.target.value;
+            renderProducts();
+        });
+
+        function openQuickView(id) {
+            const p = PRODUCTS.find(item => item.id === id);
+            if (!p) return;
+            const modal = document.getElementById('quickViewModal');
+            document.getElementById('quickViewContent').innerHTML = `
+                <div class="grid grid-cols-1 sm:grid-cols-2">
+                    <div class="aspect-square bg-[#C20707]">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-5 lg:p-7 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-[10px] font-bold uppercase text-hyGold">${p.category}</span>
+                                <button onclick="closeQuickView()" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <h3 class="font-display font-bold text-base lg:text-xl text-white mt-1">${p.name}</h3>
+                            <div class="flex items-baseline gap-2 mt-2">
+                                <span class="font-display font-extrabold text-lg lg:text-2xl text-white">${formatPkr(p.price)}</span>
+                                ${p.oldPrice ? `<span class="text-xs text-white/75 line-through">${formatPkr(p.oldPrice)}</span>` : ''}
+                            </div>
+                            <p class="text-xs lg:text-sm text-white/90 mt-3 leading-relaxed">${p.desc}</p>
+                            <p class="text-[11px] text-hyGold mt-3 font-medium"><i class="fa-solid fa-check"></i> Custom Personalization &amp; Nationwide Delivery</p>
+                        </div>
+                        <button onclick="closeQuickView(); addToCart(${p.id})" class="mt-5 w-full bg-white hover:bg-hyGold text-[#D90B0B] font-display font-extrabold text-xs uppercase py-3 lg:py-3.5 rounded-full shadow-lg">
+                            Add To Gift Bag
+                        </button>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quickViewModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        renderProductsGridLoading();
+
+        function setFavicon(iconUrl) {
+            if (!iconUrl) return;
+            const link = document.getElementById('hyFaviconLink') || document.querySelector("link[rel~='icon']");
+            const appleLink = document.getElementById('hyAppleIconLink') || document.querySelector("link[rel='apple-touch-icon']");
+            const isSvg = iconUrl.startsWith('data:image/svg+xml') || iconUrl.toLowerCase().endsWith('.svg');
+            if (link) {
+                link.type = isSvg ? 'image/svg+xml' : 'image/png';
+                link.href = iconUrl;
+            }
+            if (appleLink) {
+                appleLink.href = iconUrl;
+            }
+        }
+
+        window.addEventListener('load', () => {
+            renderOfficialGoogleButtons();
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateAuthUI();
+            updateCartBadge();
+            renderProductsGridLoading();
+            fetchCollectionsFromBackend();
+            fetchProductsFromBackend();
+            handleRouting();
+        });
+    </script>
+</body>
+</html>
